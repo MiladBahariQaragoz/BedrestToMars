@@ -355,6 +355,88 @@ for arm_id, arm_type, cm, dose, pct_f, age, age_sd, bmi, baseline, followup, sd 
         variance_value=str(sd))
 
 
+# ------------------------------------------------------------------ Mandic 2026 (BRACE)
+# Exp Physiol 10.1113/EP093145. 60 days of head-down tilt, 24 men in three arms: control,
+# supine cycling, and supine cycling under artificial gravity. Table 2 gives fat-free muscle
+# volume of the thigh by MRI at baseline and day 52, left and right separately.
+BRACE = dict(
+    study_id="mandic2026", cohort_id="brace_br60", campaign_name="BRACE",
+    first_author="Mandic", year="2026", doi="10.1113/ep093145",
+    source_file="mandicm2026_pubmed_00238.xml", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="60", phase="bed_rest", timepoint_days="52", exposure_flag="analogue",
+    n_arm="8", n_analysed="8", sex="M", population="healthy_young", bmi_mean="24",
+    is_composite="TRUE", outcome_type="volume", modality="MRI", unit_original="L",
+    unit_si="cm3", variance_of="change", variance_type="SD", data_source="table",
+    page_ref="Table 2", extraction_confidence="high",
+    qc_flag="pct_of_individual_means",
+    notes=("fat-free muscle volume from fat-referenced MRI with automatic segmentation; the "
+           "printed percentage is the mean of individual changes"),
+)
+BRACE_ARMS = {
+    "c": ("control", "none", "NA", 29, 7),
+    "ex": ("countermeasure", "aerobic", "supine cycling", 30, 5),
+    "ex_ag": ("countermeasure", "artificial_gravity", "supine cycling under artificial gravity", 30, 6),
+}
+# (muscle, laterality, {arm: (baseline L, follow-up L, printed % change, SD of that %)})
+BRACE_VALUES = [
+    ("whole_thigh", "mean", {"c": (12.9, 11.6, -10.5, 2.6), "ex": (14.1, 13.1, -6.9, 2.4),
+                             "ex_ag": (13.3, 12.7, -4.3, 2.4)}),
+    ("anterior_thigh_compartment", "left", {"c": (2.4, 2.1, -14.5, 3.7), "ex": (2.6, 2.4, -6.8, 2.9),
+                                            "ex_ag": (2.5, 2.4, -3.5, 3.0)}),
+    ("posterior_thigh_compartment", "left", {"c": (4.0, 3.7, -8.0, 2.2), "ex": (4.5, 4.2, -6.9, 2.4),
+                                             "ex_ag": (4.2, 4.0, -4.5, 2.4)}),
+    ("anterior_thigh_compartment", "right", {"c": (2.4, 2.1, -14.0, 4.5), "ex": (2.6, 2.4, -7.3, 3.2),
+                                             "ex_ag": (2.4, 2.3, -3.9, 4.2)}),
+    ("posterior_thigh_compartment", "right", {"c": (4.1, 3.7, -8.5, 2.2), "ex": (4.5, 4.2, -6.8, 2.6),
+                                              "ex_ag": (4.2, 4.0, -4.6, 1.5)}),
+]
+for muscle, laterality, arms in BRACE_VALUES:
+    for arm_id, (baseline, followup, pct, sd) in arms.items():
+        arm_type, cm, dose, age, age_sd = BRACE_ARMS[arm_id]
+        add(**BRACE, muscle=muscle, laterality=laterality, arm_id=arm_id, arm_type=arm_type,
+            cm_modality=cm, cm_dose=dose, age_mean=str(age), age_sd=str(age_sd),
+            measurement_site=f"{laterality} thigh" if laterality != "mean" else "whole thigh",
+            value_baseline_original=str(baseline), value_followup_original=str(followup),
+            value_baseline=f"{baseline*1000:g}", value_followup=f"{followup*1000:g}",
+            change_absolute=f"{(followup-baseline)*1000:g}", pct_change=str(pct),
+            variance_value=str(sd))
+
+
+# ------------------------------------------------------------------ Lagace 2026 (McGill)
+# Exp Physiol 10.1113/EP093524. Same registered McGill campaign as Dulac and Hajj-Boutros.
+# Body composition was measured only in recovery, as medians with interquartile ranges, and
+# the sample shrinks between timepoints - so these rows are low confidence by construction.
+LAGACE = dict(
+    study_id="lagace2026", cohort_id="mcgill_hdbr14",
+    campaign_name="McGill 14-day HDBR in older adults", registry_id="NCT04964999",
+    first_author="Lagace", year="2026", doi="10.1113/ep093524",
+    source_file="lagacejc2026_scopus_00312.xml", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="14", phase="recovery", timepoint_days="17", days_from_unloading_end="3",
+    exposure_flag="analogue", n_arm="11", n_analysed="11", sex="mixed",
+    population="healthy_older", muscle="whole_lower_limb", is_composite="TRUE",
+    laterality="NA", outcome_type="lean_mass", modality="DXA", unit_original="kg",
+    unit_si="kg", variance_of="baseline", variance_type="IQR", data_source="table",
+    page_ref="Table 2", extraction_confidence="low",
+    qc_flag="laterality_unstated;median_not_mean;recovery_measurement",
+    notes=("values are medians with interquartile ranges, not means; body composition was "
+           "measured at baseline and in recovery only, never during bed rest, so this "
+           "understates the loss. Same participants as dulac2024 and hajjboutros2023"),
+)
+for arm_id, arm_type, cm, dose, pct_f, age, baseline, followup, iqr in [
+    ("ctrl", "control", "none", "NA", 45.5, 58, 15.3, 15.5, 5.2),
+    ("ex", "countermeasure", "combined",
+     "three in-bed sessions daily: HIIT, continuous and progressive aerobic, upper- and "
+     "lower-body resistance", 54.5, 59, 15.9, 15.6, 7.9),
+]:
+    pct = (followup - baseline) / baseline * 100
+    add(**LAGACE, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+        pct_female=str(pct_f), age_mean=str(age),
+        value_baseline_original=str(baseline), value_followup_original=str(followup),
+        value_baseline=str(baseline), value_followup=str(followup),
+        change_absolute=f"{followup - baseline:.1f}", pct_change=f"{pct:.2f}",
+        variance_value=str(iqr))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))
