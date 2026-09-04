@@ -48,6 +48,7 @@ and treat everything after them as rehearsal and contingency.
 | `resources/` (source PDFs) | **No** — gitignored | Copyrighted publisher material. The reference list and the extraction table carry the same information and are safe to share |
 | Dataset spreadsheets (`*.xlsx`) | **Not yet** — gitignored | Decision deferred. The frozen CSV dataset produced in P2 (`data/dataset_v1.0.csv`) is the artefact intended for the repository; the working spreadsheets may stay out |
 | Extraction tables, schema, code, figures | Yes | These are the reproducible core |
+| Database exports and the tables merged from them (`docs/literature-review/exports/`, `data/search/*.csv`) | **No** — gitignored | Scopus and Web of Science licence terms restrict redistributing exported records, and this repository is public. The files stay in the shared Drive folder; the merge script and the derived counts are committed, so the tables can be rebuilt from anyone's own exports |
 
 ### Branch model (task 0.3)
 
