@@ -33,3 +33,5 @@ krainski_hdbr35,5-week HDBR with rowing ergometry,NA,UT Southwestern, Dallas,HDB
 cook_ulls30,30-day unilateral lower limb suspension,NA,not stated in the text read,ULLS,30,cook2014,no,"Sixteen subjects, eight of whom did blood-flow-restricted exercise on the suspended leg"
 drummond_br7,7-day bed rest in older adults,NA,not stated in the text read,horizontal_BR,7,drummond2013,no,"Six older adults"
 maastricht_br7_feeding,7-day bed rest with two feeding patterns,NA,Maastricht University,horizontal_BR,7,dirks2019,no,"Twenty men across two feeding patterns. Same research group as dirks2016 and maastricht_br14 - check for participant overlap before treating as independent"
+tanner_br5,5-day bed rest in young and older adults,NA,University of Utah,horizontal_BR,5,tanner2015,no,"Fourteen young and nine older adults; leg lean mass values read from Figure 2A"
+di5_toulouse,5-day dry immersion,NCT03915457,MEDES Toulouse,dry_immersion,5,lair2026,no,"The only dry immersion cohort in the dataset. Dry immersion unloads harder than bed rest per day, which is why exposure_flag exists"

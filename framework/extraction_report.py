@@ -17,6 +17,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
 PARTIAL = REPO_ROOT / "data" / "raw" / "extraction_partial.csv"
+FIGURES = REPO_ROOT / "data" / "raw" / "extraction_figures.csv"
 REPORT = REPO_ROOT / "data" / "raw" / "extraction_report.md"
 
 csv.field_size_limit(10_000_000)
@@ -148,6 +149,38 @@ def main() -> int:
                 lines.append(
                     f"| `{study}` | `{study_rows[0]['cohort_id']}` | {len(study_rows)} | "
                     f"{', '.join(f'{k} {v}' for k, v in confidence.most_common())} |")
+            lines.append("")
+
+    if FIGURES.exists():
+        figures = list(csv.DictReader(FIGURES.open(encoding="utf-8-sig")))
+        if figures:
+            studies = sorted({r["study_id"] for r in figures})
+            tools = Counter(r["digitizer_tool"] for r in figures)
+            lines += [
+                "## The figure table",
+                "",
+                f"`data/raw/extraction_figures.csv` holds **{len(figures)} rows from "
+                f"{len(studies)} studies** whose results are published only as charts.",
+                "",
+                "Rendering the figure page turned out to recover two different things, and",
+                "`digitizer_tool` records which applies to each row:",
+                "",
+            ]
+            for tool, count in tools.most_common():
+                lines.append(f"- **{tool}** — {count} rows")
+            lines += [
+                "",
+                "The first kind is exact: the value was printed in the prose beside the chart,",
+                "and the figure only told us which page to look at. The second is an estimate",
+                "read against the axis. No row here is better than `medium` confidence unless",
+                "its value came from the page text.",
+                "",
+                "| Study | Cohort | Rows |",
+                "|---|---|---|",
+            ]
+            for study in studies:
+                study_rows = [r for r in figures if r["study_id"] == study]
+                lines.append(f"| `{study}` | `{study_rows[0]['cohort_id']}` | {len(study_rows)} |")
             lines.append("")
 
     REPORT.write_text("\n".join(lines), encoding="utf-8")

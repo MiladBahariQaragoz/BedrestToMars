@@ -143,3 +143,27 @@ and merging the two files is a modelling decision rather than a default.
 | `mekjavic2021` | `planhab_br10` | 2 | medium 2 |
 | `rejc2018` | `izola_br14` | 1 | low 1 |
 | `rittweger2013` | `medes_ltbr90` | 1 | medium 1 |
+
+## The figure table
+
+`data/raw/extraction_figures.csv` holds **14 rows from 5 studies** whose results are published only as charts.
+
+Rendering the figure page turned out to recover two different things, and
+`digitizer_tool` records which applies to each row:
+
+- **page text beside the figure** — 11 rows
+- **visual reading of rendered figure at 190 dpi** — 2 rows
+- **printed change with the baseline read off Figure 3F** — 1 rows
+
+The first kind is exact: the value was printed in the prose beside the chart,
+and the figure only told us which page to look at. The second is an estimate
+read against the axis. No row here is better than `medium` confidence unless
+its value came from the page text.
+
+| Study | Cohort | Rows |
+|---|---|---|
+| `krainski2014` | `krainski_hdbr35` | 8 |
+| `lair2026` | `di5_toulouse` | 1 |
+| `mekjavic2021` | `planhab_br10` | 2 |
+| `rittweger2013` | `medes_ltbr90` | 1 |
+| `tanner2015` | `tanner_br5` | 2 |

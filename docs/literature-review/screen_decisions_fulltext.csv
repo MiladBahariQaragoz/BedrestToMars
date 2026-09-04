@@ -71,3 +71,4 @@ pubmed_00149,maybe,,"Integrated resistance and aerobic exercise; muscle CSA by M
 pubmed_00472,maybe,,"Blood flow restricted versus high load exercise during unloading; muscle size values are in figures"
 pubmed_00416,maybe,,"35-day bed rest under two diets; the muscle mass numbers in the text are citations of other studies, and this paper's own values are in figures"
 pubmed_00109,maybe,,"Leg lean mass change after 14 days is printed in the text but the PDF extraction mangles the signs and the plus-minus symbols - 'CON compared with LEU: 29% 6 2% and +1% 6 3%' - so the control value cannot be read with confidence. One manual look at the paper settles it"
+pubmed_00472,maybe,,"Figure 1 plots delta knee extensor CSA in cm2 per individual with no group pre and post means, and both arms are exercise arms - there is no unloaded control. No percent change can be built"

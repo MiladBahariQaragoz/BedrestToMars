@@ -744,7 +744,35 @@ one was checked twice - once against its abstract, once against its full text fo
 flattened results table - and neither yielded a number. That is the floor of what text
 mining can do here.
 
-**Still to extract by hand: 24 studies, all figure-only.** The queue is ordered
+### Figure digitisation
+
+**14 rows from 5 of the 24 figure-only studies**, in
+[`../../data/raw/extraction_figures.csv`](../../data/raw/extraction_figures.csv) - a third
+table, so a number read off a chart is never silently mixed with one read from a results
+table.
+
+`framework/render_figures.py` finds the figures whose captions mention a muscle outcome and
+renders their page at 190 dpi. The useful surprise: **rendering the page usually recovers
+the number without any digitising at all**, because journals print the value in the prose
+beside the chart. Eleven of the fourteen rows are exact for that reason; only three were
+read against an axis. The `digitizer_tool` field records which is which, and nothing read
+off an axis is above `medium` confidence.
+
+What it added:
+
+- **The dataset's first dry immersion row.** Lair 2026 plots quadriceps CSA in pixel counts and prints the change as 218 pixels; dividing by the plotted baseline gives −2.8%. Dry immersion had been a hole in the exposure axis since P0.
+- **Krainski's four muscle groups in both arms** — the percentages are printed under each panel, so the abstract's two numbers became eight rows including hamstrings and the anterior tibial group.
+- **The flywheel arm of the 89-day MEDES study** (−18.6%), completing the pair with the control arm's −26.6% already in the partial table.
+- **Mekjavic's male arm**, which the abstract omitted entirely.
+- **Tanner's young-versus-old contrast** at five days: −0.3% against −3.8%, read from the bars.
+
+**Nineteen studies still resist.** Three are XML-only, where Europe PMC gives the text but
+not the figure images - those need the publisher PDF. The rest plot changes without a
+baseline (Hackney plots delta CSA in cm² with no group means; Arentson-Lantz plots grams of
+leg lean mass lost and never prints the baseline), so no percent change can be built without
+inventing the denominator.
+
+**Still unextracted: 19 studies.** The queue is ordered
 in `included_studies.md`; the table-rich ones go fastest.
 
 ### Outstanding — one thing only, and it needs the person who ran the searches
