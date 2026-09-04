@@ -49,10 +49,13 @@ MUSCLES = {
     "vastus_lateralis", "vastus_medialis", "vastus_intermedius", "rectus_femoris",
     "quadriceps", "hamstrings", "adductors", "gluteus_maximus", "gluteus_medius", "gluteus_minimus", "psoas",
     "multifidus", "whole_thigh", "whole_calf", "whole_lower_limb",
+    "anterior_thigh_compartment", "posterior_thigh_compartment",
+    "flexor_digitorum_longus", "tibialis_posterior",
     "anterior_tibial_group", "flexor_digitorum_with_tibialis_posterior", "flexor_hallucis_longus", "vasti", "adductor_brevis", "adductor_longus", "adductor_magnus", "gracilis", "sartorius", "biceps_femoris_long_head", "biceps_femoris_short_head", "semimembranosus", "semitendinosus", "popliteus", "obturator_externus", "obturator_internus", "quadratus_femoris", "iliopsoas",
 }
 
-KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days")
+KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days",
+              "outcome_type", "modality")
 
 REQUIRED_ALWAYS = (
     "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
@@ -76,7 +79,8 @@ def as_float(value: str):
 
 
 def expected_row_id(row: dict) -> str:
-    return "{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}".format(**row)
+    return ("{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}"
+            "__{modality}_{outcome_type}").format(**row)
 
 
 def load_known_cohorts() -> set:

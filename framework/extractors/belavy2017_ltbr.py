@@ -149,7 +149,7 @@ def parse() -> list:
                            "so follow-up volume is left NA rather than back-calculated"),
                 )
                 record["row_id"] = ("{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}"
-                                    .format(**record))
+                                    "__{modality}_{outcome_type}").format(**record)
                 rows.append(record)
     return rows
 

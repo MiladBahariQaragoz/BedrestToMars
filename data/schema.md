@@ -27,11 +27,17 @@ for `value_baseline` and `value_followup` on every row *and* for separate baseli
 `pct_change` of zero, which is not a measurement — it would have silently pulled every
 model's fit towards the origin.
 
-**Primary key:** `study_id` + `arm_id` + `muscle` + `phase` + `timepoint_days`.
-No two rows may share all five.
+**Primary key:** `study_id` + `arm_id` + `muscle` + `phase` + `timepoint_days` + `outcome_type` + `modality`.
+No two rows may share all seven.
 
-**`row_id` is generated, never typed:** `{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}`
-— for example `dulac2024__ex__quadriceps__bed_rest_13`.
+The last two joined the key when Fuchs 2025 was extracted: it measures the *same* thigh in
+the *same* participants at the *same* timepoint by DXA, CT and MRI, and reports a different
+number each time. That is the study's whole point - it is the evidence behind the `modality`
+sensitivity analysis - so the key has to let one muscle carry one row per measurement method.
+
+**`row_id` is generated, never typed:**
+`{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}__{modality}_{outcome_type}`
+— for example `dulac2024__ex__quadriceps__bed_rest_13__MRI_volume`.
 
 ---
 
@@ -157,6 +163,8 @@ the absolute values left `NA`.
 `quadriceps`, `hamstrings`, `adductors`, `gluteus_maximus`, `gluteus_medius`,
 `gluteus_minimus`, `psoas`,
 `multifidus`, `whole_thigh`, `whole_calf`, `whole_lower_limb`,
+`anterior_thigh_compartment`, `posterior_thigh_compartment`, `flexor_digitorum_longus`,
+`tibialis_posterior`,
 `anterior_tibial_group`, `flexor_digitorum_with_tibialis_posterior`, `flexor_hallucis_longus`, `vasti`, `adductor_brevis`, `adductor_longus`, `adductor_magnus`, `gracilis`, `sartorius`, `biceps_femoris_long_head`, `biceps_femoris_short_head`, `semimembranosus`, `semitendinosus`, `popliteus`, `obturator_externus`, `obturator_internus`, `quadratus_femoris`, `iliopsoas`.
 
 The second block was added when Belavy 2017 was extracted: it reports 24 individually segmented muscles, and collapsing them into groups would throw away exactly the muscle-identity resolution the talk's second claim rests on.
