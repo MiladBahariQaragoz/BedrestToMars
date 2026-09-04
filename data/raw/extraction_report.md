@@ -2,8 +2,8 @@
 
 Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 
-- **511 rows** across **25 studies** and **17 cohorts**
-- **267** rows measured during unloading, 244 during recovery
+- **513 rows** across **26 studies** and **18 cohorts**
+- **269** rows measured during unloading, 244 during recovery
 - **43 distinct muscles**
 - Every row is `double_extracted = FALSE`: 0 have been checked by a second person
 
@@ -34,6 +34,7 @@ Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 | `lagace2026` | `mcgill_hdbr14` | HDBR_-6 | 14 | 2 | 1 | 2 |
 | `fuchs2025bfr` | `maastricht_br14` | horizontal_BR | 14 | 2 | 1 | 2 |
 | `orlova2026` | `imbp_br21` | HDBR_-6 | 21 | 2 | 2 | 1 |
+| `pisot2016` | `izola_br14` | horizontal_BR | 14 | 2 | 1 | 2 |
 | `dirks2016` | `maastricht_br7` | horizontal_BR | 7 | 1 | 1 | 1 |
 | `ulls2022` | `padova_ulls10` | ULLS | 10 | 1 | 1 | 1 |
 
@@ -57,7 +58,7 @@ These are the reason validation is grouped by cohort rather than by paper.
 | 5 | 42 |
 | 7 | 1 |
 | 10 | 14 |
-| 14 | 9 |
+| 14 | 11 |
 | 21 | 2 |
 | 60 | 90 |
 | 70 | 9 |
@@ -65,10 +66,10 @@ These are the reason validation is grouped by cohort rather than by paper.
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 462, DXA 23, CT 14, ultrasound 12
-- **Outcome:** volume 432, CSA 45, lean_mass 23, thickness 11
-- **Source:** table 470, text 41
-- **Confidence:** high 501, medium 7, low 3
+- **Modality:** MRI 464, DXA 23, CT 14, ultrasound 12
+- **Outcome:** volume 434, CSA 45, lean_mass 23, thickness 11
+- **Source:** table 470, text 43
+- **Confidence:** high 503, medium 7, low 3
 
 ## The most and least affected muscles so far
 
@@ -103,7 +104,7 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `adductor_brevis` | 4 | -4.1 |
 | `whole_thigh` | 12 | -4.1 |
 | `iliopsoas` | 4 | -4.0 |
-| `quadriceps` | 28 | -3.8 |
+| `quadriceps` | 30 | -4.0 |
 | `whole_lower_limb` | 9 | -3.4 |
 | `popliteus` | 4 | -3.3 |
 | `vastus_lateralis` | 13 | -2.1 |

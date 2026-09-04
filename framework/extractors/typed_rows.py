@@ -850,6 +850,32 @@ for arm_id, arm_type, dose, muscle, pct, sd in [
         muscle=muscle, pct_change=str(pct), variance_value=str(sd))
 
 
+# ----------------------------------------------------------------------- Pisot 2016
+# J Appl Physiol 10.1152/japplphysiol.00393.2016. Fourteen days of bed rest in seven young
+# men and sixteen older men, quadriceps volume of the right leg by MRI. One of the few
+# direct age contrasts in the dataset, and the older men lose about half again as much.
+PISOT = dict(
+    study_id="pisot2016", cohort_id="izola_br14", campaign_name="14-day bed rest, young and older men",
+    first_author="Pisot", year="2016", doi="10.1152/japplphysiol.00858.2015",
+    source_file="pisotr12016_pubmed_00392.pdf", design="horizontal_BR", duration_days="14",
+    phase="bed_rest", timepoint_days="14", exposure_flag="analogue", arm_type="control",
+    cm_modality="none", sex="M", muscle="quadriceps", is_composite="TRUE",
+    laterality="right", outcome_type="volume", modality="MRI", unit_original="ml",
+    unit_si="cm3", variance_of="change", variance_type="SD", data_source="text",
+    page_ref="Results, Fig. 1A", extraction_confidence="high",
+    qc_flag="age_range_not_mean",
+    notes=("percent change printed in the Results text; baseline volumes from the same "
+           "section. Older men lost 8.4% against 5.7% in the young over identical exposure"),
+)
+for arm_id, population, age_min, age_max, n, baseline, pct, sd in [
+    ("young", "healthy_young", "18", "30", 7, 1987, -5.7, 3.9),
+    ("old", "healthy_older", "55", "65", 16, 1666, -8.4, 3.7),
+]:
+    add(**PISOT, arm_id=arm_id, population=population, age_min=age_min, age_max=age_max,
+        n_arm=str(n), n_analysed=str(n), value_baseline_original=str(baseline),
+        value_baseline=str(baseline), pct_change=str(pct), variance_value=str(sd))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))
