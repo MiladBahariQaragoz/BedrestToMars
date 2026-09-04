@@ -1,0 +1,104 @@
+record_id,screen_ta,exclusion_reason,note
+pubmed_00216,include,,bed rest in older adults; leg lean mass
+pubmed_00193,include,,5-day HDT bed rest; leg muscle size with locomotion replacement training
+pubmed_00100,include,,10-day bed rest in older adults; regional body composition
+pubmed_00425,include,,bed rest with LBNP treadmill; leg lean mass
+scopus_01121,include,,84-day 6 deg HDT bed rest; musculoskeletal outcomes with individualised exercise
+pubmed_00109,include,,bed rest in middle-aged adults; leucine; muscle mass and function
+pubmed_00337,include,,bed rest in older adults; NMES plus protein; thigh muscle mass
+scopus_01130,include,,90-day HDT bed rest; flywheel exercise; differential atrophy and recovery
+pubmed_00079,include,,HDBR with testosterone plus NASA exercise countermeasures; muscle mass
+pubmed_00249,include,,21-day bed rest; plantar flexor muscle size by pQCT
+scopus_00738,include,,NASA bed rest study; leg muscle atrophy and rehabilitation
+pubmed_00047,include,,7-day bed rest in older adults; lean leg mass; leucine
+pubmed_00344,include,,5-day bed rest in older men; muscle morphology with exercise prehabilitation
+scopus_00673,include,,59-day HDT bed rest; gluteal muscle volumes by MRI; artificial gravity arm
+scopus_00516,include,,prolonged bed rest; lumbopelvic muscle volume; multifidus is in the vocabulary
+scopus_00787,include,,90-day HDT bed rest; lean mass with running vs resistance exercise
+pubmed_00662,include,,ULLS; quadriceps femoris CSA and MVC
+pubmed_00152,include,,bed rest in women and men; quadriceps and triceps surae volumes by MRI at day 29/57/89
+pubmed_00293,include,,NASA SPRINT; 70-day bed rest; whole muscle mass of vastus lateralis and soleus
+pubmed_00189,include,,5-day bed rest in young and old; lower limb muscle mass with NMES
+pubmed_00866,include,,bed rest and exercise remobilisation; leg muscle volume
+pubmed_00155,include,,bed rest; leg muscle atrophy quantified by DXA CT and MRI in the same participants
+pubmed_00326,include,,2-week bed rest; muscle mass with blood flow restriction
+pubmed_00421,include,,bed rest; quadriceps CSA at 40/60/80 percent of muscle length
+pubmed_00360,include,,Dulac 2024; already in resources as 15_1.pdf; keep to reconcile the two records
+pubmed_00238,include,,60-day HDT bed rest; muscle volume; artificial gravity plus cycling
+scopus_00312,include,,14-day HDBR with exercise countermeasure; same McGill cohort as Dulac
+scopus_00351,include,,14-day HDT bed rest; leg lean mass; same McGill cohort as Dulac
+pubmed_00389,include,,10-day bed rest; muscle thickness by ultrasound with recovery timepoints
+scopus_01685,include,,bed rest and recovery; muscle belly thickness by tensiomyography
+pubmed_00227,include,,89-day bed rest; calf muscle CSA by CT; large effect reported
+pubmed_00095,include,,WISE-2005; 60-day bed rest in women; lean tissue mass with two countermeasures
+pubmed_00369,include,,HDBR with rowing and resistive exercise; muscle volume by MRI
+pubmed_00240,include,,muscular unloading with blood flow restricted exercise; knee extensor and plantar flexor CSA
+pubmed_00153,include,,bed rest with resistive vibration exercise; individual lower limb muscle volumes by MRI
+pubmed_00149,include,,bed rest; muscle CSA by MRI with integrated resistance and aerobic exercise
+pubmed_00416,include,,35-day bed rest; muscle mass under two diet energy intakes
+pubmed_00039,include,,one week of bed rest; lean body mass by DXA and quadriceps CSA by CT
+pubmed_00392,include,,bed rest in older vs young; quadriceps muscle volume
+pubmed_00472,include,,unloading; muscle size with blood flow restricted vs high load exercise
+pubmed_00280,include,,bed rest in young and older adults; quadriceps muscle volume by MRI
+pubmed_00379,include,,2 weeks of disuse and recovery; muscle mass among the determinants of power
+pubmed_00348,include,,LunHab; 10-day horizontal bed rest; muscle atrophy in normoxia and hypoxia
+pubmed_00384,include,,bed rest; muscle mass under two dietary feeding patterns
+scopus_00594,include,,21-day bed rest; thigh muscle anatomical CSA by site with countermeasures
+pubmed_00343,include,,59-day HDT bed rest; lumbar muscle volume by MRI; artificial gravity arm
+pubmed_00342,include,,normoxic and hypoxic bed rest; muscle CSA and mass in both sexes
+pubmed_00880,include,,10 days of complete inactivity; hamstrings CSA at three sites by ultrasound
+pubmed_00026,include,,60-day HDT bed rest in eight women; MRI volumes of 17 individual lower limb muscles
+pubmed_00900,include,,5-day dry immersion; fat-free mass by DXA with percent changes in the abstract
+pubmed_00194,include,,3-week disuse; lean mass compared between calf and thigh
+pubmed_00243,include,,short-term disuse; multifidus and vastus lateralis CSA by ultrasound
+scopus_00458,include,,60-day bed rest; vastus intermedius muscle thickness; exercise and artificial gravity arms
+scopus_00694,include,,experimental bed rest; between- and within-subject variation in muscle atrophy; variance data
+pubmed_00864,exclude,review_or_editorial,systematic review and meta-analysis; mine its reference list
+pubmed_00822,exclude,review_or_editorial,meta-analysis; mine its reference list
+scopus_00403,exclude,review_or_editorial,systematic review of intramuscular adipose tissue
+pubmed_00474,exclude,review_or_editorial,meta-analysis of resistance exercise training
+scopus_00488,exclude,review_or_editorial,systematic review of muscle protein synthesis
+pubmed_00023,exclude,review_or_editorial,narrative review of disuse-induced muscle fatigue
+pubmed_00487,exclude,review_or_editorial,systematic review of immobilisation by age
+pubmed_00003,exclude,review_or_editorial,systematic review of nonuniform strength loss and atrophy; mine its reference list
+scopus_00555,exclude,review_or_editorial,systematic review and meta-analysis of aging in experimental bed rest; mine its reference list
+pubmed_00430,exclude,review_or_editorial,transcriptomic meta-analysis
+pubmed_00483,exclude,review_or_editorial,review of the reduced activity model
+pubmed_00437,exclude,review_or_editorial,study protocol; no results
+pubmed_00493,exclude,review_or_editorial,review of the step reduction model
+pubmed_00423,exclude,not_human,hindlimb unloading in rodents
+pubmed_00041,exclude,not_human,C57BL/6J mice
+pubmed_01022,exclude,not_human,preclinical drug study
+pubmed_00091,exclude,not_human,mouse model of immobilisation
+pubmed_00103,exclude,not_human,C2C12 myotubes
+scopus_00385,exclude,not_human,radiomics of histology images
+pubmed_00658,exclude,duration_too_short,3 days of unilateral lower limb suspension
+pubmed_00792,exclude,duration_too_short,3-day dry immersion
+pubmed_00129,exclude,duration_too_short,3-day head-out dry immersion
+scopus_01255,exclude,duration_too_short,3-day head-out dry immersion; duplicate of pubmed_00129
+pubmed_00325,exclude,duration_too_short,single day of bed rest
+pubmed_00121,exclude,no_muscle_outcome,venous cross-sectional area not muscle
+scopus_00916,exclude,no_muscle_outcome,DI-5-CUFFS; body fluid and orthostatic outcomes
+pubmed_00496,exclude,no_muscle_outcome,jugular vein cross-sectional area
+pubmed_00498,exclude,no_muscle_outcome,vascular outcomes under artificial gravity
+scopus_00480,exclude,no_muscle_outcome,gait stability method
+pubmed_00171,exclude,no_muscle_outcome,electromyographic evaluation only
+scopus_01259,exclude,no_muscle_outcome,bioinformatics of microRNAs
+pubmed_01008,exclude,no_muscle_outcome,stable isotope method validation
+pubmed_01277,exclude,not_unloading_model,knee osteoarthritis in the general population
+scopus_00802,exclude,not_unloading_model,knee joint immobilisation; different exposure by the criteria in PLAN.md section 2
+pubmed_00138,exclude,not_unloading_model,sustained hypoxia in mountaineers
+scopus_00263,exclude,not_unloading_model,spinal decompression surgery
+pubmed_01239,exclude,not_unloading_model,lower body negative pressure in arthroplasty
+scopus_00481,exclude,not_unloading_model,femoral head fracture treatment
+scopus_00309,exclude,not_unloading_model,extension lag after knee surgery
+scopus_00666,exclude,not_unloading_model,kyphoplasty and paravertebral muscle
+pubmed_01342,exclude,not_unloading_model,Alexander disease case report
+pubmed_01402,exclude,not_unloading_model,SPG7 case report
+pubmed_01315,exclude,not_unloading_model,lumbar degenerative disease surgery
+pubmed_01270,exclude,not_unloading_model,lumbar spine surgery case reports
+scopus_00120,exclude,disease_causes_wasting,patient population with magnetic stimulation
+pubmed_00693,exclude,disease_causes_wasting,hospitalised patients
+scopus_00344,exclude,disease_causes_wasting,post-COVID-19 patients
+pubmed_01065,exclude,disease_causes_wasting,severe acute pancreatitis
+pubmed_01332,exclude,disease_causes_wasting,acutely hospitalised older adults

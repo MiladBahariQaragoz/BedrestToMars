@@ -1,0 +1,50 @@
+record_id,screen_ta,exclusion_reason,note
+pubmed_00352,include,,two months of bed rest; jump training; musculoskeletal outcomes
+scopus_01419,include,,inactivity with and without hypoxia; thigh and calf muscle CSA by pQCT
+pubmed_00440,include,,physical inactivity; leg lean mass under two protein diets
+scopus_00973,include,,60 days of bed rest; lean mass in both arms
+scopus_00954,include,,long-term bed rest; lean body mass with high-protein excess-leucine diet
+pubmed_00268,include,,bed rest; quadriceps CSA change used to define atrophy responders
+pubmed_00024,include,,14 days of bed rest in older adults; total and leg lean mass; McGill cohort
+scopus_00324,include,,long-term spaceflight vs prolonged bed rest; pQCT muscle volumes; spaceflight arm to be flagged
+pubmed_00362,include,,10 days of bed rest in older adults; lean body mass with HMB
+pubmed_00800,include,,10-day hypoxic confinement and bed rest; whole body and regional body composition
+wos_00614,include,,WISE-2005; 60-day bed rest in women; lumbar paraspinal lean muscle mass
+pubmed_00386,include,,bed rest; age-related differences in lean mass
+pubmed_00310,include,,WISE-2005; paraspinal muscle CSA by MRI before and after bed rest
+pubmed_00250,include,,spaceflight; multifidus and abdominal muscle size; spaceflight arm to be flagged
+scopus_00598,include,,60 days of head-down tilt bed rest; lean body mass with eccentric training
+pubmed_00130,include,,extended bed rest in older adults; lean mass loss as the outcome being predicted
+pubmed_00935,include,,spaceflight and reconditioning; lumbar multifidus and anterolateral abdominal muscles
+scopus_00915,include,,countermeasure-free bed rest; body composition over time
+wos_00657,include,,endurance training against impairments in muscle mass after unloading
+scopus_00063,include,,resistive exercise with vibration; body composition and energy balance in bed rest
+pubmed_00165,maybe,,bedrest immobilisation; coagulation primary but muscle mass mentioned; check full text
+pubmed_00312,maybe,,long-term immobilisation; collagen turnover; check whether muscle size is reported
+pubmed_00056,maybe,,HDBR brain changes; muscle CSA collected as a fitness measure; check full text
+pubmed_00042,maybe,,bed rest transcriptome by age; check whether muscle size is reported
+wos_01403,maybe,,bed rest; irisin and muscle mass; check full text
+pubmed_00984,maybe,,mitochondrial bioenergetics and protein synthesis; check for a size outcome
+pubmed_00356,maybe,,disuse with NMES; muscle activation primary; check for a size outcome
+pubmed_00461,maybe,,titin fragment biomarker of muscle turnover; check for a size outcome
+pubmed_00535,maybe,,long-term bed rest in women; bone turnover primary; muscle mass secondary
+pubmed_00207,maybe,,60 days HDT with and without artificial gravity; neuromuscular function primary
+scopus_00747,maybe,,prolonged hypokinesia in mature women; readaptation models; check for a size outcome
+pubmed_01258,maybe,,inactivity in women; insulin resistance primary; check for a size outcome
+wos_00235,maybe,,bed rest with thigh cuffs; cardiorespiratory primary; check for a size outcome
+scopus_01495,exclude,review_or_editorial,systematic review of muscle outcomes over time in simulated microgravity; mine its reference list first
+pubmed_00475,exclude,review_or_editorial,methodological review of head-down bed rest
+scopus_00705,exclude,review_or_editorial,review of exercise countermeasure implementation
+scopus_00994,exclude,review_or_editorial,review of nutrition and physical therapy in geriatrics
+pubmed_01246,exclude,not_unloading_model,Parkinson disease; hypokinesia in the clinical sense
+scopus_01190,exclude,not_unloading_model,six-week exercise and diet programme
+pubmed_00252,exclude,no_muscle_outcome,cervical muscles and thoracic discs only; outside the lower-limb and lumbopelvic vocabulary
+ntrs_00259,exclude,no_muscle_outcome,functional task test overview; no muscle size outcome
+pubmed_00436,exclude,not_human,mesenchymal stromal cell transplantation in mice
+pubmed_00865,exclude,disease_causes_wasting,acutely ill geriatric patients
+pubmed_00887,exclude,disease_causes_wasting,SARS-CoV-2 patients in intensive care
+pubmed_01273,exclude,disease_causes_wasting,hospitalised patients
+scopus_00056,exclude,disease_causes_wasting,patients with diabetes mellitus
+pubmed_00071,exclude,disease_causes_wasting,hospitalised older adults
+scopus_01155,exclude,disease_causes_wasting,critically ill patient with spinal cord injury
+scopus_01484,exclude,disease_causes_wasting,critical care case study
