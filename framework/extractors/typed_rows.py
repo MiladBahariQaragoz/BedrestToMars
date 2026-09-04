@@ -437,6 +437,109 @@ for arm_id, arm_type, cm, dose, pct_f, age, baseline, followup, iqr in [
         variance_value=str(iqr))
 
 
+# --------------------------------------------------------- Hermans 2025 (Maastricht BFR)
+# J Physiol 10.1113/JP286065. 14 days of strict bed rest, 12 young men, one leg under daily
+# blood flow restriction. Same cohort as fuchs2025 - the control leg values are identical
+# (10.2 to 9.7 kg), which is how the shared cohort was spotted.
+BFR = dict(
+    study_id="fuchs2025bfr", cohort_id="maastricht_br14", first_author="Fuchs",
+    year="2025", doi="10.1113/jp286065", source_file="fuchscj12025_pubmed_00326.xml",
+    design="horizontal_BR", duration_days="14", phase="bed_rest", timepoint_days="14",
+    exposure_flag="analogue", n_arm="12", n_analysed="12", sex="M", age_mean="24",
+    age_sd="3", population="healthy_young", muscle="whole_lower_limb", is_composite="TRUE",
+    laterality="NA", outcome_type="lean_mass", modality="DXA", unit_original="kg",
+    unit_si="kg", variance_of="baseline", variance_type="SD", data_source="table",
+    page_ref="Table 3", extraction_confidence="high",
+    qc_flag="laterality_unstated;within_participant_arms",
+    notes=("the two arms are the two legs of the same twelve men; shares maastricht_br14 "
+           "with fuchs2025, which reports the same control-leg values"),
+)
+for arm_id, arm_type, cm, dose, baseline, followup, sd in [
+    ("ctrl", "control", "none", "NA", 10.2, 9.7, 1.6),
+    ("bfr", "countermeasure", "BFR", "daily blood flow restriction of one leg", 10.2, 9.6, 1.7),
+]:
+    pct = (followup - baseline) / baseline * 100
+    add(**BFR, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+        value_baseline_original=str(baseline), value_followup_original=str(followup),
+        value_baseline=str(baseline), value_followup=str(followup),
+        change_absolute=f"{followup - baseline:.1f}", pct_change=f"{pct:.2f}",
+        variance_value=str(sd))
+
+
+# ------------------------------------------------------------------- Simunic-type 2026 TMG
+# Med Sci Sports Exerc 10.1249/MSS.0000000000003986. 10 days of horizontal bed rest in ten
+# young men, muscle thickness by ultrasound in four muscles. The table labels thickness in
+# millimetres but prints values around 2, which cannot be millimetres for a vastus
+# lateralis - almost certainly centimetres. Recorded as printed and flagged.
+TMG = dict(
+    study_id="simunic2026", cohort_id="izola_br10", campaign_name="10-day horizontal bed rest",
+    first_author="Simunic", year="2026", doi="10.1249/mss.0000000000003986",
+    source_file="simunicb12026_pubmed_00389.xml", design="horizontal_BR", duration_days="10",
+    phase="bed_rest", timepoint_days="10", exposure_flag="analogue", arm_id="ctrl",
+    arm_type="control", cm_modality="none", n_arm="10", n_analysed="10", sex="M",
+    age_mean="22.9", age_sd="5.0", population="healthy_young", laterality="NA",
+    measurement_site="muscle belly", is_composite="FALSE", outcome_type="thickness",
+    modality="ultrasound", unit_original="mm as printed", unit_si="mm",
+    variance_of="baseline", variance_type="SD", data_source="table", page_ref="Table 2",
+    extraction_confidence="medium",
+    qc_flag="laterality_unstated;unit_suspect",
+    notes=("table labels muscle thickness in mm but the values are around 2, which is "
+           "implausible for these muscles and is almost certainly cm; recorded as printed "
+           "and flagged rather than silently converted"),
+)
+for muscle, baseline, followup, sd in [
+    ("vastus_lateralis", 2.60, 2.42, 0.46),
+    ("gastrocnemius_medialis", 1.79, 1.87, 0.22),
+    ("biceps_femoris_long_head", 1.98, 2.03, 0.28),
+    ("tibialis_anterior", 2.66, 2.61, 0.30),
+]:
+    pct = (followup - baseline) / baseline * 100
+    add(**TMG, muscle=muscle,
+        value_baseline_original=str(baseline), value_followup_original=str(followup),
+        value_baseline=str(baseline), value_followup=str(followup),
+        change_absolute=f"{followup - baseline:.2f}", pct_change=f"{pct:.2f}",
+        variance_value=str(sd))
+
+
+# ------------------------------------------------- Spaceflight vs bed rest (npj Microgravity)
+# 10.1038/s41526-026-00611-2. Muscle cross-sectional area by pQCT at 38% and 66% of tibia
+# length, after 6-month missions (n = 13) and after 60 days of strict 6 deg head-down tilt
+# bed rest without countermeasures (n = 11). Every timepoint is post-return or
+# post-ambulation, so all of these are recovery rows - and the spaceflight rows are the
+# first in the dataset carrying exposure_flag = spaceflight.
+COMPARE = dict(
+    study_id="bocker2026", cohort_id="space_vs_br_2026",
+    campaign_name="6-month missions compared with 60-day bed rest",
+    first_author="Bocker", year="2026", doi="10.1038/s41526-026-00611-2",
+    source_file="bockerj2026_scopus_00324.xml", phase="recovery", sex="M",
+    population="healthy_young", muscle="whole_calf", is_composite="TRUE", laterality="NA",
+    outcome_type="CSA", modality="CT", unit_original="%", unit_si="pct_only",
+    variance_of="change", variance_type="SD", data_source="table", page_ref="Table 1",
+    extraction_confidence="high", arm_id="ctrl", arm_type="control", cm_modality="none",
+    qc_flag="laterality_unstated;pqct_reported_as_CT;recovery_measurement",
+    notes=("pQCT muscle area, recorded as modality CT because the vocabulary has no pQCT "
+           "term; every timepoint is after return or re-ambulation, so all rows are recovery"),
+)
+# (exposure, design, duration, n, age_min, age_max, site, {days after: (pct, sd)})
+COMPARE_VALUES = [
+    ("spaceflight", "spaceflight", 180, 13, 34, 56, "38% tibia length",
+     {1: (-13.3, 5.0), 14: (-6.5, 4.0), 90: (-0.8, 3.2)}),
+    ("spaceflight", "spaceflight", 180, 13, 34, 56, "66% tibia length",
+     {1: (-12.5, 4.9), 14: (-6.6, 3.9), 90: (-0.3, 3.9)}),
+    ("analogue", "HDBR_-6", 60, 11, 22, 39, "38% tibia length",
+     {3: (-6.2, 4.0), 14: (-3.5, 5.2), 90: (-0.4, 2.4)}),
+    ("analogue", "HDBR_-6", 60, 11, 22, 39, "66% tibia length",
+     {3: (-7.9, 2.7), 14: (-3.7, 3.8), 90: (2.1, 2.5)}),
+]
+for flag, design, duration, n, age_min, age_max, site, timepoints in COMPARE_VALUES:
+    for after, (pct, sd) in timepoints.items():
+        add(**COMPARE, exposure_flag=flag, design=design, duration_days=str(duration),
+            hdt_angle_deg="-6" if design == "HDBR_-6" else "NA",
+            timepoint_days=str(duration + after), days_from_unloading_end=str(after),
+            n_arm=str(n), n_analysed=str(n), age_min=str(age_min), age_max=str(age_max),
+            measurement_site=site, pct_change=str(pct), variance_value=str(sd))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))

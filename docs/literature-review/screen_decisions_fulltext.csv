@@ -13,3 +13,9 @@ pubmed_00155,include,,extracted - the same thighs by DXA CT and MRI
 pubmed_00026,include,,extracted - 17 individually segmented muscles in eight women
 scopus_00673,include,,extracted - three gluteal muscles in three artificial-gravity arms
 scopus_01130,include,,extracted - 24 muscles at two bed-rest and four recovery timepoints
+scopus_00351,exclude,no_baseline_or_followup,"St-Martin, McGill 14-day cohort. Reports leg lean mass as an absolute change (-0.418 kg) with no baseline value, so no percent change can be computed. The same cohort is already represented properly by hajjboutros2023"
+pubmed_00238,include,,extracted - thigh fat-free muscle volume in three BRACE arms
+scopus_00312,include,,extracted - lower-limb lean mass medians in recovery
+pubmed_00326,include,,extracted - leg lean mass in the control and blood-flow-restricted legs
+pubmed_00389,include,,extracted - muscle thickness in four muscles
+scopus_00324,include,,extracted - calf muscle CSA after spaceflight and after bed rest
