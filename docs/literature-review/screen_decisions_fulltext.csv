@@ -19,3 +19,7 @@ scopus_00312,include,,extracted - lower-limb lean mass medians in recovery
 pubmed_00326,include,,extracted - leg lean mass in the control and blood-flow-restricted legs
 pubmed_00389,include,,extracted - muscle thickness in four muscles
 scopus_00324,include,,extracted - calf muscle CSA after spaceflight and after bed rest
+pubmed_00866,exclude,duration_too_short,"Shur 2024: three days of bed rest, below the five-day minimum in PLAN.md section 2. It does report leg muscle volume change per leg, so if the duration floor is ever revisited this is the first paper to revisit"
+scopus_01419,maybe,,"Hypoxia and inactivity: baseline thigh and calf CSA by pQCT are in Table 1 but the changes are only in Figure 2. Extractable by digitising the figure, not from the text"
+pubmed_00189,include,,extracted - leg lean mass, mid-thigh lean mass and vastus lateralis thickness in young and old
+scopus_00458,include,,extracted - vastus intermedius thickness in three BRACE arms

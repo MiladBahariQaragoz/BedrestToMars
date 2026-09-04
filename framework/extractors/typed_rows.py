@@ -540,6 +540,95 @@ for flag, design, duration, n, age_min, age_max, site, timepoints in COMPARE_VAL
             measurement_site=site, pct_change=str(pct), variance_value=str(sd))
 
 
+# ---------------------------------------------------------------------- Hansen 2024 NMES
+# 5 days of bed rest in young and older adults, one leg receiving neuromuscular electrical
+# stimulation. Three outcomes on the same legs: leg lean mass and mid-thigh lean mass by
+# DXA, vastus lateralis thickness by ultrasound - three rows per leg per age group, which
+# the modality part of the key now allows.
+NMES = dict(
+    study_id="hansen2024", cohort_id="copenhagen_br5", campaign_name="5-day bed rest with unilateral NMES",
+    first_author="Hansen", year="2024", doi="10.14814/phy2.16166",
+    source_file="hansensk122024_pubmed_00189.xml", design="horizontal_BR", duration_days="5",
+    phase="bed_rest", timepoint_days="5", exposure_flag="analogue",
+    n_arm="16", n_analysed="16", sex="mixed", pct_female="50.0",
+    laterality="NA", variance_of="baseline", variance_type="SD", data_source="table",
+    page_ref="Table 3", extraction_confidence="high",
+    qc_flag="laterality_unstated;within_participant_arms;age_range_not_mean",
+    notes=("32 participants, 50/50 male and female, split into a young group aged 18-30 "
+           "and an old group aged 65-80; the two arms are the two legs of the same people. "
+           "The paper gives inclusion ranges rather than mean ages"),
+)
+# (muscle, is_composite, outcome, modality, unit_original, unit_si, site)
+NMES_MEASURES = {
+    "leg_lean": ("whole_lower_limb", "TRUE", "lean_mass", "DXA", "g", "kg", "NA"),
+    "midthigh": ("whole_thigh", "TRUE", "lean_mass", "DXA", "g", "kg", "mid-thigh"),
+    "vl_thick": ("vastus_lateralis", "FALSE", "thickness", "ultrasound", "cm", "mm", "muscle belly"),
+}
+# measure -> age group -> arm -> (baseline, follow-up, SD)
+NMES_VALUES = {
+    "leg_lean": {
+        "young": {"con": (8399, 8226, 1975), "nmes": (8573, 8400, 2003)},
+        "old": {"con": (7752, 7482, 1386), "nmes": (7761, 7531, 1445)},
+    },
+    "midthigh": {
+        "young": {"con": (664, 656, 138), "nmes": (680, 677, 133)},
+        "old": {"con": (619, 606, 111), "nmes": (610, 607, 107)},
+    },
+    "vl_thick": {
+        "young": {"con": (2.36, 2.23, 0.43), "nmes": (2.35, 2.37, 0.34)},
+        "old": {"con": (2.14, 2.01, 0.39), "nmes": (2.02, 2.14, 0.36)},
+    },
+}
+AGE_GROUPS = {"young": ("healthy_young", "18", "30"), "old": ("healthy_older", "65", "80")}
+for measure, groups in NMES_VALUES.items():
+    muscle, composite, outcome, modality, unit_orig, unit_si, site = NMES_MEASURES[measure]
+    for group, arms in groups.items():
+        population, age_min, age_max = AGE_GROUPS[group]
+        for arm, (baseline, followup, sd) in arms.items():
+            pct = (followup - baseline) / baseline * 100
+            scale = 1000.0 if unit_orig == "g" else (0.1 if unit_orig == "cm" else 1.0)
+            add(**NMES, muscle=muscle, is_composite=composite, outcome_type=outcome,
+                modality=modality, unit_original=unit_orig, unit_si=unit_si,
+                measurement_site=site, population=population, age_min=age_min, age_max=age_max,
+                arm_id=f"{arm}_{group}",
+                arm_type="control" if arm == "con" else "countermeasure",
+                cm_modality="none" if arm == "con" else "NMES",
+                cm_dose="NA" if arm == "con" else "daily neuromuscular electrical stimulation of one leg",
+                value_baseline_original=str(baseline), value_followup_original=str(followup),
+                value_baseline=f"{baseline/scale:g}" if unit_orig == "g" else f"{baseline/scale:g}",
+                value_followup=f"{followup/scale:g}" if unit_orig == "g" else f"{followup/scale:g}",
+                change_absolute=f"{(followup-baseline)/scale:g}", pct_change=f"{pct:.2f}",
+                variance_value=f"{sd/scale:g}")
+
+
+# ----------------------------------------------------- BRACE ultrasound (Arbeille 2024)
+# Same BRACE campaign as mandic2026: 24 males, 6 deg HDT, measured at day 55. The only
+# muscle outcome is vastus intermedius thickness, and it is reported as percent change.
+BRACE_US = dict(
+    study_id="arbeille2024", cohort_id="brace_br60", campaign_name="BRACE",
+    first_author="Arbeille", year="2024", doi="10.3389/fphys.2024.1482860",
+    source_file="arbeillep2024_scopus_00458.xml", design="HDBR_-6", hdt_angle_deg="-6", duration_days="60",
+    phase="bed_rest", timepoint_days="55", exposure_flag="analogue", n_arm="8",
+    n_analysed="8", sex="M", age_mean="29.4", age_sd="5.6", bmi_mean="23.88",
+    population="healthy_young", muscle="vastus_intermedius", is_composite="FALSE",
+    laterality="NA", measurement_site="muscle belly", outcome_type="thickness",
+    modality="ultrasound", unit_original="%", unit_si="pct_only", variance_of="change",
+    variance_type="SD", data_source="table", page_ref="Table 1",
+    extraction_confidence="high",
+    qc_flag="laterality_unstated;shared_cohort_with_mandic2026",
+    notes=("same 24 participants as mandic2026 - both report the BRACE campaign, so the two "
+           "papers are one cohort. Only the vastus intermedius row is a muscle outcome; the "
+           "rest of the table is vascular"),
+)
+for arm_id, arm_type, cm, dose, pct, sd in [
+    ("c", "control", "none", "NA", -23.1, 12.2),
+    ("ex", "countermeasure", "aerobic", "supine cycling", 9.13, 18.5),
+    ("ex_ag", "countermeasure", "artificial_gravity", "supine cycling under artificial gravity", 24.3, 17.6),
+]:
+    add(**BRACE_US, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+        pct_change=str(pct), variance_value=str(sd))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))
