@@ -27,7 +27,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 FULLTEXT = next(REPO_ROOT.glob("resources/fulltext/*scopus_01130*.xml"))
 TEMPLATE = REPO_ROOT / "data" / "extraction_template.csv"
-TARGET = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+TARGET = REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv"
 
 # Table label -> (vocabulary term, is_composite, measurement site note)
 MUSCLES = {
@@ -86,7 +86,7 @@ STUDY = dict(
     nutrition_controlled="yes", muscle_function_class="NA", laterality="NA",
     outcome_type="volume", modality="MRI", unit_original="cm3", unit_si="cm3",
     variance_of="change", variance_type="SD", data_source="table",
-    extraction_confidence="high", extractor="falk", extraction_date="2026-09-04",
+    extraction_confidence="high", extractor="qaragoz", extraction_date="2026-09-04",
     double_extracted="FALSE",
 )
 

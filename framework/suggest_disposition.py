@@ -24,7 +24,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCREENING = REPO_ROOT / "data" / "search" / "screening.csv"
-EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv"
 
 csv.field_size_limit(10_000_000)
 

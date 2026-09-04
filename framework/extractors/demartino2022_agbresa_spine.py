@@ -25,7 +25,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 FULLTEXT = next(REPO_ROOT.glob("resources/fulltext/*scopus_00516*.xml"))
 TEMPLATE = REPO_ROOT / "data" / "extraction_template.csv"
-TARGET = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+TARGET = REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv"
 HEADER = next(csv.reader(TEMPLATE.open(encoding="utf-8-sig")))
 
 STUDY_ID = "demartino2022"
@@ -58,7 +58,7 @@ STUDY = dict(
     age_mean="33", population="healthy_young", laterality="NA",
     outcome_type="volume", modality="MRI", unit_original="mm3", unit_si="cm3",
     variance_of="baseline", variance_type="SD", data_source="table", page_ref="Table 2",
-    extraction_confidence="high", extractor="falk", extraction_date="2026-09-04",
+    extraction_confidence="high", extractor="qaragoz", extraction_date="2026-09-04",
     double_extracted="FALSE", qc_flag="laterality_unstated;shared_cohort_with_tran2021",
     notes=("same AGBRESA participants as tran2021, regrouped for the post-bed-rest "
            "reconditioning phase; sex split and age taken from the campaign description "

@@ -32,7 +32,7 @@ ROWS = []
 
 def add(**fields):
     record = {column: "NA" for column in HEADER}
-    record.update(extractor="falk", extraction_date="2026-09-04", double_extracted="FALSE",
+    record.update(extractor="qaragoz", extraction_date="2026-09-04", double_extracted="FALSE",
                   data_source="text", page_ref="abstract")
     record.update(fields)
     site = re.sub(r"[^a-z0-9]+", "_", (record.get("measurement_site") or "").lower()).strip("_")

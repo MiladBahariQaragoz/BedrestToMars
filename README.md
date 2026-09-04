@@ -17,7 +17,7 @@ DGLRM accepted abstract — oral presentation plus written report.
 | Role | Person |
 |---|---|
 | Scientific lead — literature search, screening, extraction, discussion | Partner |
-| AI framework lead — schema, framework design, modelling, results | Falk |
+| AI framework lead — schema, framework design, modelling, results | Qaragoz |
 
 ## Key dates
 
@@ -57,7 +57,7 @@ and treat everything after them as rehearsal and contingency.
 | Branch | Owner | Work package |
 |---|---|---|
 | `feat/literature-review` | Partner | P1 scientific track: search, screening, extraction, cohort map |
-| `feat/ai-framework` | Falk | P1 AI track, P3 framework design, P4 model runs |
+| `feat/ai-framework` | Qaragoz | P1 AI track, P3 framework design, P4 model runs |
 | `feat/integration` | Both | P2 reconciliation of extracted science with the framework |
 | `feat/report-slides` | Both | P5 report, deck, figures |
 

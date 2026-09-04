@@ -1,6 +1,6 @@
 # Extraction Progress
 
-Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
+Generated 2026-09-04 from `data/raw/extraction_qaragoz.csv`.
 
 - **537 rows** across **28 studies** and **20 cohorts**
 - **289** rows measured during unloading, 248 during recovery

@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv"
 PARTIAL = REPO_ROOT / "data" / "raw" / "extraction_partial.csv"
 FIGURES = REPO_ROOT / "data" / "raw" / "extraction_figures.csv"
 REPORT = REPO_ROOT / "data" / "raw" / "extraction_report.md"
@@ -34,7 +34,7 @@ def main() -> int:
     lines = [
         "# Extraction Progress",
         "",
-        f"Generated {date.today().isoformat()} from `data/raw/extraction_falk.csv`.",
+        f"Generated {date.today().isoformat()} from `data/raw/extraction_qaragoz.csv`.",
         "",
         f"- **{len(rows)} rows** across **{len({r['study_id'] for r in rows})} studies** "
         f"and **{len({r['cohort_id'] for r in rows})} cohorts**",

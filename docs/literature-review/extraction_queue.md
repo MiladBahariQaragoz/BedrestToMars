@@ -3,7 +3,7 @@
 Regenerated 2026-09-04 by `framework/extraction_queue.py`. This is the
 resume point: if work stops here, start again at the top of the pending table.
 
-- **27 extracted**, 537 rows in `data/raw/extraction_falk.csv`
+- **27 extracted**, 537 rows in `data/raw/extraction_qaragoz.csv`
 - **0 pending** with a full text on disk
 - **12 partially extracted** into `data/raw/extraction_partial.csv` - a headline number recovered, the rest still in figures
 - 24 blocked because their numbers exist only in figures
@@ -18,7 +18,7 @@ resume point: if work stops here, start again at the top of the pending table.
    number. If the numbers are not in there, open the file named in the Source column.
 3. Add the study to `framework/extractors/typed_rows.py`, or give it its own parser in
    `framework/extractors/` if it has a large results table.
-4. Run the extractor, then `python framework/validate_extraction.py data/raw/extraction_falk.csv`.
+4. Run the extractor, then `python framework/validate_extraction.py data/raw/extraction_qaragoz.csv`.
 5. Run `python framework/extraction_report.py` and `python framework/extraction_queue.py`.
 6. Commit. One commit per batch, naming the studies.
 

@@ -3,7 +3,7 @@
 
 **Status:** v2.0 · Rewritten 2026-09-04 to match the schedule agreed by the team
 **Deliverable:** oral presentation, 10–15 min + Q&A, plus a written report
-**Team:** Falk — AI framework lead · Partner — scientific lead
+**Team:** Qaragoz — AI framework lead · Partner — scientific lead
 **Presentation:** 15 or 16 October 2026 — the organisers assign the exact day. **Upload deadline: 10 October 2026.**
 **The internal schedule below is deliberately unchanged.** It finishes on 2 October, eight days before the upload deadline; that gap is buffer and rehearsal time, not scope to be filled.
 
@@ -18,8 +18,8 @@ This is the plan the team agreed on, laid out on the calendar. The four work pac
 | **P0** | Kickoff: repository, scope lock, schema | 1 day | Sep 4 | `main` | Both |
 | **P1** | Literature research — two parallel tracks | 7 days | Sep 5 – Sep 11 | `feat/literature-review` · `feat/ai-framework` | Split |
 | **P2** | Match the scientific part with the AI part | 3 days | Sep 12 – Sep 14 | `feat/integration` | Both |
-| **P3** | Design of the framework | 1 day | Sep 15 | `feat/ai-framework` | Falk |
-| **P4** | *Optional:* run the framework on the real data, four ML models | 6 days | Sep 16 – Sep 21 | `feat/ai-framework` | Falk |
+| **P3** | Design of the framework | 1 day | Sep 15 | `feat/ai-framework` | Qaragoz |
+| **P4** | *Optional:* run the framework on the real data, four ML models | 6 days | Sep 16 – Sep 21 | `feat/ai-framework` | Qaragoz |
 | **P5** | Report + slides | 7 days | Sep 22 – Sep 28 | `feat/report-slides` | Both |
 | **P6** | Rehearse, submit, present | 4 days | Sep 29 – Oct 2 | `main` | Both |
 
@@ -81,7 +81,7 @@ One repository, four working branches, `main` as the trunk. The branches are not
 | Branch | Owner | Work package | Merges into `main` at |
 |---|---|---|---|
 | `feat/literature-review` | Partner | P1 scientific track: study search, screening, extraction, cohort map | End of P1 |
-| `feat/ai-framework` | Falk | P1 AI track, P3 framework design, P4 optional model runs | End of P3, again at end of P4 |
+| `feat/ai-framework` | Qaragoz | P1 AI track, P3 framework design, P4 optional model runs | End of P3, again at end of P4 |
 | `feat/integration` | Both | P2: reconciling the extracted science with the framework's data requirements | End of P2 |
 | `feat/report-slides` | Both | P5: written report, deck, figures | End of P5 |
 
@@ -111,7 +111,7 @@ DGLRM/
 │   ├── cohorts.csv                 # study_id -> cohort_id
 │   ├── raw/
 │   │   ├── extraction_partner.csv
-│   │   └── extraction_falk.csv
+│   │   └── extraction_qaragoz.csv
 │   ├── reconciliation_log.md
 │   ├── dataset_v1.0.csv            # FROZEN at the end of P2
 │   └── DATASET_CARD.md
@@ -144,10 +144,10 @@ Everything in this phase is cheap now and expensive later.
 |---|---|---|---|---|
 | 0.1 | Confirm the real presentation date, session, time limit, upload deadline, and whether the talk is in German or English | Partner | One line in `README.md` | **Done** — 15/16 Oct, upload 10 Oct, recorded in `README.md`. Session, slot length and language ride along with the author instructions in 0.2 |
 | 0.2 | Read the DGLRM author instructions: slide format, aspect ratio, disclosure slide requirements | Partner | Checklist in `README.md` | Open — to be requested from the organisers |
-| 0.3 | Initialise the repository, create the four branches, write `.gitignore` and `README.md` | Falk | Repo pushed | **Done** |
+| 0.3 | Initialise the repository, create the four branches, write `.gitignore` and `README.md` | Qaragoz | Repo pushed | **Done** |
 | 0.4 | Decide what is committed: `PLAN.md`, `resources/`, the dataset. Record the decision | Both | `README.md` | **Done** — `README.md` |
-| 0.5 | Freeze the extraction schema (Section 11) and generate the empty CSV template | Falk | `data/schema.md` + template | **Done** — `data/schema.md` + template + validator |
-| 0.6 | Identify `15_1.pdf` — OCR it or replace it with a text-layer copy | Falk | Identified or removed | **Done** — Dulac et al. 2024, core study |
+| 0.5 | Freeze the extraction schema (Section 11) and generate the empty CSV template | Qaragoz | `data/schema.md` + template | **Done** — `data/schema.md` + template + validator |
+| 0.6 | Identify `15_1.pdf` — OCR it or replace it with a text-layer copy | Qaragoz | Identified or removed | **Done** — Dulac et al. 2024, core study |
 | 0.7 | Decide the fate of the four vascular papers and the DMD paper: context, or excluded | Both | Include/exclude with one line of reasoning each | **Done** — `docs/screening_decisions.md` |
 | 0.8 | Agree the one sentence the talk exists to prove (Section 9) | Both | `README.md`, top of the deck outline | Candidate in `README.md`, awaiting joint confirmation |
 
@@ -176,7 +176,7 @@ Two tracks, run in parallel, on two branches. They are deliberately independent:
 
 **Search terms to start from:** `(bed rest OR head-down tilt OR HDBR OR dry immersion OR unloading) AND (muscle volume OR cross-sectional area OR atrophy OR CSA) AND (soleus OR gastrocnemius OR quadriceps OR triceps surae OR lower limb) AND (MRI OR CT OR DXA)`. Log every query verbatim — the search strategy is a slide, and it is the first thing a methodologist asks about.
 
-### 5.2 AI track — Falk · `feat/ai-framework`
+### 5.2 AI track — Qaragoz · `feat/ai-framework`
 
 The AI half of the literature week is not "read about random forests." It is establishing what a defensible modelling framework looks like at this sample size, and what has already been done, so that the design in P3 is a considered choice rather than a default.
 
@@ -211,11 +211,11 @@ Branch `feat/integration`, both people, and the highest-value three days in the 
 
 | # | Task | Owner |
 |---|---|---|
-| 2.1 | Falk independently extracts two to three studies already extracted by the partner, blind, and the two files are compared | Both |
+| 2.1 | Qaragoz independently extracts two to three studies already extracted by the partner, blind, and the two files are compared | Both |
 | 2.2 | Resolve every numeric disagreement, and log each one with its resolution | Both |
 | 2.3 | Resolve the composite problem: `triceps_surae` is not the sum of `soleus` and `gastrocnemius`. Decide explicitly how composite and component rows coexist | Both |
 | 2.4 | Resolve the modality problem: MRI volume, CT CSA and DXA lean mass are not the same measurement. Decide whether they share a target column, and record the decision | Both |
-| 2.5 | Fix the sign convention once: `pct_change` is negative for atrophy, everywhere | Falk |
+| 2.5 | Fix the sign convention once: `pct_change` is negative for atrophy, everywhere | Qaragoz |
 
 The double-extraction check in 2.1 is not bureaucracy. It is the only evidence the team will have that the extraction is reproducible, and "we independently double-extracted a subset and agreed to within X %" is a one-line answer to an entire category of Q&A.
 
@@ -233,10 +233,10 @@ The double-extraction check in 2.1 is not bureaucracy. It is the only evidence t
 
 | # | Task | Owner |
 |---|---|---|
-| 2.11 | Automated QC: range checks, unit consistency, impossible values, duplicate rows, orphan references | Falk |
+| 2.11 | Automated QC: range checks, unit consistency, impossible values, duplicate rows, orphan references | Qaragoz |
 | 2.12 | Write the dataset card: provenance, exclusions, known limitations, how to cite | Both |
-| 2.13 | Produce the two descriptive figures that do not depend on any model — duration–response and muscle ranking | Falk |
-| 2.14 | **Freeze** `data/dataset_v1.0.csv`, tag it, merge `feat/integration` into `main` | Falk |
+| 2.13 | Produce the two descriptive figures that do not depend on any model — duration–response and muscle ranking | Qaragoz |
+| 2.14 | **Freeze** `data/dataset_v1.0.csv`, tag it, merge `feat/integration` into `main` | Qaragoz |
 
 **Definition of success for P2.**
 
@@ -287,7 +287,7 @@ This was agreed as "if we had time." The calendar says there is time: six days. 
 | 4.5 | Sensitivity analyses: with and without figure-digitised rows; with and without the largest cohort; sex-stratified if N allows | `results/sensitivity.md` |
 | 4.6 | Physiological plausibility review — does the model assert anything known to be false? | Partner's written sign-off |
 | 4.7 | Optional, only if 4.1–4.6 are finished: extrapolate to a 180-day transit **with prediction intervals** and an explicit statement about going beyond the observed 119-day maximum | One heavily caveated backup slide |
-| 4.8 | **Freeze** the results, tag `results-v1.0`, merge into `main` | Falk |
+| 4.8 | **Freeze** the results, tag `results-v1.0`, merge into `main` | Qaragoz |
 
 **Thresholds, agreed before the models run**
 
@@ -326,9 +326,9 @@ Three supporting claims, ordered by how well the evidence backs them:
 
 | # | Task | Owner |
 |---|---|---|
-| 5.1 | Methods section — largely a rewrite of `framework/DESIGN.md` and the screening log | Falk drafts, Partner reviews |
+| 5.1 | Methods section — largely a rewrite of `framework/DESIGN.md` and the screening log | Qaragoz drafts, Partner reviews |
 | 5.2 | Introduction and background — from `docs/background.md` | Partner |
-| 5.3 | Results — every number generated by `make all`, none typed by hand | Falk |
+| 5.3 | Results — every number generated by `make all`, none typed by hand | Qaragoz |
 | 5.4 | Discussion: what it means physiologically, how it positions against the Charité, NASA and MEDES work | Partner |
 | 5.5 | Limitations — the complete list, not the polite half | Both |
 | 5.6 | Reference list, generated from the shared library, checked against the screening log | Partner |
@@ -344,10 +344,10 @@ Twelve minutes inside a fifteen-minute slot. Never plan to the maximum.
 | 0:00–1:00 | 1–2 | Hook: a crew arrives at Mars after six months in transit — what is left of the soleus? Title and affiliations | Partner |
 | 1:00–2:30 | 3–4 | Why musculoskeletal deconditioning is mission-limiting; why bed rest is the terrestrial analogue | Partner |
 | 2:30–3:30 | 5 | The gap: decades of individual studies, no pooled quantitative model. State the aim | Partner |
-| 3:30–5:30 | 6–8 | Methods: corpus and screening, extraction schema, the cohort map, and why validation is Leave-One-**Cohort**-Out | Falk |
+| 3:30–5:30 | 6–8 | Methods: corpus and screening, extraction schema, the cohort map, and why validation is Leave-One-**Cohort**-Out | Qaragoz |
 | 5:30–7:00 | 9–10 | Result 1: duration–response. Result 2: muscle vulnerability ranking | Partner |
-| 7:00–8:30 | 11–12 | The framework diagram, then the model comparison against the duration-only baseline with confidence intervals | Falk |
-| 8:30–9:30 | 13 | SHAP: what drives the prediction, and does physiology agree? | Falk |
+| 7:00–8:30 | 11–12 | The framework diagram, then the model comparison against the duration-only baseline with confidence intervals | Qaragoz |
+| 8:30–9:30 | 13 | SHAP: what drives the prediction, and does physiology agree? | Qaragoz |
 | 9:30–10:30 | 14 | Implications: personalised countermeasure prescription, which muscles to protect first | Partner |
 | 10:30–11:30 | 15 | Limitations, stated confidently and without apology | Partner |
 | 11:30–12:00 | 16 | Conclusion, next steps, and the one sentence worth remembering | Partner |
@@ -358,10 +358,10 @@ Twelve minutes inside a fifteen-minute slot. Never plan to the maximum.
 | Fig | Content | Supports | Owner |
 |---|---|---|---|
 | F1 | Corpus overview: screening flow (identified, screened, included) plus a timeline strip of each cohort's duration and sample size | Credibility of the dataset | Partner |
-| F2 | Duration–response: `pct_change` against `duration_days`, coloured by muscle family, fitted curve with confidence band, control arms only | Claim 1 | Falk |
-| F3 | Muscle vulnerability ranking: horizontal forest-style plot, mean percentage loss per muscle with CIs, sorted | Claim 2 | Falk |
-| F4 | The framework diagram from P3 | The method itself | Falk |
-| F5 | Model comparison with the baseline as a reference line, or the SHAP summary if P4 produced one | Claim 3 | Falk |
+| F2 | Duration–response: `pct_change` against `duration_days`, coloured by muscle family, fitted curve with confidence band, control arms only | Claim 1 | Qaragoz |
+| F3 | Muscle vulnerability ranking: horizontal forest-style plot, mean percentage loss per muscle with CIs, sorted | Claim 2 | Qaragoz |
+| F4 | The framework diagram from P3 | The method itself | Qaragoz |
+| F5 | Model comparison with the baseline as a reference line, or the SHAP summary if P4 produced one | Claim 3 | Qaragoz |
 
 **Figure standards.** Colourblind-safe palette. Text in the exported figure at least as large as the slide body text. Every axis labelled with units. Sample size on the figure itself, not only in the caption — audiences read figures, not captions.
 
@@ -371,7 +371,7 @@ Twelve minutes inside a fifteen-minute slot. Never plan to the maximum.
 |---|---|---|
 | 5.7 | Write the spoken script verbatim, then cut the slides down to what the script needs | Both |
 | 5.8 | Build the backup slide pack from the ★ questions in Section 12 | Both |
-| 5.9 | Legibility pass: body text ≥ 24 pt, readable from the back row | Falk |
+| 5.9 | Legibility pass: body text ≥ 24 pt, readable from the back row | Qaragoz |
 | 5.10 | Add the disclosure, conflict and funding slide required by DGLRM | Partner |
 | 5.11 | **Freeze** the deck, upload by the organiser's deadline, merge `feat/report-slides` into `main` | Both |
 
@@ -394,12 +394,12 @@ Twelve minutes inside a fifteen-minute slot. Never plan to the maximum.
 | 6.2 | Full joint run-through ×2 with clean handovers | Both |
 | 6.3 | Hostile Q&A drill: a colleague asks the Section 12 bank cold, in random order | Both |
 | 6.4 | Rehearse once in front of someone who does not work on this project | Both |
-| 6.5 | Technical check: aspect ratio, embedded fonts, PDF fallback, laptop, adapter, clicker | Falk |
+| 6.5 | Technical check: aspect ratio, embedded fonts, PDF fallback, laptop, adapter, clicker | Qaragoz |
 | 6.6 | Prepare the 30-second elevator version for hallway conversations | Both |
-| 6.7 | One-page handout with a QR code to the repository | Falk |
+| 6.7 | One-page handout with a QR code to the repository | Qaragoz |
 | 6.8 | Present. Then write down every question asked, immediately afterwards | Both |
-| 6.9 | Follow up within 48 hours with anyone who asked for the dataset | Falk |
-| 6.10 | Archive the frozen dataset, code and deck; mint a Zenodo DOI if the dataset is released | Falk |
+| 6.9 | Follow up within 48 hours with anyone who asked for the dataset | Qaragoz |
+| 6.10 | Archive the frozen dataset, code and deck; mint a Zenodo DOI if the dataset is released | Qaragoz |
 
 **Definition of success for P6.**
 
@@ -518,12 +518,12 @@ Note that rungs C and D still satisfy the accepted abstract, which says a compar
 | The two P1 tracks work for a week without talking | High | High | The mandatory Sep 8 call; the requirements note from task 1.14 | Both |
 | Extraction is not finished when P2 starts | Medium | High | The schema is frozen in P0 so extraction is form-filling; P4's window absorbs the overrun | Partner |
 | Cohort overlap missed, invalidating the validation | Medium | High | `cohorts.csv` is a P1 deliverable; the leakage assertion in P3 fails loudly | Both |
-| P3 expands past one day into model fitting | High | Medium | P3 is design only. Model fitting is P4, and it starts on Sep 16, not earlier | Falk |
-| The models do not beat the baseline | Medium | Low *if prepared* | Rung B is pre-written as a real talk | Falk |
-| The scanned `15_1.pdf` cannot be identified | Low | Low | OCR it in P0, or drop it and adjust N | Falk |
+| P3 expands past one day into model fitting | High | Medium | P3 is design only. Model fitting is P4, and it starts on Sep 16, not earlier | Qaragoz |
+| The models do not beat the baseline | Medium | Low *if prepared* | Rung B is pre-written as a real talk | Qaragoz |
+| The scanned `15_1.pdf` cannot be identified | Low | Low | OCR it in P0, or drop it and adjust N | Qaragoz |
 | Report and slides compress into the final two days | Medium | High | P5 is seven days with the report first; the deck freezes Sep 28 | Both |
 | One presenter is ill on the day | Low | High | Each rehearses the other's section to 80 % quality | Both |
-| Technical failure in the room | Low | Medium | PDF export, USB stick, cloud copy, arrive early | Falk |
+| Technical failure in the room | Low | Medium | PDF export, USB stick, cloud copy, arrive early | Qaragoz |
 | Scope creep into a journal manuscript | Medium | Medium | Manuscript work is explicitly out of scope until after the talk | Both |
 
 ---

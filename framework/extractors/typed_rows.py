@@ -18,7 +18,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 TEMPLATE = REPO_ROOT / "data" / "extraction_template.csv"
-TARGET = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+TARGET = REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv"
 HEADER = next(csv.reader(TEMPLATE.open(encoding="utf-8-sig")))
 
 ROWS = []
@@ -26,7 +26,7 @@ ROWS = []
 
 def add(**fields):
     record = {column: "NA" for column in HEADER}
-    record.update(extractor="falk", extraction_date="2026-09-04", double_extracted="FALSE")
+    record.update(extractor="qaragoz", extraction_date="2026-09-04", double_extracted="FALSE")
     record.update(fields)
     site = re.sub(r"[^a-z0-9]+", "_", (record.get("measurement_site") or "").lower()).strip("_")
     suffix = "" if site in {"", "na"} else "__" + site[:24]

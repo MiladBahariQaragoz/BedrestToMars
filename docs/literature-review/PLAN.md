@@ -657,7 +657,7 @@ Two ways of getting numbers out, chosen per paper:
 - **`typed_rows.py`** for papers whose numbers live in prose or a small table, one block per
   study with the table or page it came from.
 
-Both write into `data/raw/extraction_falk.csv` and both are idempotent: re-running replaces
+Both write into `data/raw/extraction_qaragoz.csv` and both are idempotent: re-running replaces
 that study's rows, so a correction is an edit and a re-run rather than a hunt through the CSV.
 
 **What the data already shows.** Ranking mean percent change across unloading rows puts

@@ -6,7 +6,7 @@ Writes docs/literature-review/extraction_queue.md - the resume point. Any sessio
 time, can read that file and know exactly which studies still need extracting and in what
 order, without re-deriving anything.
 
-A study counts as done when at least one row in data/raw/extraction_falk.csv cites its
+A study counts as done when at least one row in data/raw/extraction_qaragoz.csv cites its
 source file or its record id. Studies excluded at full text are listed separately so nobody
 re-reads a paper that was already ruled out.
 """
@@ -19,7 +19,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCREENING = REPO_ROOT / "data" / "search" / "screening.csv"
-EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv"
 PARTIAL = REPO_ROOT / "data" / "raw" / "extraction_partial.csv"
 FULLTEXT_DIR = REPO_ROOT / "resources" / "fulltext"
 DIGEST_DIR = REPO_ROOT / "data" / "search" / "fulltext_digests"
@@ -90,7 +90,7 @@ def main() -> int:
         "resume point: if work stops here, start again at the top of the pending table.",
         "",
         f"- **{len(done)} extracted**, {sum(rows_by_study.values())} rows in "
-        "`data/raw/extraction_falk.csv`",
+        "`data/raw/extraction_qaragoz.csv`",
         f"- **{len(pending)} pending** with a full text on disk",
         f"- **{len(partially)} partially extracted** into "
         "`data/raw/extraction_partial.csv` - a headline number recovered, the rest still in figures",
@@ -106,7 +106,7 @@ def main() -> int:
         "   number. If the numbers are not in there, open the file named in the Source column.",
         "3. Add the study to `framework/extractors/typed_rows.py`, or give it its own parser in",
         "   `framework/extractors/` if it has a large results table.",
-        "4. Run the extractor, then `python framework/validate_extraction.py data/raw/extraction_falk.csv`.",
+        "4. Run the extractor, then `python framework/validate_extraction.py data/raw/extraction_qaragoz.csv`.",
         "5. Run `python framework/extraction_report.py` and `python framework/extraction_queue.py`.",
         "6. Commit. One commit per batch, naming the studies.",
         "",
