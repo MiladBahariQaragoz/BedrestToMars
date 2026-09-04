@@ -41,8 +41,10 @@ top of the `maybe` set, recorded in `docs/literature-review/screen_decisions_*.c
 | Excluded at title/abstract | 2493 |
 | **Included at title/abstract** | **74** |
 | Still to screen | 1023 |
-| Full texts sought | 0 — next step |
-| Full texts assessed | 0 |
+| Full texts sought | 74 |
+| Full texts retrieved | 68 — 30 as machine-readable XML, 38 as PDF |
+| Full texts not retrievable so far | 6 — listed in `fulltext_todo.md` |
+| Full texts assessed | 0 — next step |
 | Excluded at full text | 0 |
 | **Studies included** | pending full text |
 | of which **new** (not already in `resources/`) | pending |

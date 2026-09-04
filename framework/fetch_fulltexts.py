@@ -138,6 +138,14 @@ def main() -> int:
     fetched, manual = [], []
 
     for row in included:
+        # A file already on disk wins over any download - it may have been placed by hand
+        # from a library download (see framework/ingest_downloads.py).
+        existing = [p for p in FULLTEXT_DIR.glob(f"{safe_name(row)}.*") if p.stat().st_size > 20000]
+        if existing:
+            results["on disk: cached"] += 1
+            fetched.append((row, "on-disk", "cached", existing[0]))
+            continue
+
         if row["in_epmc"] == "yes" and row["pmcid"]:
             status, path = fetch_epmc(row)
             source = "europepmc-xml"
@@ -177,8 +185,8 @@ def main() -> int:
 
 
 def write_todo(fetched: list, manual: list) -> None:
-    xml = [f for f in fetched if f[1] == "europepmc-xml"]
-    pdf = [f for f in fetched if f[1] in {"oa-pdf", "pmc-pdf"}]
+    xml = [f for f in fetched if f[1] == "europepmc-xml" or str(f[3]).endswith(".xml")]
+    pdf = [f for f in fetched if f not in xml]
     closed = [m for m in manual if m[1] == "closed"]
     failed = [m for m in manual if m[1] != "closed"]
 
@@ -221,7 +229,9 @@ def write_todo(fetched: list, manual: list) -> None:
         "|---|---|---|---|",
     ]
     for row, _source, status, _path in failed:
-        link = row["oa_url"] or (f"https://doi.org/{row['doi']}" if row["doi"] else row["url"])
+        # The DOI is the stable address; an OA link can point at a landing page or, worse,
+        # at a supplement, so it is only the fallback.
+        link = (f"https://doi.org/{row['doi']}" if row["doi"] else row["oa_url"] or row["url"])
         lines.append(f"| `{safe_name(row)}.pdf` | {row['year']} | {row['title'][:90]} | [open]({link}) |")
 
     lines += [

@@ -622,6 +622,26 @@ priority records that cannot be decided without a full text. They are not exclud
 never be reported as excluded. Two things would close them out: reading the remaining
 `maybe` records at title level, which is a few hours, and pulling full texts for the 80.
 
+### Full texts, same day
+
+**68 of the 74 included studies are on disk** in `resources/fulltext/` (gitignored; they live
+in the shared Drive folder). 30 arrived as Europe PMC XML carrying 157 tables between them,
+which is the cheap extraction path; 38 are PDFs downloaded by hand from the list the fetch
+script produced.
+
+Filing the manual downloads is automated too
+([`../../framework/ingest_downloads.py`](../../framework/ingest_downloads.py)): publisher
+filenames are meaningless, so each PDF is identified by the DOI printed inside it, and only
+by a fuzzy title match when there is no DOI. Anything below the match threshold is reported
+rather than guessed - attaching one paper's numbers to another paper's row is the single
+worst error available here. Of 39 downloads, 37 matched on DOI automatically; the two that
+did not were a conference-abstract page whose first page belongs to a neighbouring abstract,
+and a supplement file, both placed by hand.
+
+Six studies are still missing and are listed with save-as filenames in
+[`fulltext_todo.md`](fulltext_todo.md). Two of them are conference abstracts that may never
+exist as a full paper - if so, they are `no_full_text` exclusions, not gaps.
+
 ### Outstanding — one thing only, and it needs the person who ran the searches
 
 **The four query strings are not recorded.** `search_log.md` has the slots; the queries have
