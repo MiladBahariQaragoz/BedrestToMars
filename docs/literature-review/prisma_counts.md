@@ -42,10 +42,10 @@ top of the `maybe` set, recorded in `docs/literature-review/screen_decisions_*.c
 | **Included at title/abstract** | **74** |
 | Still to screen | 1023 |
 | Full texts sought | 74 |
-| Full texts retrieved | 68 — 30 as machine-readable XML, 38 as PDF |
-| Full texts not retrievable so far | 6 — listed in `fulltext_todo.md` |
-| Full texts assessed | 0 — next step |
-| Excluded at full text | 0 |
+| Full texts retrieved | 70 — 30 as machine-readable XML, 40 as PDF |
+| Full texts not retrievable | 4 — 2 paywalled, 2 exist only as conference abstracts |
+| Full texts assessed | 4 of 74 so far |
+| Excluded at full text | 3, all `no_full_text` |
 | **Studies included** | pending full text |
 | of which **new** (not already in `resources/`) | pending |
 | **Distinct cohorts** in the modelling set | pending |
@@ -80,7 +80,17 @@ building `data/cohorts.csv`.
 
 ## Exclusions at full text, by reason
 
-To be filled during full-text screening. Same fixed code list.
+| Reason | Count |
+|---|---|
+| `no_full_text` | 3 |
+
+One of the four unobtainable studies survives anyway: the Dirks 2016 abstract prints a
+3.2% decline in quadriceps CSA after seven days of bed rest, which is a complete row on
+its own. It is extracted with `data_source = text` and `extraction_confidence = low`.
+
+The two paywalled studies are an access failure rather than an absence. If the dataset
+ends up thin, an interlibrary loan recovers them; the note in
+`screen_decisions_fulltext.csv` says exactly what each one would contribute.
 
 ## The two numbers that go on a slide
 

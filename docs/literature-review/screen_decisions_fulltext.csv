@@ -1,0 +1,5 @@
+record_id,screen_ft,exclusion_reason,note
+pubmed_00039,include,,"full text not accessible, but the abstract prints a 3.2 +/- 0.9% decline in quadriceps CSA by CT after 7 days of strict bed rest in 10 men - one extractable row, data_source text, confidence low"
+pubmed_00800,exclude,no_full_text,"abstract prints whole-body lean mass only (-3.8% hypoxic bed rest, -4.3% normoxic bed rest, 10 days, n=11); the regional lower-limb values that would qualify need the full text. Access failure, not absence - recoverable by interlibrary loan if the dataset ends up thin"
+scopus_01685,exclude,no_full_text,"ESA Special Publication conference paper; abstract reports the direction of muscle thickness change during 35-day bed rest but no values. Nothing extractable without the full text"
+wos_00657,exclude,no_full_text,"meeting abstract in a Physiology supplement; no abstract text and no full paper located. Treat as never having existed as a full report"
