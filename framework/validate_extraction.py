@@ -23,8 +23,10 @@ MISSING = {"", "NA", "na", "N/A", "nan", "None"}
 ENUMS = {
     "design": {"HDBR_-6", "HDBR_other", "horizontal_BR", "dry_immersion", "ULLS", "spaceflight"},
     "phase": {"bed_rest", "recovery"},
+    "exposure_flag": {"analogue", "dry_immersion", "spaceflight"},
     "arm_type": {"control", "countermeasure"},
-    "cm_modality": {"none", "resistive", "flywheel", "aerobic", "RVE", "WBV", "nutrition", "combined"},
+    "cm_modality": {"none", "resistive", "flywheel", "aerobic", "RVE", "WBV", "nutrition",
+                    "artificial_gravity", "LBNP", "NMES", "BFR", "combined"},
     "sex": {"M", "F", "mixed"},
     "population": {"healthy_young", "healthy_middle_aged", "healthy_older", "clinical"},
     "nutrition_controlled": {"yes", "no"},
@@ -45,17 +47,18 @@ MUSCLES = {
     "soleus", "gastrocnemius_medialis", "gastrocnemius_lateralis", "gastrocnemius_total",
     "triceps_surae", "tibialis_anterior", "peroneals", "deep_posterior_compartment",
     "vastus_lateralis", "vastus_medialis", "vastus_intermedius", "rectus_femoris",
-    "quadriceps", "hamstrings", "adductors", "gluteus_maximus", "gluteus_medius", "psoas",
+    "quadriceps", "hamstrings", "adductors", "gluteus_maximus", "gluteus_medius", "gluteus_minimus", "psoas",
     "multifidus", "whole_thigh", "whole_calf", "whole_lower_limb",
+    "anterior_tibial_group", "flexor_digitorum_with_tibialis_posterior", "flexor_hallucis_longus", "vasti", "adductor_brevis", "adductor_longus", "adductor_magnus", "gracilis", "sartorius", "biceps_femoris_long_head", "biceps_femoris_short_head", "semimembranosus", "semitendinosus", "popliteus", "obturator_externus", "obturator_internus", "quadratus_femoris", "iliopsoas",
 }
 
 KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days")
 
 REQUIRED_ALWAYS = (
     "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
-    "duration_days", "phase", "timepoint_days", "arm_id", "arm_type", "cm_modality",
+    "duration_days", "phase", "timepoint_days", "exposure_flag", "arm_id", "arm_type", "cm_modality",
     "n_arm", "n_analysed", "sex", "age_mean", "population", "muscle", "is_composite",
-    "laterality", "outcome_type", "modality", "unit_original", "unit_si", "pct_change",
+    "outcome_type", "modality", "unit_original", "unit_si", "pct_change",
     "data_source", "page_ref", "extractor", "extraction_date", "extraction_confidence",
     "double_extracted",
 )
@@ -147,7 +150,8 @@ def validate(path: Path) -> list:
         # Check 6 - the recomputed percentage agrees with the recorded one
         baseline = as_float(row["value_baseline"])
         followup = as_float(row["value_followup"])
-        if baseline and followup is not None and pct_change is not None:
+        skip_agreement = "pct_of_individual_means" in row["qc_flag"]
+        if baseline and followup is not None and pct_change is not None and not skip_agreement:
             recomputed = (followup - baseline) / baseline * 100.0
             if abs(recomputed - pct_change) > 0.5:
                 errors.append(

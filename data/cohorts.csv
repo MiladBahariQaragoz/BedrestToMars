@@ -1,10 +1,11 @@
 cohort_id,campaign_name,registry_id,site,design,duration_days,study_ids,verified,notes
 mcgill_hdbr14,McGill 14-day HDBR in older adults,NCT04964999,Research Institute of the McGill University Health Centre,HDBR_-6,14,dulac2024,yes,"Registry ID and design confirmed from the paper. Several sibling papers appear to report the same cohort (motor units; cognition; insulin resistance and alpha-klotho) - confirm by registry ID before adding any of them as separate studies"
 berlin_bedrest,Berlin BedRest Study,NA,Charite Universitaetsmedizin Berlin,HDBR_-6,56,belavy;miokovic,no,"resources/12.pdf 13.pdf 14.pdf almost certainly share this cohort. Confirm exact study_ids duration and participant overlap in P1"
-medes_ltbr90,Long-term 90-day bed rest (Toulouse),NA,MEDES Toulouse,HDBR_-6,90,alkner;belindechantemele,no,"resources/3.pdf and 7.pdf both describe 90-day campaigns and may trace to the same programme. Confirm before treating them as independent"
+medes_ltbr90,"Long Term Bed Rest (LTBR), MEDES Toulouse",NA,MEDES Toulouse,HDBR_-6,90,belavy2017;alkner,yes,"Confirmed from Belavy 2017 full text: 25 healthy men, 90 days 6 deg HDT, LTBR study at MEDES Toulouse, funded by ESA/CNES/NASDA. Alkner & Tesch (resources/7.pdf) describes the same 90-day campaign and almost certainly the same participants - treat as one cohort unless the papers prove otherwise"
 wise2005,WISE-2005 women's 60-day bed rest,NA,MEDES Toulouse,HDBR_-6,60,trappe,no,"resources/9.pdf. Confirm campaign name and duration"
 nasa_ames_hdbr30,NASA Ames 30-day HDBR,NA,NASA Ames Research Center,HDBR_-6,30,greenleaf,no,"resources/1.pdf NASA TM-4580. Confirm"
 nasa_br17wk,17-week bed rest,NA,NASA,horizontal_BR,119,leblanc,no,"resources/6.pdf. Confirm design and exact duration"
 karolinska_br35,5-week bed rest,NA,Karolinska Institutet,horizontal_BR,35,berg,no,"resources/8.pdf. Confirm site design and duration"
 wbv_hdt14,14-day 6 deg HDT with whole-body vibration,NA,TBC,HDBR_-6,14,zange,no,"resources/11 (2).pdf. Confirm site and whether it shares participants with any Berlin campaign"
 nijmegen_br18,18-day bed rest (Nijmegen),NA,Radboud University Nijmegen,horizontal_BR,18,bleeker;vanduijnhoven,no,"resources/4.pdf and 5.pdf. Vascular outcomes - context only unless muscle outcomes are found"
+agbresa,AGBRESA artificial gravity bed rest study,NA,DLR :envihab Cologne,HDBR_-6,60,tran2021,no,"60-day 6 deg HDT with continuous and intermittent artificial gravity arms. Registry ID not stated in the papers read so far - find it before treating any other 60-day AGBRESA paper as a separate cohort"
