@@ -4,7 +4,8 @@
 **Status:** v2.0 · Rewritten 2026-09-04 to match the schedule agreed by the team
 **Deliverable:** oral presentation, 10–15 min + Q&A, plus a written report
 **Team:** Falk — AI framework lead · Partner — scientific lead
-**Assumed presentation date:** 2026-10-02 — *placeholder; replace with the real date and shift every milestone by the same offset.*
+**Presentation:** 15 or 16 October 2026 — the organisers assign the exact day. **Upload deadline: 10 October 2026.**
+**The internal schedule below is deliberately unchanged.** It finishes on 2 October, eight days before the upload deadline; that gap is buffer and rehearsal time, not scope to be filled.
 
 ---
 
@@ -141,7 +142,7 @@ Everything in this phase is cheap now and expensive later.
 
 | # | Task | Owner | Output | Status |
 |---|---|---|---|---|
-| 0.1 | Confirm the real presentation date, session, time limit, upload deadline, and whether the talk is in German or English | Partner | One line in `README.md` | Open — 15 or 16 Oct, upload 10 Oct |
+| 0.1 | Confirm the real presentation date, session, time limit, upload deadline, and whether the talk is in German or English | Partner | One line in `README.md` | **Done** — 15/16 Oct, upload 10 Oct, recorded in `README.md`. Session, slot length and language ride along with the author instructions in 0.2 |
 | 0.2 | Read the DGLRM author instructions: slide format, aspect ratio, disclosure slide requirements | Partner | Checklist in `README.md` | Open — to be requested from the organisers |
 | 0.3 | Initialise the repository, create the four branches, write `.gitignore` and `README.md` | Falk | Repo pushed | **Done** |
 | 0.4 | Decide what is committed: `PLAN.md`, `resources/`, the dataset. Record the decision | Both | `README.md` | **Done** — `README.md` |

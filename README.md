@@ -23,7 +23,7 @@ DGLRM accepted abstract — oral presentation plus written report.
 
 | Item | Date | Status |
 |---|---|---|
-| Presentation | 15 or 16 October 2026 | To be confirmed with the organisers |
+| Presentation | 15 or 16 October 2026 | Confirmed by the team; the organisers assign which of the two days |
 | Submission / upload deadline | 10 October 2026 | Confirmed by the team |
 | Internal working schedule | as written in `PLAN.md` (P0 … P6) | Unchanged |
 
@@ -35,8 +35,7 @@ and treat everything after them as rehearsal and contingency.
 
 | # | Question | Owner | Status |
 |---|---|---|---|
-| 0.2 | DGLRM author instructions — slide format, aspect ratio, time limit, disclosure slide, presentation language | Partner | Will be requested from the organisers directly |
-| 0.1 | Exact presentation date and session | Partner | Open — 15 or 16 October |
+| 0.2 | DGLRM author instructions — slide format, aspect ratio, time limit, disclosure slide, presentation language, and which of the two days we are on | Partner | Will be requested from the organisers directly |
 
 ## Decisions log
 
