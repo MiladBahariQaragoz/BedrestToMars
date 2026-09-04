@@ -415,8 +415,10 @@ reconstructed afterwards.
 
 ## 6. Raw exports and the screening table
 
-**Raw exports go in `data/search/raw_exports/`**, named `<database>_<YYYY-MM-DD>.<ext>`, and
-are committed unmodified. They are the evidence that the counts are real, and they are small.
+**Raw exports live in `docs/literature-review/exports/`**, committed unmodified, exactly as
+the database produced them. They are the evidence that the counts are real. (The first batch
+arrived there rather than in `data/search/raw_exports/`; the folder that has the files is the
+folder that wins, and the merge script reads from it.)
 
 **Everything is then merged into one file: `data/search/screening.csv`**, with these columns:
 
@@ -501,3 +503,69 @@ studies enter the modelling set or stay as external validation, and whether dry 
 belongs on the same duration axis as bed rest or needs its own `design` term in the model.
 Both are P2 questions. Collect the studies either way; do not let the modelling question
 narrow the search.
+
+---
+
+## 10. Run log — 4 September 2026
+
+Four databases were searched and exported. **5731 records in, 3590 unique after
+deduplication.** Full counts in [`../../data/search/merge_report.md`](../../data/search/merge_report.md).
+
+| Database | Export file | Format | Records |
+|---|---|---|---|
+| PubMed | `exports/Pubmed.txt` | plain-text "Abstract (text)" | 1412 |
+| Scopus | `exports/Scopus.csv` | CSV with abstracts | 1757 |
+| Web of Science | `exports/WebOfScience1.xls`, `WebOfScience2.xls` | legacy BIFF `.xls`, 1000-record cap per file | 1876 |
+| NASA NTRS | `exports/NASA.csv` | CSV, JSON inside three of its columns | 686 |
+
+Merged by [`../../framework/merge_search_exports.py`](../../framework/merge_search_exports.py)
+into `data/search/screening.csv` (3590 unique rows, ready to screen) and
+`data/search/all_records.csv` (all 5731, duplicates marked with `duplicate_of` rather than
+deleted). Re-running the script is idempotent: `python framework/merge_search_exports.py`.
+
+### The PubMed problem, and how it was solved
+
+PubMed's CSV export contains no abstract, so the export is the plain-text *Abstract (text)*
+format — 3.8 MB of wrapped, human-readable records. It is parsed record by record. Three
+things in that format bite, and all three were found by checking the output rather than by
+trusting the parser:
+
+1. **A wrapped citation line looks exactly like a record header.** `... Epub 2019 Sep \n24.`
+   starts a line with a number and a dot, so a naive split cuts a record in half and shifts
+   every field of the next one by a paragraph. The split now requires a blank line before
+   the header, and any fragment that does not open with something citation-shaped is glued
+   back onto the record before it.
+2. **A record can open with a status banner** — `593. RETRACTED ARTICLE` — before its
+   citation. Those banners are now kept as a screening flag in `notes`. One retracted
+   article is flagged in this batch.
+3. **Some journal titles contain a year.** `J Appl Physiol (1985)` and
+   `Spine (Phila Pa 1976)` made 91 records look like they were published in 1985 or 1976.
+   Parenthesised years are stripped before the publication year is read.
+
+After the fixes: all 1412 PubMed records parsed, none missing a title, year or author list,
+42 with no abstract because PubMed holds none.
+
+### What the merged table looks like
+
+- **313 of 3590 records have no abstract** (mostly NASA presentations and conference items). They are screened on title alone, and the ones that survive go to full text.
+- **46 records carry a trial registry ID** in the abstract, extracted automatically into `registry_id`. That column is the seed of the cohort map.
+- **Overlap is smaller than expected:** 732 records were found by all three of PubMed, Scopus and Web of Science; 386 by Scopus and WoS; and NASA NTRS overlaps the others by exactly one record. Each database earned its place, and NTRS is very nearly disjoint from the rest.
+
+### The finding that matters most: every search was date-limited to 2013+
+
+Every one of the four exports starts at 2013. Nothing older is in any of them. That is a
+property of how the searches were run, not of the literature — and it is **the right half of
+the problem to have solved**, because 2013–2023 is exactly the decade the existing corpus is
+missing (`../screening_decisions.md` §5). The pre-2013 classics are already in `resources/`.
+
+Two consequences, both of which have to be handled rather than remembered:
+
+1. **The known-item test in `search_log.md` cannot be run as written**, since eight of its ten items are pre-2013. Of the two that can be checked, **Dulac 2024 was retrieved by PubMed, Scopus and Web of Science** — the queries do find the right kind of paper. Verify the remaining items by re-running one query without the date limit, or accept the limit and say so.
+2. **The report's methods section must state the date limit explicitly**, and the limitations section must say that pre-2013 coverage comes from a convenience corpus rather than a systematic search. That sentence costs nothing to write now and is very expensive to be caught without.
+
+### Outstanding — one thing only, and it needs the person who ran the searches
+
+**The four query strings are not recorded.** `search_log.md` has the slots; the queries have
+to be pasted in verbatim, with the filters that were applied. Without them the search is not
+reproducible and the PRISMA diagram cannot be defended. Everything else in this section was
+recovered from the exports themselves; a query string cannot be.

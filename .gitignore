@@ -28,3 +28,11 @@ build/
 .DS_Store
 Thumbs.db
 *.stackdump
+
+# Bulk database exports and the tables merged from them.
+# Scopus and Web of Science licence terms restrict redistributing exported records, and
+# this repository is public. The files live in the shared Drive folder instead; the counts
+# derived from them are committed. See docs/literature-review/PLAN.md section 10.
+docs/literature-review/exports/
+data/search/all_records.csv
+data/search/screening.csv
