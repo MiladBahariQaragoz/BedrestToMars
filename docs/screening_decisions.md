@@ -50,10 +50,15 @@ The file is a 24-page scan with no text layer. Rendered and read visually, it is
 
 **Design:** 14 days of 6° head-down tilt bed rest; 23 enrolled, 22 completed;
 11 control (5 female, age 58.4 ± 3.9, BMI 24.5 ± 2.4) and 11 exercise (6 female,
-age 58.4 ± 3.4, BMI 26.1 ± 1.5). Registered as **NCT04964999**. Leg muscle volume by MRI,
-measured at baseline, day 13 of bed rest, and day 6 of recovery. The countermeasure is
+age 58.4 ± 3.4, BMI 26.1 ± 1.5). Registered as **NCT04964999**. The countermeasure is
 three in-bed sessions per day totalling 60–62 minutes: HIIT, continuous and progressive
 aerobic training, and upper- and lower-body resistance training.
+
+**Measurement, in schema terms:** upper quadriceps volume from 3 T MRI of the **right**
+thigh (`laterality = right`, not `mean`), from axial slices located at 33% of the distance
+between the superior border of the acetabulum and the tibial plateau
+(`measurement_site = upper 33% of thigh`). Three occasions: day 1 baseline, day 13 of
+HDBR, day 6 of recovery — so this study contributes both `bed_rest` and `recovery` rows.
 
 **Why it matters more than a fifteenth data point:**
 
@@ -68,11 +73,15 @@ aerobic training, and upper- and lower-body resistance training.
 
 **Two consequences for the work:**
 
-1. **Replace the scan with a text-layer copy.** The article is open access and available
-   in full text at PMC12306415 and at the publisher. Download that version into
-   `resources/` and delete the scan; no OCR is needed. (`resources/` is gitignored, so
-   this is a local action, not a commit.)
-2. **The muscle volume values are in a figure (Fig. 2D), not a table.** They will be
+1. **No OCR was needed.** The article is open access, so the publisher's own full text was
+   fetched instead of running character recognition over a scan: it is now in
+   `resources/15_1_dulac2024_fulltext.xml` (Europe PMC, PMC12306415), searchable and with
+   all six tables intact. The scan stays for page references. Downloading the text-layer
+   PDF from the publisher is still worth five minutes, but nothing is blocked on it.
+   (`resources/` is gitignored, so these are local files, not commits.)
+2. **The muscle volume values are in a figure (Fig. 2D), not a table.** The full text
+   confirms it — Table 4 is baseline characteristics and every volume result lives in
+   Fig. 2. Those rows will be
    `data_source = figure_digitized`, double-extracted per the schema, and worth an email to
    the corresponding author asking for the underlying values — an open-access group with a
    registered trial is likely to answer, and printed values would upgrade the best cohort
