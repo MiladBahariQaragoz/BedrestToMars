@@ -712,7 +712,39 @@ A dozen of the 36 are near-misses rather than figure-only: the value is printed 
 text extraction mangled it, or the percentage is there and the group size is not. Those are
 minutes each with the paper open.
 
-**Still to extract by hand: 36 studies.** The queue is ordered
+### The partial table
+
+**29 rows from 12 of the 36 parked studies** were recovered anyway, into
+[`../../data/raw/extraction_partial.csv`](../../data/raw/extraction_partial.csv).
+
+Most papers that hide their results in figures still print one headline number, usually in
+the abstract: "calf muscle CSA decreased 26.6%", "total lumbar paraspinal CSA decreased
+10.9% in controls against 4.3% in exercisers". A percent change with a known duration,
+exposure and muscle is a usable row even when the group size or the baseline value is
+missing - and for the longest campaigns those headline numbers are the largest effects in
+the whole dataset.
+
+**They live in a separate file on purpose.** Every row carries `partial_record` in `qc_flag`
+plus a note naming exactly what is absent - `group_size_not_in_abstract`,
+`no_dispersion_in_abstract`, `sign_inferred_from_wording`, `female_arm_only`. The main table
+stays the one where every row has a full record behind it. Merging the two is a modelling
+decision for P2, not a default, and the flags make the sensitivity analysis trivial: fit
+with and without the partial rows and report both.
+
+What the partial table adds:
+
+- **Rittweger 2013** — calf muscle CSA down **26.6%** after 89 days, the largest single loss anywhere in the dataset, and it belongs to the MEDES LTBR cohort we already hold.
+- **PlanHab** — the hypoxia arms, at 10 and 21 days, showing bed rest under hypoxia costs more muscle than bed rest alone (−9.9% against −8.0% at ten days; −9.7% against −6.9% at twenty-one).
+- **WISE-2005 paraspinal muscles**, twice - the full paper and its conference abstract disagree slightly (10.9% against 12%), which is recorded rather than smoothed over.
+- **Two more spaceflight studies**, including the multifidus falling from 9.86 to 6.99 cm² at L5.
+- **Krainski and Cook**, giving quadriceps and plantar flexor losses for both a bed rest and a suspension model with countermeasure arms.
+
+**Twenty-four studies remain genuinely unreadable without digitising their figures.** Every
+one was checked twice - once against its abstract, once against its full text for a
+flattened results table - and neither yielded a number. That is the floor of what text
+mining can do here.
+
+**Still to extract by hand: 24 studies, all figure-only.** The queue is ordered
 in `included_studies.md`; the table-rich ones go fastest.
 
 ### Outstanding — one thing only, and it needs the person who ran the searches

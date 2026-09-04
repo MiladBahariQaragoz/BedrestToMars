@@ -47,7 +47,8 @@ top of the `maybe` set, recorded in `docs/literature-review/screen_decisions_*.c
 | Full texts assessed | 64 of 74 |
 | Excluded at full text | 11 |
 | Extracted into the dataset | 27 studies, 537 rows, 20 cohorts |
-| Held for figure digitisation | 36 |
+| Partially extracted (headline numbers only) | 12 studies, 29 rows |
+| Held for figure digitisation | 24 |
 | **Studies included** | pending full text |
 | of which **new** (not already in `resources/`) | pending |
 | **Distinct cohorts** in the modelling set | pending |

@@ -5,7 +5,8 @@ resume point: if work stops here, start again at the top of the pending table.
 
 - **27 extracted**, 537 rows in `data/raw/extraction_falk.csv`
 - **0 pending** with a full text on disk
-- 36 blocked because their numbers exist only in figures
+- **12 partially extracted** into `data/raw/extraction_partial.csv` - a headline number recovered, the rest still in figures
+- 24 blocked because their numbers exist only in figures
 - 1 have no full text on disk
 - 10 were excluded at full text and must not be re-read
 
@@ -29,6 +30,26 @@ If a paper turns out to have no usable numbers, it is a full-text exclusion: add
 | # | Year | Source | Record | Study |
 |---|---|---|---|---|
 
+## Partially extracted
+
+One or two numbers recovered from the abstract or results text; the full set
+still needs figure digitising. Rows are in `data/raw/extraction_partial.csv`.
+
+| Record | Study |
+|---|---|
+| `pubmed_00342` | Do females and males exhibit a similar sarcopenic response as a consequence of n |
+| `pubmed_00384` | Dietary feeding pattern does not modulate the loss of muscle mass or the decline |
+| `pubmed_00379` | Loss of maximal explosive power of lower limbs after 2 weeks of disuse and incom |
+| `scopus_01419` | Hypoxia aggravates inactivity-Related muscle wasting |
+| `pubmed_00310` | WISE 2005: Aerobic and resistive countermeasures prevent paraspinal muscle decon |
+| `scopus_01121` | Replacement of daily load attenuates but does not prevent changes to the musculo |
+| `pubmed_00250` | Changes in multifidus and abdominal muscle size in response to microgravity: pos |
+| `wos_00614` | WISE 2005: Aerobic and Resistive Exercises Protect Lumbar Paraspinal Lean Muscle |
+| `pubmed_00369` | The effect of rowing ergometry and resistive exercise on skeletal muscle structu |
+| `pubmed_00240` | Neuromuscular function following muscular unloading and blood flow restricted ex |
+| `pubmed_00216` | Short-term bed rest increases TLR4 and IL-6 expression in skeletal muscle of old |
+| `pubmed_00227` | Muscle X-ray attenuation is not decreased during experimental bed rest. |
+
 ## Blocked - values only in figures
 
 These need WebPlotDigitizer or a request to the corresponding author, so they
@@ -41,36 +62,24 @@ are not part of the ordinary extraction queue.
 | `scopus_00063` | Effect of resistive exercise combined with vibration on body composition and ene |
 | `pubmed_00360` | A multimodal exercise countermeasure prevents the negative impact of head-down t |
 | `scopus_00915` | Dynamics of Body Composition Indices and Biochemical Parameters in Participants  |
-| `pubmed_00342` | Do females and males exhibit a similar sarcopenic response as a consequence of n |
 | `scopus_00598` | Systemic redox biomarkers suggest non-redox mediated processes in the prevention |
 | `pubmed_00130` | Serum biomarkers that predict lean mass loss over bed rest in older adults: An e |
 | `pubmed_00249` | Effects of 21 days of bed rest and whey protein supplementation on plantar flexo |
 | `scopus_00738` | Disuse-Induced Muscle Loss and Rehabilitation: The National Aeronautics and Spac |
 | `pubmed_00047` | Countering disuse atrophy in older adults with low-volume leucine supplementatio |
 | `pubmed_00440` | Improving Dietary Protein Quality Reduces the Negative Effects of Physical Inact |
-| `pubmed_00384` | Dietary feeding pattern does not modulate the loss of muscle mass or the decline |
-| `pubmed_00379` | Loss of maximal explosive power of lower limbs after 2 weeks of disuse and incom |
-| `scopus_01419` | Hypoxia aggravates inactivity-Related muscle wasting |
 | `pubmed_00079` | Efficacy of Testosterone plus NASA Exercise Countermeasures during Head-Down Bed |
 | `pubmed_00337` | Neuromuscular Electrical Stimulation Combined with Protein Ingestion Preserves T |
 | `pubmed_00280` | Anabolic resistance assessed by oral stable isotope ingestion following bed rest |
-| `pubmed_00310` | WISE 2005: Aerobic and resistive countermeasures prevent paraspinal muscle decon |
 | `pubmed_00425` | Treadmill exercise within lower body negative pressure protects leg lean tissue  |
-| `scopus_01121` | Replacement of daily load attenuates but does not prevent changes to the musculo |
 | `pubmed_00109` | Leucine partially protects muscle mass and function during bed rest in middle-ag |
-| `pubmed_00250` | Changes in multifidus and abdominal muscle size in response to microgravity: pos |
 | `pubmed_00472` | Blood Flow Restricted Exercise Compared to High Load Resistance Exercise During  |
-| `wos_00614` | WISE 2005: Aerobic and Resistive Exercises Protect Lumbar Paraspinal Lean Muscle |
 | `pubmed_00416` | Maximal explosive power of the lower limbs before and after 35 days of bed rest  |
 | `pubmed_00100` | Bed rest promotes reductions in walking speed, functional parameters, and aerobi |
 | `pubmed_00386` | Age-related differences in lean mass, protein synthesis and skeletal muscle mark |
 | `pubmed_00095` | WISE-2005: Countermeasures to prevent muscle deconditioning during bed rest in w |
-| `pubmed_00369` | The effect of rowing ergometry and resistive exercise on skeletal muscle structu |
-| `pubmed_00240` | Neuromuscular function following muscular unloading and blood flow restricted ex |
 | `pubmed_00153` | Muscle atrophy, pain, and damage in bed rest reduced by resistive (vibration) ex |
 | `pubmed_00149` | Integrated resistance and aerobic exercise protects fitness during bed rest. |
-| `pubmed_00216` | Short-term bed rest increases TLR4 and IL-6 expression in skeletal muscle of old |
-| `pubmed_00227` | Muscle X-ray attenuation is not decreased during experimental bed rest. |
 | `pubmed_00362` | Effect of β-hydroxy-β-methylbutyrate (HMB) on lean body mass during 10 days of b |
 
 ## Extracted

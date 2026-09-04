@@ -20,6 +20,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCREENING = REPO_ROOT / "data" / "search" / "screening.csv"
 EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+PARTIAL = REPO_ROOT / "data" / "raw" / "extraction_partial.csv"
 FULLTEXT_DIR = REPO_ROOT / "resources" / "fulltext"
 DIGEST_DIR = REPO_ROOT / "data" / "search" / "fulltext_digests"
 QUEUE_MD = REPO_ROOT / "docs" / "literature-review" / "extraction_queue.md"
@@ -37,6 +38,11 @@ def main() -> int:
     screening = list(csv.DictReader(SCREENING.open(encoding="utf-8-sig")))
     extraction = list(csv.DictReader(EXTRACTION.open(encoding="utf-8-sig")))
 
+    partial = list(csv.DictReader(PARTIAL.open(encoding="utf-8-sig"))) if PARTIAL.exists() else []
+    partial_sources = {row["source_file"] for row in partial}
+    partial_ids = {row["record_id"] for row in screening
+                   if any(row["record_id"] in source for source in partial_sources)}
+
     sources = {row["source_file"] for row in extraction}
     done_ids = {row["record_id"] for row in screening
                 if any(row["record_id"] in source for source in sources)}
@@ -49,7 +55,7 @@ def main() -> int:
     included = [r for r in screening if r["screen_ta"] == "include" and r["screen_ft"] != "exclude"]
     excluded_ft = [r for r in screening if r["screen_ft"] == "exclude"]
 
-    done, pending, blocked, missing = [], [], [], []
+    done, pending, partially, blocked, missing = [], [], [], [], []
     for row in included:
         stem = safe_name(row)
         has_xml = (FULLTEXT_DIR / f"{stem}.xml").exists()
@@ -57,6 +63,10 @@ def main() -> int:
         entry = (row, "xml" if has_xml else ("pdf" if has_pdf else "-"))
         if row["record_id"] in done_ids:
             done.append(entry)
+        elif row["record_id"] in partial_ids:
+            # A headline number was recovered into the partial table; the rest of the paper
+            # still needs its figures digitising.
+            partially.append(entry)
         elif row["screen_ft"] == "maybe":
             # Values exist but only inside a figure: needs digitising or an email to the
             # authors, so it is not something the next extraction session can just pick up.
@@ -82,6 +92,8 @@ def main() -> int:
         f"- **{len(done)} extracted**, {sum(rows_by_study.values())} rows in "
         "`data/raw/extraction_falk.csv`",
         f"- **{len(pending)} pending** with a full text on disk",
+        f"- **{len(partially)} partially extracted** into "
+        "`data/raw/extraction_partial.csv` - a headline number recovered, the rest still in figures",
         f"- {len(blocked)} blocked because their numbers exist only in figures",
         f"- {len(missing)} have no full text on disk",
         f"- {len(excluded_ft)} were excluded at full text and must not be re-read",
@@ -110,6 +122,14 @@ def main() -> int:
         lines.append(f"| {index} | {row['year']} | {source} | `{row['record_id']}` | "
                      f"{row['title'][:78]} |")
 
+    if partially:
+        lines += ["", "## Partially extracted", "",
+                  "One or two numbers recovered from the abstract or results text; the full set",
+                  "still needs figure digitising. Rows are in `data/raw/extraction_partial.csv`.",
+                  "", "| Record | Study |", "|---|---|"]
+        for row, _source in partially:
+            lines.append(f"| `{row['record_id']}` | {row['title'][:80]} |")
+
     if blocked:
         lines += ["", "## Blocked - values only in figures", "",
                   "These need WebPlotDigitizer or a request to the corresponding author, so they",
@@ -129,8 +149,8 @@ def main() -> int:
             lines.append(f"| `{row['record_id']}` | {row['title'][:80]} |")
 
     QUEUE_MD.write_text("\n".join(lines), encoding="utf-8")
-    print(f"{len(done)} extracted, {len(pending)} pending, {len(blocked)} blocked, "
-          f"{len(missing)} without full text")
+    print(f"{len(done)} extracted, {len(partially)} partial, {len(pending)} pending, "
+          f"{len(blocked)} blocked, {len(missing)} without full text")
     for row, source in pending[:8]:
         print(f"  next: {source:4s} {row['record_id']:14s} {row['title'][:60]}")
     return 0

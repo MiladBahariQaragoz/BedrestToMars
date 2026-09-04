@@ -120,3 +120,26 @@ Mean percent change across unloading rows, muscles with at least four rows.
 These averages pool every duration and both control and countermeasure arms, so they
 are a sanity check and nothing more - a soleus row from day 89 of bed rest and one
 from day 5 are in the same column here. The real comparison is the model's job.
+
+## The partial table
+
+`data/raw/extraction_partial.csv` holds **29 rows from 12 studies** recovered from papers that never published a full
+set of numbers - usually a headline percentage in an abstract, with the group
+size or the baseline value missing. They are kept separate on purpose: every
+row carries `partial_record` in `qc_flag` plus a note saying what is absent,
+and merging the two files is a modelling decision rather than a default.
+
+| Study | Cohort | Rows | Confidence |
+|---|---|---|---|
+| `cavanagh2016` | `cavanagh_br84` | 2 | medium 2 |
+| `cook2014` | `cook_ulls30` | 4 | medium 4 |
+| `debevec2018` | `planhab_br21` | 2 | medium 2 |
+| `dirks2019` | `maastricht_br7_feeding` | 2 | medium 2 |
+| `drummond2013` | `drummond_br7` | 1 | low 1 |
+| `hides2016` | `iss_hides_astronauts` | 4 | low 4 |
+| `holt2015` | `wise2005` | 4 | low 4 |
+| `holt2016` | `wise2005` | 2 | medium 2 |
+| `krainski2014` | `krainski_hdbr35` | 4 | medium 4 |
+| `mekjavic2021` | `planhab_br10` | 2 | medium 2 |
+| `rejc2018` | `izola_br14` | 1 | low 1 |
+| `rittweger2013` | `medes_ltbr90` | 1 | medium 1 |

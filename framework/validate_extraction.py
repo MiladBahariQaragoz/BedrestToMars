@@ -2,6 +2,7 @@
 
 Usage:
     python framework/validate_extraction.py data/raw/extraction_partner.csv
+    python framework/validate_extraction.py data/raw/extraction_partial.csv --partial
 
 Exits non-zero if any check fails, so it can be wired into a pre-commit hook or `make`.
 The checks are section 7 of data/schema.md in executable form.
@@ -59,6 +60,17 @@ MUSCLES = {
 KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days",
               "outcome_type", "modality", "measurement_site")
 
+# The partial table holds rows recovered from papers that never published a full set of
+# numbers - a percent change with no group size, a figure-only study whose text gives one
+# summary value. Those rows are still worth having, so they are validated against a smaller
+# core and live in their own file rather than being forced into the main table.
+REQUIRED_PARTIAL = (
+    "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
+    "duration_days", "phase", "timepoint_days", "exposure_flag", "arm_id", "muscle",
+    "outcome_type", "modality", "pct_change", "data_source", "page_ref", "extractor",
+    "extraction_date", "extraction_confidence", "double_extracted", "qc_flag",
+)
+
 REQUIRED_ALWAYS = (
     "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
     "duration_days", "phase", "timepoint_days", "exposure_flag", "arm_id", "arm_type", "cm_modality",
@@ -98,8 +110,9 @@ def load_known_cohorts() -> set:
         return {row["cohort_id"].strip() for row in csv.DictReader(handle)}
 
 
-def validate(path: Path) -> list:
+def validate(path: Path, partial: bool = False) -> list:
     errors = []
+    required = REQUIRED_PARTIAL if partial else REQUIRED_ALWAYS
 
     with TEMPLATE_CSV.open(encoding="utf-8-sig", newline="") as handle:
         expected_columns = next(csv.reader(handle))
@@ -132,7 +145,7 @@ def validate(path: Path) -> list:
     for line_number, row in enumerate(rows, start=2):  # line 1 is the header
         where = f"line {line_number}"
 
-        for field in REQUIRED_ALWAYS:
+        for field in required:
             if is_missing(row[field]):
                 errors.append(f"{where}: required field '{field}' is empty")
 
@@ -154,7 +167,8 @@ def validate(path: Path) -> list:
 
         # Check 4b - some age information, whether a mean or a range, unless the paper
         # genuinely never published one (astronaut cohorts, where demographics are withheld)
-        if ("age_not_published" not in row["qc_flag"]
+        if (not partial
+                and "age_not_published" not in row["qc_flag"]
                 and is_missing(row["age_mean"])
                 and (is_missing(row["age_min"]) or is_missing(row["age_max"]))):
             errors.append(f"{where}: needs age_mean, or age_min and age_max - "
@@ -189,7 +203,7 @@ def validate(path: Path) -> list:
         # Check 8 - pct_female exactly when sex = mixed
         is_mixed = row["sex"].strip() == "mixed"
         has_pct_female = not is_missing(row["pct_female"])
-        if is_mixed and not has_pct_female:
+        if is_mixed and not has_pct_female and not partial:
             errors.append(f"{where}: sex = mixed requires pct_female")
         if not is_mixed and has_pct_female:
             errors.append(f"{where}: pct_female is only for mixed-sex arms")
@@ -217,14 +231,16 @@ def validate(path: Path) -> list:
 
 
 def main() -> int:
-    if len(sys.argv) < 2:
+    arguments = [a for a in sys.argv[1:] if a != "--partial"]
+    partial = "--partial" in sys.argv[1:]
+    if not arguments:
         print(__doc__)
         return 2
 
     exit_code = 0
-    for argument in sys.argv[1:]:
+    for argument in arguments:
         path = Path(argument)
-        errors = validate(path)
+        errors = validate(path, partial=partial or path.name.endswith("_partial.csv"))
         if errors:
             exit_code = 1
             print(f"FAIL {path} - {len(errors)} problem(s):")

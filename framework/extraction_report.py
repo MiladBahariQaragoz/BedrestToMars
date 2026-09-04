@@ -16,6 +16,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EXTRACTION = REPO_ROOT / "data" / "raw" / "extraction_falk.csv"
+PARTIAL = REPO_ROOT / "data" / "raw" / "extraction_partial.csv"
 REPORT = REPO_ROOT / "data" / "raw" / "extraction_report.md"
 
 csv.field_size_limit(10_000_000)
@@ -123,6 +124,31 @@ def main() -> int:
         "from day 5 are in the same column here. The real comparison is the model's job.",
         "",
     ]
+
+    if PARTIAL.exists():
+        partial = list(csv.DictReader(PARTIAL.open(encoding="utf-8-sig")))
+        if partial:
+            studies = sorted({r["study_id"] for r in partial})
+            lines += [
+                "## The partial table",
+                "",
+                f"`data/raw/extraction_partial.csv` holds **{len(partial)} rows from "
+                f"{len(studies)} studies** recovered from papers that never published a full",
+                "set of numbers - usually a headline percentage in an abstract, with the group",
+                "size or the baseline value missing. They are kept separate on purpose: every",
+                "row carries `partial_record` in `qc_flag` plus a note saying what is absent,",
+                "and merging the two files is a modelling decision rather than a default.",
+                "",
+                "| Study | Cohort | Rows | Confidence |",
+                "|---|---|---|---|",
+            ]
+            for study in studies:
+                study_rows = [r for r in partial if r["study_id"] == study]
+                confidence = Counter(r["extraction_confidence"] for r in study_rows)
+                lines.append(
+                    f"| `{study}` | `{study_rows[0]['cohort_id']}` | {len(study_rows)} | "
+                    f"{', '.join(f'{k} {v}' for k, v in confidence.most_common())} |")
+            lines.append("")
 
     REPORT.write_text("\n".join(lines), encoding="utf-8")
     print(f"wrote {REPORT.relative_to(REPO_ROOT)}: {len(rows)} rows, "
