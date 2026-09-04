@@ -57,7 +57,10 @@ def load_decisions(paths: list) -> dict:
                     raise SystemExit(f"{path}: '{reason}' is not one of the fixed exclusion codes ({record_id})")
                 if decision != "exclude" and reason:
                     raise SystemExit(f"{path}: {record_id} is '{decision}' but carries an exclusion reason")
-                decisions[record_id] = (decision, reason, row.get("note", "").strip(), Path(path).name, stage)
+                # Keyed by record *and* stage: a study screened at title/abstract and again at full
+                # text has two decisions, and neither may overwrite the other.
+                decisions[(record_id, stage)] = (decision, reason, row.get("note", "").strip(),
+                                                Path(path).name)
     return decisions
 
 
@@ -75,16 +78,17 @@ def main() -> int:
         rows = list(reader)
 
     by_id = {row["record_id"]: row for row in rows}
-    missing = sorted(set(decisions) - set(by_id))
+    missing = sorted({record for record, _stage in decisions} - set(by_id))
     if missing:
         raise SystemExit(f"{len(missing)} decided records are not in the screening table: {missing[:5]}")
 
     applied = Counter()
     today = date.today().isoformat()
-    for record_id, (decision, reason, note, source, stage) in decisions.items():
+    for (record_id, stage), (decision, reason, note, source) in decisions.items():
         row = by_id[record_id]
         row[stage] = decision
-        row["exclusion_reason"] = reason
+        if reason or stage == "screen_ta":
+            row["exclusion_reason"] = reason
         row["screener"] = "read_by_hand"
         row["screen_date"] = today
         if note:

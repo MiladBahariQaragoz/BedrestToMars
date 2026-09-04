@@ -10,6 +10,7 @@ The checks are section 7 of data/schema.md in executable form.
 from __future__ import annotations
 
 import csv
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -50,17 +51,18 @@ MUSCLES = {
     "quadriceps", "hamstrings", "adductors", "gluteus_maximus", "gluteus_medius", "gluteus_minimus", "psoas",
     "multifidus", "whole_thigh", "whole_calf", "whole_lower_limb",
     "anterior_thigh_compartment", "posterior_thigh_compartment",
-    "flexor_digitorum_longus", "tibialis_posterior",
+    "flexor_digitorum_longus", "tibialis_posterior", "lumbar_erector_spinae",
+    "quadratus_lumborum",
     "anterior_tibial_group", "flexor_digitorum_with_tibialis_posterior", "flexor_hallucis_longus", "vasti", "adductor_brevis", "adductor_longus", "adductor_magnus", "gracilis", "sartorius", "biceps_femoris_long_head", "biceps_femoris_short_head", "semimembranosus", "semitendinosus", "popliteus", "obturator_externus", "obturator_internus", "quadratus_femoris", "iliopsoas",
 }
 
 KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days",
-              "outcome_type", "modality")
+              "outcome_type", "modality", "measurement_site")
 
 REQUIRED_ALWAYS = (
     "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
     "duration_days", "phase", "timepoint_days", "exposure_flag", "arm_id", "arm_type", "cm_modality",
-    "n_arm", "n_analysed", "sex", "age_mean", "population", "muscle", "is_composite",
+    "n_arm", "n_analysed", "sex", "population", "muscle", "is_composite",
     "outcome_type", "modality", "unit_original", "unit_si", "pct_change",
     "data_source", "page_ref", "extractor", "extraction_date", "extraction_confidence",
     "double_extracted",
@@ -78,9 +80,15 @@ def as_float(value: str):
         return None
 
 
+def site_slug(site: str) -> str:
+    """A short, stable suffix so two sites on one muscle cannot collide in row_id."""
+    cleaned = re.sub(r"[^a-z0-9]+", "_", (site or "").lower()).strip("_")
+    return "" if cleaned in {"", "na"} else "__" + cleaned[:24]
+
+
 def expected_row_id(row: dict) -> str:
     return ("{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}"
-            "__{modality}_{outcome_type}").format(**row)
+            "__{modality}_{outcome_type}").format(**row) + site_slug(row.get("measurement_site", ""))
 
 
 def load_known_cohorts() -> set:
@@ -143,6 +151,11 @@ def validate(path: Path) -> list:
                 f"{where}: muscle '{muscle}' is not in the controlled vocabulary - "
                 "add it to data/schema.md first"
             )
+
+        # Check 4b - some age information, whether a mean or a range
+        if is_missing(row["age_mean"]) and (is_missing(row["age_min"]) or is_missing(row["age_max"])):
+            errors.append(f"{where}: needs age_mean, or age_min and age_max - "
+                          "several papers publish only an inclusion range")
 
         # Check 5 - pct_change present and sane
         pct_change = as_float(row["pct_change"])

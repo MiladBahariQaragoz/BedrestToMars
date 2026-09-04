@@ -27,13 +27,18 @@ for `value_baseline` and `value_followup` on every row *and* for separate baseli
 `pct_change` of zero, which is not a measurement — it would have silently pulled every
 model's fit towards the origin.
 
-**Primary key:** `study_id` + `arm_id` + `muscle` + `phase` + `timepoint_days` + `outcome_type` + `modality`.
-No two rows may share all seven.
+**Primary key:** `study_id` + `arm_id` + `muscle` + `phase` + `timepoint_days` + `outcome_type`
++ `modality` + `measurement_site`. No two rows may share all eight.
 
 The last two joined the key when Fuchs 2025 was extracted: it measures the *same* thigh in
 the *same* participants at the *same* timepoint by DXA, CT and MRI, and reports a different
 number each time. That is the study's whole point - it is the evidence behind the `modality`
 sensitivity analysis - so the key has to let one muscle carry one row per measurement method.
+
+`measurement_site` joined for the same reason one paper later: quadriceps CSA measured at
+20, 40, 60 and 80% of thigh length gives four different answers in the same leg on the same
+day, and the 20% site frequently shows no significant loss while the 60% site does. Collapsing
+them would average away the within-muscle heterogeneity that Miokovic's work is about.
 
 **`row_id` is generated, never typed:**
 `{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}__{modality}_{outcome_type}`
@@ -94,8 +99,14 @@ is a slide either way.
 | `n_analysed` | int | yes | Participants actually contributing *this* measurement. Often smaller. This is the N that any weighting uses |
 | `sex` | enum | yes | `M`, `F`, `mixed` |
 | `pct_female` | float | conditional | Required when `sex = mixed` |
-| `age_mean`, `age_sd` | float | yes / no | Years |
-| `age_min`, `age_max` | float | no | The inclusion range where the paper gives one |
+| `age_mean`, `age_sd` | float | see note | Years |
+| `age_min`, `age_max` | float | see note | The inclusion range where the paper gives one |
+
+**Age: a mean or a range, but never nothing.** Some papers publish only the inclusion
+range - Smeuninx 2021 and 2025 say "10 healthy older men aged 65-80" and never print a
+mean. The validator therefore asks for `age_mean` **or** both `age_min` and `age_max`.
+Inventing a midpoint would be imputation, and rule 1 forbids it.
+
 | `population` | enum | yes | `healthy_young`, `healthy_middle_aged`, `healthy_older`, `clinical` |
 | `bmi_mean` | float | no | kg/m² |
 | `body_mass_mean_kg` | float | no | Useful for normalising volumes |
@@ -164,7 +175,7 @@ the absolute values left `NA`.
 `gluteus_minimus`, `psoas`,
 `multifidus`, `whole_thigh`, `whole_calf`, `whole_lower_limb`,
 `anterior_thigh_compartment`, `posterior_thigh_compartment`, `flexor_digitorum_longus`,
-`tibialis_posterior`,
+`tibialis_posterior`, `lumbar_erector_spinae`, `quadratus_lumborum`,
 `anterior_tibial_group`, `flexor_digitorum_with_tibialis_posterior`, `flexor_hallucis_longus`, `vasti`, `adductor_brevis`, `adductor_longus`, `adductor_magnus`, `gracilis`, `sartorius`, `biceps_femoris_long_head`, `biceps_femoris_short_head`, `semimembranosus`, `semitendinosus`, `popliteus`, `obturator_externus`, `obturator_internus`, `quadratus_femoris`, `iliopsoas`.
 
 The second block was added when Belavy 2017 was extracted: it reports 24 individually segmented muscles, and collapsing them into groups would throw away exactly the muscle-identity resolution the talk's second claim rests on.

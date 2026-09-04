@@ -13,6 +13,7 @@ Anything typed here is `double_extracted = FALSE` until a second person checks i
 from __future__ import annotations
 
 import csv
+import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -27,8 +28,10 @@ def add(**fields):
     record = {column: "NA" for column in HEADER}
     record.update(extractor="falk", extraction_date="2026-09-04", double_extracted="FALSE")
     record.update(fields)
+    site = re.sub(r"[^a-z0-9]+", "_", (record.get("measurement_site") or "").lower()).strip("_")
+    suffix = "" if site in {"", "na"} else "__" + site[:24]
     record["row_id"] = ("{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}"
-                        "__{modality}_{outcome_type}").format(**record)
+                        "__{modality}_{outcome_type}").format(**record) + suffix
     ROWS.append(record)
 
 
@@ -176,6 +179,180 @@ for muscle, composite, loss, sd in ROGERS_VALUES:
         extra = dict(extraction_confidence="high")
     add(**{**ROGERS, **extra}, muscle=muscle, is_composite=composite,
         pct_change=str(-loss), variance_value=str(sd) if sd is not None else "NA")
+
+
+# --------------------------------------------- Smeuninx 2021 and 2025 (NCT04422665)
+# Two papers from one registered trial in Birmingham: 10 healthy older men, 5 days of bed
+# rest, unilateral leg exercise so each participant contributes a control leg and an
+# exercised leg. Quadriceps CSA by MRI at four sites along the thigh - the sites disagree
+# with each other, which is why measurement_site is part of the key.
+SMEUNINX = dict(
+    cohort_id="birmingham_br5_nct04422665",
+    campaign_name="5-day bed rest with unilateral leg exercise",
+    registry_id="NCT04422665", design="horizontal_BR", duration_days="5", phase="bed_rest",
+    timepoint_days="5", exposure_flag="analogue", n_arm="10", n_analysed="10", sex="M",
+    population="healthy_older", age_min="65", age_max="80", laterality="NA",
+    outcome_type="CSA", modality="MRI", unit_original="mm2", unit_si="cm2",
+    variance_of="baseline", variance_type="SD", data_source="table",
+    extraction_confidence="high",
+    qc_flag="laterality_unstated;within_participant_arms",
+    notes=("unilateral design: the two arms are the two legs of the same ten men, so they are "
+           "not independent and must never be treated as separate cohorts"),
+)
+SMEUNINX_STUDIES = [
+    ("smeuninx2025", "Smeuninx", "2025", "10.1113/jp285130",
+     "smeuninxb12025_pubmed_00421.xml", "Table 3",
+     "single bout of unilateral leg resistance exercise the evening before bed rest", [
+         ("quadriceps", "20% patella-trochanter", "ctrl", "control", "none", 4630, 4612, 594),
+         ("quadriceps", "40% patella-trochanter", "ctrl", "control", "none", 6607, 6533, 651),
+         ("quadriceps", "60% patella-trochanter", "ctrl", "control", "none", 7008, 6778, 749),
+         ("quadriceps", "80% patella-trochanter", "ctrl", "control", "none", 4993, 4869, 702),
+         ("quadriceps", "20% patella-trochanter", "ex", "countermeasure", "resistive", 4682, 4670, 630),
+         ("quadriceps", "40% patella-trochanter", "ex", "countermeasure", "resistive", 6804, 6775, 667),
+         ("quadriceps", "60% patella-trochanter", "ex", "countermeasure", "resistive", 7183, 7050, 704),
+         ("quadriceps", "80% patella-trochanter", "ex", "countermeasure", "resistive", 5116, 5023, 625),
+     ]),
+    ("smeuninx2021", "Smeuninx", "2021", "10.1002/jcsm.12661",
+     "smeuninxb12021_pubmed_00344.xml", "Table 3",
+     "four bouts of high-volume unilateral leg resistance training over the 7 days before bed rest", [
+         ("quadriceps", "20% patella-trochanter", "ctrl", "control", "none", 4770, 4760, 649),
+         ("quadriceps", "40% patella-trochanter", "ctrl", "control", "none", 6823, 6776, 677),
+         ("quadriceps", "60% patella-trochanter", "ctrl", "control", "none", 7168, 6917, 826),
+         ("quadriceps", "80% patella-trochanter", "ctrl", "control", "none", 5086, 4963, 759),
+         ("quadriceps", "20% patella-trochanter", "ex", "countermeasure", "resistive", 4787, 4774, 600),
+         ("quadriceps", "40% patella-trochanter", "ex", "countermeasure", "resistive", 6855, 6809, 692),
+         ("quadriceps", "60% patella-trochanter", "ex", "countermeasure", "resistive", 7260, 7040, 868),
+         ("quadriceps", "80% patella-trochanter", "ex", "countermeasure", "resistive", 5148, 5027, 679),
+         ("vastus_lateralis", "20% patella-trochanter", "ctrl", "control", "none", 1198, 1186, 145),
+         ("vastus_lateralis", "40% patella-trochanter", "ctrl", "control", "none", 1889, 1860, 193),
+         ("vastus_lateralis", "60% patella-trochanter", "ctrl", "control", "none", 2246, 2158, 338),
+         ("vastus_lateralis", "80% patella-trochanter", "ctrl", "control", "none", 1290, 1271, 266),
+         ("vastus_lateralis", "20% patella-trochanter", "ex", "countermeasure", "resistive", 1203, 1199, 116),
+         ("vastus_lateralis", "40% patella-trochanter", "ex", "countermeasure", "resistive", 1919, 1892, 184),
+         ("vastus_lateralis", "60% patella-trochanter", "ex", "countermeasure", "resistive", 2316, 2221, 300),
+         ("vastus_lateralis", "80% patella-trochanter", "ex", "countermeasure", "resistive", 1338, 1315, 202),
+     ]),
+]
+for study_id, author, year, doi, source, page, dose, values in SMEUNINX_STUDIES:
+    for muscle, site, arm_id, arm_type, cm, baseline, followup, sd in values:
+        pct = (followup - baseline) / baseline * 100
+        add(**SMEUNINX, study_id=study_id, first_author=author, year=year, doi=doi,
+            source_file=source, page_ref=page, muscle=muscle,
+            is_composite="TRUE" if muscle == "quadriceps" else "FALSE",
+            measurement_site=site, arm_id=arm_id, arm_type=arm_type, cm_modality=cm,
+            cm_dose=dose if arm_type == "countermeasure" else "NA",
+            value_baseline_original=str(baseline), value_followup_original=str(followup),
+            value_baseline=f"{baseline/100:g}", value_followup=f"{followup/100:g}",
+            change_absolute=f"{(followup - baseline)/100:g}", pct_change=f"{pct:.2f}",
+            variance_value=f"{sd/100:g}")
+
+
+# ------------------------------------------------------------------------ Mulder 2015
+# Eur J Appl Physiol 10.1007/s00421-014-3045-0. Crossover: the same 10 men completed all
+# three conditions, 5 days of 6 deg HDT each. Maximum CSA of the right limb by MRI at R+0.
+MULDER = dict(
+    study_id="mulder2015", cohort_id="dlr_hdt5_crossover",
+    campaign_name="5-day HDT crossover with locomotion replacement training",
+    first_author="Mulder", year="2015", doi="10.1007/s00421-014-3045-0",
+    source_file="muldere12015_pubmed_00193.xml", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="5", phase="bed_rest", timepoint_days="5", exposure_flag="analogue",
+    n_arm="10", n_analysed="10", sex="M", age_mean="29.4", age_sd="5.9",
+    population="healthy_young", body_mass_mean_kg="77.7", laterality="right",
+    measurement_site="maximum CSA", outcome_type="CSA", modality="MRI",
+    unit_original="mm2", unit_si="cm2", variance_of="baseline", variance_type="NA",
+    data_source="table", page_ref="Table 2", extraction_confidence="high",
+    qc_flag="variance_type_unstated;within_participant_arms",
+    notes=("crossover design - the same ten men completed all three conditions, so the arms "
+           "share participants entirely. The table gives no dispersion type; the values look "
+           "like standard errors but the paper does not say, so variance_type is left NA"),
+)
+MULDER_ARMS = {
+    "con": ("control", "none", "NA"),
+    "sta": ("countermeasure", "none", "25 min of upright standing daily"),
+    "lrt": ("countermeasure", "combined", "locomotion replacement training, 25 min daily"),
+}
+MULDER_VALUES = [
+    ("quadriceps", "TRUE", {"con": (7835, 7665, 227), "sta": (7875, 7669, 231),
+                            "lrt": (7785, 7856, 227)}),
+    ("triceps_surae", "TRUE", {"con": (5516, 5384, 164), "sta": (5578, 5409, 158),
+                               "lrt": (5430, 5464, 153)}),
+]
+for muscle, composite, arms in MULDER_VALUES:
+    for arm_id, (baseline, followup, sd) in arms.items():
+        arm_type, cm, dose = MULDER_ARMS[arm_id]
+        pct = (followup - baseline) / baseline * 100
+        add(**MULDER, muscle=muscle, is_composite=composite, arm_id=arm_id,
+            arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+            value_baseline_original=str(baseline), value_followup_original=str(followup),
+            value_baseline=f"{baseline/100:g}", value_followup=f"{followup/100:g}",
+            change_absolute=f"{(followup - baseline)/100:g}", pct_change=f"{pct:.2f}",
+            variance_value=f"{sd/100:g}")
+
+
+# ------------------------------------------------------------------------ Kramer 2017
+# Sci Rep 10.1038/s41598-017-13659-8. 60-day bed rest at DLR, jump training versus control,
+# DRKS00012946. The DXA follow-up is at recovery day 7, not the end of bed rest - a recovery
+# row, and mislabelling it would understate the loss.
+KRAMER = dict(
+    study_id="kramer2017", cohort_id="dlr_rsl_br60",
+    campaign_name="60-day bed rest with reactive jump training (DLR :envihab)",
+    registry_id="DRKS00012946", first_author="Kramer", year="2017",
+    doi="10.1038/s41598-017-13659-8", source_file="kramera12017_pubmed_00352.xml",
+    design="HDBR_-6", hdt_angle_deg="-6", duration_days="60", phase="recovery",
+    timepoint_days="67", days_from_unloading_end="7", exposure_flag="analogue",
+    sex="M", population="healthy_young", muscle="whole_lower_limb", is_composite="TRUE",
+    laterality="NA", outcome_type="lean_mass", modality="DXA", unit_original="kg",
+    unit_si="kg", variance_of="baseline", variance_type="SD", data_source="table",
+    page_ref="Table 1", extraction_confidence="high",
+    qc_flag="laterality_unstated;recovery_measurement",
+    notes=("DXA was performed at baseline and at recovery day 7, so this is a recovery row "
+           "and understates the loss present at the end of bed rest"),
+)
+for arm_id, arm_type, cm, dose, n, age, age_sd, baseline, followup, sd in [
+    ("jump", "countermeasure", "resistive",
+     "48 reactive jump training sessions in a sledge system", 12, 30, 7, 19.4, 19.3, 1.4),
+    ("ctrl", "control", "none", "NA", 11, 28, 6, 19.6, 18.6, 2.4),
+]:
+    pct = (followup - baseline) / baseline * 100
+    add(**KRAMER, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+        n_arm=str(n), n_analysed=str(n), age_mean=str(age), age_sd=str(age_sd),
+        value_baseline_original=str(baseline), value_followup_original=str(followup),
+        value_baseline=str(baseline), value_followup=str(followup),
+        change_absolute=f"{followup - baseline:.1f}", pct_change=f"{pct:.2f}",
+        variance_value=str(sd))
+
+
+# ------------------------------------------------------------- Hajj-Boutros 2023 (McGill)
+# 14 days of 6 deg HDT in adults aged 55-65, control versus a multimodal in-bed exercise
+# countermeasure. Same registered campaign as Dulac 2024 (NCT04964999), so it shares a
+# cohort_id: these are the same people measured for a different outcome.
+MCGILL = dict(
+    study_id="hajjboutros2023", cohort_id="mcgill_hdbr14",
+    campaign_name="McGill 14-day HDBR in older adults", registry_id="NCT04964999",
+    first_author="Hajj-Boutros", year="2023", doi="10.1159/000534063",
+    source_file="hajjboutrosg2023_pubmed_00024.xml", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="14", phase="bed_rest", timepoint_days="14", exposure_flag="analogue",
+    n_arm="11", n_analysed="11", sex="mixed", population="healthy_older",
+    muscle="whole_lower_limb", is_composite="TRUE", laterality="NA",
+    outcome_type="lean_mass", modality="DXA", unit_original="kg", unit_si="kg",
+    variance_of="baseline", variance_type="SD", data_source="table", page_ref="Table 2",
+    extraction_confidence="high", qc_flag="laterality_unstated",
+    notes=("leg lean mass by DXA; same participants as dulac2024, whose MRI muscle volumes "
+           "are only available as a figure"),
+)
+for arm_id, arm_type, cm, dose, pct_f, age, age_sd, bmi, baseline, followup, sd in [
+    ("ctrl", "control", "none", "NA", 45.5, 58.4, 3.9, 24.0, 16.9, 16.5, 4.3),
+    ("ex", "countermeasure", "combined",
+     "three in-bed sessions daily totalling 60-62 min: HIIT, continuous and progressive "
+     "aerobic, upper- and lower-body resistance", 54.5, 58.4, 3.4, 25.7, 17.8, 17.5, 4.0),
+]:
+    pct = (followup - baseline) / baseline * 100
+    add(**MCGILL, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+        pct_female=str(pct_f), age_mean=str(age), age_sd=str(age_sd), bmi_mean=str(bmi),
+        value_baseline_original=str(baseline), value_followup_original=str(followup),
+        value_baseline=str(baseline), value_followup=str(followup),
+        change_absolute=f"{followup - baseline:.1f}", pct_change=f"{pct:.2f}",
+        variance_value=str(sd))
 
 
 if __name__ == "__main__":

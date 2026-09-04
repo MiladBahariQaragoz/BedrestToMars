@@ -148,8 +148,10 @@ def parse() -> list:
                     notes=(f"baseline SD {baseline_sd} cm3; paper prints percentage change only, "
                            "so follow-up volume is left NA rather than back-calculated"),
                 )
+                site = re.sub(r"[^a-z0-9]+", "_", (record.get("measurement_site") or "").lower()).strip("_")
+                suffix = "" if site in {"", "na"} else "__" + site[:24]
                 record["row_id"] = ("{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}"
-                                    "__{modality}_{outcome_type}").format(**record)
+                                    "__{modality}_{outcome_type}").format(**record) + suffix
                 rows.append(record)
     return rows
 

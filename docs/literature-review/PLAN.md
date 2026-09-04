@@ -642,6 +642,52 @@ Six studies are still missing and are listed with save-as filenames in
 [`fulltext_todo.md`](fulltext_todo.md). Two of them are conference abstracts that may never
 exist as a full paper - if so, they are `no_full_text` exclusions, not gaps.
 
+### Extraction, first batches
+
+**426 rows from 11 studies across 9 cohorts and 39 muscles**, all passing the schema
+validator. Regenerated summary: [`../../data/raw/extraction_report.md`](../../data/raw/extraction_report.md).
+
+Two ways of getting numbers out, chosen per paper:
+
+- **A parser per paper** where the results are a large table — `belavy2017_ltbr.py` (24
+  muscles x 2 arms x 6 timepoints = 288 rows) and `demartino2022_agbresa_spine.py` (4
+  lumbopelvic muscles x up to 5 disc levels x 2 arms x 2 timepoints = 72 rows). Typed by
+  hand these would be two days of work and a dozen silent transcription errors; parsed, the
+  mistakes are systematic and therefore findable.
+- **`typed_rows.py`** for papers whose numbers live in prose or a small table, one block per
+  study with the table or page it came from.
+
+Both write into `data/raw/extraction_falk.csv` and both are idempotent: re-running replaces
+that study's rows, so a correction is an edit and a re-run rather than a hunt through the CSV.
+
+**What the data already shows.** Ranking mean percent change across unloading rows puts
+soleus (-20.3%), medial gastrocnemius (-18.3%) and peroneals (-17.3%) at the top and
+multifidus (-6.3%) at the bottom. That is the talk's second claim appearing in our own
+numbers rather than being quoted from someone else's paper.
+
+**Four schema corrections, each forced by a real paper rather than by taste:**
+
+| Change | The paper that forced it |
+|---|---|
+| `outcome_type` and `modality` joined the primary key | Fuchs 2025 measures the same thighs by DXA, CT and MRI on the same day and gets three different answers |
+| `measurement_site` joined the key too | Smeuninx measures quadriceps CSA at 20, 40, 60 and 80% of thigh length; the 20% site shows no loss while the 60% site does |
+| Age may be a mean **or** a range | Smeuninx reports "10 healthy older men aged 65-80" and never prints a mean; inventing a midpoint would be imputation |
+| Percent change printed by a paper is kept, flagged, not corrected | It is the mean of individual changes, which is not the change of the means - they differ by 2.5 percentage points in Tran's gluteus medius |
+
+**Cohorts proven, not guessed.** Three cases where two papers turned out to be one cohort:
+Belavy 2017 and Alkner & Tesch are both the MEDES Toulouse LTBR campaign; Smeuninx 2021 and
+2025 share registry NCT04422665; De Martino 2022 is the same 24 AGBRESA participants as
+Tran 2021, regrouped for the reconditioning phase. Each is recorded in `data/cohorts.csv`
+with the evidence.
+
+**Two studies fell at full text**, both for the same reason and both consistent with the
+rule set in P0: their only muscle outcomes were whole-body lean mass and limb circumference.
+Anthropometry is not a muscle measurement, and the second of them derives "volume" from
+circumference squared, which is a calculation rather than an observation.
+
+**Still to extract: 58 of the 69 studies that passed title/abstract.** The queue is ordered
+in `included_studies.md`; the table-rich ones go fastest.
+
 ### Outstanding — one thing only, and it needs the person who ran the searches
 
 **The four query strings are not recorded.** `search_log.md` has the slots; the queries have

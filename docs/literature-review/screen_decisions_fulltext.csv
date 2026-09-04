@@ -3,3 +3,13 @@ pubmed_00039,include,,"full text not accessible, but the abstract prints a 3.2 +
 pubmed_00800,exclude,no_full_text,"abstract prints whole-body lean mass only (-3.8% hypoxic bed rest, -4.3% normoxic bed rest, 10 days, n=11); the regional lower-limb values that would qualify need the full text. Access failure, not absence - recoverable by interlibrary loan if the dataset ends up thin"
 scopus_01685,exclude,no_full_text,"ESA Special Publication conference paper; abstract reports the direction of muscle thickness change during 35-day bed rest but no values. Nothing extractable without the full text"
 wos_00657,exclude,no_full_text,"meeting abstract in a Physiology supplement; no abstract text and no full paper located. Treat as never having existed as a full report"
+scopus_00954,exclude,no_muscle_outcome,"60-day bed rest in women with a high-protein diet, but the only body-composition outcome is whole-body lean mass by DXA; the leg-specific numbers in its tables belong to other people's studies. Same rule that excluded Debevec"
+scopus_00787,exclude,no_muscle_outcome,"90-day HDBR with running and resistance arms, but muscle outcomes are thigh and calf circumference plus whole-body lean mass. The paper estimates volume from circumference squared, which is a derivation and not a measurement - anthropometry is excluded by PLAN.md section 2"
+pubmed_00421,include,,extracted - quadriceps CSA at four thigh sites in both legs
+pubmed_00344,include,,extracted - quadriceps and vastus lateralis CSA at four thigh sites in both legs
+pubmed_00193,include,,extracted - knee extensor and plantar flexor maximum CSA in three crossover conditions
+pubmed_00352,include,,extracted - DXA leg lean mass at recovery day 7
+pubmed_00155,include,,extracted - the same thighs by DXA CT and MRI
+pubmed_00026,include,,extracted - 17 individually segmented muscles in eight women
+scopus_00673,include,,extracted - three gluteal muscles in three artificial-gravity arms
+scopus_01130,include,,extracted - 24 muscles at two bed-rest and four recovery timepoints
