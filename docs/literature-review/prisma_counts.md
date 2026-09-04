@@ -31,34 +31,54 @@ are counted on their own line in the flow diagram rather than folded into the nu
 
 ## Screening
 
+Title/abstract screening ran on 2026-09-04 in two stages: a deterministic triage against the
+§2 criteria (`framework/triage_screening.py`), then a human read of the priority set and the
+top of the `maybe` set, recorded in `docs/literature-review/screen_decisions_*.csv`.
+
 | Step | Records |
 |---|---|
-| Excluded at title/abstract | |
-| Full texts sought | |
-| Full texts not retrievable | |
-| Full texts assessed | |
-| Excluded at full text | |
-| **Studies included** | |
-| of which **new** (not already in `resources/`) | |
-| **Distinct cohorts** in the modelling set | |
+| Records screened | 3590 |
+| Excluded at title/abstract | 2493 |
+| **Included at title/abstract** | **74** |
+| Still to screen | 1023 |
+| Full texts sought | 0 — next step |
+| Full texts assessed | 0 |
+| Excluded at full text | 0 |
+| **Studies included** | pending full text |
+| of which **new** (not already in `resources/`) | pending |
+| **Distinct cohorts** in the modelling set | pending |
 
-## Exclusions at full text, by reason
+The 1023 records still to screen are the remainder of the `maybe` bucket plus 80 priority
+records that need a full text before a call can be made. They are not excluded and must not
+be reported as such.
+
+## Exclusions at title/abstract, by reason
 
 Codes are the fixed list in `PLAN.md` §2. These are the numbers an audience asks about.
 
 | Reason | Count |
 |---|---|
-| `not_human` | |
-| `not_unloading_model` | |
-| `duration_too_short` | |
-| `no_muscle_outcome` | |
-| `upper_limb_only` | |
-| `no_baseline_or_followup` | |
-| `disease_causes_wasting` | |
-| `review_or_editorial` | |
-| `duplicate_report` | |
-| `no_full_text` | |
-| `language` | |
+| `not_unloading_model` | 1048 |
+| `no_muscle_outcome` | 830 |
+| `review_or_editorial` | 346 |
+| `not_human` | 252 |
+| `disease_causes_wasting` | 12 |
+| `duration_too_short` | 5 |
+| `upper_limb_only` | 0 |
+| `no_baseline_or_followup` | 0 |
+| `duplicate_report` | 0 |
+| `no_full_text` | 0 |
+| `language` | 0 |
+| **Total** | **2493** |
+
+481 of the `no_muscle_outcome` exclusions are real unloading campaigns that reported
+something other than muscle — gait, motor units, cardiovascular. They contribute no rows,
+but they identify campaigns, and they are kept as `campaign_lead` in the triage column for
+building `data/cohorts.csv`.
+
+## Exclusions at full text, by reason
+
+To be filled during full-text screening. Same fixed code list.
 
 ## The two numbers that go on a slide
 
