@@ -819,6 +819,37 @@ for muscle, site, values in [
             pct_change=str(pct), variance_value=str(sd))
 
 
+# ------------------------------------------------------------------ McDonnell 2019 (LunHab)
+# Exp Physiol 10.1113/EP087473. Eleven men completed three ten-day arms in a crossover:
+# normoxic bed rest, hypoxic bed rest, and hypoxic ambulatory confinement. Only the two bed
+# rest arms are unloading; the ambulatory arm is the control for hypoxia, not for unloading,
+# so it is deliberately not extracted.
+LUNHAB = dict(
+    study_id="mcdonnell2019", cohort_id="lunhab_br10",
+    campaign_name="LunHab 10-day bed rest and hypoxia crossover",
+    first_author="McDonnell", year="2019", doi="10.1113/ep087482",
+    source_file="mcdonnellac12019_pubmed_00348.pdf", design="horizontal_BR",
+    duration_days="10", phase="bed_rest", timepoint_days="10", exposure_flag="analogue",
+    n_arm="11", n_analysed="11", sex="M", age_min="20", age_max="45",
+    population="healthy_young", is_composite="TRUE", laterality="NA",
+    outcome_type="lean_mass", modality="DXA", unit_original="%", unit_si="pct_only",
+    variance_of="change", variance_type="SD", data_source="text", page_ref="Results, Table 2",
+    extraction_confidence="high",
+    qc_flag="laterality_unstated;within_participant_arms;age_range_not_mean",
+    notes=("crossover: the same eleven men completed every arm, so the arms share "
+           "participants entirely. The hypoxic ambulatory arm is not an unloading exposure "
+           "and is not extracted"),
+)
+for arm_id, arm_type, dose, muscle, pct, sd in [
+    ("nbr", "control", "NA", "whole_calf", -4.0, 6.1),
+    ("nbr", "control", "NA", "whole_thigh", -3.7, 2.3),
+    ("hbr", "control", "normobaric hypoxia during bed rest", "whole_calf", -4.9, 7.9),
+    ("hbr", "control", "normobaric hypoxia during bed rest", "whole_thigh", -3.8, 5.6),
+]:
+    add(**LUNHAB, arm_id=arm_id, arm_type=arm_type, cm_modality="none", cm_dose=dose,
+        muscle=muscle, pct_change=str(pct), variance_value=str(sd))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))

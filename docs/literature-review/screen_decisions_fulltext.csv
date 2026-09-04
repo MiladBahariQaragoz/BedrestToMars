@@ -38,3 +38,5 @@ pubmed_00662,include,,extracted - one quadriceps CSA row from the discussion tex
 scopus_01121,maybe,,"84-day bed rest with individualised exercise: muscle volume change is described in the text but the values are in a figure; the tables carry strength only"
 pubmed_00880,include,,extracted - four hamstring muscles plus the group pooled
 pubmed_00343,include,,extracted - lumbar multifidus and erector spinae in three AGBRESA arms
+pubmed_00900,maybe,,"5-day dry immersion, NCT03915457. The only lower-limb outcome is quadriceps MRI CSA reported as a change in pixel count with the baseline in a figure; DXA results are whole-body. Would be the dataset's first dry immersion rows if digitised"
+pubmed_00348,include,,extracted - calf and thigh lean mass in the normoxic and hypoxic bed rest arms

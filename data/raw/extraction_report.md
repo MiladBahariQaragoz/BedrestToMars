@@ -2,8 +2,8 @@
 
 Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 
-- **507 rows** across **24 studies** and **16 cohorts**
-- **263** rows measured during unloading, 244 during recovery
+- **511 rows** across **25 studies** and **17 cohorts**
+- **267** rows measured during unloading, 244 during recovery
 - **43 distinct muscles**
 - Every row is `double_extracted = FALSE`: 0 have been checked by a second person
 
@@ -27,6 +27,7 @@ Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 | `fuchs2025` | `maastricht_br14` | horizontal_BR | 14 | 5 | 4 | 1 |
 | `franchi2022` | `izola_br10` | horizontal_BR | 10 | 5 | 5 | 1 |
 | `simunic2026` | `izola_br10` | horizontal_BR | 10 | 4 | 4 | 1 |
+| `mcdonnell2019` | `lunhab_br10` | horizontal_BR | 10 | 4 | 2 | 2 |
 | `arbeille2024` | `brace_br60` | HDBR_-6 | 60 | 3 | 1 | 3 |
 | `kramer2017` | `dlr_rsl_br60` | HDBR_-6 | 60 | 2 | 1 | 2 |
 | `hajjboutros2023` | `mcgill_hdbr14` | HDBR_-6 | 14 | 2 | 1 | 2 |
@@ -55,7 +56,7 @@ These are the reason validation is grouped by cohort rather than by paper.
 |---|---|
 | 5 | 42 |
 | 7 | 1 |
-| 10 | 10 |
+| 10 | 14 |
 | 14 | 9 |
 | 21 | 2 |
 | 60 | 90 |
@@ -64,10 +65,10 @@ These are the reason validation is grouped by cohort rather than by paper.
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 462, DXA 19, CT 14, ultrasound 12
-- **Outcome:** volume 432, CSA 45, lean_mass 19, thickness 11
-- **Source:** table 470, text 37
-- **Confidence:** high 497, medium 7, low 3
+- **Modality:** MRI 462, DXA 23, CT 14, ultrasound 12
+- **Outcome:** volume 432, CSA 45, lean_mass 23, thickness 11
+- **Source:** table 470, text 41
+- **Confidence:** high 501, medium 7, low 3
 
 ## The most and least affected muscles so far
 
@@ -99,8 +100,8 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `adductor_longus` | 5 | -5.0 |
 | `gracilis` | 5 | -4.9 |
 | `rectus_femoris` | 5 | -4.9 |
-| `whole_thigh` | 10 | -4.2 |
 | `adductor_brevis` | 4 | -4.1 |
+| `whole_thigh` | 12 | -4.1 |
 | `iliopsoas` | 4 | -4.0 |
 | `quadriceps` | 28 | -3.8 |
 | `whole_lower_limb` | 9 | -3.4 |
