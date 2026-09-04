@@ -753,6 +753,72 @@ ULLS = dict(
 add(**ULLS)
 
 
+# ------------------------------------------------------------------- Franchi 2022 (hamstrings)
+# Med Sci Sports Exerc 10.1249/MSS.0000000000002922. Ten days of horizontal bed rest, MRI
+# volumes of the four hamstring muscles plus the group pooled. The interesting part is how
+# small the losses are: the hamstrings are flexors, and they lose 2-4% where the soleus
+# loses 15% over a comparable period.
+FRANCHI = dict(
+    study_id="franchi2022", cohort_id="izola_br10", campaign_name="10-day horizontal bed rest",
+    first_author="Franchi", year="2022", doi="10.1249/mss.0000000000002922",
+    source_file="franchimv2022_pubmed_00880.pdf", design="horizontal_BR", duration_days="10",
+    phase="bed_rest", timepoint_days="10", exposure_flag="analogue", arm_id="ctrl",
+    arm_type="control", cm_modality="none", n_arm="12", n_analysed="12", sex="M",
+    age_mean="23", age_sd="5", population="healthy_young", laterality="NA",
+    measurement_site="whole muscle", outcome_type="volume", modality="MRI",
+    unit_original="%", unit_si="pct_only", variance_of="change", variance_type="CI95",
+    data_source="text", page_ref="Results, muscle volume paragraph",
+    extraction_confidence="high", qc_flag="laterality_unstated",
+    notes=("percent changes printed in the Results text with Hedges g and 95% confidence "
+           "intervals; the variance field holds the CI half-width"),
+)
+for muscle, composite, pct, low, high in [
+    ("biceps_femoris_long_head", "FALSE", -3.53, -0.68, 1.076),
+    ("biceps_femoris_short_head", "FALSE", -3.54, -0.72, 1.03),
+    ("semitendinosus", "FALSE", -2.63, -0.75, 1.01),
+    ("semimembranosus", "FALSE", -2.01, -0.75, 1.01),
+    ("hamstrings", "TRUE", -2.78, -0.69, 1.06),
+]:
+    add(**FRANCHI, muscle=muscle, is_composite=composite, pct_change=str(pct),
+        variance_value=f"{(high - low) / 2:.2f}")
+
+
+# --------------------------------------------------------- De Martino 2021 (AGBRESA lumbar)
+# J Appl Physiol 10.1152/japplphysiol.00990.2020. The same AGBRESA campaign as tran2021 and
+# demartino2022, this time during bed rest rather than reconditioning, and it prints the
+# registry number the earlier papers did not: DRKS00015677.
+DEMARTINO21 = dict(
+    study_id="demartino2021", cohort_id="agbresa", campaign_name="AGBRESA",
+    registry_id="DRKS00015677", first_author="De Martino", year="2021",
+    doi="10.1152/japplphysiol.00990.2020", source_file="demartinoe12021_pubmed_00343.pdf",
+    design="HDBR_-6", hdt_angle_deg="-6", duration_days="60", phase="bed_rest",
+    timepoint_days="59", exposure_flag="analogue", n_arm="8", n_analysed="8", sex="mixed",
+    pct_female="33.3", age_mean="33", population="healthy_young", is_composite="FALSE",
+    laterality="NA", outcome_type="volume", modality="MRI", unit_original="%",
+    unit_si="pct_only", variance_of="change", variance_type="SD", data_source="text",
+    page_ref="Results", extraction_confidence="high",
+    qc_flag="laterality_unstated;shared_cohort_with_tran2021",
+    notes=("same AGBRESA participants as tran2021 and demartino2022; the lumbar erector "
+           "spinae grows at L5/S1 while the multifidus shrinks, which is why both are kept"),
+)
+DEMARTINO21_ARMS = {
+    "ctrl": ("control", "none", "NA"),
+    "cag": ("countermeasure", "artificial_gravity", "30 min continuous centrifugation daily"),
+    "iag": ("countermeasure", "artificial_gravity", "6 x 5 min intermittent centrifugation daily"),
+}
+for muscle, site, values in [
+    ("multifidus", "all lumbar levels averaged",
+     {"ctrl": (-6.49, 3.52), "cag": (-5.77, 3.91), "iag": (-6.11, 3.47)}),
+    ("lumbar_erector_spinae", "L5/S1 intervertebral disc level",
+     {"ctrl": (7.94, 11.98), "cag": (7.53, 8.40), "iag": (9.71, 8.60)}),
+]:
+    for arm_id, (pct, sd) in values.items():
+        arm_type, cm, dose = DEMARTINO21_ARMS[arm_id]
+        add(**DEMARTINO21, muscle=muscle, measurement_site=site, arm_id=arm_id,
+            arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+            pct_change=str(pct), variance_value=str(sd))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))
