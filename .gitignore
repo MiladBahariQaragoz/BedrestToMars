@@ -1,0 +1,30 @@
+# Source PDFs — copyrighted publisher material, kept out of the repository.
+# The reference list and the extraction table are the shareable artefacts.
+resources/
+
+# Raw dataset spreadsheets — inclusion decision still open (see README.md)
+*.xlsx
+*.xls
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.stackdump
