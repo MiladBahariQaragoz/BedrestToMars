@@ -152,8 +152,11 @@ def validate(path: Path) -> list:
                 "add it to data/schema.md first"
             )
 
-        # Check 4b - some age information, whether a mean or a range
-        if is_missing(row["age_mean"]) and (is_missing(row["age_min"]) or is_missing(row["age_max"])):
+        # Check 4b - some age information, whether a mean or a range, unless the paper
+        # genuinely never published one (astronaut cohorts, where demographics are withheld)
+        if ("age_not_published" not in row["qc_flag"]
+                and is_missing(row["age_mean"])
+                and (is_missing(row["age_min"]) or is_missing(row["age_max"]))):
             errors.append(f"{where}: needs age_mean, or age_min and age_max - "
                           "several papers publish only an inclusion range")
 

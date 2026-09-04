@@ -102,10 +102,13 @@ is a slide either way.
 | `age_mean`, `age_sd` | float | see note | Years |
 | `age_min`, `age_max` | float | see note | The inclusion range where the paper gives one |
 
-**Age: a mean or a range, but never nothing.** Some papers publish only the inclusion
+**Age: a mean or a range, but never nothing - with one exception.** Some papers publish only the inclusion
 range - Smeuninx 2021 and 2025 say "10 healthy older men aged 65-80" and never print a
 mean. The validator therefore asks for `age_mean` **or** both `age_min` and `age_max`.
 Inventing a midpoint would be imputation, and rule 1 forbids it.
+The exception is astronaut cohorts: crew demographics are routinely withheld, so a row
+carrying `qc_flag = age_not_published` may leave all three age fields `NA`. Filling them
+with a plausible range would be inventing data about identifiable people.
 
 | `population` | enum | yes | `healthy_young`, `healthy_middle_aged`, `healthy_older`, `clinical` |
 | `bmi_mean` | float | no | kg/m² |

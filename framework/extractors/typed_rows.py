@@ -851,7 +851,7 @@ for arm_id, arm_type, dose, muscle, pct, sd in [
 
 
 # ----------------------------------------------------------------------- Pisot 2016
-# J Appl Physiol 10.1152/japplphysiol.00393.2016. Fourteen days of bed rest in seven young
+# J Appl Physiol 10.1152/japplphysiol.00858.2015. Fourteen days of bed rest in seven young
 # men and sixteen older men, quadriceps volume of the right leg by MRI. One of the few
 # direct age contrasts in the dataset, and the older men lose about half again as much.
 PISOT = dict(
@@ -874,6 +874,42 @@ for arm_id, population, age_min, age_max, n, baseline, pct, sd in [
     add(**PISOT, arm_id=arm_id, population=population, age_min=age_min, age_max=age_max,
         n_arm=str(n), n_analysed=str(n), value_baseline_original=str(baseline),
         value_baseline=str(baseline), pct_change=str(pct), variance_value=str(sd))
+
+
+# ------------------------------------------------------------------------ Hides 2021
+# Spine J 10.1016/j.spinee.2020.09.006. Lumbar multifidus CSA by MRI before flight and on
+# return day 1, for astronauts after six-month ISS missions. Real spaceflight, so
+# exposure_flag = spaceflight, and every row is a recovery measurement because the first
+# scan happens after landing.
+HIDES = dict(
+    study_id="hides2021", cohort_id="iss_hides_astronauts",
+    campaign_name="ISS long-duration missions (Hides series)", first_author="Hides",
+    year="2021", doi="10.1016/j.spinee.2020.09.006",
+    source_file="hidesja12021_pubmed_00935.pdf", design="spaceflight", duration_days="180",
+    phase="recovery", timepoint_days="181", days_from_unloading_end="1",
+    exposure_flag="spaceflight", arm_id="ctrl", arm_type="control", cm_modality="none",
+    n_arm="6", n_analysed="6", sex="mixed", pct_female="20.0",
+    population="healthy_middle_aged", muscle="multifidus", is_composite="FALSE",
+    laterality="mean", outcome_type="CSA", modality="MRI", unit_original="cm2",
+    unit_si="cm2", variance_of="baseline", variance_type="SD", data_source="table",
+    page_ref="Table of astronaut means", extraction_confidence="medium",
+    qc_flag="spaceflight_exposure;recovery_measurement;n_inconsistent_in_paper;age_not_published",
+    notes=("the results table says six astronauts over eight missions while the methods text "
+           "says five astronauts over seven - n follows the table that carries these values. "
+           "Age is not published for astronaut cohorts and is left NA rather than "
+           "guessed; the sex split follows the methods text, which describes five "
+           "astronauts, four male. Return-day-one scan, so losses are already partly recovered"),
+)
+for level, baseline, followup, sd in [
+    ("L2", 3.26, 3.47, 0.72), ("L3", 5.22, 4.56, 1.02),
+    ("L4", 8.00, 7.51, 1.12), ("L5", 10.07, 9.03, 1.41),
+]:
+    pct = (followup - baseline) / baseline * 100
+    add(**HIDES, measurement_site=f"{level} vertebral level",
+        value_baseline_original=str(baseline), value_followup_original=str(followup),
+        value_baseline=str(baseline), value_followup=str(followup),
+        change_absolute=f"{followup - baseline:.2f}", pct_change=f"{pct:.2f}",
+        variance_value=str(sd))
 
 
 if __name__ == "__main__":

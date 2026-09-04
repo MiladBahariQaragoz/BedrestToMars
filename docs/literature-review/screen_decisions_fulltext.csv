@@ -42,3 +42,5 @@ pubmed_00900,maybe,,"5-day dry immersion, NCT03915457. The only lower-limb outco
 pubmed_00348,include,,extracted - calf and thigh lean mass in the normoxic and hypoxic bed rest arms
 scopus_00063,maybe,,"21-day MNX bedrest with resistive vibration exercise: the paper reports body composition and energy balance, and the muscle results in the text are strength rather than size. Check the DXA tables for a leg-specific lean mass before deciding"
 pubmed_00392,include,,extracted - quadriceps volume in young and older men
+pubmed_00935,include,,extracted - lumbar multifidus CSA at four levels after six-month missions
+pubmed_00250,maybe,,"Hides 2016, same astronaut series: reports a 29% multifidus CSA decrease at L5 from 9.86 to 6.99 cm2, but the crew size and mission durations are not stated in the text, and both are required fields. Recoverable if the companion paper supplies them"

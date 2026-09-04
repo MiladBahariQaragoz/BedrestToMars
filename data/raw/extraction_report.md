@@ -2,8 +2,8 @@
 
 Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 
-- **513 rows** across **26 studies** and **18 cohorts**
-- **269** rows measured during unloading, 244 during recovery
+- **517 rows** across **27 studies** and **19 cohorts**
+- **269** rows measured during unloading, 248 during recovery
 - **43 distinct muscles**
 - Every row is `double_extracted = FALSE`: 0 have been checked by a second person
 
@@ -28,6 +28,7 @@ Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 | `franchi2022` | `izola_br10` | horizontal_BR | 10 | 5 | 5 | 1 |
 | `simunic2026` | `izola_br10` | horizontal_BR | 10 | 4 | 4 | 1 |
 | `mcdonnell2019` | `lunhab_br10` | horizontal_BR | 10 | 4 | 2 | 2 |
+| `hides2021` | `iss_hides_astronauts` | spaceflight | 180 | 4 | 1 | 1 |
 | `arbeille2024` | `brace_br60` | HDBR_-6 | 60 | 3 | 1 | 3 |
 | `kramer2017` | `dlr_rsl_br60` | HDBR_-6 | 60 | 2 | 1 | 2 |
 | `hajjboutros2023` | `mcgill_hdbr14` | HDBR_-6 | 14 | 2 | 1 | 2 |
@@ -66,10 +67,10 @@ These are the reason validation is grouped by cohort rather than by paper.
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 464, DXA 23, CT 14, ultrasound 12
-- **Outcome:** volume 434, CSA 45, lean_mass 23, thickness 11
-- **Source:** table 470, text 43
-- **Confidence:** high 503, medium 7, low 3
+- **Modality:** MRI 468, DXA 23, CT 14, ultrasound 12
+- **Outcome:** volume 434, CSA 49, lean_mass 23, thickness 11
+- **Source:** table 474, text 43
+- **Confidence:** high 503, medium 11, low 3
 
 ## The most and least affected muscles so far
 
