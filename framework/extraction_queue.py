@@ -49,7 +49,7 @@ def main() -> int:
     included = [r for r in screening if r["screen_ta"] == "include" and r["screen_ft"] != "exclude"]
     excluded_ft = [r for r in screening if r["screen_ft"] == "exclude"]
 
-    done, pending, missing = [], [], []
+    done, pending, blocked, missing = [], [], [], []
     for row in included:
         stem = safe_name(row)
         has_xml = (FULLTEXT_DIR / f"{stem}.xml").exists()
@@ -57,6 +57,10 @@ def main() -> int:
         entry = (row, "xml" if has_xml else ("pdf" if has_pdf else "-"))
         if row["record_id"] in done_ids:
             done.append(entry)
+        elif row["screen_ft"] == "maybe":
+            # Values exist but only inside a figure: needs digitising or an email to the
+            # authors, so it is not something the next extraction session can just pick up.
+            blocked.append(entry)
         elif has_xml or has_pdf:
             pending.append(entry)
         else:
@@ -78,6 +82,7 @@ def main() -> int:
         f"- **{len(done)} extracted**, {sum(rows_by_study.values())} rows in "
         "`data/raw/extraction_falk.csv`",
         f"- **{len(pending)} pending** with a full text on disk",
+        f"- {len(blocked)} blocked because their numbers exist only in figures",
         f"- {len(missing)} have no full text on disk",
         f"- {len(excluded_ft)} were excluded at full text and must not be re-read",
         "",
@@ -105,6 +110,14 @@ def main() -> int:
         lines.append(f"| {index} | {row['year']} | {source} | `{row['record_id']}` | "
                      f"{row['title'][:78]} |")
 
+    if blocked:
+        lines += ["", "## Blocked - values only in figures", "",
+                  "These need WebPlotDigitizer or a request to the corresponding author, so they",
+                  "are not part of the ordinary extraction queue.", "",
+                  "| Record | Study |", "|---|---|"]
+        for row, _source in blocked:
+            lines.append(f"| `{row['record_id']}` | {row['title'][:80]} |")
+
     lines += ["", "## Extracted", "", "| Study | Record | Rows |", "|---|---|---|"]
     for row, _source in sorted(done, key=lambda entry: entry[0]["year"], reverse=True):
         study = study_for.get(row["record_id"], "?")
@@ -116,7 +129,8 @@ def main() -> int:
             lines.append(f"| `{row['record_id']}` | {row['title'][:80]} |")
 
     QUEUE_MD.write_text("\n".join(lines), encoding="utf-8")
-    print(f"{len(done)} extracted, {len(pending)} pending, {len(missing)} without full text")
+    print(f"{len(done)} extracted, {len(pending)} pending, {len(blocked)} blocked, "
+          f"{len(missing)} without full text")
     for row, source in pending[:8]:
         print(f"  next: {source:4s} {row['record_id']:14s} {row['title'][:60]}")
     return 0

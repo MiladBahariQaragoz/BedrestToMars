@@ -23,3 +23,15 @@ pubmed_00866,exclude,duration_too_short,"Shur 2024: three days of bed rest, belo
 scopus_01419,maybe,,"Hypoxia and inactivity: baseline thigh and calf CSA by pQCT are in Table 1 but the changes are only in Figure 2. Extractable by digitising the figure, not from the text"
 pubmed_00189,include,,extracted - leg lean mass, mid-thigh lean mass and vastus lateralis thickness in young and old
 scopus_00458,include,,extracted - vastus intermedius thickness in three BRACE arms
+pubmed_00360,maybe,,"Dulac 2024: quadriceps muscle volume by MRI at baseline, HDBR day 13 and recovery day 6, but every value is in Figure 2D. Needs figure digitisation or a request to the corresponding author - the same conclusion reached in P0"
+pubmed_00268,exclude,no_muscle_outcome,"Plasma proteome study; the only size outcome is median fibre CSA from biopsies, which is histology rather than a muscle-level measurement"
+scopus_00694,exclude,no_baseline_or_followup,"Methodological paper pooling eight bed rest campaigns to partition measurement uncertainty from true individual response. Reports variance components in percent-squared, not changes, so no row can be built. Keep the citation: its measurement uncertainty for pQCT muscle CSA (0.73-2.95 %^2) belongs in the report's uncertainty discussion"
+scopus_00973,exclude,no_muscle_outcome,"Fetuin-A biomarker study on the DLR RSL jump cohort already represented by kramer2017. Body composition is whole-body lean mass only, with no lower-limb breakdown"
+pubmed_00249,maybe,,"Plantar flexor CSA by pQCT exists but only in Figure 1a; the tables are lifted weights and cardiopulmonary variables. Needs digitising"
+scopus_00738,maybe,,"NASA bed rest rehabilitation study: all muscle size changes are in Figures 1 and 2, no tables at all. Needs digitising"
+pubmed_00425,maybe,,"Twin study with LBNP treadmill: leg lean mass is in Figure 3; the tables carry strength and inference only. Needs digitising"
+pubmed_00243,maybe,,"Multifidus CSA time course is in figures; the only percentages in the text are variance explained by the regression model"
+pubmed_00152,include,,extracted - quadriceps and triceps surae volumes in women and men
+pubmed_00293,include,,extracted - quadriceps triceps surae and soleus volumes in three SPRINT arms
+pubmed_00194,include,,extracted - calf and thigh lean mass medians
+pubmed_00662,include,,extracted - one quadriceps CSA row from the discussion text

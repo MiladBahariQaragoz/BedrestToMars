@@ -629,6 +629,130 @@ for arm_id, arm_type, cm, dose, pct, sd in [
         pct_change=str(pct), variance_value=str(sd))
 
 
+# ------------------------------------------------------------------ Trappe 2023 (sex)
+# J Appl Physiol. Quadriceps and triceps surae volumes by MRI in 8 women over 2 months and
+# 9 men over 3 months of 6 deg head-down tilt. The paper states the data were reported
+# previously in separate publications, so the women are almost certainly the same cohort
+# Rogers 2025 reports - flagged rather than merged, because "almost certainly" is not proof.
+TRAPPE = dict(
+    study_id="trappe2023", first_author="Trappe", year="2023",
+    doi="10.1152/japplphysiol.00412.2023", source_file="trappeta12023_pubmed_00152.pdf",
+    design="HDBR_-6", hdt_angle_deg="-6", exposure_flag="analogue",
+    arm_type="control", cm_modality="none", phase="bed_rest", population="healthy_young",
+    is_composite="TRUE", laterality="NA", outcome_type="volume", modality="MRI",
+    unit_original="cm3", unit_si="cm3", variance_of="baseline", variance_type="SE",
+    data_source="table", page_ref="Table 2", extraction_confidence="high",
+    qc_flag="laterality_unstated;possible_cohort_overlap",
+    notes=("values are means with standard errors, not SDs; the paper says these data were "
+           "reported previously in separate publications, so the women likely overlap "
+           "rogers2025 and the men may overlap another Toulouse campaign"),
+)
+# (sex, cohort, n, age, age_se, muscle, baseline, {timepoint: (value, sd)})
+TRAPPE_VALUES = [
+    ("F", "medes_women_br60", 8, 34, 1, "quadriceps", 716, 39, {29: (596, 32), 57: (564, 31)}, 60),
+    ("F", "medes_women_br60", 8, 34, 1, "triceps_surae", 374, 15, {29: (307, 13), 57: (266, 10)}, 60),
+    ("M", "medes_ltbr90", 9, 32, 1, "quadriceps", 973, 47, {29: (879, 42), 89: (793, 39)}, 90),
+    ("M", "medes_ltbr90", 9, 32, 1, "triceps_surae", 494, 33, {29: (415, 24), 89: (350, 18)}, 90),
+]
+for sex, cohort, n, age, age_se, muscle, baseline, baseline_sd, timepoints, duration in TRAPPE_VALUES:
+    for day, (followup, sd) in timepoints.items():
+        pct = (followup - baseline) / baseline * 100
+        # Women and men are separate groups measured on the same day, so the arm id has
+        # to carry the sex or the two collide in the primary key.
+        add(**TRAPPE, cohort_id=cohort, arm_id="ctrl_women" if sex == "F" else "ctrl_men",
+            sex=sex, n_arm=str(n), n_analysed=str(n),
+            age_mean=str(age), age_sd=str(age_se), duration_days=str(duration),
+            timepoint_days=str(day), muscle=muscle,
+            value_baseline_original=str(baseline), value_followup_original=str(followup),
+            value_baseline=str(baseline), value_followup=str(followup),
+            change_absolute=str(followup - baseline), pct_change=f"{pct:.2f}",
+            variance_value=str(baseline_sd))
+
+
+# ------------------------------------------------------------- Trappe 2024 (NASA SPRINT)
+# J Appl Physiol 10.1152/japplphysiol.00489.2023. 70 days of bed rest with three arms:
+# bed rest alone, bed rest with the SPRINT resistance and aerobic programme, and the same
+# plus testosterone. Quadriceps, triceps surae and soleus volumes by MRI at day 70.
+SPRINT = dict(
+    study_id="trappe2024sprint", cohort_id="nasa_sprint_br70",
+    campaign_name="NASA SPRINT 70-day bed rest", first_author="Trappe", year="2024",
+    doi="10.1152/japplphysiol.00489.2023", source_file="trappeta12024_pubmed_00293.pdf",
+    design="HDBR_-6", hdt_angle_deg="-6", duration_days="70", phase="bed_rest",
+    timepoint_days="70", exposure_flag="analogue", sex="M", population="healthy_young",
+    laterality="NA", outcome_type="volume", modality="MRI",
+    unit_original="cm3", unit_si="cm3", variance_of="baseline", variance_type="SD",
+    data_source="table", page_ref="Table 1", extraction_confidence="high",
+    qc_flag="laterality_unstated",
+    notes=("the paper prints the change as an unsigned magnitude; percent change here is "
+           "recomputed from the pre and post means, which also recovers its sign - the two "
+           "exercise arms gained quadriceps volume"),
+)
+SPRINT_ARMS = {
+    "br": ("control", "none", "NA", 9, 37, 8),
+    "bre": ("countermeasure", "combined", "SPRINT resistance and aerobic exercise", 9, 34, 5),
+    "bre_t": ("countermeasure", "combined", "SPRINT exercise plus testosterone", 8, 33, 10),
+}
+SPRINT_VALUES = [
+    ("quadriceps", "TRUE", {"br": (928, 841, 242), "bre": (944, 969, 151), "bre_t": (1001, 1043, 238)}),
+    ("triceps_surae", "TRUE", {"br": (375, 287, 129), "bre": (383, 355, 76), "bre_t": (355, 330, 85)}),
+    ("soleus", "FALSE", {"br": (243, 185, 79), "bre": (241, 219, 44), "bre_t": (224, 204, 68)}),
+]
+for muscle, composite, arms in SPRINT_VALUES:
+    for arm_id, (baseline, followup, sd) in arms.items():
+        arm_type, cm, dose, n, age, age_sd = SPRINT_ARMS[arm_id]
+        pct = (followup - baseline) / baseline * 100
+        add(**SPRINT, muscle=muscle, is_composite=composite, arm_id=arm_id,
+            arm_type=arm_type, cm_modality=cm, cm_dose=dose, n_arm=str(n), n_analysed=str(n),
+            age_mean=str(age), age_sd=str(age_sd),
+            value_baseline_original=str(baseline), value_followup_original=str(followup),
+            value_baseline=str(baseline), value_followup=str(followup),
+            change_absolute=str(followup - baseline), pct_change=f"{pct:.2f}",
+            variance_value=str(sd))
+
+
+# ------------------------------------------------------------------------ Orlova 2026
+# J Physiol 10.1113/JP290722. Three weeks of head-down bed rest in 12 men aged 24-40, with
+# lean mass reported separately for calf and thigh as medians with interquartile ranges.
+ORLOVA = dict(
+    study_id="orlova2026", cohort_id="imbp_br21", campaign_name="3-week head-down bed rest",
+    first_author="Orlova", year="2026", doi="10.1113/jp290722",
+    source_file="orlovama12026_pubmed_00194.pdf", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="21", phase="bed_rest", timepoint_days="21", exposure_flag="analogue",
+    arm_id="ctrl", arm_type="control", cm_modality="none", n_arm="12", n_analysed="12",
+    sex="M", age_min="24", age_max="40", population="healthy_young", is_composite="TRUE",
+    laterality="NA", outcome_type="lean_mass", modality="DXA", unit_original="%",
+    unit_si="pct_only", variance_of="change", variance_type="IQR", data_source="text",
+    page_ref="Results, muscle function paragraph", extraction_confidence="high",
+    qc_flag="laterality_unstated;median_not_mean",
+    notes=("medians with interquartile ranges; the paper reports a greater loss in the calf "
+           "than the thigh, which is the muscle-specificity result in miniature"),
+)
+for muscle, pct, low, high in [("whole_calf", -6.0, 4.0, 8.0), ("whole_thigh", -4.5, 0.2, 6.7)]:
+    add(**{**ORLOVA, "notes": ORLOVA["notes"] + f"; interquartile range {low} to {high}%"},
+        muscle=muscle, pct_change=str(pct), variance_value=f"{high - low:.1f}")
+
+
+# ------------------------------------------------------------------------ Sarto-type ULLS
+# 10 days of unilateral lower limb suspension; quadriceps CSA by extended-field-of-view
+# ultrasound, averaged over 30, 50 and 70% of femur length. The only size number the paper
+# prints in text is the 4.5% loss.
+ULLS = dict(
+    study_id="ulls2022", cohort_id="padova_ulls10", campaign_name="10-day ULLS",
+    first_author="Sarto", year="2022", doi="10.1113/jp283381",
+    source_file="sartof12022_pubmed_00662.xml", design="ULLS", duration_days="10", phase="bed_rest",
+    timepoint_days="10", exposure_flag="analogue", arm_id="ulls", arm_type="control",
+    cm_modality="none", n_arm="11", n_analysed="11", sex="M", age_min="18", age_max="40",
+    population="healthy_young", muscle="quadriceps", is_composite="TRUE", laterality="NA",
+    measurement_site="mean of 30, 50 and 70% femur length", outcome_type="CSA",
+    modality="ultrasound", unit_original="%", unit_si="pct_only", pct_change="-4.5",
+    data_source="text", page_ref="Discussion", extraction_confidence="medium",
+    qc_flag="laterality_unstated;variance_type_unstated",
+    notes=("only the summary percentage is given in the text; the per-site values are in a "
+           "figure. Suspended limb only - the contralateral limb is not a bed rest control"),
+)
+add(**ULLS)
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))
