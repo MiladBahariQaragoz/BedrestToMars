@@ -44,9 +44,10 @@ top of the `maybe` set, recorded in `docs/literature-review/screen_decisions_*.c
 | Full texts sought | 74 |
 | Full texts retrieved | 70 — 30 as machine-readable XML, 40 as PDF |
 | Full texts not retrievable | 4 — 2 paywalled, 2 exist only as conference abstracts |
-| Full texts assessed | 14 of 74 so far |
-| Excluded at full text | 5 — 3 `no_full_text`, 2 `no_muscle_outcome` |
-| Extracted into the dataset | 11 studies, 426 rows |
+| Full texts assessed | 64 of 74 |
+| Excluded at full text | 11 |
+| Extracted into the dataset | 27 studies, 537 rows, 20 cohorts |
+| Held for figure digitisation | 36 |
 | **Studies included** | pending full text |
 | of which **new** (not already in `resources/`) | pending |
 | **Distinct cohorts** in the modelling set | pending |

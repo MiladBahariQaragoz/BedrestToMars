@@ -2,9 +2,9 @@
 
 Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 
-- **517 rows** across **27 studies** and **19 cohorts**
-- **269** rows measured during unloading, 248 during recovery
-- **43 distinct muscles**
+- **537 rows** across **28 studies** and **20 cohorts**
+- **289** rows measured during unloading, 248 during recovery
+- **44 distinct muscles**
 - Every row is `double_extracted = FALSE`: 0 have been checked by a second person
 
 ## By study
@@ -13,6 +13,7 @@ Generated 2026-09-04 from `data/raw/extraction_falk.csv`.
 |---|---|---|---|---|---|---|
 | `belavy2017` | `medes_ltbr90` | HDBR_-6 | 90 | 288 | 24 | 2 |
 | `demartino2022` | `agbresa` | HDBR_-6 | 60 | 72 | 4 | 2 |
+| `liphardt2020` | `liphardt_br21` | HDBR_-6 | 21 | 20 | 4 | 1 |
 | `rogers2025` | `medes_women_br60` | HDBR_-6 | 60 | 17 | 17 | 1 |
 | `smeuninx2021` | `birmingham_br5_nct04422665` | horizontal_BR | 5 | 16 | 2 | 2 |
 | `mandic2026` | `brace_br60` | HDBR_-6 | 60 | 15 | 3 | 3 |
@@ -60,17 +61,17 @@ These are the reason validation is grouped by cohort rather than by paper.
 | 7 | 1 |
 | 10 | 14 |
 | 14 | 11 |
-| 21 | 2 |
+| 21 | 22 |
 | 60 | 90 |
 | 70 | 9 |
 | 90 | 100 |
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 468, DXA 23, CT 14, ultrasound 12
-- **Outcome:** volume 434, CSA 49, lean_mass 23, thickness 11
-- **Source:** table 474, text 43
-- **Confidence:** high 503, medium 11, low 3
+- **Modality:** MRI 488, DXA 23, CT 14, ultrasound 12
+- **Outcome:** volume 434, CSA 69, lean_mass 23, thickness 11
+- **Source:** table 494, text 43
+- **Confidence:** high 523, medium 11, low 3
 
 ## The most and least affected muscles so far
 
@@ -81,6 +82,7 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `soleus` | 8 | -18.0 |
 | `peroneals` | 5 | -17.3 |
 | `gastrocnemius_lateralis` | 5 | -15.8 |
+| `vastus_medialis` | 5 | -15.1 |
 | `gastrocnemius_medialis` | 6 | -14.5 |
 | `triceps_surae` | 10 | -13.5 |
 | `semimembranosus` | 6 | -13.4 |
@@ -95,20 +97,21 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `adductor_magnus` | 5 | -9.0 |
 | `anterior_thigh_compartment` | 7 | -8.2 |
 | `semitendinosus` | 6 | -7.4 |
+| `vastus_intermedius` | 8 | -6.6 |
 | `posterior_thigh_compartment` | 7 | -6.3 |
 | `multifidus` | 13 | -6.2 |
 | `biceps_femoris_short_head` | 6 | -5.8 |
 | `gluteus_maximus` | 7 | -5.7 |
 | `adductor_longus` | 5 | -5.0 |
 | `gracilis` | 5 | -4.9 |
-| `rectus_femoris` | 5 | -4.9 |
+| `vastus_lateralis` | 18 | -4.7 |
+| `rectus_femoris` | 10 | -4.6 |
 | `adductor_brevis` | 4 | -4.1 |
 | `whole_thigh` | 12 | -4.1 |
 | `iliopsoas` | 4 | -4.0 |
 | `quadriceps` | 30 | -4.0 |
 | `whole_lower_limb` | 9 | -3.4 |
 | `popliteus` | 4 | -3.3 |
-| `vastus_lateralis` | 13 | -2.1 |
 | `lumbar_erector_spinae` | 13 | -1.7 |
 | `obturator_externus` | 4 | +0.5 |
 | `psoas` | 10 | +1.9 |

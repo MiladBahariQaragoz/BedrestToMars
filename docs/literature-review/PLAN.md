@@ -685,7 +685,34 @@ rule set in P0: their only muscle outcomes were whole-body lean mass and limb ci
 Anthropometry is not a muscle measurement, and the second of them derives "volume" from
 circumference squared, which is a calculation rather than an observation.
 
-**Still to extract: 58 of the 69 studies that passed title/abstract.** The queue is ordered
+**Extraction run, 4 September: 27 studies extracted, 537 rows, 20 cohorts.** The queue is
+now empty of papers that can be extracted from their text; what remains is 36 studies whose
+muscle numbers exist only inside figures, plus one with no full text.
+
+That ratio is the finding of the run. Roughly half of this literature does not print its
+muscle outcomes as numbers at all - the values live in a bar chart, and the text says
+"decreased significantly" beside a figure reference. Every one of the 36 is recorded in
+`screen_decisions_fulltext.csv` with what was found and what is missing, so none of them is
+a mystery to whoever picks them up.
+
+Three routes out, and they are a decision for the team rather than for a script:
+
+1. **Digitise the figures.** WebPlotDigitizer on a bar chart with visible error bars is
+   about ten minutes per paper, and the schema already carries `data_source =
+   figure_digitized` plus a `digitizer_tool` field for exactly this. Thirty-six papers is
+   roughly a day and a half of work, and it would roughly double the dataset.
+2. **Write to the authors.** Slower, better data, and for the open-access groups with
+   registered trials the odds are decent. Worth doing for the handful that matter most -
+   Dulac, the WISE-2005 pair, the 89-day Rittweger paper.
+3. **Stop here and say so.** 537 rows from 27 studies and 20 cohorts is already a real
+   dataset, and the limitation is honest: "we extracted every study that published its
+   numbers as numbers".
+
+A dozen of the 36 are near-misses rather than figure-only: the value is printed but the PDF
+text extraction mangled it, or the percentage is there and the group size is not. Those are
+minutes each with the paper open.
+
+**Still to extract by hand: 36 studies.** The queue is ordered
 in `included_studies.md`; the table-rich ones go fastest.
 
 ### Outstanding — one thing only, and it needs the person who ran the searches

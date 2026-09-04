@@ -912,6 +912,48 @@ for level, baseline, followup, sd in [
         variance_value=str(sd))
 
 
+# --------------------------------------------------------------------- Liphardt 2020
+# Transl Sports Med 10.1002/tsm2.122. Twenty-one days of bed rest, control group of eleven,
+# anatomical CSA by MRI at five points along the thigh for each quadriceps head. This is the
+# clearest evidence in the dataset that where you measure changes the answer: rectus femoris
+# barely moves at the proximal site and loses 7% at the distal one, while vastus medialis
+# loses 12-17% along its whole length.
+LIPHARDT = dict(
+    study_id="liphardt2020", cohort_id="liphardt_br21", campaign_name="21-day bed rest",
+    first_author="Liphardt", year="2020", doi="10.1002/tsm2.122",
+    source_file="liphardtam2020_scopus_00594.pdf", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="21", phase="bed_rest", timepoint_days="21", exposure_flag="analogue",
+    arm_id="con", arm_type="control", cm_modality="none", n_arm="11", n_analysed="11",
+    sex="M", age_mean="35.2", age_sd="8.1", population="healthy_young", laterality="NA",
+    outcome_type="CSA", modality="MRI", unit_original="cm2", unit_si="cm2",
+    variance_of="baseline", variance_type="SD", data_source="table", page_ref="Table 1",
+    extraction_confidence="high", qc_flag="laterality_unstated",
+    notes=("ACSA measured at five points along a region of interest running from the "
+           "proximal rectus femoris tendon to the distal femoral neck; the percentage is the "
+           "mean deviation printed per site. Baseline SD is the ACSA SD at that site"),
+)
+# muscle -> [(site label, baseline ACSA, baseline SD, mean percent deviation)]
+LIPHARDT_VALUES = {
+    "rectus_femoris": [("10% of ROI", 2.6, 0.4, -0.0), ("30% of ROI", 7.6, 1.3, -5.0),
+                       ("50% of ROI", 11.6, 2.5, -4.6), ("70% of ROI", 15.6, 3.2, -5.2),
+                       ("90% of ROI", 15.4, 2.8, -7.1)],
+    "vastus_lateralis": [("10% of ROI", 16.8, 2.9, -9.4), ("30% of ROI", 24.7, 3.5, -10.1),
+                         ("50% of ROI", 30.9, 3.6, -12.6), ("70% of ROI", 32.7, 2.9, -12.6),
+                         ("90% of ROI", 26.6, 3.3, -13.0)],
+    "vastus_intermedius": [("10% of ROI", 18.3, 1.8, -11.9), ("30% of ROI", 23.0, 2.6, -11.8),
+                           ("50% of ROI", 25.5, 3.4, -13.2), ("70% of ROI", 20.7, 3.1, -14.1),
+                           ("90% of ROI", 14.5, 3.4, -11.9)],
+    "vastus_medialis": [("10% of ROI", 25.0, 3.4, -11.9), ("30% of ROI", 19.8, 2.5, -15.1),
+                        ("50% of ROI", 12.7, 1.5, -14.6), ("70% of ROI", 8.6, 1.8, -16.9),
+                        ("90% of ROI", 4.0, 1.7, -16.8)],
+}
+for muscle, sites in LIPHARDT_VALUES.items():
+    for site, baseline, sd, pct in sites:
+        add(**LIPHARDT, muscle=muscle, is_composite="FALSE", measurement_site=site,
+            value_baseline_original=str(baseline), value_baseline=str(baseline),
+            pct_change=str(pct), variance_value=str(sd))
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))
