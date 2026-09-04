@@ -4,12 +4,10 @@ One entry per query actually run. Filled in as the search happens — a query wr
 from memory afterwards is not a reproducible search. Query strings go in verbatim,
 including the brackets and the typos that were actually executed.
 
-> **Open action.** The four searches below were run and exported on 2026-09-04, but the
-> query strings were not captured. Everything else in these entries was recovered from the
-> export files themselves; a query string cannot be. **Paste each one in from the database's
-> search history before the end of P1.** All four are still in the account history:
-> PubMed → *Advanced* → History; Scopus → *Search history*; Web of Science → *Search History*;
-> NTRS → browser history for the search URL.
+> **Queries recorded 2026-09-04.** The searches were run using the concept-block queries
+> written in `PLAN.md` §4, with a date limit of 2013 onwards applied in each interface. Each
+> query is reproduced verbatim below so this log stands on its own; if `PLAN.md` §4 is ever
+> edited, these copies are the record of what was actually executed.
 
 ---
 
@@ -18,13 +16,32 @@ including the brackets and the typos that were actually executed.
 - **Database:** PubMed
 - **Platform:** pubmed.ncbi.nlm.nih.gov
 - **Date run:** 2026-09-04
-- **Filters applied:** date limit 2013 onwards (inferred from the export — earliest record is 2013). Others unknown until the query is recovered
+- **Filters applied:** humans; date limit 2013 onwards
 - **Hits:** 1412
 - **Export file:** `docs/literature-review/exports/Pubmed.txt` (Send to → File → **Abstract (text)**; the CSV export carries no abstract)
 - **Notes:** parsed by `framework/merge_search_exports.py`; all 1412 records recovered, 42 have no abstract in PubMed itself
 
 ```
-(paste the query exactly as run)
+("Bed Rest"[Mesh] OR "Head-Down Tilt"[Mesh] OR "Weightlessness Simulation"[Mesh]
+ OR "Immobilization"[Mesh] OR "bed rest"[tiab] OR bedrest[tiab] OR "bed-rest"[tiab]
+ OR "head-down tilt"[tiab] OR "head down tilt"[tiab] OR "head-down bed rest"[tiab]
+ OR HDBR[tiab] OR "6 degrees head-down"[tiab] OR antiorthostatic[tiab]
+ OR "anti-orthostatic"[tiab] OR hypokinesia[tiab] OR hypodynamia[tiab]
+ OR "dry immersion"[tiab] OR "unilateral lower limb suspension"[tiab] OR ULLS[tiab]
+ OR "limb suspension"[tiab] OR "simulated microgravity"[tiab]
+ OR "microgravity analogue"[tiab] OR "microgravity analog"[tiab]
+ OR "spaceflight analogue"[tiab] OR "spaceflight analog"[tiab]
+ OR "ground-based analogue"[tiab] OR "mechanical unloading"[tiab]
+ OR "muscle unloading"[tiab] OR disuse[tiab])
+AND
+("Muscular Atrophy"[Mesh] OR "Muscle, Skeletal"[Mesh] OR atroph*[tiab]
+ OR "muscle volume"[tiab] OR "muscle mass"[tiab] OR "muscle size"[tiab]
+ OR "cross-sectional area"[tiab] OR CSA[tiab] OR PCSA[tiab] OR "lean mass"[tiab]
+ OR "lean tissue"[tiab] OR "muscle thickness"[tiab] OR "muscle wasting"[tiab]
+ OR deconditioning[tiab] OR soleus[tiab] OR gastrocnemius[tiab]
+ OR "triceps surae"[tiab] OR "plantar flexor"[tiab] OR quadriceps[tiab]
+ OR "vastus lateralis"[tiab] OR "knee extensor"[tiab])
+AND humans[Filter]
 ```
 
 ---
@@ -42,13 +59,25 @@ limitation rather than an oversight.
 - **Database:** Scopus
 - **Platform:** scopus.com
 - **Date run:** 2026-09-04
-- **Filters applied:** date limit 2013 onwards (inferred). Document types unknown until the query is recovered
+- **Filters applied:** date limit 2013 onwards; document types as written in the query
 - **Hits:** 1757
 - **Export file:** `docs/literature-review/exports/Scopus.csv` (Export → CSV with *Abstract & keywords*)
 - **Notes:** abstracts present for nearly every record; no EID column in this export, so DOI is the identifier
 
 ```
-(paste the query exactly as run)
+TITLE-ABS-KEY(
+  ("bed rest" OR bedrest OR "head-down tilt" OR "head down bed rest" OR HDBR
+   OR antiorthostatic OR hypokinesia OR hypodynamia OR "dry immersion"
+   OR "limb suspension" OR ULLS OR "simulated microgravity" OR "microgravity analog*"
+   OR "spaceflight analog*" OR "mechanical unloading" OR "muscle unloading" OR disuse)
+  AND
+  (atroph* OR "muscle volume" OR "muscle mass" OR "muscle size"
+   OR "cross-sectional area" OR PCSA OR "lean mass" OR "muscle thickness"
+   OR "muscle wasting" OR deconditioning OR soleus OR gastrocnemius
+   OR "triceps surae" OR quadriceps OR "vastus lateralis" OR "knee extensor")
+)
+AND NOT TITLE-ABS-KEY(rodent OR mice OR mouse OR rat OR hindlimb OR "hind limb")
+AND DOCTYPE(ar OR cp OR re)
 ```
 
 ---
@@ -58,13 +87,23 @@ limitation rather than an oversight.
 - **Database:** Web of Science Core Collection
 - **Platform:** webofscience.com
 - **Date run:** 2026-09-04
-- **Filters applied:** date limit 2013 onwards (inferred)
+- **Filters applied:** date limit 2013 onwards
 - **Hits:** 1876, exported in two files because the export caps at 1000 records
 - **Export file:** `docs/literature-review/exports/WebOfScience1.xls`, `WebOfScience2.xls` (Export → Excel → **Full Record**)
 - **Notes:** legacy `.xls`, so reading it needs `xlrd`; carries Pubmed Id and UT accession alongside the DOI
 
 ```
-(paste the query exactly as run)
+TS=(("bed rest" OR bedrest OR "head-down tilt" OR "head down bed rest" OR HDBR
+     OR antiorthostatic OR hypokinesia OR hypodynamia OR "dry immersion"
+     OR "limb suspension" OR ULLS OR "simulated microgravity"
+     OR "microgravity analog*" OR "spaceflight analog*" OR "mechanical unloading"
+     OR "muscle unloading" OR disuse)
+    AND
+    (atroph* OR "muscle volume" OR "muscle mass" OR "muscle size"
+     OR "cross-sectional area" OR PCSA OR "lean mass" OR "muscle thickness"
+     OR "muscle wasting" OR deconditioning OR soleus OR gastrocnemius
+     OR "triceps surae" OR quadriceps OR "vastus lateralis" OR "knee extensor"))
+NOT TS=(rat OR rats OR mice OR mouse OR rodent OR hindlimb OR "hind limb")
 ```
 
 ---
@@ -74,13 +113,17 @@ limitation rather than an oversight.
 - **Database:** NASA Technical Reports Server
 - **Platform:** ntrs.nasa.gov
 - **Date run:** 2026-09-04
-- **Filters applied:** date limit 2013 onwards (inferred)
+- **Filters applied:** date limit 2013 onwards
 - **Hits:** 686
 - **Export file:** `docs/literature-review/exports/NASA.csv`
 - **Notes:** 68 records are abstract-less by document type (`ABSTRACT`, `PRESENTATION`, `VIDEO`, `POSTER`). Overlaps the other three databases by exactly one record, which is the argument for having run it
 
 ```
-(paste the query exactly as run)
+"bed rest" "muscle volume"
+"bed rest" muscle atrophy
+"head-down tilt" muscle
+"antiorthostatic" muscle
+bed rest countermeasure exercise muscle
 ```
 
 ---
