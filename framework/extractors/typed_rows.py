@@ -1332,6 +1332,134 @@ for arm, muscle, composite, parts, side, day, pct, reprinted in [
         qc_flag=flags, notes=notes)
 
 
+# --------------------------------------------------------- Belavy 2009 (Berlin BedRest 1)
+# Eur J Appl Physiol 107:489-499. The first Berlin Bed-Rest Study (2003-2005): ten men in the
+# control arm, 56 days of strict horizontal bed rest, with up to 30 deg head-up allowed for
+# recreation in daylight. Left-leg MRI volume of 17 muscles on day 1 and every two weeks after;
+# Table 2 prints each baseline volume and the mean percent change with its SEM. Soleus could
+# not be told apart from flexor hallucis longus and is reported pooled with it.
+BELAVY2009 = dict(
+    study_id="belavy2009", cohort_id="berlin_bbr1", campaign_name="Berlin Bed-Rest Study (BBR1)",
+    first_author="Belavy", year="2009", doi="10.1007/s00421-009-1136-0",
+    source_file="12.pdf", design="horizontal_BR", hdt_angle_deg="0", duration_days="56",
+    phase="bed_rest", exposure_flag="analogue", arm_id="ctrl", arm_type="control",
+    cm_modality="none", n_arm="10", sex="M", age_mean="33.4", age_sd="6.6",
+    population="healthy_young", body_mass_mean_kg="79.4", laterality="left",
+    outcome_type="volume", modality="MRI", unit_original="cm3", unit_si="cm3",
+    variance_of="change", variance_type="SE", data_source="table",
+    page_ref="Table 2, p. 494", extraction_confidence="high",
+)
+BELAVY2009_LEG = {"anterior_tibial_group", "flexor_digitorum_longus", "peroneals",
+                  "tibialis_posterior", "soleus", "gastrocnemius_lateralis",
+                  "gastrocnemius_medialis"}
+BELAVY2009_PARTS = {
+    "anterior_tibial_group": "tibialis_anterior;extensor_digitorum_longus;extensor_hallucis_longus",
+    "peroneals": "peroneus_longus;peroneus_brevis;peroneus_tertius",
+    "soleus": "soleus;flexor_hallucis_longus",
+    "vasti": "vastus_lateralis;vastus_medialis;vastus_intermedius",
+}
+# muscle, baseline volume (cm3), percent change on days 14, 28, 42, 56, and their SEMs
+BELAVY2009_VALUES = [
+    ("anterior_tibial_group", 256.1, (-0.7, -0.8, -1.2, -5.1), (1.5, 1.4, 1.5, 1.7)),
+    ("flexor_digitorum_longus", 30.7, (2.9, -4.1, -2.3, -8.7), (1.3, 2.1, 1.6, 1.8)),
+    ("peroneals", 143.5, (-1.4, -4.3, -7.5, -10.8), (1.6, 2.0, 1.9, 2.2)),
+    ("tibialis_posterior", 112.9, (-4.2, -6.1, -6.2, -10.2), (1.5, 1.7, 1.5, 1.7)),
+    ("soleus", 589.9, (-6.2, -9.1, -12.3, -16.5), (1.8, 1.8, 1.8, 1.8)),
+    ("gastrocnemius_lateralis", 150.5, (-7.7, -11.2, -10.5, -14.4), (3.8, 2.9, 1.8, 2.8)),
+    ("gastrocnemius_medialis", 229.7, (-9.4, -13.8, -18.1, -22.3), (1.5, 1.6, 1.1, 1.5)),
+    ("adductor_longus", 181.7, (2.7, 0.4, 0.5, 0.8), (3.7, 3.6, 3.2, 3.1)),
+    ("adductor_magnus", 588.7, (-5.1, -5.0, -6.2, -7.0), (2.8, 3.6, 2.3, 2.6)),
+    ("gracilis", 118.4, (-2.9, -2.7, -4.0, -4.4), (2.2, 2.3, 2.2, 2.2)),
+    ("sartorius", 177.7, (-3.8, -0.7, -2.1, -4.9), (3.0, 3.0, 2.7, 3.3)),
+    ("biceps_femoris_long_head", 232.8, (-5.2, -6.7, -10.2, -12.5), (5.6, 5.6, 5.5, 5.5)),
+    ("biceps_femoris_short_head", 123.7, (-3.8, -2.1, -3.3, -7.3), (3.1, 3.0, 2.7, 3.0)),
+    ("semimembranosus", 273.6, (-6.5, -6.5, -11.1, -12.3), (2.4, 2.4, 1.4, 1.3)),
+    ("semitendinosus", 250.1, (-6.5, -7.6, -8.7, -10.4), (4.9, 4.9, 4.9, 4.9)),
+    ("rectus_femoris", 318.2, (-4.1, -2.7, -2.9, -5.1), (3.5, 3.5, 3.4, 3.5)),
+    ("vasti", 1914.5, (-6.7, -9.9, -13.3, -15.9), (3.7, 3.6, 3.5, 3.7)),
+]
+for muscle, baseline, changes, sems in BELAVY2009_VALUES:
+    leg = muscle in BELAVY2009_LEG
+    for day, pct, sem in zip((14, 28, 42, 56), changes, sems):
+        flags = []
+        if muscle == "soleus":
+            flags.append("soleus_pooled_with_flexor_hallucis_longus")
+        if not leg and day == 28:
+            flags.append("n_analysed_upper_bound")
+        add(**BELAVY2009, muscle=muscle, is_composite="TRUE" if muscle in BELAVY2009_PARTS else "FALSE",
+            composite_of=BELAVY2009_PARTS.get(muscle, "NA"), timepoint_days=str(day),
+            n_analysed="8" if leg else "6", value_baseline_original=f"{baseline:g}",
+            value_baseline=f"{baseline:g}", pct_change=f"{pct:g}", variance_value=f"{sem:g}",
+            qc_flag=";".join(flags) or "NA",
+            notes=("left leg only - the right took part in other experiments. Baseline is the "
+                   "day-1 scan, at least 10 h into bed rest; percent change is the mean of the "
+                   "individual changes. Men without a usable baseline were left out: "
+                   + ("two leg baselines were lost to scanner failure, so n is 8"
+                      if leg else "the thigh baseline is usable in six men, one of whom may "
+                                  "also lack the day-28 thigh scan")))
+
+
+# -------------------------------------------------------- Miokovic 2012 (Berlin BedRest 2)
+# J Appl Physiol 113:1545-1559. The 2nd Berlin BedRest Study (BBR2-2), a separate campaign
+# from BBR1: nine men in the inactive control arm, 60 days of 6 deg head-down tilt. Volume of
+# 19 whole muscles, left and right averaged, before bed rest and on day 27/28 and day 55/56
+# (Table 1, mean and SD). The paper prints no percent change per muscle, so it is recomputed
+# from the group means. Recovery to 180 days is only plotted (Figs 10-11) and is left out.
+MIOKOVIC = dict(
+    study_id="miokovic2012", cohort_id="berlin_bbr2",
+    campaign_name="2nd Berlin BedRest Study (BBR2-2)", first_author="Miokovic", year="2012",
+    doi="10.1152/japplphysiol.00611.2012", source_file="14.pdf", design="HDBR_-6",
+    hdt_angle_deg="-6", duration_days="60", phase="bed_rest", exposure_flag="analogue",
+    arm_id="ctrl", arm_type="control", cm_modality="none", n_arm="9", n_analysed="9",
+    sex="M", age_mean="33.1", age_sd="7.8", population="healthy_young",
+    body_mass_mean_kg="80.6", laterality="mean", outcome_type="volume", modality="MRI",
+    unit_original="cm3", unit_si="cm3", variance_of="baseline", variance_type="SD",
+    data_source="table", page_ref="Table 1, p. 1547", extraction_confidence="high",
+    qc_flag="pct_recomputed_from_group_means",
+    notes=("whole-muscle volume, left and right averaged. Scans on day 27 or 28 and day 55 or "
+           "56 of bed rest are recorded as 28 and 56. Percent change is recomputed from the "
+           "group means; the paper prints none per muscle"),
+)
+MIOKOVIC_PARTS = {
+    "vasti": "vastus_lateralis;vastus_medialis;vastus_intermedius",
+    "medial_hamstrings": "semimembranosus;semitendinosus",
+    "lateral_hamstrings": "biceps_femoris_long_head;biceps_femoris_short_head",
+    "peroneals": "peroneus_longus;peroneus_brevis;peroneus_tertius",
+}
+# muscle, baseline volume (cm3), its SD, mid-bed-rest volume, end-bed-rest volume
+MIOKOVIC_VALUES = [
+    ("adductor_brevis", 111.3, 16.6, 112.3, 111.1),
+    ("adductor_longus", 182.5, 18.0, 180.0, 172.5),
+    ("adductor_magnus", 599.2, 79.4, 565.8, 539.8),
+    ("pectineus", 72.0, 9.1, 70.4, 71.0),
+    ("gracilis", 109.1, 17.6, 113.4, 106.5),
+    ("sartorius", 181.8, 28.0, 178.5, 168.3),
+    ("rectus_femoris", 307.9, 41.5, 302.1, 290.8),
+    ("vasti", 1949, 147, 1765, 1637),
+    ("medial_hamstrings", 521.3, 51.6, 483.8, 454.1),
+    ("lateral_hamstrings", 375.2, 46.1, 351.4, 323.6),
+    ("extensor_digitorum_longus", 122.0, 19.6, 117.8, 114.9),
+    ("tibialis_anterior", 166.8, 20.9, 153.9, 146.6),
+    ("peroneals", 155.3, 29.3, 137.6, 129.6),
+    ("flexor_digitorum_longus", 31.6, 3.3, 28.0, 26.6),
+    ("flexor_hallucis_longus", 86.5, 8.0, 77.3, 71.5),
+    ("tibialis_posterior", 118.5, 17.9, 102.9, 99.0),
+    ("gastrocnemius_lateralis", 188.1, 31.0, 164.7, 149.7),
+    ("gastrocnemius_medialis", 304.8, 53.3, 254.5, 230.1),
+    ("soleus", 574.8, 93.2, 475.8, 441.3),
+]
+for muscle, baseline, sd, mid, end in MIOKOVIC_VALUES:
+    for day, followup in ((28, mid), (56, end)):
+        pct = (followup - baseline) / baseline * 100
+        add(**MIOKOVIC, muscle=muscle,
+            is_composite="TRUE" if muscle in MIOKOVIC_PARTS else "FALSE",
+            composite_of=MIOKOVIC_PARTS.get(muscle, "NA"), timepoint_days=str(day),
+            value_baseline_original=f"{baseline:g}", value_followup_original=f"{followup:g}",
+            value_baseline=f"{baseline:g}", value_followup=f"{followup:g}",
+            change_absolute=f"{followup - baseline:.1f}", pct_change=f"{pct:.2f}",
+            variance_value=f"{sd:g}")
+
+
 if __name__ == "__main__":
     studies = {row["study_id"] for row in ROWS}
     existing = list(csv.DictReader(TARGET.open(encoding="utf-8-sig")))

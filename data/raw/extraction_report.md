@@ -2,9 +2,9 @@
 
 Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 
-- **593 rows** across **34 studies** and **24 cohorts**
-- **336** rows measured during unloading, 257 during recovery
-- **48 distinct muscles**
+- **699 rows** across **36 studies** and **26 cohorts**
+- **442** rows measured during unloading, 257 during recovery
+- **50 distinct muscles**
 - Every row is `double_extracted = FALSE`: 0 have been checked by a second person
 
 ## By study
@@ -13,6 +13,8 @@ Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 |---|---|---|---|---|---|---|
 | `belavy2017` | `medes_ltbr90` | HDBR_-6 | 90 | 288 | 24 | 2 |
 | `demartino2022` | `agbresa` | HDBR_-6 | 60 | 72 | 4 | 2 |
+| `belavy2009` | `berlin_bbr1` | horizontal_BR | 56 | 68 | 17 | 1 |
+| `miokovic2012` | `berlin_bbr2` | HDBR_-6 | 60 | 38 | 19 | 1 |
 | `liphardt2020` | `liphardt_br21` | HDBR_-6 | 21 | 20 | 4 | 1 |
 | `zange2009` | `wbv_hdt14` | HDBR_-6 | 14 | 20 | 10 | 2 |
 | `rogers2025` | `wise2005` | HDBR_-6 | 60 | 17 | 17 | 1 |
@@ -69,17 +71,18 @@ These are the reason validation is grouped by cohort rather than by paper.
 | 14 | 31 |
 | 21 | 22 |
 | 35 | 3 |
-| 60 | 102 |
+| 56 | 68 |
+| 60 | 140 |
 | 70 | 9 |
 | 90 | 106 |
 | 119 | 6 |
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 528, DXA 29, CT 20, ultrasound 16
-- **Outcome:** volume 478, CSA 75, lean_mass 29, thickness 11
-- **Source:** table 535, text 58
-- **Confidence:** high 564, medium 26, low 3
+- **Modality:** MRI 634, DXA 29, CT 20, ultrasound 16
+- **Outcome:** volume 584, CSA 75, lean_mass 29, thickness 11
+- **Source:** table 641, text 58
+- **Confidence:** high 670, medium 26, low 3
 
 ## The most and least affected muscles so far
 
@@ -87,40 +90,44 @@ Mean percent change across unloading rows, muscles with at least four rows.
 
 | Muscle | Rows | Mean % change |
 |---|---|---|
-| `peroneals` | 5 | -17.3 |
 | `triceps_surae` | 21 | -15.6 |
-| `soleus` | 10 | -15.5 |
 | `vastus_medialis` | 5 | -15.1 |
-| `semimembranosus` | 6 | -13.4 |
-| `flexor_hallucis_longus` | 4 | -13.4 |
-| `gastrocnemius_lateralis` | 7 | -12.9 |
+| `soleus` | 16 | -15.0 |
+| `gastrocnemius_medialis` | 14 | -14.7 |
+| `flexor_hallucis_longus` | 6 | -13.6 |
+| `gastrocnemius_lateralis` | 13 | -12.8 |
 | `flexor_digitorum_with_tibialis_posterior` | 4 | -12.6 |
-| `gastrocnemius_medialis` | 8 | -12.6 |
-| `anterior_tibial_group` | 6 | -12.2 |
-| `biceps_femoris_long_head` | 7 | -12.1 |
-| `vasti` | 9 | -11.3 |
+| `peroneals` | 11 | -12.6 |
+| `semimembranosus` | 10 | -11.7 |
+| `vasti` | 15 | -11.5 |
+| `biceps_femoris_long_head` | 11 | -10.8 |
+| `tibialis_posterior` | 7 | -10.8 |
 | `quadratus_femoris` | 4 | -10.0 |
 | `quadratus_lumborum` | 6 | -9.6 |
-| `sartorius` | 5 | -9.1 |
-| `adductor_magnus` | 5 | -9.0 |
+| `flexor_digitorum_longus` | 7 | -8.8 |
 | `anterior_thigh_compartment` | 7 | -8.2 |
-| `semitendinosus` | 6 | -7.4 |
+| `anterior_tibial_group` | 10 | -8.1 |
+| `semitendinosus` | 10 | -7.7 |
+| `lateral_hamstrings` | 4 | -7.6 |
+| `medial_hamstrings` | 4 | -7.6 |
+| `adductor_magnus` | 11 | -7.6 |
 | `vastus_intermedius` | 8 | -6.6 |
 | `whole_calf` | 4 | -6.5 |
 | `multifidus` | 13 | -6.2 |
 | `posterior_thigh_compartment` | 7 | -6.2 |
 | `quadriceps` | 40 | -6.1 |
-| `biceps_femoris_short_head` | 6 | -5.8 |
+| `sartorius` | 11 | -6.0 |
 | `gluteus_maximus` | 7 | -5.7 |
-| `adductor_longus` | 5 | -5.0 |
-| `gracilis` | 5 | -4.9 |
-| `rectus_femoris` | 13 | -4.9 |
+| `biceps_femoris_short_head` | 10 | -5.1 |
 | `vastus_lateralis` | 18 | -4.7 |
 | `whole_thigh` | 13 | -4.7 |
+| `rectus_femoris` | 19 | -4.5 |
 | `whole_lower_limb` | 10 | -4.2 |
-| `adductor_brevis` | 4 | -4.1 |
 | `iliopsoas` | 4 | -4.0 |
+| `gracilis` | 11 | -3.4 |
 | `popliteus` | 4 | -3.3 |
+| `adductor_brevis` | 6 | -2.6 |
+| `adductor_longus` | 11 | -2.5 |
 | `lumbar_erector_spinae` | 14 | -2.3 |
 | `obturator_externus` | 4 | +0.5 |
 | `psoas` | 10 | +1.9 |
