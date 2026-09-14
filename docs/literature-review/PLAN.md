@@ -775,9 +775,10 @@ inventing the denominator.
 **Still unextracted: 19 studies.** The queue is ordered
 in `included_studies.md`; the table-rich ones go fastest.
 
-### Outstanding — one thing only, and it needs the person who ran the searches
+### Search queries — recorded
 
-**The four query strings are not recorded.** `search_log.md` has the slots; the queries have
-to be pasted in verbatim, with the filters that were applied. Without them the search is not
-reproducible and the PRISMA diagram cannot be defended. Everything else in this section was
-recovered from the exports themselves; a query string cannot be.
+The searches were run exactly as the queries are written in §4, with a 2013-onwards date
+limit set in each database's interface. [`search_log.md`](search_log.md) holds every query
+verbatim with its date, filters, hit count and export file - Q01 PubMed, Q03 Scopus, Q04 Web
+of Science and Q05 NASA NTRS, with Q02 Embase not run for lack of access - which is what
+makes the search reproducible and the PRISMA counts defensible.
