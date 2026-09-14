@@ -179,9 +179,11 @@ the absolute values left `NA`.
 `multifidus`, `whole_thigh`, `whole_calf`, `whole_lower_limb`,
 `anterior_thigh_compartment`, `posterior_thigh_compartment`, `flexor_digitorum_longus`,
 `tibialis_posterior`, `lumbar_erector_spinae`, `quadratus_lumborum`,
-`anterior_tibial_group`, `flexor_digitorum_with_tibialis_posterior`, `flexor_hallucis_longus`, `vasti`, `adductor_brevis`, `adductor_longus`, `adductor_magnus`, `gracilis`, `sartorius`, `biceps_femoris_long_head`, `biceps_femoris_short_head`, `semimembranosus`, `semitendinosus`, `popliteus`, `obturator_externus`, `obturator_internus`, `quadratus_femoris`, `iliopsoas`.
+`anterior_tibial_group`, `flexor_digitorum_with_tibialis_posterior`, `flexor_hallucis_longus`, `vasti`, `adductor_brevis`, `adductor_longus`, `adductor_magnus`, `gracilis`, `sartorius`, `biceps_femoris_long_head`, `biceps_femoris_short_head`, `semimembranosus`, `semitendinosus`, `popliteus`, `obturator_externus`, `obturator_internus`, `quadratus_femoris`, `iliopsoas`, `plantar_flexors`, `gluteals`, `medial_hamstrings`, `lateral_hamstrings`, `extensor_digitorum_longus`, `pectineus`.
 
 The second block was added when Belavy 2017 was extracted: it reports 24 individually segmented muscles, and collapsing them into groups would throw away exactly the muscle-identity resolution the talk's second claim rests on.
+
+The third block was added for the pre-search corpus in `resources/`. `plantar_flexors` is every ankle plantar flexor measured together - triceps surae plus tibialis posterior and the two long toe flexors - which is what Greenleaf 1994 and Berg 2007 report; calling it `triceps_surae` would claim a smaller set of muscles than was measured. `gluteals` is gluteus maximus, medius and minimus together (Berg 2007). `medial_hamstrings` (semimembranosus and semitendinosus) and `lateral_hamstrings` (both heads of biceps femoris) are how Zange 2009 and Miokovic 2012 group the hamstrings. Miokovic 2012 is also the first paper to report `extensor_digitorum_longus` and `pectineus` on their own.
 
 Adding a term is a one-line commit to this file. Inventing one in a cell is not.
 

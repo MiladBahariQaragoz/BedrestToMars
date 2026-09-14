@@ -55,6 +55,8 @@ MUSCLES = {
     "flexor_digitorum_longus", "tibialis_posterior", "lumbar_erector_spinae",
     "quadratus_lumborum",
     "anterior_tibial_group", "flexor_digitorum_with_tibialis_posterior", "flexor_hallucis_longus", "vasti", "adductor_brevis", "adductor_longus", "adductor_magnus", "gracilis", "sartorius", "biceps_femoris_long_head", "biceps_femoris_short_head", "semimembranosus", "semitendinosus", "popliteus", "obturator_externus", "obturator_internus", "quadratus_femoris", "iliopsoas",
+    "plantar_flexors", "gluteals", "medial_hamstrings", "lateral_hamstrings",
+    "extensor_digitorum_longus", "pectineus",
 }
 
 KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days",
