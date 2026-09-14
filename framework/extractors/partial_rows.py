@@ -139,9 +139,13 @@ for arm_id, arm_type, cm, dose, n, muscle, pct, sd in [
         outcome_type="volume", modality="MRI", unit_original="%", unit_si="pct_only",
         pct_change=str(pct), variance_of="change", variance_type="SD", variance_value=str(sd),
         extraction_confidence="medium",
-        qc_flag="partial_record;muscle_group_naming_inconsistent_in_abstract",
+        qc_flag="partial_record;muscle_group_naming_inconsistent_in_abstract;duplicate_of_figure_row",
         notes=("the abstract names plantar flexors for the sedentary arm and calf muscle for "
-               "the exercise arm; both are recorded as printed rather than harmonised"))
+               "the exercise arm; both are recorded as printed rather than harmonised. Figure 4 "
+               "prints the same four percentages with baselines and extraction_figures.csv "
+               "carries them - the exercise arm's calf row is the figure's triceps surae - so "
+               "these rows are provenance only and are dropped when the tables are merged for "
+               "modelling"))
 
 
 # --------------------------------------------------------------------- Cook 2014 (30-d ULLS)
