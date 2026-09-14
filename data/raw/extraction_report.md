@@ -14,7 +14,7 @@ Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 | `belavy2017` | `medes_ltbr90` | HDBR_-6 | 90 | 288 | 24 | 2 |
 | `demartino2022` | `agbresa` | HDBR_-6 | 60 | 72 | 4 | 2 |
 | `liphardt2020` | `liphardt_br21` | HDBR_-6 | 21 | 20 | 4 | 1 |
-| `rogers2025` | `medes_women_br60` | HDBR_-6 | 60 | 17 | 17 | 1 |
+| `rogers2025` | `wise2005` | HDBR_-6 | 60 | 17 | 17 | 1 |
 | `smeuninx2021` | `birmingham_br5_nct04422665` | horizontal_BR | 5 | 16 | 2 | 2 |
 | `mandic2026` | `brace_br60` | HDBR_-6 | 60 | 15 | 3 | 3 |
 | `bocker2026` | `space_vs_br_2026` | spaceflight | 180 | 12 | 1 | 1 |
@@ -22,7 +22,7 @@ Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 | `tran2021` | `agbresa` | HDBR_-6 | 60 | 9 | 3 | 3 |
 | `trappe2024sprint` | `nasa_sprint_br70` | HDBR_-6 | 70 | 9 | 3 | 3 |
 | `smeuninx2025` | `birmingham_br5_nct04422665` | horizontal_BR | 5 | 8 | 1 | 2 |
-| `trappe2023` | `medes_women_br60` | HDBR_-6 | 60 | 8 | 2 | 2 |
+| `trappe2023` | `wise2005` | HDBR_-6 | 60 | 8 | 2 | 2 |
 | `mulder2015` | `dlr_hdt5_crossover` | HDBR_-6 | 5 | 6 | 2 | 3 |
 | `demartino2021` | `agbresa` | HDBR_-6 | 60 | 6 | 2 | 3 |
 | `fuchs2025` | `maastricht_br14` | horizontal_BR | 14 | 5 | 4 | 1 |
@@ -51,7 +51,7 @@ These are the reason validation is grouped by cohort rather than by paper.
 - **`maastricht_br14`** — fuchs2025, fuchs2025bfr
 - **`mcgill_hdbr14`** — hajjboutros2023, lagace2026
 - **`medes_ltbr90`** — belavy2017, trappe2023
-- **`medes_women_br60`** — rogers2025, trappe2023
+- **`wise2005`** — rogers2025, trappe2023
 
 ## The duration axis, in unloading rows
 

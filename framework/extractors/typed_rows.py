@@ -158,13 +158,14 @@ for muscle, composite, outcome, modality, baseline, followup, unit_orig, unit_si
 
 
 # ----------------------------------------------------------------------- Rogers 2025
-# J Appl Physiol 10.1152/japplphysiol.00483.2025. Bedrest control group of a larger women's
-# campaign at MEDES Toulouse: 8 women, 60 days of 6 deg head-down tilt, MRI volumes of 17
+# J Appl Physiol 10.1152/japplphysiol.00483.2025. Bedrest control group of the WISE-2005
+# women's campaign at MEDES Toulouse - the acknowledgements name it - so it shares a cohort
+# with the Holt papers: 8 women, 60 days of 6 deg head-down tilt, MRI volumes of 17
 # individually segmented lower-limb muscles. Two-month percentages are printed in the
 # Results text; the one-month values exist only in Figs 1-2 and are not extracted here.
 ROGERS = dict(
-    study_id="rogers2025", cohort_id="medes_women_br60",
-    campaign_name="60-day women's bedrest campaign, MEDES Toulouse",
+    study_id="rogers2025", cohort_id="wise2005",
+    campaign_name="WISE-2005",
     first_author="Rogers", year="2025", doi="10.1152/japplphysiol.00483.2025",
     source_file="rogerskr12025_pubmed_00026.pdf", design="HDBR_-6", hdt_angle_deg="-6",
     duration_days="60", phase="bed_rest", timepoint_days="60", exposure_flag="analogue",
@@ -656,8 +657,9 @@ for arm_id, arm_type, cm, dose, pct, sd in [
 # ------------------------------------------------------------------ Trappe 2023 (sex)
 # J Appl Physiol. Quadriceps and triceps surae volumes by MRI in 8 women over 2 months and
 # 9 men over 3 months of 6 deg head-down tilt. The paper states the data were reported
-# previously in separate publications, so the women are almost certainly the same cohort
-# Rogers 2025 reports - flagged rather than merged, because "almost certainly" is not proof.
+# previously in separate publications. The women are the eight WISE-2005 controls Rogers
+# 2025 reports - Rogers names the campaign in its acknowledgements - so they share the
+# wise2005 cohort. The men may overlap another Toulouse campaign, hence the flag.
 TRAPPE = dict(
     study_id="trappe2023", first_author="Trappe", year="2023",
     doi="10.1152/japplphysiol.00412.2023", source_file="trappeta12023_pubmed_00152.pdf",
@@ -668,13 +670,14 @@ TRAPPE = dict(
     data_source="table", page_ref="Table 2", extraction_confidence="high",
     qc_flag="laterality_unstated;possible_cohort_overlap",
     notes=("values are means with standard errors, not SDs; the paper says these data were "
-           "reported previously in separate publications, so the women likely overlap "
-           "rogers2025 and the men may overlap another Toulouse campaign"),
+           "reported previously in separate publications - the women are the WISE-2005 "
+           "controls also reported by rogers2025, and the men may overlap another Toulouse "
+           "campaign"),
 )
 # (sex, cohort, n, age, age_se, muscle, baseline, {timepoint: (value, sd)})
 TRAPPE_VALUES = [
-    ("F", "medes_women_br60", 8, 34, 1, "quadriceps", 716, 39, {29: (596, 32), 57: (564, 31)}, 60),
-    ("F", "medes_women_br60", 8, 34, 1, "triceps_surae", 374, 15, {29: (307, 13), 57: (266, 10)}, 60),
+    ("F", "wise2005", 8, 34, 1, "quadriceps", 716, 39, {29: (596, 32), 57: (564, 31)}, 60),
+    ("F", "wise2005", 8, 34, 1, "triceps_surae", 374, 15, {29: (307, 13), 57: (266, 10)}, 60),
     ("M", "medes_ltbr90", 9, 32, 1, "quadriceps", 973, 47, {29: (879, 42), 89: (793, 39)}, 90),
     ("M", "medes_ltbr90", 9, 32, 1, "triceps_surae", 494, 33, {29: (415, 24), 89: (350, 18)}, 90),
 ]
