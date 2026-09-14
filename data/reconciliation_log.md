@@ -104,3 +104,25 @@ from the rows by `framework/build_data_report.py`, so the text cannot fall behin
 
 `docs/literature-review/prisma_counts.md` and the run log in `docs/literature-review/PLAN.md`
 said 27 extracted studies. The main table holds 28.
+
+## The pre-search corpus — observations published twice
+
+Extracting the papers in `resources/` on 2026-09-14 turned up two more places where one set
+of numbers appears in two papers.
+
+| Kept | Flagged `duplicate_of_other_row` | Why this way round |
+|---|---|---|
+| `trappe2007`, bed-rest-only arm (WISE-2005, Table 4) | the four `trappe2023` women's rows | The volumes are identical and `trappe2007` is the original report |
+| the four `trappe2023` men's rows (LTBR) | `alkner2004`, bed-rest-only quadriceps and triceps surae on day 89 | The same nine men; `trappe2023` prints absolute volumes where Alkner prints rounded percentages |
+
+The rule for any later case: keep the richer record, and when both are equally rich keep the
+original publication. Flagged rows are not deleted. They stay as provenance and are dropped
+when the tables are merged for modelling, like the Krainski rows above.
+
+A different case is kept on both sides and flagged `overlaps_other_paper`: Alkner's vasti,
+rectus femoris and flywheel-arm rows measure muscles that `belavy2017` segments again in the
+same LTBR men with its own analysis. They are two measurements of one cohort, so
+leave-one-cohort-out keeps them together; whether a model should see both is a merge decision.
+
+`13.pdf` (Belavý 2011) contributes no rows: it pools the two arms of the first Berlin
+Bed-Rest Study, whose control arm is extracted from `12.pdf`.

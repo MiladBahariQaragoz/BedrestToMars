@@ -29,6 +29,12 @@ Separately, **15 records** were already held in `resources/` before the search b
 which ten are modelling candidates. They are a convenience corpus, not a search result, and
 are counted on their own line in the flow diagram rather than folded into the numbers above.
 
+**Extracted 2026-09-14:** nine of the ten, **167 rows** - 162 in the main table and 5 read
+off figures - across nine cohorts, six of them new. The tenth, `13.pdf`, turned out to be a
+methods paper that pools the arms of a study already extracted, and contributes no rows.
+These are the dataset's only pre-2013 rows and its 119-day upper end. Per-paper counts are in
+`docs/screening_decisions.md`. The search-derived counts below are unchanged by them.
+
 ## Screening
 
 Title/abstract screening ran on 2026-09-04 in two stages: a deterministic triage against the

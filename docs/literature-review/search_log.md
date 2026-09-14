@@ -141,10 +141,10 @@ against `data/search/screening.csv`:
 |---|---|---|---|---|---|
 | Dulac, multimodal exercise in older adults | 2024/25 | ✅ | ✅ | ✅ | — |
 | Miokovic, resistive vibration exercise in bed rest | 2014 | ✅ | ✅ | ✅ | — |
-| Greenleaf, NASA TM-4580 | 1992 | out of window | out of window | out of window | out of window |
+| Greenleaf, NASA TM-4580 | 1994 | out of window | out of window | out of window | out of window |
 | LeBlanc, 17-week bed rest | 1992 | out of window | out of window | out of window | out of window |
 | Alkner & Tesch, 90-day | 2004 | out of window | out of window | out of window | out of window |
-| Berg, 5-week | 1991 | out of window | out of window | out of window | out of window |
+| Berg, 5-week | 2007 | out of window | out of window | out of window | out of window |
 | Trappe, 60-day women | 2007 | out of window | out of window | out of window | out of window |
 | Zange, WBV 14-day | 2008/09 | out of window | out of window | out of window | out of window |
 | Belavý, differential atrophy | 2009 | out of window | out of window | out of window | out of window |

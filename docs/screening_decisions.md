@@ -25,7 +25,7 @@ reasoning. This closes tasks 0.6 and 0.7 of the kickoff phase.
 | `9.pdf` | Trappe et al. — thigh and calf muscle size, 60-day bed rest in women ± exercise/nutrition | `modelling` | The only all-female cohort identified so far; essential for the sex covariate |
 | `11 (2).pdf` | Zange et al. — 20 Hz whole-body vibration, 14-day 6° HDT, leg muscle volume | `modelling` | Short duration plus an unusual countermeasure modality (WBV) |
 | `12.pdf` | Belavý et al. — differential atrophy of the lower-limb musculature, prolonged bed rest | `modelling` | Muscle-by-muscle resolution; this is the evidence behind the second supporting claim |
-| `13.pdf` | Belavý et al. — MRI estimation of individual lower-limb muscle volume change | `modelling` + `methods` | Both an outcome source and the measurement-error reference for MRI volumetry |
+| `13.pdf` | Belavý et al. 2011, *Physiol Meas* — MRI estimation of individual lower-limb muscle volume change | `methods` | Changed from `modelling` on 2026-09-14, after reading the full text: it re-analyses the same 20 men of the first Berlin Bed-Rest Study and pools the control and exercise arms, so it has no per-arm outcome to extract. The control arm's volumes come from `12.pdf`. It stays the reference for how many MRI slices a volume estimate needs |
 | `14.pdf` | Miokovic et al. — heterogeneous atrophy within individual muscles, 60-day bed rest | `modelling` | Within-muscle heterogeneity; also the strongest argument for the `measurement_site` field |
 | `15_1.pdf` | **Dulac M, Hajj-Boutros G, et al. (2024).** *A multimodal exercise countermeasure prevents the negative impact of head-down tilt bed rest on muscle volume and mitochondrial health in older adults.* J Physiol 603.13. DOI 10.1113/JP285897 | `modelling` | See section 2 |
 | `2.pdf` | Louisy et al. — leg vein filling/emptying and leg volumes, long-term HDBR | `context` | See section 3 |
@@ -34,7 +34,26 @@ reasoning. This closes tasks 0.6 and 0.7 of the kickoff phase.
 | `5.pdf` | van Duijnhoven et al. — bed rest and exercise countermeasure on leg venous function | `context` | See section 3 |
 | `10.pdf` | Akima et al. — thigh muscle tissue in boys with Duchenne muscular dystrophy | `excluded` | See section 4 |
 
-**Resulting counts:** 10 modelling candidates, 4 context, 1 excluded.
+**Resulting counts:** 9 modelling, 1 methods, 4 context, 1 excluded.
+
+### Extracted, 2026-09-14
+
+| File | study_id | Rows | cohort_id |
+|---|---|---|---|
+| `1.pdf` | `greenleaf1994` | 3 | `nasa_ames_hdbr30` |
+| `6.pdf` | `leblanc1992` | 9 | `nasa_br17wk` |
+| `7.pdf` | `alkner2004` | 6, plus 1 read from a figure | `medes_ltbr90` |
+| `8.pdf` | `berg2007` | 6 | `valdoltra_br35` |
+| `9.pdf` | `trappe2007` | 12 | `wise2005` |
+| `11 (2).pdf` | `zange2009` | 20 | `wbv_hdt14` |
+| `12.pdf` | `belavy2009` | 68 | `berlin_bbr1` |
+| `13.pdf` | - | none (methods) | `berlin_bbr1` |
+| `14.pdf` | `miokovic2012` | 38 | `berlin_bbr2` |
+| `15_1.pdf` | `dulac2024` | 4, read from Fig. 2 | `mcgill_hdbr14` |
+
+Reading the full texts corrected two identifications: `1.pdf` was published in March 1994,
+not 1992, and the bed rest in `8.pdf` ran at Valdoltra Orthopaedic Hospital in Slovenia, not
+at Karolinska. `12.pdf` and `14.pdf` are two different Berlin campaigns, not one.
 
 ---
 

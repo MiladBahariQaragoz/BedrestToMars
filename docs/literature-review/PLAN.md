@@ -782,3 +782,39 @@ limit set in each database's interface. [`search_log.md`](search_log.md) holds e
 verbatim with its date, filters, hit count and export file - Q01 PubMed, Q03 Scopus, Q04 Web
 of Science and Q05 NASA NTRS, with Q02 Embase not run for lack of access - which is what
 makes the search reproducible and the PRISMA counts defensible.
+
+### The pre-search corpus, 14 September
+
+The searches start in 2013, so the fifteen papers held in `resources/` before the search are
+the only route to the older literature - and they are what the abstract was first written
+from, including its "1992" and its "119 days". Until today none of them was in the dataset.
+
+Nine of the ten modelling candidates are now extracted: **167 rows**, 162 from printed tables
+and text and 5 read off figures, across nine campaigns, six of them new to the cohort map. The
+tenth, Belavý 2011, is a methods paper that pools the two arms of the first Berlin study, so
+it has nothing per arm to extract.
+
+What the corpus changes:
+
+- **The ranges now match the abstract.** Publication years run 1992-2026 and bed-rest
+  durations 5-119 days, where the search alone gave 2013-2026 and 5-90. LeBlanc 1992's 17
+  weeks is the new upper end.
+- **Two cohort-map errors surfaced and are fixed.** The two Berlin studies had been filed as
+  one campaign - they are 56 days horizontal and 60 days head-down, with different men - and
+  Berg's 35-day bed rest was filed under Karolinska although it ran in Slovenia.
+- **Two reprints surfaced.** `trappe2023` reprints Trappe 2007's women and Alkner 2004's men.
+  Every row stays, and one copy of each observation is flagged `duplicate_of_other_row`; the
+  rule is in `data/reconciliation_log.md`.
+- **Six muscle terms joined the vocabulary**, for whole-group measures (all plantar flexors,
+  the gluteals, medial and lateral hamstrings) and two muscles no search paper reported on
+  their own.
+- **The one older-adult MRI study is in.** Dulac 2024 prints its quadriceps volumes only in
+  Fig. 2, so its four rows are read off the figure at low confidence. Writing to the authors
+  for the numbers would upgrade them.
+
+Deliberately left out: LeBlanc's thigh (two men, given only as a shared 16-18%) and psoas
+("no change", with no value); Miokovic's recovery to 180 days, which is only plotted; and
+Greenleaf's ultrasound thicknesses, which come from a separate paper.
+
+All three tables now hold **747 rows from 51 studies in 35 cohorts**. Ten rows are flagged as
+duplicates, so a merged modelling table has 737 observations.
