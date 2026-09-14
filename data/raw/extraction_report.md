@@ -2,8 +2,8 @@
 
 Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 
-- **575 rows** across **32 studies** and **24 cohorts**
-- **318** rows measured during unloading, 257 during recovery
+- **593 rows** across **34 studies** and **24 cohorts**
+- **336** rows measured during unloading, 257 during recovery
 - **48 distinct muscles**
 - Every row is `double_extracted = FALSE`: 0 have been checked by a second person
 
@@ -20,6 +20,7 @@ Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 | `mandic2026` | `brace_br60` | HDBR_-6 | 60 | 15 | 3 | 3 |
 | `bocker2026` | `space_vs_br_2026` | spaceflight | 180 | 12 | 1 | 1 |
 | `hansen2024` | `copenhagen_br5` | horizontal_BR | 5 | 12 | 3 | 4 |
+| `trappe2007` | `wise2005` | HDBR_-6 | 60 | 12 | 2 | 3 |
 | `tran2021` | `agbresa` | HDBR_-6 | 60 | 9 | 3 | 3 |
 | `trappe2024sprint` | `nasa_sprint_br70` | HDBR_-6 | 70 | 9 | 3 | 3 |
 | `leblanc1992` | `nasa_br17wk` | horizontal_BR | 119 | 9 | 6 | 1 |
@@ -28,6 +29,7 @@ Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 | `mulder2015` | `dlr_hdt5_crossover` | HDBR_-6 | 5 | 6 | 2 | 3 |
 | `demartino2021` | `agbresa` | HDBR_-6 | 60 | 6 | 2 | 3 |
 | `berg2007` | `valdoltra_br35` | horizontal_BR | 35 | 6 | 3 | 1 |
+| `alkner2004` | `medes_ltbr90` | HDBR_-6 | 90 | 6 | 4 | 2 |
 | `fuchs2025` | `maastricht_br14` | horizontal_BR | 14 | 5 | 4 | 1 |
 | `franchi2022` | `izola_br10` | horizontal_BR | 10 | 5 | 5 | 1 |
 | `simunic2026` | `izola_br10` | horizontal_BR | 10 | 4 | 4 | 1 |
@@ -54,8 +56,8 @@ These are the reason validation is grouped by cohort rather than by paper.
 - **`izola_br10`** — franchi2022, simunic2026
 - **`maastricht_br14`** — fuchs2025, fuchs2025bfr
 - **`mcgill_hdbr14`** — hajjboutros2023, lagace2026
-- **`medes_ltbr90`** — belavy2017, trappe2023
-- **`wise2005`** — rogers2025, trappe2023
+- **`medes_ltbr90`** — alkner2004, belavy2017, trappe2023
+- **`wise2005`** — rogers2025, trappe2007, trappe2023
 
 ## The duration axis, in unloading rows
 
@@ -67,17 +69,17 @@ These are the reason validation is grouped by cohort rather than by paper.
 | 14 | 31 |
 | 21 | 22 |
 | 35 | 3 |
-| 60 | 90 |
+| 60 | 102 |
 | 70 | 9 |
-| 90 | 100 |
+| 90 | 106 |
 | 119 | 6 |
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 510, DXA 29, CT 20, ultrasound 16
-- **Outcome:** volume 460, CSA 75, lean_mass 29, thickness 11
-- **Source:** table 523, text 52
-- **Confidence:** high 552, medium 20, low 3
+- **Modality:** MRI 528, DXA 29, CT 20, ultrasound 16
+- **Outcome:** volume 478, CSA 75, lean_mass 29, thickness 11
+- **Source:** table 535, text 58
+- **Confidence:** high 564, medium 26, low 3
 
 ## The most and least affected muscles so far
 
@@ -86,9 +88,9 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | Muscle | Rows | Mean % change |
 |---|---|---|
 | `peroneals` | 5 | -17.3 |
+| `triceps_surae` | 21 | -15.6 |
 | `soleus` | 10 | -15.5 |
 | `vastus_medialis` | 5 | -15.1 |
-| `triceps_surae` | 13 | -13.6 |
 | `semimembranosus` | 6 | -13.4 |
 | `flexor_hallucis_longus` | 4 | -13.4 |
 | `gastrocnemius_lateralis` | 7 | -12.9 |
@@ -96,7 +98,7 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `gastrocnemius_medialis` | 8 | -12.6 |
 | `anterior_tibial_group` | 6 | -12.2 |
 | `biceps_femoris_long_head` | 7 | -12.1 |
-| `vasti` | 7 | -10.4 |
+| `vasti` | 9 | -11.3 |
 | `quadratus_femoris` | 4 | -10.0 |
 | `quadratus_lumborum` | 6 | -9.6 |
 | `sartorius` | 5 | -9.1 |
@@ -107,14 +109,14 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `whole_calf` | 4 | -6.5 |
 | `multifidus` | 13 | -6.2 |
 | `posterior_thigh_compartment` | 7 | -6.2 |
+| `quadriceps` | 40 | -6.1 |
 | `biceps_femoris_short_head` | 6 | -5.8 |
 | `gluteus_maximus` | 7 | -5.7 |
 | `adductor_longus` | 5 | -5.0 |
 | `gracilis` | 5 | -4.9 |
+| `rectus_femoris` | 13 | -4.9 |
 | `vastus_lateralis` | 18 | -4.7 |
 | `whole_thigh` | 13 | -4.7 |
-| `rectus_femoris` | 12 | -4.6 |
-| `quadriceps` | 33 | -4.3 |
 | `whole_lower_limb` | 10 | -4.2 |
 | `adductor_brevis` | 4 | -4.1 |
 | `iliopsoas` | 4 | -4.0 |

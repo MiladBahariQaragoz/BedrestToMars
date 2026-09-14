@@ -664,9 +664,11 @@ for arm_id, arm_type, cm, dose, pct, sd in [
 # ------------------------------------------------------------------ Trappe 2023 (sex)
 # J Appl Physiol. Quadriceps and triceps surae volumes by MRI in 8 women over 2 months and
 # 9 men over 3 months of 6 deg head-down tilt. The paper states the data were reported
-# previously in separate publications. The women are the eight WISE-2005 controls Rogers
-# 2025 reports - Rogers names the campaign in its acknowledgements - so they share the
-# wise2005 cohort. The men may overlap another Toulouse campaign, hence the flag.
+# previously in separate publications, and both groups are identified: the women are
+# trappe2007's bed-rest-only group in WISE-2005 (the controls rogers2025 also reports) and the
+# men are alkner2004's bed-rest-only group in LTBR. The women's rows reprint trappe2007 Table 4
+# number for number, so they are flagged and trappe2007 is kept. The men's rows are the richer
+# record of Alkner's rounded day-89 percentages, so they are kept and Alkner's are flagged.
 TRAPPE = dict(
     study_id="trappe2023", first_author="Trappe", year="2023",
     doi="10.1152/japplphysiol.00412.2023", source_file="trappeta12023_pubmed_00152.pdf",
@@ -675,11 +677,10 @@ TRAPPE = dict(
     is_composite="TRUE", laterality="NA", outcome_type="volume", modality="MRI",
     unit_original="cm3", unit_si="cm3", variance_of="baseline", variance_type="SE",
     data_source="table", page_ref="Table 2", extraction_confidence="high",
-    qc_flag="laterality_unstated;possible_cohort_overlap",
+    qc_flag="laterality_unstated",
     notes=("values are means with standard errors, not SDs; the paper says these data were "
-           "reported previously in separate publications - the women are the WISE-2005 "
-           "controls also reported by rogers2025, and the men may overlap another Toulouse "
-           "campaign"),
+           "reported previously in separate publications - the women in trappe2007, the men "
+           "in alkner2004"),
 )
 # (sex, cohort, n, age, age_se, muscle, baseline, {timepoint: (value, sd)})
 TRAPPE_VALUES = [
@@ -691,9 +692,16 @@ TRAPPE_VALUES = [
 for sex, cohort, n, age, age_se, muscle, baseline, baseline_sd, timepoints, duration in TRAPPE_VALUES:
     for day, (followup, sd) in timepoints.items():
         pct = (followup - baseline) / baseline * 100
+        reprint = {}
+        if sex == "F":
+            reprint = dict(qc_flag=TRAPPE["qc_flag"] + ";duplicate_of_other_row",
+                           notes=TRAPPE["notes"] + "; identical to trappe2007 Table 4 (bed "
+                                 "rest only), the original report, which is kept - drop "
+                                 "these rows when the tables are merged")
         # Women and men are separate groups measured on the same day, so the arm id has
         # to carry the sex or the two collide in the primary key.
-        add(**TRAPPE, cohort_id=cohort, arm_id="ctrl_women" if sex == "F" else "ctrl_men",
+        add(**{**TRAPPE, **reprint}, cohort_id=cohort,
+            arm_id="ctrl_women" if sex == "F" else "ctrl_men",
             sex=sex, n_arm=str(n), n_analysed=str(n),
             age_mean=str(age), age_sd=str(age_se), duration_days=str(duration),
             timepoint_days=str(day), muscle=muscle,
@@ -1212,6 +1220,116 @@ for muscle, composite, parts, table, arms in ZANGE_VALUES:
             composite_of=parts, page_ref=ZANGE_PAGES[table],
             value_baseline_original=f"{pre:g}", value_baseline=f"{pre:g}",
             pct_change=f"{pct:g}", variance_value=f"{sd:g}")
+
+
+# ---------------------------------------------------------------- Trappe 2007 (WISE-2005)
+# Acta Physiol 191:147-159. Twenty-four women, 60 days of 6 deg head-down tilt at MEDES:
+# bed rest only, bed rest with flywheel resistance plus LBNP treadmill exercise, and bed rest
+# with a high-protein, leucine-enriched diet. Right-leg quadriceps and triceps surae volumes by
+# MRI on days 29 and 57 (Table 4, means +/- SE). The bed-rest-only values are the same eight
+# women, and the same numbers, that trappe2023 reprints; this is the original report.
+TRAPPE2007 = dict(
+    study_id="trappe2007", cohort_id="wise2005", campaign_name="WISE-2005",
+    first_author="Trappe", year="2007", doi="10.1111/j.1748-1716.2007.01728.x",
+    source_file="9.pdf", design="HDBR_-6", hdt_angle_deg="-6", duration_days="60",
+    phase="bed_rest", exposure_flag="analogue", n_arm="8", n_analysed="8", sex="F",
+    population="healthy_young", nutrition_controlled="yes", is_composite="TRUE",
+    laterality="right", outcome_type="volume", modality="MRI", unit_original="cm3",
+    unit_si="cm3", variance_of="baseline", variance_type="SE", data_source="table",
+    page_ref="Table 4, p. 152; percent changes in the Results text, pp. 152-153",
+    extraction_confidence="high", qc_flag="NA",
+    notes="right leg; volumes and ages are means with standard errors",
+)
+TRAPPE2007_ARMS = {
+    "br": dict(arm_id="br", arm_type="control", cm_modality="none", age_mean="34",
+               body_mass_mean_kg="55.6"),
+    "brn": dict(arm_id="brn", arm_type="countermeasure", cm_modality="nutrition",
+                cm_dose=("1.45 g/kg/day protein plus 3.6 g leucine, 1.8 g valine and 1.8 g "
+                         "isoleucine a day, 1.6 g/kg/day protein in total"),
+                age_mean="29", body_mass_mean_kg="61.2"),
+    "bre": dict(arm_id="bre", arm_type="countermeasure", cm_modality="combined",
+                cm_dose=("flywheel supine squat 4 x 7 and calf press 4 x 14 about every third "
+                         "day (19 sessions), plus 40 min LBNP treadmill running 2-4 days a week "
+                         "(29 sessions)"),
+                age_mean="33", body_mass_mean_kg="58.1"),
+}
+TRAPPE2007_PARTS = {"quadriceps": "NA", "triceps_surae": "gastrocnemius;soleus"}
+# muscle, {arm: (pre, pre SE, {day: (volume, printed percent change or None)})}
+TRAPPE2007_VALUES = [
+    ("quadriceps", {"br": (716, 39, {29: (596, -17), 57: (564, -21)}),
+                    "brn": (704, 49, {29: (586, -17), 57: (534, -24)}),
+                    "bre": (764, 70, {29: (750, None), 57: (742, None)})}),
+    ("triceps_surae", {"br": (374, 15, {29: (307, -18), 57: (266, -29)}),
+                       "brn": (380, 37, {29: (312, -18), 57: (276, -28)}),
+                       "bre": (339, 37, {29: (316, -7), 57: (314, -8)})}),
+]
+for muscle, arms in TRAPPE2007_VALUES:
+    for arm, (pre, se, days) in arms.items():
+        for day, (post, printed) in days.items():
+            pct = (post - pre) / pre * 100
+            if printed is None:
+                fields = dict(pct_change=f"{pct:.2f}")
+            else:
+                fields = pct_fields(pct, printed, ".2f", TRAPPE2007["qc_flag"],
+                                    TRAPPE2007["notes"],
+                                    f"; the paper prints {printed}%, which matches within rounding",
+                                    printed_note=RULE3_NOTE)
+            add(**{**TRAPPE2007, **TRAPPE2007_ARMS[arm], **fields}, muscle=muscle,
+                composite_of=TRAPPE2007_PARTS[muscle], timepoint_days=str(day),
+                value_baseline_original=str(pre), value_followup_original=str(post),
+                value_baseline=str(pre), value_followup=str(post),
+                change_absolute=str(post - pre), variance_value=str(se))
+
+
+# ------------------------------------------------------------ Alkner & Tesch 2004 (LTBR)
+# Eur J Appl Physiol 93:294-305. The 90-day LTBR campaign at MEDES: nine men in bed rest only
+# and eight with flywheel squat and calf-press training every third day. MRI volume on day 89
+# (and the vasti on day 29), given as rounded percentages in the text. The bed-rest-only
+# quadriceps and triceps surae rows are the same observations trappe2023 reprints with
+# absolute volumes, so they stay for provenance, flagged, and trappe2023 carries them into the
+# model. belavy2017 segments the same campaign's muscles itself - same cohort, a different
+# measurement. The exercise arm's quadriceps is only plotted; it is in figure_rows.py.
+ALKNER = dict(
+    study_id="alkner2004", cohort_id="medes_ltbr90",
+    campaign_name="Long Term Bed Rest (LTBR), MEDES Toulouse", first_author="Alkner",
+    year="2004", doi="10.1007/s00421-004-1172-8", source_file="7.pdf", design="HDBR_-6",
+    hdt_angle_deg="-6", duration_days="90", phase="bed_rest", exposure_flag="analogue",
+    sex="M", age_min="26", age_max="41", population="healthy_young", outcome_type="volume",
+    modality="MRI", unit_original="%", unit_si="pct_only", data_source="text",
+    page_ref="p. 298, Results - Muscle volume", extraction_confidence="medium",
+)
+ALKNER_ARMS = {
+    "br": dict(arm_id="br", arm_type="control", cm_modality="none", n_arm="9",
+               n_analysed="9", age_mean="32", age_sd="4", body_mass_mean_kg="72"),
+    "bre": dict(arm_id="bre", arm_type="countermeasure", cm_modality="flywheel",
+                cm_dose=("flywheel supine squat 4 x 7 and calf press 4 x 14 maximal coupled "
+                         "concentric-eccentric actions every third day from day 5"),
+                n_arm="9", n_analysed="8", age_mean="33", age_sd="5",
+                body_mass_mean_kg="71"),
+}
+# arm, muscle, composite, components, laterality, day, percent change, reprinted in trappe2023
+for arm, muscle, composite, parts, side, day, pct, reprinted in [
+    ("br", "quadriceps", "TRUE", "vasti;rectus_femoris", "mean", 89, -18, True),
+    ("br", "vasti", "TRUE", "vastus_lateralis;vastus_medialis;vastus_intermedius", "mean", 29,
+     -10, False),
+    ("br", "vasti", "TRUE", "vastus_lateralis;vastus_medialis;vastus_intermedius", "mean", 89,
+     -19, False),
+    ("br", "rectus_femoris", "FALSE", "NA", "mean", 89, -9, False),
+    ("br", "triceps_surae", "TRUE", "gastrocnemius;soleus", "right", 89, -29, True),
+    ("bre", "triceps_surae", "TRUE", "gastrocnemius;soleus", "right", 89, -15, False),
+]:
+    if reprinted:
+        flags = "duplicate_of_other_row;no_dispersion_published"
+        notes = (f"the same nine men and the same day-89 volume as "
+                 f"trappe2023__ctrl_men__{muscle}__bed_rest_89__MRI_volume, which prints the "
+                 f"absolute volumes and is kept; drop this row when the tables are merged")
+    else:
+        flags = "overlaps_other_paper;no_dispersion_published"
+        notes = ("rounded percentage from the text; belavy2017 segments the same campaign's "
+                 "muscles itself, so this is the same cohort measured a second way")
+    add(**ALKNER, **ALKNER_ARMS[arm], muscle=muscle, is_composite=composite,
+        composite_of=parts, laterality=side, timepoint_days=str(day), pct_change=str(pct),
+        qc_flag=flags, notes=notes)
 
 
 if __name__ == "__main__":
