@@ -1,0 +1,1492 @@
+<title>__N_ROWS__ Rows of Atrophy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,380;8..60,600&display=swap">
+
+<style>
+:root {
+  --paper: #ECEEF1;
+  --surface: #FAFBFC;
+  --sunken: #E2E6EB;
+  --ink: #14181E;
+  --muted: #5D6773;
+  --faint: #8B95A2;
+  --rule: #D2D8E0;
+  --rule-strong: #B6BFCB;
+  --accent: #2F4E7A;
+  --accent-soft: #DDE5F1;
+  --loss: #A64328;
+  --gain: #2C7A6C;
+  --warn: #9A6B1F;
+  --warn-soft: #F2E7CE;
+
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  --shell: 1180px;
+  --prose: 68ch;
+}
+
+:root:not([data-theme="light"]) {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0E1116;
+    --surface: #161B22;
+    --sunken: #1C222B;
+    --ink: #E2E6EC;
+    --muted: #8B96A5;
+    --faint: #6B7583;
+    --rule: #232A34;
+    --rule-strong: #333D4A;
+    --accent: #7CA3DC;
+    --accent-soft: #1B2534;
+    --loss: #E08361;
+    --gain: #57BCA9;
+    --warn: #D2A455;
+    --warn-soft: #2A2416;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0E1116;
+  --surface: #161B22;
+  --sunken: #1C222B;
+  --ink: #E2E6EC;
+  --muted: #8B96A5;
+  --faint: #6B7583;
+  --rule: #232A34;
+  --rule-strong: #333D4A;
+  --accent: #7CA3DC;
+  --accent-soft: #1B2534;
+  --loss: #E08361;
+  --gain: #57BCA9;
+  --warn: #D2A455;
+  --warn-soft: #2A2416;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+.shell {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.prose { max-width: var(--prose); }
+.prose p { margin: 0 0 1.1em; }
+.prose p:last-child { margin-bottom: 0; }
+
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; margin: 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+code, .field {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  background: var(--sunken);
+  padding: 0.12em 0.4em;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 56px 0 34px;
+  background: var(--surface);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.masthead h1 {
+  font-size: clamp(38px, 6vw, 62px);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.02;
+  margin: 14px 0 0;
+}
+
+.masthead .standfirst {
+  max-width: 62ch;
+  margin: 18px 0 0;
+  font-size: 19px;
+  color: var(--muted);
+}
+
+.masthead .standfirst strong { color: var(--ink); font-weight: 600; }
+
+.sourceline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+}
+
+.sourceline span { white-space: nowrap; }
+.sourceline b { color: var(--muted); font-weight: 500; }
+
+/* ---------- nav ---------- */
+
+nav.rail {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+
+nav.rail ul {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: var(--shell);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+nav.rail a {
+  display: block;
+  padding: 11px 10px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+nav.rail a:hover { color: var(--ink); border-bottom-color: var(--rule-strong); }
+
+/* ---------- sections ---------- */
+
+section { padding: 54px 0; border-bottom: 1px solid var(--rule); }
+section:last-of-type { border-bottom: 0; }
+
+.sechead { margin-bottom: 30px; }
+
+.sechead h2 {
+  font-size: clamp(24px, 3vw, 31px);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  margin: 8px 0 0;
+}
+
+.sechead .lede {
+  max-width: var(--prose);
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.sechead .lede strong { color: var(--ink); font-weight: 600; }
+
+h3.sub {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0 0 14px;
+}
+
+/* ---------- key figures ---------- */
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.kpi {
+  padding: 20px 22px;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi:last-child { border-right: 0; }
+
+.kpi .n {
+  font-family: var(--display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi .k {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.kpi .note { font-size: 13.5px; color: var(--faint); line-height: 1.4; }
+.kpi.flag .n { color: var(--warn); }
+
+/* ---------- generic panel ---------- */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 24px 26px;
+}
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 20px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+
+figcaption {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 12px;
+  max-width: 62ch;
+}
+
+figure { margin: 0; }
+
+.chartwrap { overflow-x: auto; }
+svg { display: block; max-width: 100%; height: auto; }
+svg text { font-family: var(--mono); fill: var(--muted); }
+svg .lab { font-size: 11px; }
+svg .val { font-size: 11px; fill: var(--ink); }
+svg .tick { font-size: 10px; fill: var(--faint); }
+svg .axis { stroke: var(--rule-strong); stroke-width: 1; }
+svg .grid { stroke: var(--rule); stroke-width: 1; }
+svg .b-accent { fill: var(--accent); }
+svg .b-loss { fill: var(--loss); }
+svg .b-gain { fill: var(--gain); }
+svg .b-warn { fill: var(--warn); }
+svg .b-muted { fill: var(--rule-strong); }
+svg .dot-loss { fill: var(--loss); fill-opacity: 0.42; }
+svg .dot-accent { fill: var(--accent); fill-opacity: 0.5; }
+svg .dot-gain { fill: var(--gain); fill-opacity: 0.5; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 1px; margin-right: 6px; vertical-align: -1px; }
+
+/* ---------- tables ---------- */
+
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 3px; background: var(--surface); }
+
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+
+th {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--muted);
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--rule-strong);
+  white-space: nowrap;
+  background: var(--surface);
+}
+
+td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+td.mono, th.mono { font-family: var(--mono); font-size: 12px; }
+.neg { color: var(--loss); }
+.pos { color: var(--gain); }
+
+/* ---------- pills ---------- */
+
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid var(--rule-strong);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pill.main { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.pill.partial { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
+.pill.figures { border-color: var(--rule-strong); color: var(--muted); background: var(--sunken); }
+.pill.space { border-color: var(--loss); color: var(--loss); }
+
+/* ---------- the anatomy of one row ---------- */
+
+.anatomy { display: grid; gap: 2px; background: var(--rule); border: 1px solid var(--rule); border-radius: 3px; }
+
+.block { background: var(--surface); padding: 18px 22px; }
+
+.block > header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.block > header h4 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.block > header .count { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+.block > header .gloss { font-size: 13px; color: var(--muted); margin-left: auto; text-align: right; }
+
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 12px 26px; }
+
+.f { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.f dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--faint);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.f dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.f.empty dd { color: var(--faint); }
+.f.key dd { color: var(--loss); font-weight: 600; }
+.f dd .u { color: var(--faint); font-size: 0.85em; }
+
+/* ---------- coverage strip ---------- */
+
+.coverage { display: grid; gap: 5px; }
+
+.cov {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) 1fr 46px;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+
+.cov .name { color: var(--muted); overflow-wrap: anywhere; }
+.cov .track { height: 9px; background: var(--sunken); border-radius: 1px; overflow: hidden; }
+.cov .fill { height: 100%; background: var(--accent); }
+.cov.low .fill { background: var(--warn); }
+.cov.zero .fill { background: var(--loss); }
+.cov .pc { text-align: right; color: var(--faint); font-variant-numeric: tabular-nums; }
+.cov.zero .name, .cov.zero .pc { color: var(--loss); }
+
+/* ---------- row browser ---------- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+select, input[type="search"] {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  padding: 6px 8px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  min-width: 130px;
+}
+
+input[type="search"] { min-width: 190px; }
+
+.controls .tally { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+button.reset {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  background: var(--paper);
+  color: var(--muted);
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+button.reset:hover { color: var(--ink); border-color: var(--accent); }
+
+#browser { max-height: 560px; overflow: auto; }
+#browser thead th { position: sticky; top: 0; z-index: 2; }
+
+.empty-state { padding: 40px; text-align: center; color: var(--faint); font-family: var(--mono); font-size: 13px; }
+
+/* ---------- callout ---------- */
+
+.callout {
+  border-left: 3px solid var(--warn);
+  background: var(--surface);
+  padding: 16px 20px;
+  border-radius: 0 3px 3px 0;
+}
+
+.callout h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.callout p { margin: 0; font-size: 15px; color: var(--muted); }
+
+footer {
+  padding: 40px 0 60px;
+  border-top: 1px solid var(--rule-strong);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+  line-height: 1.8;
+}
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .shell { padding: 0 18px; }
+  .kpi { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .block > header { flex-wrap: wrap; }
+  .block > header .gloss { margin-left: 0; text-align: left; width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+
+<header class="masthead">
+  <div class="shell">
+    <p class="eyebrow">From Bed Rest to Mars &middot; extraction inventory</p>
+    <h1>__N_ROWS__ Rows of Atrophy</h1>
+    <p class="standfirst">Everything currently sitting in <code>data/raw/</code>, decoded: what one
+      row actually is, which studies it came from, how much of the schema is genuinely filled in,
+      and <strong>where the holes are</strong>. Nothing here is modelled &mdash; this is the input,
+      shown honestly.</p>
+    <p class="sourceline">
+      <span><b>Sources</b> extraction_qaragoz.csv &middot; extraction_partial.csv &middot; extraction_figures.csv</span>
+      <span><b>Schema</b> v1.0, 61 columns, frozen</span>
+      <span><b>Generated</b> __DATE__</span>
+    </p>
+  </div>
+</header>
+
+<nav class="rail">
+  <ul>
+    <li><a href="#shape">Shape</a></li>
+    <li><a href="#anatomy">One row</a></li>
+    <li><a href="#tables">Three tables</a></li>
+    <li><a href="#completeness">Completeness</a></li>
+    <li><a href="#muscles">Muscles</a></li>
+    <li><a href="#duration">Duration axis</a></li>
+    <li><a href="#studies">Studies &amp; cohorts</a></li>
+    <li><a href="#how">How measured</a></li>
+    <li><a href="#who">Who</a></li>
+    <li><a href="#flags">Flags &amp; gaps</a></li>
+    <li><a href="#browse">Browse all __N_ROWS__</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="shape">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">The shape of it</p>
+      <h2>What we are holding</h2>
+      <p class="lede">Three CSV files, one schema. Every row is a single
+        <strong>baseline &rarr; follow-up contrast</strong> for one muscle, in one study arm, at
+        one timepoint &mdash; never a raw measurement standing on its own.</p>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</section>
+
+<section id="anatomy">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">61 columns, grouped by what they answer</p>
+      <h2>The anatomy of one row</h2>
+      <p class="lede">This is a real record, unedited &mdash; Tran 2021, the AGBRESA campaign,
+        gluteus maximus at day 59 of &minus;6&deg; head-down tilt. The 61 columns look
+        unreadable as a spreadsheet line, but they only answer <strong>seven questions</strong>.
+        Read it once in this shape and the rest of the file becomes obvious.</p>
+    </div>
+    <div class="anatomy" id="anatomy"></div>
+    <figcaption>Fields shown greyed are <code>NA</code> in this particular row &mdash; not missing
+      by accident. Tran 2021 never states which leg was measured, so <code>laterality</code> stays
+      empty rather than being guessed, and <code>qc_flag</code> records that decision.</figcaption>
+  </div>
+</section>
+
+<section id="tables">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">data_source &middot; digitizer_tool &middot; extraction_confidence</p>
+      <h2>Three tables, because three kinds of evidence</h2>
+      <p class="lede">They are kept apart on purpose. Merging them is a modelling decision that
+        someone should make deliberately &mdash; not a default that happens because the files
+        share a header.</p>
+    </div>
+    <div class="grid3" id="provenance"></div>
+  </div>
+</section>
+
+<section id="completeness">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">Non-empty values per column, all __N_ROWS__ rows</p>
+      <h2>How much of the schema is really filled in</h2>
+      <p class="lede">The single most important thing to understand about this dataset:
+        <strong><code>pct_change</code> is complete for every row, but the absolute
+        <code>value_followup</code> exists for only 30&nbsp;%</strong>. Most papers publish the
+        change, not both endpoints. So this is a percent-change dataset that happens to carry raw
+        values where it can &mdash; not a table of measurements we can recompute from.</p>
+    </div>
+    <div class="grid2">
+      <figure>
+        <h3 class="sub">Filled columns</h3>
+        <div class="coverage" id="cov-high"></div>
+      </figure>
+      <figure>
+        <h3 class="sub">Sparse and empty columns</h3>
+        <div class="coverage" id="cov-low"></div>
+        <figcaption>Three columns are defined in the schema and never populated:
+          <code>muscle_function_class</code>, <code>composite_of</code> and <code>p_value</code>.
+          They are not bugs &mdash; they were reserved for work that has not happened yet
+          (function grouping) or for a value the papers rarely print (exact p).</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="muscles">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">pct_change, unloading rows only, muscles with n &ge; 4</p>
+      <h2>Which muscles actually waste</h2>
+      <p class="lede">The headline pattern the talk rests on. Soleus leads the loss;
+        <strong>psoas and the obturators gain volume</strong> during bed rest, which is a real
+        result and the reason the colour scale here is signed rather than a single hue.</p>
+    </div>
+    <figure>
+      <div class="chartwrap"><div id="chart-muscles"></div></div>
+      <figcaption>Bars are the mean across every duration and both control and countermeasure
+        arms, so a soleus row from day 89 sits in the same average as one from day 5. This is a
+        sanity check on the extraction, not a result &mdash; separating duration from muscle
+        identity is the model&rsquo;s job. Dots mark the individual rows behind each bar.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="duration">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">duration_days &times; phase</p>
+      <h2>The duration axis, and the gap in the middle of it</h2>
+      <p class="lede">Rows cluster at the campaign lengths the field actually runs: short 5&ndash;14
+        day studies, then a jump to the 60&ndash;90 day flagship campaigns.
+        <strong>Between day 35 and day 60 there is almost nothing</strong>, and that gap is exactly
+        where a Mars-transit extrapolation has to pass through.</p>
+    </div>
+    <figure>
+      <div class="chartwrap"><div id="chart-duration"></div></div>
+      <figcaption>Bar height is row count, split by whether the measurement was taken during
+        unloading or in recovery. The 180-day column is spaceflight, not bed rest.</figcaption>
+    </figure>
+    <div class="grid2" style="margin-top: 26px;">
+      <figure>
+        <h3 class="sub">Every row, plotted against when it was measured</h3>
+        <div class="chartwrap"><div id="chart-scatter"></div></div>
+        <figcaption>Percent change against days since the start of unloading, coloured by arm
+          type. The scatter is what the model has to fit: wide at every duration, and thinnest
+          where the extrapolation matters most.</figcaption>
+      </figure>
+      <figure>
+        <h3 class="sub">Recovery, measured from the end of unloading</h3>
+        <div class="chartwrap"><div id="chart-recovery"></div></div>
+        <figcaption>__N_RECOVERY__ rows are recovery measurements. Most land in the first two weeks after
+          reambulation; the 90- and 360-day points come from a single long-follow-up campaign.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="studies">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">study_id &middot; cohort_id</p>
+      <h2>Where the rows come from &mdash; and why it is fewer studies than it looks</h2>
+      <p class="lede">__N_STUDIES__ papers, but only <strong>__N_COHORTS__ independent cohorts</strong>.
+        __N_SHARED_COHORTS__ campaigns were published more than once, and one campaign supplies
+        half the dataset on its own.
+        This is the whole argument for validating leave-one-<em>cohort</em>-out rather than
+        leave-one-paper-out.</p>
+    </div>
+    <figure>
+      <div class="chartwrap"><div id="chart-studies"></div></div>
+      <figcaption>Belav&yacute; 2017 alone contributes 288 rows &mdash; half of everything &mdash;
+        because it published 24 individually segmented muscles rather than a summary. Treating
+        those as 288 independent observations would be the easiest way to fool ourselves.</figcaption>
+    </figure>
+    <div style="margin-top: 30px;">
+      <h3 class="sub">Cohorts carrying more than one paper</h3>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>Cohort</th><th>Campaign</th><th>Papers sharing these participants</th><th class="num">Rows</th></tr>
+          </thead>
+          <tbody id="shared-cohorts"></tbody>
+        </table>
+      </div>
+      <figcaption>Author lists would not have caught most of these. They were matched on trial
+        registry ID, campaign description, and in one case on two papers printing identical
+        control-group baseline values.</figcaption>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">modality &middot; outcome_type &middot; design &middot; data_source</p>
+      <h2>How the numbers were measured</h2>
+      <p class="lede">Overwhelmingly MRI volume read out of a printed table. That homogeneity is
+        good for comparability and bad for coverage &mdash; a model trained here knows almost
+        nothing about ultrasound thickness or DXA lean mass.</p>
+    </div>
+    <div class="grid3" id="chart-categorical"></div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">sex &middot; age_mean &middot; n_analysed &middot; population</p>
+      <h2>Who was actually in these beds</h2>
+      <p class="lede">Young men, in groups of eight to twelve. <strong>Female rows are a small
+        minority and older participants rarer still</strong> &mdash; a limitation to state out
+        loud in the talk rather than discover in the Q&amp;A.</p>
+    </div>
+    <div class="grid3" id="chart-people"></div>
+    <div class="panel" style="margin-top: 22px;">
+      <h3 class="sub">Arms and countermeasures</h3>
+      <p style="max-width: 68ch; font-size: 15px; color: var(--muted); margin: 0 0 18px;">
+        A little under half the rows come from an arm that was doing something to resist the
+        atrophy. Any model that ignores <code>arm_type</code> will read countermeasure success as
+        a weaker effect of bed rest itself.</p>
+      <div class="chartwrap"><div id="chart-arms"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="flags">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">qc_flag &middot; double_extracted &middot; exposure_flag</p>
+      <h2>Everything we know is imperfect about it</h2>
+      <p class="lede">Every judgement call made during extraction was written into the row rather
+        than smoothed away. This section is the list of things that could bite us.</p>
+    </div>
+    <div class="grid2">
+      <figure>
+        <h3 class="sub">Quality flags, by how many rows carry them</h3>
+        <div class="chartwrap"><div id="chart-flags"></div></div>
+        <figcaption>A row can carry several. <code>laterality_unstated</code> dominates simply
+          because most papers never say which leg they scanned.</figcaption>
+      </figure>
+      <div style="display: grid; gap: 16px; align-content: start;">
+        <div class="callout">
+          <h4>No row has been double-extracted by hand</h4>
+          <p><code>double_extracted</code> is <code>FALSE</code> for all __N_ROWS__ rows. An
+            AI-assisted re-extraction of the 580 rows that existed on 4 September, checked against
+            the original papers, agreed on 556 and left no numeric conflict unresolved; its
+            corrections are applied and logged in <code>data/reconciliation_log.md</code>. It is
+            not a human double extraction, so the flag stays <code>FALSE</code>.</p>
+        </div>
+        <div class="callout">
+          <h4>__N_SPACEFLIGHT__ rows are spaceflight, not bed rest</h4>
+          <p>They carry <code>exposure_flag = spaceflight</code> and are kept in the file
+            deliberately. Whether they join the training set or are held back as an external test
+            is still open &mdash; the flag exists so that it stays a decision.</p>
+        </div>
+        <div class="callout">
+          <h4>Nineteen included studies yielded no rows at all</h4>
+          <p>Three are XML-only, where the text is available but the figure images are not; the
+            rest plot changes with no baseline printed anywhere, so a percent change could only be
+            built by inventing the denominator. Per-paper reasons are recorded in
+            <code>screen_decisions_fulltext.csv</code>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="browse">
+  <div class="shell">
+    <div class="sechead">
+      <p class="eyebrow">the actual file, filterable</p>
+      <h2>Browse all __N_ROWS__ rows</h2>
+      <p class="lede">The same data, unaggregated. Filter it to check anything the charts above
+        claim.</p>
+    </div>
+    <div class="controls">
+      <label>Table
+        <select id="f-table"><option value="">all</option></select>
+      </label>
+      <label>Study
+        <select id="f-study"><option value="">all</option></select>
+      </label>
+      <label>Muscle
+        <select id="f-muscle"><option value="">all</option></select>
+      </label>
+      <label>Phase
+        <select id="f-phase"><option value="">all</option></select>
+      </label>
+      <label>Arm type
+        <select id="f-arm"><option value="">all</option></select>
+      </label>
+      <label>Search
+        <input type="search" id="f-text" placeholder="author, cohort, site&hellip;">
+      </label>
+      <button type="button" class="reset" id="f-reset">Reset</button>
+      <span class="tally" id="tally"></span>
+    </div>
+    <div class="tablewrap" id="browser">
+      <table>
+        <thead>
+          <tr>
+            <th>Study</th><th>Cohort</th><th>Muscle</th><th>Site</th><th>Arm</th>
+            <th>Phase</th><th class="num">Day</th><th class="num">Baseline</th>
+            <th class="num">Follow-up</th><th class="num">% change</th><th>Source</th><th>Table</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="shell">
+    Generated by <code>framework/build_data_report.py</code> from the three extraction tables in
+    <code>data/raw/</code> &mdash; never edited by hand, so it cannot disagree with the CSVs it
+    describes.<br>
+    From Bed Rest to Mars &middot; DGLRM 2026 &middot; extraction by Qaragoz &middot; schema v1.0, frozen.
+  </div>
+</footer>
+
+<script id="payload" type="application/json">__DATA__</script>
+
+<script>
+(function () {
+  "use strict";
+
+  var PAYLOAD = JSON.parse(document.getElementById("payload").textContent);
+  var COLS = PAYLOAD.cols;
+  var ANATOMY = PAYLOAD.anatomy;
+  var COVERAGE = PAYLOAD.coverage;
+
+  var ROWS = PAYLOAD.rows.map(function (values) {
+    var row = {};
+    COLS.forEach(function (name, index) { row[name] = values[index]; });
+    return row;
+  });
+
+  var NA = function (value) { return value === "NA" || value === "" || value == null; };
+  var num = function (value) { return NA(value) ? null : parseFloat(value); };
+  var esc = function (text) {
+    return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  };
+  var pretty = function (slug) { return String(slug).replace(/_/g, " "); };
+
+  function tally(list, key) {
+    var counts = new Map();
+    list.forEach(function (item) {
+      var value = typeof key === "function" ? key(item) : item[key];
+      if (NA(value)) { value = "not stated"; }
+      counts.set(value, (counts.get(value) || 0) + 1);
+    });
+    return Array.from(counts, function (pair) { return { label: pair[0], value: pair[1] }; })
+      .sort(function (a, b) { return b.value - a.value; });
+  }
+
+  function svg(width, height, body) {
+    return '<svg viewBox="0 0 ' + width + " " + height + '" width="' + width +
+      '" role="img" aria-hidden="true">' + body + "</svg>";
+  }
+
+  var mount = function (id, markup) {
+    var node = document.getElementById(id);
+    if (node) { node.innerHTML = markup; }
+  };
+
+  /* ---------- key figures ---------- */
+
+  var unloading = ROWS.filter(function (r) { return r.phase === "bed_rest"; });
+  var studies = new Set(ROWS.map(function (r) { return r.study_id; }));
+  var cohorts = new Set(ROWS.map(function (r) { return r.cohort_id; }));
+  var muscles = new Set(ROWS.map(function (r) { return r.muscle; }));
+
+  var KPIS = [
+    { n: ROWS.length, k: "rows", note: "one muscle, one arm, one timepoint each" },
+    { n: studies.size, k: "papers", note: "screened in from 3,590 unique records" },
+    { n: cohorts.size, k: "independent cohorts", note: "the unit validation is grouped by" },
+    { n: muscles.size, k: "distinct muscles", note: "on one controlled vocabulary" },
+    { n: unloading.length, k: "rows during unloading", note: (ROWS.length - unloading.length) + " more in recovery" },
+    { n: 0, k: "double-extracted", note: "no row re-checked by a second person", flag: true }
+  ];
+
+  mount("kpis", KPIS.map(function (item) {
+    return '<div class="kpi' + (item.flag ? " flag" : "") + '">' +
+      '<span class="n">' + item.n + "</span>" +
+      '<span class="k">' + esc(item.k) + "</span>" +
+      '<span class="note">' + esc(item.note) + "</span></div>";
+  }).join(""));
+
+  /* ---------- anatomy of one row ---------- */
+
+  mount("anatomy", ANATOMY.map(function (block) {
+    var fields = block.fields.map(function (field) {
+      var name = field[0], value = field[1];
+      var classes = "f" + (NA(value) ? " empty" : "") + (block.key && block.key.indexOf(name) > -1 ? " key" : "");
+      return '<div class="' + classes + '"><dt>' + esc(name) + "</dt>" +
+        "<dd>" + (NA(value) ? "&mdash;" : esc(value)) + "</dd></div>";
+    }).join("");
+    return '<div class="block"><header><h4>' + esc(block.title) + "</h4>" +
+      '<span class="count">' + block.fields.length + " fields</span>" +
+      '<span class="gloss">' + block.gloss + "</span></header>" +
+      '<dl class="fields">' + fields + "</dl></div>";
+  }).join(""));
+
+  /* ---------- provenance cards ---------- */
+
+  var TABLE_COPY = {
+    main: {
+      title: "extraction_qaragoz.csv",
+      badge: "main",
+      lede: "Complete records lifted from a printed table or from an explicit sentence in the text.",
+      body: "This is the trustworthy core. Both endpoints or an explicitly printed change, a stated group size, and a page reference for every number."
+    },
+    partial: {
+      title: "extraction_partial.csv",
+      badge: "partial",
+      lede: "Headline numbers from papers that never published a full set.",
+      body: "Usually a percentage in an abstract with the group size or the baseline missing. Every row carries partial_record plus a note saying exactly what is absent."
+    },
+    figures: {
+      title: "extraction_figures.csv",
+      badge: "figures",
+      lede: "Recovered from papers that published their results only as charts.",
+      body: "Some values were printed in the prose beside the figure and are exact; the rest were read against the axis and are estimates. digitizer_tool records which is which."
+    }
+  };
+
+  mount("provenance", ["main", "partial", "figures"].map(function (key) {
+    var copy = TABLE_COPY[key];
+    var subset = ROWS.filter(function (r) { return r.table === key; });
+    var studyCount = new Set(subset.map(function (r) { return r.study_id; })).size;
+    var confidence = tally(subset, "extraction_confidence")
+      .map(function (c) { return c.value + " " + c.label; }).join(" &middot; ");
+    return '<div class="panel">' +
+      '<span class="pill ' + key + '">' + esc(copy.badge) + "</span>" +
+      '<h3 class="sub" style="margin: 12px 0 4px; font-family: var(--mono); font-size: 13px;">' +
+      esc(copy.title) + "</h3>" +
+      '<p style="font-family: var(--display); font-size: 27px; font-weight: 700; letter-spacing: -0.02em; margin: 10px 0 2px; font-variant-numeric: tabular-nums;">' +
+      subset.length + ' <span style="font-size: 14px; font-weight: 500; color: var(--muted);">rows</span></p>' +
+      '<p style="font-family: var(--mono); font-size: 11px; color: var(--faint); margin: 0 0 14px;">' +
+      studyCount + " studies &middot; " + confidence + "</p>" +
+      '<p style="font-size: 15px; margin: 0 0 10px;">' + esc(copy.lede) + "</p>" +
+      '<p style="font-size: 14px; color: var(--muted); margin: 0;">' + esc(copy.body) + "</p></div>";
+  }).join(""));
+
+  /* ---------- completeness ---------- */
+
+  function coverageRows(items) {
+    return items.map(function (item) {
+      var pct = item[1] / ROWS.length * 100;
+      var tone = item[1] === 0 ? " zero" : (pct < 55 ? " low" : "");
+      return '<div class="cov' + tone + '"><span class="name">' + esc(item[0]) + "</span>" +
+        '<span class="track"><span class="fill" style="width: ' + pct.toFixed(1) + '%"></span></span>' +
+        '<span class="pc">' + Math.round(pct) + "%</span></div>";
+    }).join("");
+  }
+
+  var sortedCoverage = COVERAGE.slice().sort(function (a, b) { return b[1] - a[1]; });
+  var full = sortedCoverage.filter(function (item) { return item[1] / ROWS.length >= 0.8; });
+  var sparse = sortedCoverage.filter(function (item) { return item[1] / ROWS.length < 0.8; });
+
+  mount("cov-high", coverageRows(full));
+  mount("cov-low", coverageRows(sparse));
+
+  /* ---------- muscles: signed bars with the underlying rows as dots ---------- */
+
+  var byMuscle = new Map();
+  unloading.forEach(function (row) {
+    var value = num(row.pct_change);
+    if (value === null) { return; }
+    if (!byMuscle.has(row.muscle)) { byMuscle.set(row.muscle, []); }
+    byMuscle.get(row.muscle).push(value);
+  });
+
+  var ranked = Array.from(byMuscle, function (pair) {
+    var values = pair[1];
+    return {
+      muscle: pair[0],
+      n: values.length,
+      values: values,
+      mean: values.reduce(function (a, b) { return a + b; }, 0) / values.length
+    };
+  }).filter(function (item) { return item.n >= 4; })
+    .sort(function (a, b) { return a.mean - b.mean; });
+
+  (function drawMuscles() {
+    var padLeft = 232, padRight = 58, padTop = 30, padBottom = 34, rowHeight = 21;
+    var width = 1060, plot = width - padLeft - padRight;
+    var height = padTop + ranked.length * rowHeight + padBottom;
+
+    var lo = -34, hi = 14;
+    var x = function (value) { return padLeft + (value - lo) / (hi - lo) * plot; };
+    var zero = x(0);
+    var parts = [];
+
+    for (var tick = lo + 4; tick <= hi; tick += 6) {
+      parts.push('<line class="grid" x1="' + x(tick).toFixed(1) + '" y1="' + padTop +
+        '" x2="' + x(tick).toFixed(1) + '" y2="' + (height - padBottom) + '"></line>');
+      parts.push('<text class="tick" x="' + x(tick).toFixed(1) + '" y="' + (height - padBottom + 15) +
+        '" text-anchor="middle">' + tick + "%</text>");
+    }
+
+    ranked.forEach(function (item, index) {
+      var y = padTop + index * rowHeight;
+      var mid = y + rowHeight / 2;
+      var negative = item.mean < 0;
+      var start = negative ? x(item.mean) : zero;
+      var barWidth = Math.abs(x(item.mean) - zero);
+
+      parts.push('<rect class="' + (negative ? "b-loss" : "b-gain") + '" x="' + start.toFixed(1) +
+        '" y="' + (y + 4) + '" width="' + Math.max(barWidth, 1).toFixed(1) +
+        '" height="' + (rowHeight - 8) + '" rx="1"></rect>');
+
+      item.values.forEach(function (value) {
+        var cx = Math.max(padLeft - 6, Math.min(width - padRight + 6, x(value)));
+        parts.push('<circle class="' + (value < 0 ? "dot-loss" : "dot-gain") + '" cx="' +
+          cx.toFixed(1) + '" cy="' + mid.toFixed(1) + '" r="2.4"></circle>');
+      });
+
+      parts.push('<text class="lab" x="' + (padLeft - 12) + '" y="' + (mid + 3.5) +
+        '" text-anchor="end">' + esc(pretty(item.muscle)) + "</text>");
+      parts.push('<text class="val" x="' + (width - padRight + 8) + '" y="' + (mid + 3.5) + '">' +
+        (item.mean >= 0 ? "+" : "") + item.mean.toFixed(1) + "</text>");
+      parts.push('<text class="tick" x="' + (width - padRight + 46) + '" y="' + (mid + 3.5) +
+        '" text-anchor="end">n=' + item.n + "</text>");
+    });
+
+    parts.push('<line class="axis" x1="' + zero.toFixed(1) + '" y1="' + (padTop - 6) +
+      '" x2="' + zero.toFixed(1) + '" y2="' + (height - padBottom) + '"></line>');
+    parts.push('<text class="tick" x="' + zero.toFixed(1) + '" y="' + (padTop - 12) +
+      '" text-anchor="middle">no change</text>');
+
+    mount("chart-muscles", svg(width, height, parts.join("")) +
+      '<div class="legend"><span><i style="background: var(--loss)"></i>mean loss</span>' +
+      '<span><i style="background: var(--gain)"></i>mean gain</span>' +
+      '<span><i style="background: var(--faint); border-radius: 50%"></i>individual rows</span></div>');
+  }());
+
+  /* ---------- duration axis on a true day scale ---------- */
+
+  (function drawDuration() {
+    var durations = new Map();
+    ROWS.forEach(function (row) {
+      var days = num(row.duration_days);
+      if (days === null) { return; }
+      if (!durations.has(days)) { durations.set(days, { bed_rest: 0, recovery: 0 }); }
+      durations.get(days)[row.phase] += 1;
+    });
+
+    var entries = Array.from(durations, function (pair) {
+      return { days: pair[0], bed: pair[1].bed_rest, rec: pair[1].recovery, total: pair[1].bed_rest + pair[1].recovery };
+    }).sort(function (a, b) { return a.days - b.days; });
+
+    var padLeft = 52, padRight = 26, padTop = 26, padBottom = 52;
+    var width = 1060, height = 320;
+    var plotW = width - padLeft - padRight, plotH = height - padTop - padBottom;
+    var maxTotal = Math.max.apply(null, entries.map(function (e) { return e.total; }));
+    var barWidth = 20;
+
+    var x = function (days) { return padLeft + days / 190 * plotW; };
+    var y = function (count) { return padTop + plotH - count / maxTotal * plotH; };
+    var parts = [];
+
+    [0, 50, 100, 150, 200, 250, 300].forEach(function (count) {
+      if (count > maxTotal) { return; }
+      parts.push('<line class="grid" x1="' + padLeft + '" y1="' + y(count).toFixed(1) +
+        '" x2="' + (width - padRight) + '" y2="' + y(count).toFixed(1) + '"></line>');
+      parts.push('<text class="tick" x="' + (padLeft - 8) + '" y="' + (y(count) + 3.5).toFixed(1) +
+        '" text-anchor="end">' + count + "</text>");
+    });
+
+    entries.forEach(function (entry) {
+      var cx = x(entry.days) - barWidth / 2;
+      var topRec = y(entry.total), topBed = y(entry.bed);
+      if (entry.rec) {
+        parts.push('<rect class="b-muted" x="' + cx.toFixed(1) + '" y="' + topRec.toFixed(1) +
+          '" width="' + barWidth + '" height="' + (topBed - topRec).toFixed(1) + '"></rect>');
+      }
+      parts.push('<rect class="b-accent" x="' + cx.toFixed(1) + '" y="' + topBed.toFixed(1) +
+        '" width="' + barWidth + '" height="' + (padTop + plotH - topBed).toFixed(1) + '"></rect>');
+      parts.push('<text class="val" x="' + x(entry.days).toFixed(1) + '" y="' + (topRec - 7).toFixed(1) +
+        '" text-anchor="middle">' + entry.total + "</text>");
+      parts.push('<text class="tick" x="' + x(entry.days).toFixed(1) + '" y="' + (padTop + plotH + 16) +
+        '" text-anchor="middle">' + entry.days + "</text>");
+    });
+
+    parts.push('<line class="axis" x1="' + padLeft + '" y1="' + (padTop + plotH) +
+      '" x2="' + (width - padRight) + '" y2="' + (padTop + plotH) + '"></line>');
+    parts.push('<text class="tick" x="' + (padLeft + plotW / 2) + '" y="' + (height - 14) +
+      '" text-anchor="middle">days of unloading &mdash; positioned on a true day scale, so the gaps are real</text>');
+
+    var gapStart = x(36), gapEnd = x(59);
+    parts.unshift('<rect x="' + gapStart.toFixed(1) + '" y="' + padTop + '" width="' +
+      (gapEnd - gapStart).toFixed(1) + '" height="' + plotH + '" fill="var(--warn)" fill-opacity="0.09"></rect>');
+    parts.push('<text class="tick" x="' + ((gapStart + gapEnd) / 2).toFixed(1) + '" y="' + (padTop + 14) +
+      '" text-anchor="middle" fill="var(--warn)">no data</text>');
+
+    mount("chart-duration", svg(width, height, parts.join("")) +
+      '<div class="legend"><span><i style="background: var(--accent)"></i>measured during unloading</span>' +
+      '<span><i style="background: var(--rule-strong)"></i>measured in recovery</span>' +
+      '<span><i style="background: var(--warn); opacity: 0.35"></i>day 36&ndash;59, unobserved</span></div>');
+  }());
+
+  /* ---------- scatter: every row against when it was measured ---------- */
+
+  (function drawScatter() {
+    var points = ROWS.filter(function (row) {
+      return row.phase === "bed_rest" && num(row.timepoint_days) !== null && num(row.pct_change) !== null;
+    });
+
+    var padLeft = 54, padRight = 20, padTop = 22, padBottom = 46;
+    var width = 560, height = 340;
+    var plotW = width - padLeft - padRight, plotH = height - padTop - padBottom;
+    var lo = -40, hi = 20;
+
+    var x = function (days) { return padLeft + days / 95 * plotW; };
+    var y = function (pct) { return padTop + (hi - pct) / (hi - lo) * plotH; };
+    var parts = [];
+
+    for (var pct = lo; pct <= hi; pct += 10) {
+      parts.push('<line class="grid" x1="' + padLeft + '" y1="' + y(pct).toFixed(1) +
+        '" x2="' + (width - padRight) + '" y2="' + y(pct).toFixed(1) + '"></line>');
+      parts.push('<text class="tick" x="' + (padLeft - 8) + '" y="' + (y(pct) + 3.5).toFixed(1) +
+        '" text-anchor="end">' + (pct > 0 ? "+" : "") + pct + "%</text>");
+    }
+    [0, 20, 40, 60, 80].forEach(function (day) {
+      parts.push('<text class="tick" x="' + x(day).toFixed(1) + '" y="' + (padTop + plotH + 16) +
+        '" text-anchor="middle">' + day + "</text>");
+    });
+
+    parts.push('<line class="axis" x1="' + padLeft + '" y1="' + y(0).toFixed(1) +
+      '" x2="' + (width - padRight) + '" y2="' + y(0).toFixed(1) + '"></line>');
+
+    points.forEach(function (row) {
+      var cls = row.arm_type === "countermeasure" ? "dot-gain" : "dot-accent";
+      parts.push('<circle class="' + cls + '" cx="' + x(num(row.timepoint_days)).toFixed(1) +
+        '" cy="' + y(Math.max(lo, Math.min(hi, num(row.pct_change)))).toFixed(1) + '" r="2.7"></circle>');
+    });
+
+    parts.push('<text class="tick" x="' + (padLeft + plotW / 2) + '" y="' + (height - 12) +
+      '" text-anchor="middle">days since the start of unloading</text>');
+
+    mount("chart-scatter", svg(width, height, parts.join("")) +
+      '<div class="legend"><span><i style="background: var(--accent)"></i>control arm</span>' +
+      '<span><i style="background: var(--gain)"></i>countermeasure arm</span></div>');
+  }());
+
+  /* ---------- recovery timing ---------- */
+
+  (function drawRecovery() {
+    var counts = new Map();
+    ROWS.forEach(function (row) {
+      var after = num(row.days_from_unloading_end);
+      if (row.phase !== "recovery" || after === null) { return; }
+      counts.set(after, (counts.get(after) || 0) + 1);
+    });
+
+    var entries = Array.from(counts, function (pair) { return { day: pair[0], n: pair[1] }; })
+      .sort(function (a, b) { return a.day - b.day; });
+
+    var padLeft = 54, padRight = 20, padTop = 22, padBottom = 46;
+    var width = 560, height = 340;
+    var plotW = width - padLeft - padRight, plotH = height - padTop - padBottom;
+    var maxCount = Math.max.apply(null, entries.map(function (e) { return e.n; }));
+    var slot = plotW / entries.length;
+
+    var y = function (count) { return padTop + plotH - count / maxCount * plotH; };
+    var parts = [];
+
+    [0, 50, 100, 150].forEach(function (count) {
+      if (count > maxCount) { return; }
+      parts.push('<line class="grid" x1="' + padLeft + '" y1="' + y(count).toFixed(1) +
+        '" x2="' + (width - padRight) + '" y2="' + y(count).toFixed(1) + '"></line>');
+      parts.push('<text class="tick" x="' + (padLeft - 8) + '" y="' + (y(count) + 3.5).toFixed(1) +
+        '" text-anchor="end">' + count + "</text>");
+    });
+
+    entries.forEach(function (entry, index) {
+      var cx = padLeft + index * slot + slot / 2;
+      var barWidth = Math.min(slot - 12, 40);
+      parts.push('<rect class="b-warn" x="' + (cx - barWidth / 2).toFixed(1) + '" y="' + y(entry.n).toFixed(1) +
+        '" width="' + barWidth.toFixed(1) + '" height="' + (padTop + plotH - y(entry.n)).toFixed(1) + '" rx="1"></rect>');
+      parts.push('<text class="val" x="' + cx.toFixed(1) + '" y="' + (y(entry.n) - 7).toFixed(1) +
+        '" text-anchor="middle">' + entry.n + "</text>");
+      parts.push('<text class="tick" x="' + cx.toFixed(1) + '" y="' + (padTop + plotH + 16) +
+        '" text-anchor="middle">' + entry.day + "</text>");
+    });
+
+    parts.push('<line class="axis" x1="' + padLeft + '" y1="' + (padTop + plotH) +
+      '" x2="' + (width - padRight) + '" y2="' + (padTop + plotH) + '"></line>');
+    parts.push('<text class="tick" x="' + (padLeft + plotW / 2) + '" y="' + (height - 12) +
+      '" text-anchor="middle">days after reambulation (categories, not to scale)</text>');
+
+    mount("chart-recovery", svg(width, height, parts.join("")));
+  }());
+
+  /* ---------- rows per study ---------- */
+
+  (function drawStudies() {
+    var perStudy = new Map();
+    ROWS.forEach(function (row) {
+      if (!perStudy.has(row.study_id)) {
+        perStudy.set(row.study_id, { n: 0, cohort: row.cohort_id, table: row.table });
+      }
+      perStudy.get(row.study_id).n += 1;
+    });
+
+    var entries = Array.from(perStudy, function (pair) {
+      return { study: pair[0], n: pair[1].n, cohort: pair[1].cohort, table: pair[1].table };
+    }).sort(function (a, b) { return b.n - a.n; });
+
+    var padLeft = 150, padRight = 46, padTop = 12, padBottom = 34, rowHeight = 17;
+    var width = 1060, plotW = width - padLeft - padRight;
+    var height = padTop + entries.length * rowHeight + padBottom;
+    var maxCount = entries[0].n;
+    var parts = [];
+
+    [0, 50, 100, 150, 200, 250].forEach(function (count) {
+      var cx = padLeft + count / maxCount * plotW;
+      parts.push('<line class="grid" x1="' + cx.toFixed(1) + '" y1="' + padTop +
+        '" x2="' + cx.toFixed(1) + '" y2="' + (height - padBottom) + '"></line>');
+      parts.push('<text class="tick" x="' + cx.toFixed(1) + '" y="' + (height - padBottom + 15) +
+        '" text-anchor="middle">' + count + "</text>");
+    });
+
+    entries.forEach(function (entry, index) {
+      var y = padTop + index * rowHeight;
+      var barWidth = Math.max(entry.n / maxCount * plotW, 1.5);
+      var cls = entry.table === "main" ? "b-accent" : (entry.table === "partial" ? "b-warn" : "b-muted");
+      parts.push('<rect class="' + cls + '" x="' + padLeft + '" y="' + (y + 3) +
+        '" width="' + barWidth.toFixed(1) + '" height="' + (rowHeight - 6) + '" rx="1"></rect>');
+      parts.push('<text class="lab" x="' + (padLeft - 10) + '" y="' + (y + rowHeight / 2 + 3.5) +
+        '" text-anchor="end">' + esc(entry.study) + "</text>");
+      parts.push('<text class="val" x="' + (padLeft + barWidth + 8).toFixed(1) + '" y="' +
+        (y + rowHeight / 2 + 3.5) + '">' + entry.n + "</text>");
+    });
+
+    parts.push('<text class="tick" x="' + (padLeft + plotW / 2) + '" y="' + (height - 8) +
+      '" text-anchor="middle">extracted rows</text>');
+
+    mount("chart-studies", svg(width, height, parts.join("")) +
+      '<div class="legend"><span><i style="background: var(--accent)"></i>main table</span>' +
+      '<span><i style="background: var(--warn)"></i>partial table</span>' +
+      '<span><i style="background: var(--rule-strong)"></i>figure-derived</span></div>');
+  }());
+
+  /* ---------- cohorts carrying more than one paper ---------- */
+
+  (function sharedCohorts() {
+    var map = new Map();
+    ROWS.forEach(function (row) {
+      if (!map.has(row.cohort_id)) {
+        map.set(row.cohort_id, { studies: new Set(), rows: 0, campaign: row.campaign_name });
+      }
+      var entry = map.get(row.cohort_id);
+      entry.studies.add(row.study_id);
+      entry.rows += 1;
+      if (NA(entry.campaign) && !NA(row.campaign_name)) { entry.campaign = row.campaign_name; }
+    });
+
+    var shared = Array.from(map, function (pair) {
+      return { cohort: pair[0], campaign: pair[1].campaign, studies: Array.from(pair[1].studies).sort(), rows: pair[1].rows };
+    }).filter(function (item) { return item.studies.length > 1; })
+      .sort(function (a, b) { return b.studies.length - a.studies.length || b.rows - a.rows; });
+
+    mount("shared-cohorts", shared.map(function (item) {
+      return "<tr><td class='mono'>" + esc(item.cohort) + "</td>" +
+        "<td>" + (NA(item.campaign) ? "&mdash;" : esc(item.campaign)) + "</td>" +
+        "<td class='mono'>" + item.studies.map(esc).join(" &middot; ") + "</td>" +
+        "<td class='num'>" + item.rows + "</td></tr>";
+    }).join(""));
+  }());
+
+  /* ---------- small horizontal bar helper for categorical counts ---------- */
+
+  function miniBars(items, tone) {
+    var padLeft = 128, padRight = 46, padTop = 6, padBottom = 6, rowHeight = 24;
+    var width = 400, plotW = width - padLeft - padRight;
+    var height = padTop + items.length * rowHeight + padBottom;
+    var maxValue = Math.max.apply(null, items.map(function (i) { return i.value; }));
+    var parts = [];
+
+    items.forEach(function (item, index) {
+      var y = padTop + index * rowHeight;
+      var barWidth = Math.max(item.value / maxValue * plotW, 2);
+      parts.push('<rect class="' + (tone || "b-accent") + '" x="' + padLeft + '" y="' + (y + 5) +
+        '" width="' + barWidth.toFixed(1) + '" height="' + (rowHeight - 12) + '" rx="1"></rect>');
+      parts.push('<text class="lab" x="' + (padLeft - 10) + '" y="' + (y + rowHeight / 2 + 3.5) +
+        '" text-anchor="end">' + esc(pretty(item.label)) + "</text>");
+      parts.push('<text class="val" x="' + (padLeft + barWidth + 8).toFixed(1) + '" y="' +
+        (y + rowHeight / 2 + 3.5) + '">' + item.value + "</text>");
+    });
+
+    return svg(width, height, parts.join(""));
+  }
+
+  function statPanel(title, gloss, items, tone) {
+    return '<figure class="panel"><h3 class="sub">' + esc(title) + "</h3>" +
+      '<div class="chartwrap">' + miniBars(items, tone) + "</div>" +
+      (gloss ? "<figcaption>" + gloss + "</figcaption>" : "") + "</figure>";
+  }
+
+  mount("chart-categorical", [
+    statPanel("Imaging modality", "MRI is 84&nbsp;% of the file. Comparability is excellent; breadth is not.",
+      tally(ROWS, "modality")),
+    statPanel("What was measured", "Volume dominates because MRI does. Thickness and lean mass are thin.",
+      tally(ROWS, "outcome_type")),
+    statPanel("Unloading model", "Head-down tilt at &minus;6&deg; is the field&rsquo;s standard; ULLS and dry immersion barely appear.",
+      tally(ROWS, "design")),
+    statPanel("Where the number was found", "Printed tables are the trustworthy majority; 14 rows came off a chart.",
+      tally(ROWS, "data_source"), "b-warn"),
+    statPanel("Extraction confidence", "Graded per row at extraction time, not retrofitted.",
+      tally(ROWS, "extraction_confidence")),
+    statPanel("Whole muscle or a compartment", "Composite rows pool several muscles, so they can never be compared straight to a single-muscle row.",
+      tally(ROWS, function (r) { return r.is_composite === "TRUE" ? "composite group" : "single muscle"; }))
+  ].join(""));
+
+  /* ---------- who ---------- */
+
+  var ageBand = function (row) {
+    var age = num(row.age_mean);
+    if (age === null) { return "not published"; }
+    if (age < 30) { return "20s"; }
+    if (age < 40) { return "30s"; }
+    if (age < 50) { return "40s"; }
+    return "50+";
+  };
+
+  mount("chart-people", [
+    statPanel("Sex of the arm", "Rows, not participants &mdash; a 24-muscle paper on men weighs more than a 2-muscle paper on women.",
+      tally(ROWS, "sex")),
+    statPanel("Mean age of the arm", "Two campaigns supply nearly all the older rows.",
+      tally(ROWS, ageBand)),
+    statPanel("Population", "Almost entirely healthy young volunteers.", tally(ROWS, "population")),
+    statPanel("Participants analysed per arm", "Small groups throughout &mdash; the n that weights every row.",
+      tally(ROWS, "n_analysed").sort(function (a, b) { return (parseInt(a.label, 10) || 99) - (parseInt(b.label, 10) || 99); })),
+    statPanel("Exposure", "__N_SPACEFLIGHT__ spaceflight rows are flagged and kept separable.",
+      tally(ROWS, "exposure_flag"), "b-loss"),
+    statPanel("Nutrition controlled", "Recorded where the paper says so; blank is genuinely unknown, not &lsquo;no&rsquo;.",
+      tally(ROWS, "nutrition_controlled"))
+  ].join(""));
+
+  mount("chart-arms", miniBars(tally(ROWS, "cm_modality"), "b-gain"));
+
+  /* ---------- quality flags ---------- */
+
+  (function drawFlags() {
+    var counts = new Map();
+    ROWS.forEach(function (row) {
+      String(row.qc_flag).split(";").forEach(function (flag) {
+        if (!flag || flag === "NA") { return; }
+        counts.set(flag, (counts.get(flag) || 0) + 1);
+      });
+    });
+
+    var items = Array.from(counts, function (pair) { return { label: pair[0], value: pair[1] }; })
+      .sort(function (a, b) { return b.value - a.value; }).slice(0, 14);
+
+    var padLeft = 268, padRight = 46, padTop = 6, padBottom = 6, rowHeight = 23;
+    var width = 540, plotW = width - padLeft - padRight;
+    var height = padTop + items.length * rowHeight + padBottom;
+    var maxValue = items[0].value;
+    var parts = [];
+
+    items.forEach(function (item, index) {
+      var y = padTop + index * rowHeight;
+      var barWidth = Math.max(item.value / maxValue * plotW, 2);
+      parts.push('<rect class="b-warn" x="' + padLeft + '" y="' + (y + 5) + '" width="' +
+        barWidth.toFixed(1) + '" height="' + (rowHeight - 11) + '" rx="1"></rect>');
+      parts.push('<text class="lab" x="' + (padLeft - 10) + '" y="' + (y + rowHeight / 2 + 3.5) +
+        '" text-anchor="end">' + esc(item.label) + "</text>");
+      parts.push('<text class="val" x="' + (padLeft + barWidth + 8).toFixed(1) + '" y="' +
+        (y + rowHeight / 2 + 3.5) + '">' + item.value + "</text>");
+    });
+
+    mount("chart-flags", svg(width, height, parts.join("")));
+  }());
+
+  /* ---------- browsable table ---------- */
+
+  var FILTERS = [
+    { id: "f-table", field: "table" },
+    { id: "f-study", field: "study_id" },
+    { id: "f-muscle", field: "muscle" },
+    { id: "f-phase", field: "phase" },
+    { id: "f-arm", field: "arm_type" }
+  ];
+
+  FILTERS.forEach(function (filter) {
+    var select = document.getElementById(filter.id);
+    var values = Array.from(new Set(ROWS.map(function (row) { return row[filter.field]; }))).sort();
+    values.forEach(function (value) {
+      var option = document.createElement("option");
+      option.value = value;
+      option.textContent = pretty(value);
+      select.appendChild(option);
+    });
+    select.addEventListener("change", render);
+  });
+
+  var search = document.getElementById("f-text");
+  search.addEventListener("input", render);
+
+  document.getElementById("f-reset").addEventListener("click", function () {
+    FILTERS.forEach(function (filter) { document.getElementById(filter.id).value = ""; });
+    search.value = "";
+    render();
+  });
+
+  function cell(value) { return NA(value) ? '<span style="color: var(--faint)">&mdash;</span>' : esc(value); }
+
+  function render() {
+    var term = search.value.trim().toLowerCase();
+    var active = FILTERS.map(function (filter) {
+      return { field: filter.field, value: document.getElementById(filter.id).value };
+    }).filter(function (filter) { return filter.value; });
+
+    var visible = ROWS.filter(function (row) {
+      for (var i = 0; i < active.length; i += 1) {
+        if (row[active[i].field] !== active[i].value) { return false; }
+      }
+      if (!term) { return true; }
+      return (row.first_author + " " + row.cohort_id + " " + row.campaign_name + " " +
+        row.measurement_site + " " + row.muscle + " " + row.study_id).toLowerCase().indexOf(term) > -1;
+    });
+
+    document.getElementById("tally").textContent =
+      visible.length + " of " + ROWS.length + " rows";
+
+    var body = document.getElementById("rows");
+    if (!visible.length) {
+      body.innerHTML = '<tr><td colspan="12" class="empty-state">No rows match those filters.</td></tr>';
+      return;
+    }
+
+    var capped = visible.slice(0, 400);
+    body.innerHTML = capped.map(function (row) {
+      var pct = num(row.pct_change);
+      var day = row.phase === "recovery" && !NA(row.days_from_unloading_end)
+        ? "R+" + row.days_from_unloading_end : row.timepoint_days;
+      return "<tr>" +
+        "<td class='mono'>" + esc(row.study_id) + "</td>" +
+        "<td class='mono'>" + esc(row.cohort_id) + "</td>" +
+        "<td>" + esc(pretty(row.muscle)) + "</td>" +
+        "<td>" + cell(row.measurement_site) + "</td>" +
+        "<td class='mono'>" + esc(row.arm_id) + "</td>" +
+        "<td>" + esc(row.phase === "bed_rest" ? "unloading" : "recovery") + "</td>" +
+        "<td class='num'>" + cell(day) + "</td>" +
+        "<td class='num'>" + cell(row.value_baseline) + "</td>" +
+        "<td class='num'>" + cell(row.value_followup) + "</td>" +
+        "<td class='num " + (pct === null ? "" : (pct < 0 ? "neg" : "pos")) + "'>" +
+        (pct === null ? "&mdash;" : (pct > 0 ? "+" : "") + pct.toFixed(1)) + "</td>" +
+        "<td>" + esc(row.data_source) + "</td>" +
+        "<td><span class='pill " + row.table + "'>" + esc(row.table) + "</span></td>" +
+        "</tr>";
+    }).join("") + (visible.length > capped.length
+      ? '<tr><td colspan="12" class="empty-state">Showing the first 400 &mdash; narrow the filters to see the rest.</td></tr>'
+      : "");
+  }
+
+  render();
+}());
+</script>
+
