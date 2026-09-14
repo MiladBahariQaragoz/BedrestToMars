@@ -1,0 +1,4 @@
+# The frozen dataset is checked byte for byte against its SHA-256, so git must store and
+# check it out exactly as written - no line-ending conversion on any platform.
+data/dataset_v*.csv -text
+data/dataset_v*.sha256 -text
