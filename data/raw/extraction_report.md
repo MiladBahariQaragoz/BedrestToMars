@@ -1,6 +1,6 @@
 # Extraction Progress
 
-Generated 2026-09-04 from `data/raw/extraction_qaragoz.csv`.
+Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
 
 - **537 rows** across **28 studies** and **20 cohorts**
 - **289** rows measured during unloading, 248 during recovery
@@ -68,7 +68,7 @@ These are the reason validation is grouped by cohort rather than by paper.
 
 ## How the numbers were measured and where they came from
 
-- **Modality:** MRI 488, DXA 23, CT 14, ultrasound 12
+- **Modality:** MRI 484, DXA 23, ultrasound 16, CT 14
 - **Outcome:** volume 434, CSA 69, lean_mass 23, thickness 11
 - **Source:** table 494, text 43
 - **Confidence:** high 523, medium 11, low 3

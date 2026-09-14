@@ -257,7 +257,7 @@ for site, pct, baseline, followup in [
         days_from_unloading_end="1", exposure_flag="spaceflight", arm_id="ctrl",
         arm_type="control", cm_modality="none", population="healthy_middle_aged",
         muscle="multifidus", is_composite="FALSE", laterality="mean",
-        measurement_site=site, outcome_type="CSA", modality="MRI",
+        measurement_site=site, outcome_type="CSA", modality="ultrasound",
         unit_original="cm2" if baseline else "%",
         unit_si="cm2" if baseline else "pct_only",
         value_baseline=str(baseline) if baseline else "NA",
@@ -268,7 +268,8 @@ for site, pct, baseline, followup in [
                  "duration_carried_from_companion_paper;values_read_from_prose"),
         notes=("values described in the text rather than tabulated - L2 and L3 both increase "
                "about 7%, L4 changes little, L5 falls from 9.86 to 6.99 cm2. Same crew series "
-               "as hides2021, so one cohort"))
+               "as hides2021, so one cohort; QC 2026-09-04: source methods specify ultrasound; "
+               "modality corrected from MRI after full-source verification."))
 
 
 # ------------------------------------------------------------------------- Rejc 2018

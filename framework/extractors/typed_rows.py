@@ -877,8 +877,8 @@ for arm_id, population, age_min, age_max, n, baseline, pct, sd in [
 
 
 # ------------------------------------------------------------------------ Hides 2021
-# Spine J 10.1016/j.spinee.2020.09.006. Lumbar multifidus CSA by MRI before flight and on
-# return day 1, for astronauts after six-month ISS missions. Real spaceflight, so
+# Spine J 10.1016/j.spinee.2020.09.006. Lumbar multifidus CSA by ultrasound before flight
+# and on return day 1, for astronauts after six-month ISS missions. Real spaceflight, so
 # exposure_flag = spaceflight, and every row is a recovery measurement because the first
 # scan happens after landing.
 HIDES = dict(
@@ -890,7 +890,7 @@ HIDES = dict(
     exposure_flag="spaceflight", arm_id="ctrl", arm_type="control", cm_modality="none",
     n_arm="6", n_analysed="6", sex="mixed", pct_female="20.0",
     population="healthy_middle_aged", muscle="multifidus", is_composite="FALSE",
-    laterality="mean", outcome_type="CSA", modality="MRI", unit_original="cm2",
+    laterality="mean", outcome_type="CSA", modality="ultrasound", unit_original="cm2",
     unit_si="cm2", variance_of="baseline", variance_type="SD", data_source="table",
     page_ref="Table of astronaut means", extraction_confidence="medium",
     qc_flag="spaceflight_exposure;recovery_measurement;n_inconsistent_in_paper;age_not_published",
@@ -898,7 +898,9 @@ HIDES = dict(
            "says five astronauts over seven - n follows the table that carries these values. "
            "Age is not published for astronaut cohorts and is left NA rather than "
            "guessed; the sex split follows the methods text, which describes five "
-           "astronauts, four male. Return-day-one scan, so losses are already partly recovered"),
+           "astronauts, four male. Return-day-one scan, so losses are already partly recovered; "
+           "QC 2026-09-04: source methods specify ultrasound; modality corrected from MRI after "
+           "full-source verification."),
 )
 for level, baseline, followup, sd in [
     ("L2", 3.26, 3.47, 0.72), ("L3", 5.22, 4.56, 1.02),
