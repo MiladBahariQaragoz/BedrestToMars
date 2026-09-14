@@ -107,13 +107,20 @@ PRINTED_PCT_NOTE = ("QC 2026-09-04: source-printed percent retained per schema ย
                     "printed group means remain in baseline/follow-up fields.")
 
 
-def pct_fields(recomputed, printed, recomputed_format, qc_flag, notes, kept_note=""):
-    """pct_change, qc_flag and notes for a row whose paper also prints its percent change."""
-    if abs(recomputed - printed) > 0.5:
-        flags = [f for f in qc_flag.split(";") if f != "pct_recomputed_from_group_means"]
+def pct_fields(recomputed, printed, recomputed_format, qc_flag, notes, kept_note="",
+               rounding=0.5, printed_note=PRINTED_PCT_NOTE):
+    """pct_change, qc_flag and notes for a row whose paper also prints its percent change.
+
+    `rounding` is half a unit in the printed figure's last digit: 0.5 for a whole-number
+    percentage, 0.05 for one printed to a decimal place. `printed_note` is what the notes say
+    when the printed value wins.
+    """
+    if abs(recomputed - printed) > rounding:
+        flags = [f for f in qc_flag.split(";")
+                 if f not in ("", "NA", "pct_recomputed_from_group_means")]
         return dict(pct_change=f"{printed:g}",
                     qc_flag=";".join(flags + ["pct_of_individual_means"]),
-                    notes=f"{notes}; {PRINTED_PCT_NOTE}")
+                    notes=f"{notes}; {printed_note}")
     return dict(pct_change=format(recomputed, recomputed_format), qc_flag=qc_flag,
                 notes=notes + kept_note)
 
@@ -984,6 +991,227 @@ for muscle, sites in LIPHARDT_VALUES.items():
         add(**LIPHARDT, muscle=muscle, is_composite="FALSE", measurement_site=site,
             value_baseline_original=str(baseline), value_baseline=str(baseline),
             pct_change=str(pct), variance_value=str(sd))
+
+
+# ============================================================================================
+# The pre-search corpus in resources/
+#
+# The papers held before the systematic search began (docs/screening_decisions.md). The
+# search was limited to 2013 onwards, so these are the dataset's only pre-2013 rows, its
+# 119-day upper end, and the campaigns the abstract was first written from. Their source_file
+# is the bare file name in resources/ rather than a name in resources/fulltext/.
+# ============================================================================================
+
+RULE3_NOTE = ("printed percent change kept per schema ยง4 rule 3 - it is the mean of the "
+              "individual changes - with the group means left in the baseline and follow-up fields")
+
+
+# ------------------------------------------------------------------------ LeBlanc 1992
+# J Appl Physiol 73:2172-2178. Eight men, 17 weeks of horizontal bed rest - the longest
+# unloading in the dataset. MRI volume losses are printed only as approximate values read off
+# regression lines (Figs 2-4). The thigh, imaged in two men, is given only as a shared "16-18%"
+# for quadriceps and hamstrings and is not extracted; psoas "no change" has no value to record.
+# Regional lean mass by dual-photon absorptiometry, the forerunner of DXA, is in Table 2.
+LEBLANC = dict(
+    study_id="leblanc1992", cohort_id="nasa_br17wk", campaign_name="17-week bed rest (Houston)",
+    first_author="LeBlanc", year="1992", doi="10.1152/jappl.1992.73.5.2172",
+    source_file="6.pdf", design="horizontal_BR", hdt_angle_deg="0", duration_days="119",
+    exposure_flag="analogue", arm_id="ctrl", arm_type="control", cm_modality="none",
+    n_arm="8", sex="M", age_mean="32", age_sd="12", age_min="19", age_max="52",
+    population="healthy_young", body_mass_mean_kg="74", nutrition_controlled="yes",
+    laterality="NA", unit_original="%", unit_si="pct_only",
+)
+# muscle, components, measurement site, percent change at 17 weeks, men imaged
+for muscle, parts, site, pct, n in [
+    ("triceps_surae", "gastrocnemius;soleus", "NA", -30, 8),
+    ("anterior_tibial_group", "NA", "NA", -21, 8),
+    ("lumbar_erector_spinae",
+     "rotatores;multifidus;semispinalis;spinalis;longissimus;iliocostalis",
+     "intrinsic lower back", -9, 6),
+]:
+    add(**LEBLANC, phase="bed_rest", timepoint_days="119", muscle=muscle, is_composite="TRUE",
+        composite_of=parts, measurement_site=site, outcome_type="volume", modality="MRI",
+        n_analysed=str(n), pct_change=str(pct), data_source="text",
+        page_ref="p. 2176, Results (regression estimates at 17 wk, Figs 2 and 4)",
+        extraction_confidence="medium",
+        qc_flag="laterality_unstated;pct_estimated_from_regression;no_dispersion_published",
+        notes=("the paper gives the 17-week loss as approximately this value, estimated from "
+               "a linear regression through every scan; 'ankle extensors' are gastrocnemius "
+               "and soleus, 'ankle flexors' are recorded as the anterior tibial group, and the "
+               "back is imaged in six of the eight men"))
+
+# region, baseline lean mass (kg), percent change at 17 wk, weekly slope and its SD,
+# percent of baseline after 8 wk of reambulation
+for muscle, baseline, pct_bed, slope, slope_sd, pct_rec in [
+    ("whole_lower_limb", 20.1, -11.9, -0.70, 0.08, -3.5),
+    ("whole_thigh", 13.4, -12.2, -0.72, 0.13, -4.8),
+    ("whole_calf", 6.7, -11.2, -0.66, 0.05, -0.9),
+]:
+    for phase, day, days_after, pct in [("bed_rest", "119", "NA", pct_bed),
+                                        ("recovery", "175", "56", pct_rec)]:
+        flags = "dpa_reported_as_DXA;pct_estimated_from_regression"
+        if phase == "recovery":
+            flags += ";recovery_measurement;recovery_with_supervised_exercise"
+        add(**{**LEBLANC, "unit_original": "kg", "unit_si": "kg"}, phase=phase,
+            timepoint_days=day, days_from_unloading_end=days_after, muscle=muscle,
+            is_composite="TRUE", outcome_type="lean_mass", modality="DXA", n_analysed="6",
+            value_baseline_original=str(baseline), value_baseline=str(baseline),
+            pct_change=str(pct), data_source="table", page_ref="p. 2174, Table 2",
+            extraction_confidence="medium", qc_flag=flags,
+            notes=(f"dual-photon absorptiometry, both legs; percent change is the regression "
+                   f"slope ({slope} +/- {slope_sd} SD %/wk during bed rest) times the time, as "
+                   f"the paper computes it. Two of the eight men lost their DPA data to a "
+                   f"source change. Reambulation included supervised weight training from "
+                   f"about week 3"))
+
+
+# ----------------------------------------------------------------------- Greenleaf 1994
+# NASA Technical Memorandum 4580 (NASA Ames). Nineteen men, 30 days of 6 deg head-down tilt,
+# three arms: no exercise, intense isotonic cycle training and isokinetic knee training. The
+# posterior leg group was scanned on recovery day 3, so these are recovery rows. Volumes are
+# summed pixel counts: the unit cannot be converted, but the percent change is exact.
+GREENLEAF = dict(
+    study_id="greenleaf1994", cohort_id="nasa_ames_hdbr30",
+    campaign_name="NASA Ames 30-day HDBR with isotonic and isokinetic training",
+    first_author="Greenleaf", year="1994", doi="NASA-TM-4580", source_file="1.pdf",
+    design="HDBR_-6", hdt_angle_deg="-6", duration_days="30", phase="recovery",
+    timepoint_days="33", days_from_unloading_end="3", exposure_flag="analogue", sex="M",
+    age_mean="36", age_sd="4", age_min="32", age_max="42", population="healthy_young",
+    body_mass_mean_kg="76.5", muscle="plantar_flexors", is_composite="TRUE",
+    composite_of=("soleus;gastrocnemius_medialis;gastrocnemius_lateralis;tibialis_posterior;"
+                  "flexor_digitorum_longus;flexor_hallucis_longus"),
+    laterality="NA", outcome_type="volume", modality="MRI", unit_original="pixels",
+    unit_si="pct_only", variance_of="change", variance_type="SE", data_source="table",
+    page_ref="Table 2 (report p. 5)", extraction_confidence="high",
+    qc_flag=("recovery_measurement;outcome_in_pixel_counts;laterality_unstated;"
+             "no_doi_report_number_in_doi_field;age_reported_for_whole_sample"),
+    notes=("a NASA technical memorandum with no DOI, so the report number (NTRS accession "
+           "N94-29401) stands in the doi field. Image quality did not separate soleus from "
+           "gastrocnemius, so the whole posterior leg group was traced. The printed change is "
+           "the mean of individual changes; the pixel sums recompute to within 0.3 points. Age "
+           "is given only for all nineteen men"),
+)
+for arm_id, arm_type, cm, dose, n, pre, post, pct, se in [
+    ("noe", "control", "none", "NA", 5, 536478, 502190, -6.3, 0.8),
+    ("ite", "countermeasure", "aerobic",
+     "supine cycle ergometry, 2-min stages from 40 to 90% of peak VO2, 60 min/day", 7,
+     538541, 516688, -4.3, 1.6),
+    ("ike", "countermeasure", "resistive",
+     "isokinetic knee flexion-extension at 100 deg/s, 10 bouts of 5 maximal repetitions, "
+     "15 min per leg daily", 7, 574858, 530892, -7.7, 1.6),
+]:
+    add(**GREENLEAF, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+        n_arm=str(n), n_analysed=str(n), value_baseline_original=str(pre),
+        value_followup_original=str(post), pct_change=str(pct), variance_value=str(se))
+
+
+# ----------------------------------------------------------------------------- Berg 2007
+# Eur J Appl Physiol 99:283-289. Ten men, 35 days of strict horizontal bed rest at Valdoltra
+# Orthopaedic Hospital in Slovenia. CT CSA of the right leg at three levels, before, straight
+# after, and after four weeks of supervised retraining. The five ambulatory controls were never
+# unloaded and are not an arm here.
+BERG = dict(
+    study_id="berg2007", cohort_id="valdoltra_br35",
+    campaign_name="35-day bed rest, Valdoltra Orthopaedic Hospital", first_author="Berg",
+    year="2007", doi="10.1007/s00421-006-0346-y", source_file="8.pdf",
+    design="horizontal_BR", hdt_angle_deg="0", duration_days="35", exposure_flag="analogue",
+    arm_id="ctrl", arm_type="control", cm_modality="none", n_arm="10", n_analysed="10",
+    sex="M", age_mean="25", age_sd="5", population="healthy_young",
+    body_mass_mean_kg="70.5", is_composite="TRUE", laterality="right", outcome_type="CSA",
+    modality="CT", unit_original="mm2", unit_si="cm2", variance_of="baseline",
+    variance_type="SD", data_source="text", page_ref="p. 286, Results - Muscle morphology",
+    extraction_confidence="high",
+)
+# muscle, components, level, pre, post, after retraining (mm2), pre SD, printed % change
+BERG_VALUES = [
+    ("plantar_flexors",
+     "soleus;gastrocnemius;tibialis_posterior;flexor_digitorum_longus;flexor_hallucis_longus",
+     "upper calf", 4518, 3976, 4435, 693, -11.9),
+    ("quadriceps", "vastus_lateralis;vastus_medialis;vastus_intermedius;rectus_femoris",
+     "mid-thigh", 7347, 6650, 7309, 740, -9.4),
+    ("gluteals", "gluteus_maximus;gluteus_medius;gluteus_minimus", "gluteal level",
+     8931, 8728, 8707, 771, -2.2),
+]
+for muscle, parts, site, pre, post, rec, sd, printed in BERG_VALUES:
+    common = dict(muscle=muscle, composite_of=parts, measurement_site=site,
+                  value_baseline_original=str(pre), value_baseline=f"{pre / 100:g}",
+                  variance_value=f"{sd / 100:g}")
+    pct = (post - pre) / pre * 100
+    add(**{**BERG, **pct_fields(pct, printed, ".2f", "NA", "CT at a fixed level after 2 h "
+                                "supine", rounding=0.05, printed_note=RULE3_NOTE)},
+        **common, phase="bed_rest", timepoint_days="35",
+        value_followup_original=str(post), value_followup=f"{post / 100:g}",
+        change_absolute=f"{(post - pre) / 100:g}")
+    pct = (rec - pre) / pre * 100
+    add(**BERG, **common, phase="recovery", timepoint_days="63", days_from_unloading_end="28",
+        value_followup_original=str(rec), value_followup=f"{rec / 100:g}",
+        change_absolute=f"{(rec - pre) / 100:g}", pct_change=f"{pct:.2f}",
+        qc_flag="recovery_measurement;recovery_with_supervised_exercise",
+        notes=("after four weeks of supervised cycle or resistance retraining, three sessions "
+               "a week; the paper pools the two retraining groups"))
+
+
+# ---------------------------------------------------------------------------- Zange 2009
+# Eur J Appl Physiol 105:271-277. Eight men, two 14-day phases of 6 deg head-down tilt 5.5
+# months apart in a randomised crossover: once with 20 Hz whole-body vibration twice a day,
+# once with the same routine on a plate switched off. In both phases the men left the bed
+# twice a day to stand, so neither arm is strict bed rest. Tables 1-3 print the pre-bed-rest
+# volume of the imaged segment and the percent change for both legs summed; post volumes are
+# not printed. The combined "soleus + lateral gastrocnemius" row is left out, since both parts
+# are extracted on their own.
+ZANGE = dict(
+    study_id="zange2009", cohort_id="wbv_hdt14",
+    campaign_name="Vibration Bed Rest Study (VBR), DLR Cologne", first_author="Zange",
+    year="2009", doi="10.1007/s00421-008-0899-z", source_file="11 (2).pdf",
+    design="HDBR_-6", hdt_angle_deg="-6", duration_days="14", phase="bed_rest",
+    timepoint_days="14", exposure_flag="analogue", n_arm="8", n_analysed="8", sex="M",
+    age_mean="26", age_sd="5", population="healthy_young", body_mass_mean_kg="78.1",
+    nutrition_controlled="yes", laterality="mean", outcome_type="volume", modality="MRI",
+    unit_original="ml", unit_si="cm3", variance_of="change", variance_type="SD",
+    data_source="table", extraction_confidence="high",
+    qc_flag="crossover_arms_share_participants;daily_upright_standing_in_both_arms",
+    notes=("volume of the imaged segment of each muscle, both legs summed, so laterality is "
+           "recorded as mean. MRI at noon on the day the men left the bed. Crossover - both "
+           "arms are the same eight men, and calf volumes differed between the two phases"),
+)
+ZANGE_ARMS = {
+    "wbv": dict(arm_id="wbv", arm_type="countermeasure", cm_modality="WBV",
+                cm_dose=("20 Hz, 2-4 mm, 5 x 1 min standing at 30 deg knee flexion with 15% "
+                         "of body weight added, twice daily")),
+    "ctrl": dict(arm_id="ctrl", arm_type="control", cm_modality="none",
+                 cm_dose="the same standing routine on a switched-off plate, twice daily"),
+}
+ZANGE_PAGES = {"Table 1": "Table 1, p. 274", "Table 2": "Table 2, p. 274",
+               "Table 3": "Table 3, p. 275"}
+# muscle, composite, components, table, {arm: (pre ml, percent change, SD of the change)}
+ZANGE_VALUES = [
+    ("quadriceps", "TRUE", "vasti;rectus_femoris", "Table 1",
+     {"wbv": (2981.9, -6.6, 1.7), "ctrl": (2938.2, -5.8, 1.6)}),
+    ("vasti", "TRUE", "vastus_lateralis;vastus_medialis;vastus_intermedius", "Table 1",
+     {"wbv": (2625.6, -7.0, 1.7), "ctrl": (2583.9, -5.9, 1.9)}),
+    ("rectus_femoris", "FALSE", "NA", "Table 1",
+     {"wbv": (356.3, -3.6, 3.7), "ctrl": (354.3, -4.8, 4.0)}),
+    ("hamstrings", "TRUE", "lateral_hamstrings;medial_hamstrings", "Table 2",
+     {"wbv": (1228.7, -6.1, 1.2), "ctrl": (1194.9, -4.3, 2.0)}),
+    ("lateral_hamstrings", "TRUE", "biceps_femoris_long_head;biceps_femoris_short_head",
+     "Table 2", {"wbv": (546.3, -5.8, 2.6), "ctrl": (534.8, -4.6, 2.9)}),
+    ("medial_hamstrings", "TRUE", "semimembranosus;semitendinosus", "Table 2",
+     {"wbv": (682.4, -6.3, 0.6), "ctrl": (660.1, -4.1, 1.6)}),
+    ("triceps_surae", "TRUE", "soleus;gastrocnemius_medialis;gastrocnemius_lateralis",
+     "Table 3", {"wbv": (1532.9, -6.4, 4.1), "ctrl": (1504.8, -6.5, 3.0)}),
+    ("gastrocnemius_medialis", "FALSE", "NA", "Table 3",
+     {"wbv": (420.4, -7.3, 5.4), "ctrl": (401.3, -6.6, 6.1)}),
+    ("gastrocnemius_lateralis", "FALSE", "NA", "Table 3",
+     {"wbv": (254.0, -5.5, 8.2), "ctrl": (250.5, -5.9, 8.9)}),
+    ("soleus", "FALSE", "NA", "Table 3",
+     {"wbv": (858.5, -5.8, 8.1), "ctrl": (853.0, -6.5, 4.9)}),
+]
+for muscle, composite, parts, table, arms in ZANGE_VALUES:
+    for arm, (pre, pct, sd) in arms.items():
+        add(**ZANGE, **ZANGE_ARMS[arm], muscle=muscle, is_composite=composite,
+            composite_of=parts, page_ref=ZANGE_PAGES[table],
+            value_baseline_original=f"{pre:g}", value_baseline=f"{pre:g}",
+            pct_change=f"{pct:g}", variance_value=f"{sd:g}")
 
 
 if __name__ == "__main__":
