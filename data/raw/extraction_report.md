@@ -79,14 +79,14 @@ Mean percent change across unloading rows, muscles with at least four rows.
 
 | Muscle | Rows | Mean % change |
 |---|---|---|
-| `soleus` | 8 | -18.0 |
+| `soleus` | 8 | -17.8 |
 | `peroneals` | 5 | -17.3 |
 | `gastrocnemius_lateralis` | 5 | -15.8 |
 | `vastus_medialis` | 5 | -15.1 |
 | `gastrocnemius_medialis` | 6 | -14.5 |
-| `triceps_surae` | 10 | -13.5 |
 | `semimembranosus` | 6 | -13.4 |
 | `flexor_hallucis_longus` | 4 | -13.4 |
+| `triceps_surae` | 10 | -13.3 |
 | `flexor_digitorum_with_tibialis_posterior` | 4 | -12.6 |
 | `biceps_femoris_long_head` | 7 | -12.1 |
 | `vasti` | 5 | -11.9 |
@@ -98,8 +98,8 @@ Mean percent change across unloading rows, muscles with at least four rows.
 | `anterior_thigh_compartment` | 7 | -8.2 |
 | `semitendinosus` | 6 | -7.4 |
 | `vastus_intermedius` | 8 | -6.6 |
-| `posterior_thigh_compartment` | 7 | -6.3 |
 | `multifidus` | 13 | -6.2 |
+| `posterior_thigh_compartment` | 7 | -6.2 |
 | `biceps_femoris_short_head` | 6 | -5.8 |
 | `gluteus_maximus` | 7 | -5.7 |
 | `adductor_longus` | 5 | -5.0 |

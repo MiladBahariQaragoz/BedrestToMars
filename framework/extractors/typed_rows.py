@@ -96,6 +96,28 @@ add(study_id="dirks2016", cohort_id="maastricht_br7", first_author="Dirks", year
            "percent change"))
 
 
+# ------------------------------------------------- Printed against recomputed percent change
+# Schema rule 3 keeps a paper's printed percent change when it disagrees with the one
+# recomputed from the group means, because the printed figure is usually the mean of the
+# individual changes. A whole-number printed figure only disagrees once the gap is larger
+# than its own rounding, so within half a point the recomputed value is kept as the more
+# precise of the two. Agreed on 2026-09-14 when resolving the 2026-09-04 source QC; every
+# case is listed in data/reconciliation_log.md. Used by Fuchs, Kramer and Trappe SPRINT.
+PRINTED_PCT_NOTE = ("QC 2026-09-04: source-printed percent retained per schema §4 rule 3; "
+                    "printed group means remain in baseline/follow-up fields.")
+
+
+def pct_fields(recomputed, printed, recomputed_format, qc_flag, notes, kept_note=""):
+    """pct_change, qc_flag and notes for a row whose paper also prints its percent change."""
+    if abs(recomputed - printed) > 0.5:
+        flags = [f for f in qc_flag.split(";") if f != "pct_recomputed_from_group_means"]
+        return dict(pct_change=f"{printed:g}",
+                    qc_flag=";".join(flags + ["pct_of_individual_means"]),
+                    notes=f"{notes}; {PRINTED_PCT_NOTE}")
+    return dict(pct_change=format(recomputed, recomputed_format), qc_flag=qc_flag,
+                notes=notes + kept_note)
+
+
 # ------------------------------------------------------------------------ Fuchs 2025
 # Eur J Sport Sci 10.1002/ejsc.12299. Two weeks of strict bed rest, 12 young men, the same
 # legs measured by DXA, CT and MRI - the evidence behind the modality sensitivity analysis.
@@ -126,14 +148,13 @@ for muscle, composite, outcome, modality, baseline, followup, unit_orig, unit_si
     pct = (followup - baseline) / baseline * 100
     original = f"{baseline/1000:g}" if unit_orig == "L" else f"{baseline:g}"
     original_follow = f"{followup/1000:g}" if unit_orig == "L" else f"{followup:g}"
-    add(**{**FUCHS,
-           "notes": FUCHS["notes"] + f"; paper states a {printed} decline for this measure"},
+    notes = FUCHS["notes"] + f"; paper states a {printed} decline for this measure"
+    add(**{**FUCHS, **pct_fields(pct, -float(printed.rstrip("%")), ".1f", FUCHS["qc_flag"], notes)},
         muscle=muscle, is_composite=composite, outcome_type=outcome, modality=modality,
         unit_original=unit_orig, unit_si=unit_si,
         value_baseline_original=original, value_followup_original=original_follow,
         value_baseline=f"{baseline:g}", value_followup=f"{followup:g}",
-        change_absolute=f"{followup - baseline:g}", pct_change=f"{pct:.1f}",
-        variance_value=str(sd))
+        change_absolute=f"{followup - baseline:g}", variance_value=str(sd))
 
 
 # ----------------------------------------------------------------------- Rogers 2025
@@ -308,18 +329,21 @@ KRAMER = dict(
     notes=("DXA was performed at baseline and at recovery day 7, so this is a recovery row "
            "and understates the loss present at the end of bed rest"),
 )
-for arm_id, arm_type, cm, dose, n, age, age_sd, baseline, followup, sd in [
+# arm, type, countermeasure, dose, n, age, age SD, baseline kg, follow-up kg, baseline SD,
+# the percent change Table 1 prints
+for arm_id, arm_type, cm, dose, n, age, age_sd, baseline, followup, sd, printed in [
     ("jump", "countermeasure", "resistive",
-     "48 reactive jump training sessions in a sledge system", 12, 30, 7, 19.4, 19.3, 1.4),
-    ("ctrl", "control", "none", "NA", 11, 28, 6, 19.6, 18.6, 2.4),
+     "48 reactive jump training sessions in a sledge system", 12, 30, 7, 19.4, 19.3, 1.4, 0.0),
+    ("ctrl", "control", "none", "NA", 11, 28, 6, 19.6, 18.6, 2.4, -5.0),
 ]:
     pct = (followup - baseline) / baseline * 100
-    add(**KRAMER, arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
+    kept = f"; Table 1 prints {printed:g}%, which matches this value within rounding"
+    add(**{**KRAMER, **pct_fields(pct, printed, ".2f", KRAMER["qc_flag"], KRAMER["notes"], kept)},
+        arm_id=arm_id, arm_type=arm_type, cm_modality=cm, cm_dose=dose,
         n_arm=str(n), n_analysed=str(n), age_mean=str(age), age_sd=str(age_sd),
         value_baseline_original=str(baseline), value_followup_original=str(followup),
         value_baseline=str(baseline), value_followup=str(followup),
-        change_absolute=f"{followup - baseline:.1f}", pct_change=f"{pct:.2f}",
-        variance_value=str(sd))
+        change_absolute=f"{followup - baseline:.1f}", variance_value=str(sd))
 
 
 # ------------------------------------------------------------- Hajj-Boutros 2023 (McGill)
@@ -692,22 +716,25 @@ SPRINT_ARMS = {
     "bre": ("countermeasure", "combined", "SPRINT resistance and aerobic exercise", 9, 34, 5),
     "bre_t": ("countermeasure", "combined", "SPRINT exercise plus testosterone", 8, 33, 10),
 }
+# muscle, composite, {arm: (pre, post, pre SD, the unsigned change Table 1 prints)}
 SPRINT_VALUES = [
-    ("quadriceps", "TRUE", {"br": (928, 841, 242), "bre": (944, 969, 151), "bre_t": (1001, 1043, 238)}),
-    ("triceps_surae", "TRUE", {"br": (375, 287, 129), "bre": (383, 355, 76), "bre_t": (355, 330, 85)}),
-    ("soleus", "FALSE", {"br": (243, 185, 79), "bre": (241, 219, 44), "bre_t": (224, 204, 68)}),
+    ("quadriceps", "TRUE", {"br": (928, 841, 242, 9), "bre": (944, 969, 151, 3), "bre_t": (1001, 1043, 238, 4)}),
+    ("triceps_surae", "TRUE", {"br": (375, 287, 129, 23), "bre": (383, 355, 76, 7), "bre_t": (355, 330, 85, 6)}),
+    ("soleus", "FALSE", {"br": (243, 185, 79, 24), "bre": (241, 219, 44, 9), "bre_t": (224, 204, 68, 8)}),
 ]
 for muscle, composite, arms in SPRINT_VALUES:
-    for arm_id, (baseline, followup, sd) in arms.items():
+    for arm_id, (baseline, followup, sd, printed) in arms.items():
         arm_type, cm, dose, n, age, age_sd = SPRINT_ARMS[arm_id]
         pct = (followup - baseline) / baseline * 100
-        add(**SPRINT, muscle=muscle, is_composite=composite, arm_id=arm_id,
+        signed = printed if pct > 0 else -printed  # Table 1 prints magnitudes only
+        kept = f"; Table 1 prints {printed}%, which matches this value within rounding"
+        add(**{**SPRINT, **pct_fields(pct, signed, ".2f", SPRINT["qc_flag"], SPRINT["notes"], kept)},
+            muscle=muscle, is_composite=composite, arm_id=arm_id,
             arm_type=arm_type, cm_modality=cm, cm_dose=dose, n_arm=str(n), n_analysed=str(n),
             age_mean=str(age), age_sd=str(age_sd),
             value_baseline_original=str(baseline), value_followup_original=str(followup),
             value_baseline=str(baseline), value_followup=str(followup),
-            change_absolute=str(followup - baseline), pct_change=f"{pct:.2f}",
-            variance_value=str(sd))
+            change_absolute=str(followup - baseline), variance_value=str(sd))
 
 
 # ------------------------------------------------------------------------ Orlova 2026
