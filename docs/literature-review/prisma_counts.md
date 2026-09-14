@@ -46,7 +46,7 @@ top of the `maybe` set, recorded in `docs/literature-review/screen_decisions_*.c
 | Full texts not retrievable | 4 — 2 paywalled, 2 exist only as conference abstracts |
 | Full texts assessed | 64 of 74 |
 | Excluded at full text | 11 |
-| Extracted into the dataset | 27 studies, 537 rows, 20 cohorts |
+| Extracted into the dataset | 28 studies, 537 rows, 20 cohorts |
 | Partially extracted (headline numbers only) | 12 studies, 29 rows |
 | Recovered by figure digitisation | 5 studies, 14 rows |
 | Still unextracted (figure-only, no baseline) | 19 |

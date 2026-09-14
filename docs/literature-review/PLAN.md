@@ -685,7 +685,7 @@ rule set in P0: their only muscle outcomes were whole-body lean mass and limb ci
 Anthropometry is not a muscle measurement, and the second of them derives "volume" from
 circumference squared, which is a calculation rather than an observation.
 
-**Extraction run, 4 September: 27 studies extracted, 537 rows, 20 cohorts.** The queue is
+**Extraction run, 4 September: 28 studies extracted, 537 rows, 20 cohorts.** The queue is
 now empty of papers that can be extracted from their text; what remains is 36 studies whose
 muscle numbers exist only inside figures, plus one with no full text.
 
@@ -704,7 +704,7 @@ Three routes out, and they are a decision for the team rather than for a script:
 2. **Write to the authors.** Slower, better data, and for the open-access groups with
    registered trials the odds are decent. Worth doing for the handful that matter most -
    Dulac, the WISE-2005 pair, the 89-day Rittweger paper.
-3. **Stop here and say so.** 537 rows from 27 studies and 20 cohorts is already a real
+3. **Stop here and say so.** 537 rows from 28 studies and 20 cohorts is already a real
    dataset, and the limitation is honest: "we extracted every study that published its
    numbers as numbers".
 
