@@ -211,8 +211,8 @@ Branch `feat/integration`, both people, and the highest-value three days in the 
 
 | # | Task | Owner |
 |---|---|---|
-| 2.1 | Qaragoz independently extracts two to three studies already extracted by the partner, blind, and the two files are compared | Both |
-| 2.2 | Resolve every numeric disagreement, and log each one with its resolution | Both |
+| 2.1 | Qaragoz independently extracts two to three studies already extracted by the partner, blind, and the two files are compared. **Done 4 Sep, in a different form:** the partner re-extracted all 580 rows from the sources with AI assistance and compared them with Qaragoz's tables — 556 of 580 agree, no numeric conflict is left unresolved, and the largest percent-change gap is 1.04 pp. This is AI-assisted independent source verification, not a human double extraction, so `double_extracted` stays `FALSE` | Both |
+| 2.2 | Resolve every numeric disagreement, and log each one with its resolution. **Done 14 Sep:** every flagged row and its resolution is in [`data/reconciliation_log.md`](data/reconciliation_log.md) | Both |
 | 2.3 | Resolve the composite problem: `triceps_surae` is not the sum of `soleus` and `gastrocnemius`. Decide explicitly how composite and component rows coexist | Both |
 | 2.4 | Resolve the modality problem: MRI volume, CT CSA and DXA lean mass are not the same measurement. Decide whether they share a target column, and record the decision | Both |
 | 2.5 | Fix the sign convention once: `pct_change` is negative for atrophy, everywhere | Qaragoz |
