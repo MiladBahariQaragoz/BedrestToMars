@@ -9,6 +9,7 @@ DGLRM accepted abstract — oral presentation plus written report.
 - **Work plan:** [`PLAN.md`](PLAN.md)
 - **Extraction schema (frozen):** [`data/schema.md`](data/schema.md)
 - **Screening decisions:** [`docs/screening_decisions.md`](docs/screening_decisions.md)
+- **Frozen dataset:** [`data/dataset_v1.0.csv`](data/dataset_v1.0.csv) (tag `dataset-v1.0`) — what is in it and its limits: [`data/DATASET_CARD.md`](data/DATASET_CARD.md)
 
 ---
 

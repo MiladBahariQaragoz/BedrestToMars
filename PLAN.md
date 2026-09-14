@@ -233,10 +233,10 @@ The double-extraction check in 2.1 is not bureaucracy. It is the only evidence t
 
 | # | Task | Owner |
 |---|---|---|
-| 2.11 | Automated QC: range checks, unit consistency, impossible values, duplicate rows, orphan references | Qaragoz |
-| 2.12 | Write the dataset card: provenance, exclusions, known limitations, how to cite | Both |
+| 2.11 | Automated QC: range checks, unit consistency, impossible values, duplicate rows, orphan references. **Done 14 Sep:** `framework/validate_extraction.py` checks each table, and `framework/build_dataset.py` checks across them - unique `row_id`, known cohorts, `pct_change` range, and the minimum viable size below | Qaragoz |
+| 2.12 | Write the dataset card: provenance, exclusions, known limitations, how to cite. **Drafted 14 Sep** for the partner's review: [`data/DATASET_CARD.md`](data/DATASET_CARD.md) | Both |
 | 2.13 | Produce the two descriptive figures that do not depend on any model — duration–response and muscle ranking | Qaragoz |
-| 2.14 | **Freeze** `data/dataset_v1.0.csv`, tag it, merge `feat/integration` into `main` | Qaragoz |
+| 2.14 | **Freeze** `data/dataset_v1.0.csv`, tag it, merge `feat/integration` into `main`. **Frozen and tagged `dataset-v1.0` on 14 Sep** - 737 rows, 51 studies, 35 cohorts; the merge into `main` is still open | Qaragoz |
 
 **Definition of success for P2.**
 
