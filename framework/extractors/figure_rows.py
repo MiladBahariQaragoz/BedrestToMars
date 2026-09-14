@@ -172,6 +172,80 @@ add(study_id="lair2026", cohort_id="di5_toulouse", campaign_name="5-day dry imme
            "because the denominator was read off a chart"))
 
 
+# ------------------------------------------------ Dulac 2024 - upper quadriceps volume (read)
+# J Physiol 603.13, online 2024. Fourteen days of 6 deg head-down tilt in adults aged 55-65,
+# control against a multimodal in-bed exercise programme - the only older cohort with an MRI
+# outcome. Fig. 2C plots baseline upper-quadriceps volume and Fig. 2D the change in cm3 at the
+# end of bed rest and on day 6 of recovery; no value is printed anywhere, so the percent change
+# is the read change over the read baseline. The figure labels the occasions HDBR14 and R7;
+# the Methods say day 13 of bed rest and day 6 of recovery, which is what is used here.
+DULAC = dict(
+    study_id="dulac2024", cohort_id="mcgill_hdbr14",
+    campaign_name="McGill 14-day HDBR in older adults", registry_id="NCT04964999",
+    first_author="Dulac", year="2024", doi="10.1113/JP285897",
+    source_file="dulac2024_15_1pdf_p7.png", design="HDBR_-6", hdt_angle_deg="-6",
+    duration_days="14", exposure_flag="analogue", sex="mixed", population="healthy_older",
+    muscle="quadriceps", is_composite="TRUE", laterality="right",
+    measurement_site="upper 33% of thigh", outcome_type="volume", modality="MRI",
+    unit_original="cm3", unit_si="cm3", digitizer_tool="visual reading of rendered figure at 300 dpi",
+    page_ref="p. 3819, Fig. 2C and 2D", extraction_confidence="low",
+)
+DULAC_ARMS = {
+    "ctrl": dict(arm_id="ctrl", arm_type="control", cm_modality="none", n_arm="11",
+                 pct_female="45.5", age_mean="58.4", age_sd="3.9", bmi_mean="24.5"),
+    "ex": dict(arm_id="ex", arm_type="countermeasure", cm_modality="combined",
+               cm_dose=("three in-bed sessions a day, 60-62 min in total: HIIT, continuous and "
+                        "progressive aerobic, upper- and lower-body resistance"),
+               n_arm="11", pct_female="54.5", age_mean="58.4", age_sd="3.4", bmi_mean="26.1"),
+}
+# arm, phase, day, days after bed rest, n in Fig. 2D, read baseline, read change, percent
+for arm, phase, day, after, n, baseline, change, pct in [
+    ("ctrl", "bed_rest", "13", "NA", 11, 61.9, -4.0, -6.4),
+    ("ex", "bed_rest", "13", "NA", 9, 70.2, -0.6, -0.9),
+    ("ctrl", "recovery", "20", "6", 9, 61.9, -2.1, -3.4),
+    ("ex", "recovery", "20", "6", 9, 70.2, 0.7, 0.9),
+]:
+    flags = "figure_derived;pct_derived_from_read_change_and_read_baseline"
+    if arm == "ex":
+        flags += ";baseline_n_differs_from_change_n"
+    if phase == "recovery":
+        flags += ";recovery_measurement"
+    add(**DULAC, **DULAC_ARMS[arm], phase=phase, timepoint_days=day,
+        days_from_unloading_end=after, n_analysed=str(n),
+        value_baseline_original=str(baseline), value_baseline=str(baseline),
+        change_absolute=str(change), pct_change=str(pct), qc_flag=flags,
+        notes=("baseline read off Fig. 2C (control n = 11, exercise n = 7) and the mean change "
+               "off Fig. 2D (control n = 11 in bed rest and 9 in recovery, after two were "
+               "withdrawn on recovery day 3; exercise n = 9); the two readings are good to "
+               "about 1 cm3 and 0.1 cm3. Upper-thigh slab of two 1 cm slices at 33% of femur "
+               "length, right leg"))
+
+
+# ---------------------------------------- Alkner 2004 - quadriceps in the exercise arm (read)
+# The text says only that the flywheel group "showed no change" in quadriceps volume; Fig. 1
+# plots it. Read the same way, the bed-rest-only bars come out at 968, 876 and 791 cm3 against
+# the 973, 879 and 793 that trappe2023 prints for the same men, so the reading is good to a
+# few cm3.
+add(study_id="alkner2004", cohort_id="medes_ltbr90",
+    campaign_name="Long Term Bed Rest (LTBR), MEDES Toulouse", first_author="Alkner",
+    year="2004", doi="10.1007/s00421-004-1172-8", source_file="alkner2004_7pdf_p5.png",
+    design="HDBR_-6", hdt_angle_deg="-6", duration_days="90", phase="bed_rest",
+    timepoint_days="89", exposure_flag="analogue", arm_id="bre", arm_type="countermeasure",
+    cm_modality="flywheel",
+    cm_dose=("flywheel supine squat 4 x 7 and calf press 4 x 14 maximal coupled "
+             "concentric-eccentric actions every third day from day 5"),
+    n_arm="9", n_analysed="8", sex="M", age_mean="33", age_sd="5",
+    population="healthy_young", muscle="quadriceps", is_composite="TRUE",
+    composite_of="vasti;rectus_femoris", laterality="mean", outcome_type="volume",
+    modality="MRI", unit_original="cm3", unit_si="cm3", value_baseline_original="1103",
+    value_baseline="1103", value_followup_original="1095", value_followup="1095",
+    change_absolute="-8", pct_change="-0.73", digitizer_tool=READ,
+    page_ref="Fig. 1, p. 298", extraction_confidence="low",
+    qc_flag="figure_derived;values_read_from_bar_heights;overlaps_other_paper",
+    notes=("pre and day-89 bar heights for the flywheel group; the text reports no change. "
+           "belavy2017 segments the same campaign's quadriceps muscles itself"))
+
+
 if __name__ == "__main__":
     if not TARGET.exists():
         TARGET.write_text(TEMPLATE.read_text(encoding="utf-8"), encoding="utf-8")
