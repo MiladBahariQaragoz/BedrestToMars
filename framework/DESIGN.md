@@ -296,6 +296,15 @@ cohorts and reported as a distribution over folds rather than a single mean. A m
 excellent on 28 campaigns and catastrophic on 3 is not a good model, and an average conceals
 that. The per-fold table goes in the report; the deck shows the distribution.
 
+**R² is reported pooled, not per fold, and the reason is structural rather than cosmetic.**
+Most campaigns ran a single duration, so inside one held-out fold a duration-only model
+predicts one value for every row. Compared against that fold's own mean it loses by
+construction, and its per-fold R² is negative however good the curve is - the first baseline
+run returned about -8.5 per fold and +0.06 pooled from the same predictions. So every
+out-of-fold prediction is collected first and R² computed once over all of them, and the
+per-fold R² column stays in the results file with this caveat attached rather than on a
+slide. MAE and RMSE do not have this problem and are reported per fold.
+
 Every metric is additionally reported **weighted by cohort rather than by row**, so the MEDES
 campaign's 99 rows do not dominate the number that appears on a slide.
 
@@ -319,6 +328,35 @@ threshold.
 | Physiological sign-off | The partner signs off on the fitted relationships | **Blocking** |
 
 The first three are allowed to fail. The last three are not.
+
+### 9.1 The baseline as first run
+
+Run on 2026-09-18 against `dataset_v1.0`, subset A (342 rows, 31 campaigns, 40 studies),
+leave-one-cohort-out, weighted by campaign. `results/baseline.json` carries the full output
+and `make baseline` regenerates it.
+
+| Form | Out-of-cohort MAE | 95% CI | Pooled R² |
+|---|---|---|---|
+| Linear in days | 3.57 pp | 2.84 – 4.38 | −0.09 |
+| Logarithmic | **3.14 pp** | 2.35 – 4.02 | 0.02 |
+| Saturating exponential | 3.24 pp | 2.46 – 4.11 | 0.06 |
+
+Three things follow, and none of them is a disappointment.
+
+1. **All three forms already sit inside the 4-percentage-point target** set in `PLAN.md` §8,
+   before any model family has been fitted. That is the bar tier 2 has to clear.
+2. **The straight line is the worst of the three**, which is the evidence that the
+   relationship is genuinely nonlinear rather than assumed to be.
+3. **Pooled R² is near zero.** Duration alone predicts the average loss at a given day well
+   enough, but it explains almost none of the row-to-row variation - because that variation
+   is mostly *which muscle* is being measured. That is not a failure of the baseline; it is
+   the quantitative case for claim 2 of the talk, and it is why muscle family enters the
+   tier-1 model rather than being left as a footnote.
+
+The fitted saturating curve gives a time constant of 10 days and an eventual loss of about
+9.3% averaged over all muscles in the subset - the whole-limb and composite rows pull that
+average up towards the less affected tissue, which is exactly why the muscle-specific model
+in subset B is the one that answers "how much soleus is left".
 
 ## 10. Uncertainty, and the 180-day question
 
