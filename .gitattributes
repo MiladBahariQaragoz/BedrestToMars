@@ -1,3 +1,9 @@
+# This repository is worked on from both Linux and Windows through a synced Drive
+# folder, so line endings are pinned here rather than left to each machine's
+# core.autocrlf setting. Without this, a Windows-side save rewrites every text file
+# to CRLF and the whole tree shows up as modified.
+* text=auto eol=lf
+
 # The frozen dataset is checked byte for byte against its SHA-256, so git must store and
 # check it out exactly as written - no line-ending conversion on any platform.
 data/dataset_v*.csv -text
