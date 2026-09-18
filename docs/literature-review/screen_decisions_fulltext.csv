@@ -1,0 +1,74 @@
+record_id,screen_ft,exclusion_reason,note
+pubmed_00039,include,,"full text not accessible, but the abstract prints a 3.2 +/- 0.9% decline in quadriceps CSA by CT after 7 days of strict bed rest in 10 men - one extractable row, data_source text, confidence low"
+pubmed_00800,exclude,no_full_text,"abstract prints whole-body lean mass only (-3.8% hypoxic bed rest, -4.3% normoxic bed rest, 10 days, n=11); the regional lower-limb values that would qualify need the full text. Access failure, not absence - recoverable by interlibrary loan if the dataset ends up thin"
+scopus_01685,exclude,no_full_text,"ESA Special Publication conference paper; abstract reports the direction of muscle thickness change during 35-day bed rest but no values. Nothing extractable without the full text"
+wos_00657,exclude,no_full_text,"meeting abstract in a Physiology supplement; no abstract text and no full paper located. Treat as never having existed as a full report"
+scopus_00954,exclude,no_muscle_outcome,"60-day bed rest in women with a high-protein diet, but the only body-composition outcome is whole-body lean mass by DXA; the leg-specific numbers in its tables belong to other people's studies. Same rule that excluded Debevec"
+scopus_00787,exclude,no_muscle_outcome,"90-day HDBR with running and resistance arms, but muscle outcomes are thigh and calf circumference plus whole-body lean mass. The paper estimates volume from circumference squared, which is a derivation and not a measurement - anthropometry is excluded by PLAN.md section 2"
+pubmed_00421,include,,extracted - quadriceps CSA at four thigh sites in both legs
+pubmed_00344,include,,extracted - quadriceps and vastus lateralis CSA at four thigh sites in both legs
+pubmed_00193,include,,extracted - knee extensor and plantar flexor maximum CSA in three crossover conditions
+pubmed_00352,include,,extracted - DXA leg lean mass at recovery day 7
+pubmed_00155,include,,extracted - the same thighs by DXA CT and MRI
+pubmed_00026,include,,extracted - 17 individually segmented muscles in eight women
+scopus_00673,include,,extracted - three gluteal muscles in three artificial-gravity arms
+scopus_01130,include,,extracted - 24 muscles at two bed-rest and four recovery timepoints
+scopus_00351,exclude,no_baseline_or_followup,"St-Martin, McGill 14-day cohort. Reports leg lean mass as an absolute change (-0.418 kg) with no baseline value, so no percent change can be computed. The same cohort is already represented properly by hajjboutros2023"
+pubmed_00238,include,,extracted - thigh fat-free muscle volume in three BRACE arms
+scopus_00312,include,,extracted - lower-limb lean mass medians in recovery
+pubmed_00326,include,,extracted - leg lean mass in the control and blood-flow-restricted legs
+pubmed_00389,include,,extracted - muscle thickness in four muscles
+scopus_00324,include,,extracted - calf muscle CSA after spaceflight and after bed rest
+pubmed_00866,exclude,duration_too_short,"Shur 2024: three days of bed rest, below the five-day minimum in PLAN.md section 2. It does report leg muscle volume change per leg, so if the duration floor is ever revisited this is the first paper to revisit"
+scopus_01419,maybe,,"Hypoxia and inactivity: baseline thigh and calf CSA by pQCT are in Table 1 but the changes are only in Figure 2. Extractable by digitising the figure, not from the text"
+pubmed_00189,include,,extracted - leg lean mass, mid-thigh lean mass and vastus lateralis thickness in young and old
+scopus_00458,include,,extracted - vastus intermedius thickness in three BRACE arms
+pubmed_00360,maybe,,"Dulac 2024: quadriceps muscle volume by MRI at baseline, HDBR day 13 and recovery day 6, but every value is in Figure 2D. Needs figure digitisation or a request to the corresponding author - the same conclusion reached in P0"
+pubmed_00268,exclude,no_muscle_outcome,"Plasma proteome study; the only size outcome is median fibre CSA from biopsies, which is histology rather than a muscle-level measurement"
+scopus_00694,exclude,no_baseline_or_followup,"Methodological paper pooling eight bed rest campaigns to partition measurement uncertainty from true individual response. Reports variance components in percent-squared, not changes, so no row can be built. Keep the citation: its measurement uncertainty for pQCT muscle CSA (0.73-2.95 %^2) belongs in the report's uncertainty discussion"
+scopus_00973,exclude,no_muscle_outcome,"Fetuin-A biomarker study on the DLR RSL jump cohort already represented by kramer2017. Body composition is whole-body lean mass only, with no lower-limb breakdown"
+pubmed_00249,maybe,,"Plantar flexor CSA by pQCT exists but only in Figure 1a; the tables are lifted weights and cardiopulmonary variables. Needs digitising"
+scopus_00738,maybe,,"NASA bed rest rehabilitation study: all muscle size changes are in Figures 1 and 2, no tables at all. Needs digitising"
+pubmed_00425,maybe,,"Twin study with LBNP treadmill: leg lean mass is in Figure 3; the tables carry strength and inference only. Needs digitising"
+pubmed_00243,maybe,,"Multifidus CSA time course is in figures; the only percentages in the text are variance explained by the regression model"
+pubmed_00152,include,,extracted - quadriceps and triceps surae volumes in women and men
+pubmed_00293,include,,extracted - quadriceps triceps surae and soleus volumes in three SPRINT arms
+pubmed_00194,include,,extracted - calf and thigh lean mass medians
+pubmed_00662,include,,extracted - one quadriceps CSA row from the discussion text
+scopus_01121,maybe,,"84-day bed rest with individualised exercise: muscle volume change is described in the text but the values are in a figure; the tables carry strength only"
+pubmed_00880,include,,extracted - four hamstring muscles plus the group pooled
+pubmed_00343,include,,extracted - lumbar multifidus and erector spinae in three AGBRESA arms
+pubmed_00900,maybe,,"5-day dry immersion, NCT03915457. The only lower-limb outcome is quadriceps MRI CSA reported as a change in pixel count with the baseline in a figure; DXA results are whole-body. Would be the dataset's first dry immersion rows if digitised"
+pubmed_00348,include,,extracted - calf and thigh lean mass in the normoxic and hypoxic bed rest arms
+scopus_00063,maybe,,"21-day MNX bedrest with resistive vibration exercise: the paper reports body composition and energy balance, and the muscle results in the text are strength rather than size. Check the DXA tables for a leg-specific lean mass before deciding"
+pubmed_00392,include,,extracted - quadriceps volume in young and older men
+pubmed_00935,include,,extracted - lumbar multifidus CSA at four levels after six-month missions
+pubmed_00250,maybe,,"Hides 2016, same astronaut series: reports a 29% multifidus CSA decrease at L5 from 9.86 to 6.99 cm2, but the crew size and mission durations are not stated in the text, and both are required fields. Recoverable if the companion paper supplies them"
+scopus_00594,include,,extracted - control group ACSA at five thigh sites for four quadriceps heads; the exercise group in Table 2 is still to do
+wos_00614,maybe,,"WISE-2005 conference abstract with clean numbers - total paraspinal CSA down 12% in control and 6% in exercise, functional CSA down 19% and 5% - but no group sizes, which are required. Recover n from the full paper pubmed_00310 and then extract both"
+pubmed_00310,maybe,,"WISE-2005 full paper: total paraspinal CSA down 10%, multifidus 20%, erector spinae 12.8%, but those are pooled across groups and the per-group sizes did not surface in the text. Worth a careful manual read - it is the companion to wos_00614"
+pubmed_00369,maybe,,"Hamstring volume decreased 7-8% in both the exercise and control bed rest groups, but the per-group values and sample sizes are in a figure and table not recovered from the PDF text"
+pubmed_00379,maybe,,"Quadriceps volume fell 8.3% in older and about 6% in young participants after two weeks of disuse; the young value and the group sizes were mangled by PDF text extraction and need a manual read of Table 2"
+pubmed_00342,maybe,,"Reports lean mass change per sex for the hypoxic ambulatory arm in text; the two bed rest arms are the ones we need and they are in a table the PDF text extraction did not preserve"
+pubmed_00130,maybe,,"Baseline leg lean mass is printed (12.00 kg) but the post-bed-rest value is in a figure; the paper is about predicting loss rather than reporting it"
+pubmed_00440,maybe,,"Leg lean mass change is given as an absolute loss per group (-1035 g vs -680 g) with no baseline, so no percent change can be computed from the text"
+scopus_00915,maybe,,"21-day dry immersion with body composition dynamics - would be the dataset's first dry immersion rows, but no numeric muscle outcome surfaced in the text"
+scopus_00598,maybe,,"Redox biomarker study on a 60-day bed rest cohort; no muscle size number in the text"
+pubmed_00047,maybe,,"Leucine during 7-day bed rest in older adults; lean leg mass is reported only in figures"
+pubmed_00384,maybe,,"Feeding pattern study; muscle mass outcomes are in figures"
+pubmed_00079,maybe,,"Testosterone plus NASA countermeasures during HDBR; the supplement is on disk but the main paper's muscle values did not surface in the text"
+pubmed_00337,maybe,,"NMES plus protein in older adults; thigh lean tissue values are in figures"
+pubmed_00280,maybe,,"Anabolic resistance study; quadriceps muscle volume is reported in a figure"
+pubmed_00153,maybe,,"Belavy resistive vibration exercise paper; individual muscle volumes are in figures"
+pubmed_00216,maybe,,"TLR4 and IL-6 expression study; leg lean mass values are in figures"
+pubmed_00227,maybe,,"Muscle X-ray attenuation during 89-day bed rest - calf muscle CSA fell 26.6% per the abstract, but the tabulated values did not survive PDF text extraction and need a manual read"
+pubmed_00362,maybe,,"HMB during 10-day bed rest in older adults; lean body mass values are in figures"
+pubmed_00100,maybe,,"10-day bed rest in older adults; the lean mass values found are whole-body, and the leg-specific numbers are in a figure"
+pubmed_00386,maybe,,"Age-related differences: total lean mass fell 4% in older adults, but that is whole-body and the leg-specific values are in a figure"
+pubmed_00095,maybe,,"WISE-2005 countermeasures paper; lean tissue mass by segment is in figures"
+pubmed_00240,maybe,,"Knee extensor and plantar flexor CSA after 30-day unloading; per-group values are in figures"
+pubmed_00149,maybe,,"Integrated resistance and aerobic exercise; muscle CSA by MRI is reported in figures"
+pubmed_00472,maybe,,"Blood flow restricted versus high load exercise during unloading; muscle size values are in figures"
+pubmed_00416,maybe,,"35-day bed rest under two diets; the muscle mass numbers in the text are citations of other studies, and this paper's own values are in figures"
+pubmed_00109,maybe,,"Leg lean mass change after 14 days is printed in the text but the PDF extraction mangles the signs and the plus-minus symbols - 'CON compared with LEU: 29% 6 2% and +1% 6 3%' - so the control value cannot be read with confidence. One manual look at the paper settles it"
+pubmed_00472,maybe,,"Figure 1 plots delta knee extensor CSA in cm2 per individual with no group pre and post means, and both arms are exercise arms - there is no unloaded control. No percent change can be built"

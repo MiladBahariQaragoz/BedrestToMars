@@ -17,7 +17,7 @@ DGLRM accepted abstract — oral presentation plus written report.
 | Role | Person |
 |---|---|
 | Scientific lead — literature search, screening, extraction, discussion | Partner |
-| AI framework lead — schema, framework design, modelling, results | Falk |
+| AI framework lead — schema, framework design, modelling, results | Qaragoz |
 
 ## Key dates
 
@@ -48,6 +48,7 @@ and treat everything after them as rehearsal and contingency.
 | `resources/` (source PDFs) | **No** — gitignored | Copyrighted publisher material. The reference list and the extraction table carry the same information and are safe to share |
 | Dataset spreadsheets (`*.xlsx`) | **Not yet** — gitignored | Decision deferred. The frozen CSV dataset produced in P2 (`data/dataset_v1.0.csv`) is the artefact intended for the repository; the working spreadsheets may stay out |
 | Extraction tables, schema, code, figures | Yes | These are the reproducible core |
+| Database exports and the tables merged from them (`docs/literature-review/exports/`, `data/search/*.csv`) | **No** — gitignored | Scopus and Web of Science licence terms restrict redistributing exported records, and this repository is public. The files stay in the shared Drive folder; the merge script and the derived counts are committed, so the tables can be rebuilt from anyone's own exports |
 
 ### Branch model (task 0.3)
 
@@ -56,7 +57,7 @@ and treat everything after them as rehearsal and contingency.
 | Branch | Owner | Work package |
 |---|---|---|
 | `feat/literature-review` | Partner | P1 scientific track: search, screening, extraction, cohort map |
-| `feat/ai-framework` | Falk | P1 AI track, P3 framework design, P4 model runs |
+| `feat/ai-framework` | Qaragoz | P1 AI track, P3 framework design, P4 model runs |
 | `feat/integration` | Both | P2 reconciliation of extracted science with the framework |
 | `feat/report-slides` | Both | P5 report, deck, figures |
 

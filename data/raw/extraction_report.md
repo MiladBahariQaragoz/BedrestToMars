@@ -1,0 +1,188 @@
+# Extraction Progress
+
+Generated 2026-09-14 from `data/raw/extraction_qaragoz.csv`.
+
+- **699 rows** across **36 studies** and **26 cohorts**
+- **442** rows measured during unloading, 257 during recovery
+- **50 distinct muscles**
+- Every row is `double_extracted = FALSE`: 0 have been checked by a second person
+
+## By study
+
+| Study | Cohort | Design | Days | n rows | Muscles | Arms |
+|---|---|---|---|---|---|---|
+| `belavy2017` | `medes_ltbr90` | HDBR_-6 | 90 | 288 | 24 | 2 |
+| `demartino2022` | `agbresa` | HDBR_-6 | 60 | 72 | 4 | 2 |
+| `belavy2009` | `berlin_bbr1` | horizontal_BR | 56 | 68 | 17 | 1 |
+| `miokovic2012` | `berlin_bbr2` | HDBR_-6 | 60 | 38 | 19 | 1 |
+| `liphardt2020` | `liphardt_br21` | HDBR_-6 | 21 | 20 | 4 | 1 |
+| `zange2009` | `wbv_hdt14` | HDBR_-6 | 14 | 20 | 10 | 2 |
+| `rogers2025` | `wise2005` | HDBR_-6 | 60 | 17 | 17 | 1 |
+| `smeuninx2021` | `birmingham_br5_nct04422665` | horizontal_BR | 5 | 16 | 2 | 2 |
+| `mandic2026` | `brace_br60` | HDBR_-6 | 60 | 15 | 3 | 3 |
+| `bocker2026` | `space_vs_br_2026` | spaceflight | 180 | 12 | 1 | 1 |
+| `hansen2024` | `copenhagen_br5` | horizontal_BR | 5 | 12 | 3 | 4 |
+| `trappe2007` | `wise2005` | HDBR_-6 | 60 | 12 | 2 | 3 |
+| `tran2021` | `agbresa` | HDBR_-6 | 60 | 9 | 3 | 3 |
+| `trappe2024sprint` | `nasa_sprint_br70` | HDBR_-6 | 70 | 9 | 3 | 3 |
+| `leblanc1992` | `nasa_br17wk` | horizontal_BR | 119 | 9 | 6 | 1 |
+| `smeuninx2025` | `birmingham_br5_nct04422665` | horizontal_BR | 5 | 8 | 1 | 2 |
+| `trappe2023` | `wise2005` | HDBR_-6 | 60 | 8 | 2 | 2 |
+| `mulder2015` | `dlr_hdt5_crossover` | HDBR_-6 | 5 | 6 | 2 | 3 |
+| `demartino2021` | `agbresa` | HDBR_-6 | 60 | 6 | 2 | 3 |
+| `berg2007` | `valdoltra_br35` | horizontal_BR | 35 | 6 | 3 | 1 |
+| `alkner2004` | `medes_ltbr90` | HDBR_-6 | 90 | 6 | 4 | 2 |
+| `fuchs2025` | `maastricht_br14` | horizontal_BR | 14 | 5 | 4 | 1 |
+| `franchi2022` | `izola_br10` | horizontal_BR | 10 | 5 | 5 | 1 |
+| `simunic2026` | `izola_br10` | horizontal_BR | 10 | 4 | 4 | 1 |
+| `mcdonnell2019` | `lunhab_br10` | horizontal_BR | 10 | 4 | 2 | 2 |
+| `hides2021` | `iss_hides_astronauts` | spaceflight | 180 | 4 | 1 | 1 |
+| `arbeille2024` | `brace_br60` | HDBR_-6 | 60 | 3 | 1 | 3 |
+| `greenleaf1994` | `nasa_ames_hdbr30` | HDBR_-6 | 30 | 3 | 1 | 3 |
+| `kramer2017` | `dlr_rsl_br60` | HDBR_-6 | 60 | 2 | 1 | 2 |
+| `hajjboutros2023` | `mcgill_hdbr14` | HDBR_-6 | 14 | 2 | 1 | 2 |
+| `lagace2026` | `mcgill_hdbr14` | HDBR_-6 | 14 | 2 | 1 | 2 |
+| `fuchs2025bfr` | `maastricht_br14` | horizontal_BR | 14 | 2 | 1 | 2 |
+| `orlova2026` | `imbp_br21` | HDBR_-6 | 21 | 2 | 2 | 1 |
+| `pisot2016` | `izola_br14` | horizontal_BR | 14 | 2 | 1 | 2 |
+| `dirks2016` | `maastricht_br7` | horizontal_BR | 7 | 1 | 1 | 1 |
+| `ulls2022` | `padova_ulls10` | ULLS | 10 | 1 | 1 | 1 |
+
+## Cohorts carrying more than one study
+
+These are the reason validation is grouped by cohort rather than by paper.
+
+- **`agbresa`** — demartino2021, demartino2022, tran2021
+- **`birmingham_br5_nct04422665`** — smeuninx2021, smeuninx2025
+- **`brace_br60`** — arbeille2024, mandic2026
+- **`izola_br10`** — franchi2022, simunic2026
+- **`maastricht_br14`** — fuchs2025, fuchs2025bfr
+- **`mcgill_hdbr14`** — hajjboutros2023, lagace2026
+- **`medes_ltbr90`** — alkner2004, belavy2017, trappe2023
+- **`wise2005`** — rogers2025, trappe2007, trappe2023
+
+## The duration axis, in unloading rows
+
+| Unloading duration (days) | Rows |
+|---|---|
+| 5 | 42 |
+| 7 | 1 |
+| 10 | 14 |
+| 14 | 31 |
+| 21 | 22 |
+| 35 | 3 |
+| 56 | 68 |
+| 60 | 140 |
+| 70 | 9 |
+| 90 | 106 |
+| 119 | 6 |
+
+## How the numbers were measured and where they came from
+
+- **Modality:** MRI 634, DXA 29, CT 20, ultrasound 16
+- **Outcome:** volume 584, CSA 75, lean_mass 29, thickness 11
+- **Source:** table 641, text 58
+- **Confidence:** high 670, medium 26, low 3
+
+## The most and least affected muscles so far
+
+Mean percent change across unloading rows, muscles with at least four rows.
+
+| Muscle | Rows | Mean % change |
+|---|---|---|
+| `triceps_surae` | 21 | -15.6 |
+| `vastus_medialis` | 5 | -15.1 |
+| `soleus` | 16 | -15.0 |
+| `gastrocnemius_medialis` | 14 | -14.7 |
+| `flexor_hallucis_longus` | 6 | -13.6 |
+| `gastrocnemius_lateralis` | 13 | -12.8 |
+| `flexor_digitorum_with_tibialis_posterior` | 4 | -12.6 |
+| `peroneals` | 11 | -12.6 |
+| `semimembranosus` | 10 | -11.7 |
+| `vasti` | 15 | -11.5 |
+| `biceps_femoris_long_head` | 11 | -10.8 |
+| `tibialis_posterior` | 7 | -10.8 |
+| `quadratus_femoris` | 4 | -10.0 |
+| `quadratus_lumborum` | 6 | -9.6 |
+| `flexor_digitorum_longus` | 7 | -8.8 |
+| `anterior_thigh_compartment` | 7 | -8.2 |
+| `anterior_tibial_group` | 10 | -8.1 |
+| `semitendinosus` | 10 | -7.7 |
+| `lateral_hamstrings` | 4 | -7.6 |
+| `medial_hamstrings` | 4 | -7.6 |
+| `adductor_magnus` | 11 | -7.6 |
+| `vastus_intermedius` | 8 | -6.6 |
+| `whole_calf` | 4 | -6.5 |
+| `multifidus` | 13 | -6.2 |
+| `posterior_thigh_compartment` | 7 | -6.2 |
+| `quadriceps` | 40 | -6.1 |
+| `sartorius` | 11 | -6.0 |
+| `gluteus_maximus` | 7 | -5.7 |
+| `biceps_femoris_short_head` | 10 | -5.1 |
+| `vastus_lateralis` | 18 | -4.7 |
+| `whole_thigh` | 13 | -4.7 |
+| `rectus_femoris` | 19 | -4.5 |
+| `whole_lower_limb` | 10 | -4.2 |
+| `iliopsoas` | 4 | -4.0 |
+| `gracilis` | 11 | -3.4 |
+| `popliteus` | 4 | -3.3 |
+| `adductor_brevis` | 6 | -2.6 |
+| `adductor_longus` | 11 | -2.5 |
+| `lumbar_erector_spinae` | 14 | -2.3 |
+| `obturator_externus` | 4 | +0.5 |
+| `psoas` | 10 | +1.9 |
+| `obturator_internus` | 4 | +6.2 |
+
+These averages pool every duration and both control and countermeasure arms, so they
+are a sanity check and nothing more - a soleus row from day 89 of bed rest and one
+from day 5 are in the same column here. The real comparison is the model's job.
+
+## The partial table
+
+`data/raw/extraction_partial.csv` holds **29 rows from 12 studies** recovered from papers that never published a full
+set of numbers - usually a headline percentage in an abstract, with the group
+size or the baseline value missing. They are kept separate on purpose: every
+row carries `partial_record` in `qc_flag` plus a note saying what is absent,
+and merging the two files is a modelling decision rather than a default.
+
+| Study | Cohort | Rows | Confidence |
+|---|---|---|---|
+| `cavanagh2016` | `cavanagh_br84` | 2 | medium 2 |
+| `cook2014` | `cook_ulls30` | 4 | medium 4 |
+| `debevec2018` | `planhab_br21` | 2 | medium 2 |
+| `dirks2019` | `maastricht_br7_feeding` | 2 | medium 2 |
+| `drummond2013` | `drummond_br7` | 1 | low 1 |
+| `hides2016` | `iss_hides_astronauts` | 4 | low 4 |
+| `holt2015` | `wise2005` | 4 | low 4 |
+| `holt2016` | `wise2005` | 2 | medium 2 |
+| `krainski2014` | `krainski_hdbr35` | 4 | medium 4 |
+| `mekjavic2021` | `planhab_br10` | 2 | medium 2 |
+| `rejc2018` | `izola_br14` | 1 | low 1 |
+| `rittweger2013` | `medes_ltbr90` | 1 | medium 1 |
+
+## The figure table
+
+`data/raw/extraction_figures.csv` holds **19 rows from 7 studies** whose results are published only as charts.
+
+Rendering the figure page turned out to recover two different things, and
+`digitizer_tool` records which applies to each row:
+
+- **page text beside the figure** — 11 rows
+- **visual reading of rendered figure at 300 dpi** — 4 rows
+- **visual reading of rendered figure at 190 dpi** — 3 rows
+- **printed change with the baseline read off Figure 3F** — 1 rows
+
+The first kind is exact: the value was printed in the prose beside the chart,
+and the figure only told us which page to look at. The second is an estimate
+read against the axis. No row here is better than `medium` confidence unless
+its value came from the page text.
+
+| Study | Cohort | Rows |
+|---|---|---|
+| `alkner2004` | `medes_ltbr90` | 1 |
+| `dulac2024` | `mcgill_hdbr14` | 4 |
+| `krainski2014` | `krainski_hdbr35` | 8 |
+| `lair2026` | `di5_toulouse` | 1 |
+| `mekjavic2021` | `planhab_br10` | 2 |
+| `rittweger2013` | `medes_ltbr90` | 1 |
+| `tanner2015` | `tanner_br5` | 2 |

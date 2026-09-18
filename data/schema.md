@@ -27,11 +27,22 @@ for `value_baseline` and `value_followup` on every row *and* for separate baseli
 `pct_change` of zero, which is not a measurement — it would have silently pulled every
 model's fit towards the origin.
 
-**Primary key:** `study_id` + `arm_id` + `muscle` + `phase` + `timepoint_days`.
-No two rows may share all five.
+**Primary key:** `study_id` + `arm_id` + `muscle` + `phase` + `timepoint_days` + `outcome_type`
++ `modality` + `measurement_site`. No two rows may share all eight.
 
-**`row_id` is generated, never typed:** `{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}`
-— for example `dulac2024__ex__quadriceps__bed_rest_13`.
+The last two joined the key when Fuchs 2025 was extracted: it measures the *same* thigh in
+the *same* participants at the *same* timepoint by DXA, CT and MRI, and reports a different
+number each time. That is the study's whole point - it is the evidence behind the `modality`
+sensitivity analysis - so the key has to let one muscle carry one row per measurement method.
+
+`measurement_site` joined for the same reason one paper later: quadriceps CSA measured at
+20, 40, 60 and 80% of thigh length gives four different answers in the same leg on the same
+day, and the 20% site frequently shows no significant loss while the 60% site does. Collapsing
+them would average away the within-muscle heterogeneity that Miokovic's work is about.
+
+**`row_id` is generated, never typed:**
+`{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}__{modality}_{outcome_type}`
+— for example `dulac2024__ex__quadriceps__bed_rest_13__MRI_volume`.
 
 ---
 
@@ -55,15 +66,26 @@ No two rows may share all five.
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `design` | enum | yes | `HDBR_-6`, `HDBR_other`, `horizontal_BR`, `dry_immersion`, `ULLS`, `spaceflight` |
+| `design` | enum | yes | `HDBR_-6`, `HDBR_other`, `horizontal_BR`, `dry_immersion`, `ULLS`, `spaceflight`. **`spaceflight` and `dry_immersion` rows are extracted and kept, and always carry `exposure_flag`** — see below |
 | `hdt_angle_deg` | float | no | Negative for head-down. `-6` for standard HDBR, `0` for horizontal bed rest |
 | `duration_days` | int | yes | Total planned unloading duration of the campaign |
 | `phase` | enum | yes | `bed_rest` or `recovery`. **Never mix the two in one model without a flag** |
 | `timepoint_days` | int | yes | Days since the start of unloading. For `recovery` rows this keeps counting |
 | `days_from_unloading_end` | int | conditional | Required when `phase = recovery`; `NA` otherwise |
+| `exposure_flag` | enum | yes | `analogue` for bed rest and ULLS, `dry_immersion`, or `spaceflight`. One column, so either decision in P2 is one line of code rather than a re-extraction |
 
 Recovery rows are not optional decoration. Dulac 2024 measures at day 13 of bed rest *and*
 day 6 of recovery; pooling those two into one "post" value would understate the in-bed loss.
+
+**Why `exposure_flag` exists.** Three exposures are being pooled onto one duration axis and
+they are not equivalent. Dry immersion removes support from the soles of the feet as well as
+unloading the limb, and it produces in days what bed rest produces in weeks; spaceflight is
+the real thing rather than an analogue. Pooled without a marker, the immersion studies pull
+down the early part of the duration-response and the model averages away a real difference.
+The decision taken in P0 is therefore: **extract everything, flag the exposure, and decide in
+P2** whether the flag stays a feature in the design matrix, forces a stratified fit, or
+becomes an exclusion. The sensitivity analysis - fit with and without each exposure class -
+is a slide either way.
 
 ### 2.3 Arm and participants
 
@@ -71,14 +93,23 @@ day 6 of recovery; pooling those two into one "post" value would understate the 
 |---|---|---|---|
 | `arm_id` | string | yes | Short and stable within a study: `ctrl`, `ex`, `rve`, `wbv`, `nutr` |
 | `arm_type` | enum | yes | `control` or `countermeasure` |
-| `cm_modality` | enum | yes | `none`, `resistive`, `flywheel`, `aerobic`, `RVE`, `WBV`, `nutrition`, `combined` |
+| `cm_modality` | enum | yes | `none`, `resistive`, `flywheel`, `aerobic`, `RVE`, `WBV`, `nutrition`, `artificial_gravity`, `LBNP`, `NMES`, `BFR`, `combined` |
 | `cm_dose` | string | no | Free text, but structured: frequency × session length × intensity |
 | `n_arm` | int | yes | Participants allocated to this arm |
 | `n_analysed` | int | yes | Participants actually contributing *this* measurement. Often smaller. This is the N that any weighting uses |
 | `sex` | enum | yes | `M`, `F`, `mixed` |
 | `pct_female` | float | conditional | Required when `sex = mixed` |
-| `age_mean`, `age_sd` | float | yes / no | Years |
-| `age_min`, `age_max` | float | no | The inclusion range where the paper gives one |
+| `age_mean`, `age_sd` | float | see note | Years |
+| `age_min`, `age_max` | float | see note | The inclusion range where the paper gives one |
+
+**Age: a mean or a range, but never nothing - with one exception.** Some papers publish only the inclusion
+range - Smeuninx 2021 and 2025 say "10 healthy older men aged 65-80" and never print a
+mean. The validator therefore asks for `age_mean` **or** both `age_min` and `age_max`.
+Inventing a midpoint would be imputation, and rule 1 forbids it.
+The exception is astronaut cohorts: crew demographics are routinely withheld, so a row
+carrying `qc_flag = age_not_published` may leave all three age fields `NA`. Filling them
+with a plausible range would be inventing data about identifiable people.
+
 | `population` | enum | yes | `healthy_young`, `healthy_middle_aged`, `healthy_older`, `clinical` |
 | `bmi_mean` | float | no | kg/m² |
 | `body_mass_mean_kg` | float | no | Useful for normalising volumes |
@@ -96,7 +127,7 @@ contrast is invisible to the model and to the discussion.
 | `muscle_function_class` | enum | derived | `antigravity_extensor`, `flexor`, `mixed`. Derived in P2 from `muscle`, not typed |
 | `is_composite` | bool | yes | `TRUE` for `triceps_surae`, `quadriceps`, `whole_lower_limb` |
 | `composite_of` | string | conditional | Semicolon-separated component muscles where the paper says which ones are included |
-| `laterality` | enum | yes | `left`, `right`, `mean`, `dominant`, `NA` |
+| `laterality` | enum | when stated | `left`, `right`, `mean`, `dominant`. Many papers never say which leg was imaged; that is `NA` plus `qc_flag = laterality_unstated`, not a guess |
 | `measurement_site` | string | no | For CSA especially: `50% femur length`, `mid-belly`, `largest slice`. Two CSAs at different sites are not the same measurement |
 | `outcome_type` | enum | yes | `volume`, `CSA`, `lean_mass`, `PCSA`, `thickness` |
 | `modality` | enum | yes | `MRI`, `CT`, `DXA`, `ultrasound`, `anthropometry` |
@@ -143,8 +174,16 @@ the absolute values left `NA`.
 `soleus`, `gastrocnemius_medialis`, `gastrocnemius_lateralis`, `gastrocnemius_total`,
 `triceps_surae`, `tibialis_anterior`, `peroneals`, `deep_posterior_compartment`,
 `vastus_lateralis`, `vastus_medialis`, `vastus_intermedius`, `rectus_femoris`,
-`quadriceps`, `hamstrings`, `adductors`, `gluteus_maximus`, `gluteus_medius`, `psoas`,
-`multifidus`, `whole_thigh`, `whole_calf`, `whole_lower_limb`.
+`quadriceps`, `hamstrings`, `adductors`, `gluteus_maximus`, `gluteus_medius`,
+`gluteus_minimus`, `psoas`,
+`multifidus`, `whole_thigh`, `whole_calf`, `whole_lower_limb`,
+`anterior_thigh_compartment`, `posterior_thigh_compartment`, `flexor_digitorum_longus`,
+`tibialis_posterior`, `lumbar_erector_spinae`, `quadratus_lumborum`,
+`anterior_tibial_group`, `flexor_digitorum_with_tibialis_posterior`, `flexor_hallucis_longus`, `vasti`, `adductor_brevis`, `adductor_longus`, `adductor_magnus`, `gracilis`, `sartorius`, `biceps_femoris_long_head`, `biceps_femoris_short_head`, `semimembranosus`, `semitendinosus`, `popliteus`, `obturator_externus`, `obturator_internus`, `quadratus_femoris`, `iliopsoas`, `plantar_flexors`, `gluteals`, `medial_hamstrings`, `lateral_hamstrings`, `extensor_digitorum_longus`, `pectineus`.
+
+The second block was added when Belavy 2017 was extracted: it reports 24 individually segmented muscles, and collapsing them into groups would throw away exactly the muscle-identity resolution the talk's second claim rests on.
+
+The third block was added for the pre-search corpus in `resources/`. `plantar_flexors` is every ankle plantar flexor measured together - triceps surae plus tibialis posterior and the two long toe flexors - which is what Greenleaf 1994 and Berg 2007 report; calling it `triceps_surae` would claim a smaller set of muscles than was measured. `gluteals` is gluteus maximus, medius and minimus together (Berg 2007). `medial_hamstrings` (semimembranosus and semitendinosus) and `lateral_hamstrings` (both heads of biceps femoris) are how Zange 2009 and Miokovic 2012 group the hamstrings. Miokovic 2012 is also the first paper to report `extensor_digitorum_longus` and `pectineus` on their own.
 
 Adding a term is a one-line commit to this file. Inventing one in a cell is not.
 
@@ -155,6 +194,7 @@ Adding a term is a one-line commit to this file. Inventing one in a cell is not.
 1. **Never impute silently.** Missing is `NA`, and `NA` is a fact about the literature worth reporting.
 2. **Sign convention:** `pct_change` is negative for atrophy. Fix this once, in P0, or lose an evening in P4 hunting a flipped sign.
 3. **Recompute every percentage.** Where baseline and follow-up are both printed, compute `pct_change` yourself and compare against the printed value. A mismatch goes in `qc_flag`, not in the bin.
+   **The commonest mismatch is not an error.** A paper's printed percent change is usually the *mean of each participant's own percent change*; recomputing from the group means gives the *percent change of the means*. These are different numbers, and with a small n and a wide spread they differ a lot - in Tran 2021 the gluteus medius control arm is −4.6% printed against −7.1% recomputed. The printed value is the better estimate of the average person's response, so **keep the printed value in `pct_change`, keep the group means in `value_baseline` and `value_followup`, and set `qc_flag = pct_of_individual_means`.** The validator then skips the agreement check for that row, and the limitations section has a sentence it would otherwise have missed.
 4. **`triceps_surae` is not the sum of `soleus` and `gastrocnemius`.** Keep composite and component rows separately, flag them with `is_composite`, and decide explicitly in P2 how they are pooled. A model fed both is fitting the same tissue twice.
 5. **DXA lean mass is not MRI volume.** Keep `modality` as a feature and run the sensitivity analysis without the DXA rows.
 6. **One `cohort_id` per campaign, not per paper.** Two papers from one bed-rest campaign are one cohort. This is what makes Leave-One-Cohort-Out honest.

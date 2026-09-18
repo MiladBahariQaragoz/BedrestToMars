@@ -2,6 +2,7 @@
 
 Usage:
     python framework/validate_extraction.py data/raw/extraction_partner.csv
+    python framework/validate_extraction.py data/raw/extraction_partial.csv --partial
 
 Exits non-zero if any check fails, so it can be wired into a pre-commit hook or `make`.
 The checks are section 7 of data/schema.md in executable form.
@@ -10,6 +11,7 @@ The checks are section 7 of data/schema.md in executable form.
 from __future__ import annotations
 
 import csv
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -23,8 +25,10 @@ MISSING = {"", "NA", "na", "N/A", "nan", "None"}
 ENUMS = {
     "design": {"HDBR_-6", "HDBR_other", "horizontal_BR", "dry_immersion", "ULLS", "spaceflight"},
     "phase": {"bed_rest", "recovery"},
+    "exposure_flag": {"analogue", "dry_immersion", "spaceflight"},
     "arm_type": {"control", "countermeasure"},
-    "cm_modality": {"none", "resistive", "flywheel", "aerobic", "RVE", "WBV", "nutrition", "combined"},
+    "cm_modality": {"none", "resistive", "flywheel", "aerobic", "RVE", "WBV", "nutrition",
+                    "artificial_gravity", "LBNP", "NMES", "BFR", "combined"},
     "sex": {"M", "F", "mixed"},
     "population": {"healthy_young", "healthy_middle_aged", "healthy_older", "clinical"},
     "nutrition_controlled": {"yes", "no"},
@@ -45,17 +49,35 @@ MUSCLES = {
     "soleus", "gastrocnemius_medialis", "gastrocnemius_lateralis", "gastrocnemius_total",
     "triceps_surae", "tibialis_anterior", "peroneals", "deep_posterior_compartment",
     "vastus_lateralis", "vastus_medialis", "vastus_intermedius", "rectus_femoris",
-    "quadriceps", "hamstrings", "adductors", "gluteus_maximus", "gluteus_medius", "psoas",
+    "quadriceps", "hamstrings", "adductors", "gluteus_maximus", "gluteus_medius", "gluteus_minimus", "psoas",
     "multifidus", "whole_thigh", "whole_calf", "whole_lower_limb",
+    "anterior_thigh_compartment", "posterior_thigh_compartment",
+    "flexor_digitorum_longus", "tibialis_posterior", "lumbar_erector_spinae",
+    "quadratus_lumborum",
+    "anterior_tibial_group", "flexor_digitorum_with_tibialis_posterior", "flexor_hallucis_longus", "vasti", "adductor_brevis", "adductor_longus", "adductor_magnus", "gracilis", "sartorius", "biceps_femoris_long_head", "biceps_femoris_short_head", "semimembranosus", "semitendinosus", "popliteus", "obturator_externus", "obturator_internus", "quadratus_femoris", "iliopsoas",
+    "plantar_flexors", "gluteals", "medial_hamstrings", "lateral_hamstrings",
+    "extensor_digitorum_longus", "pectineus",
 }
 
-KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days")
+KEY_FIELDS = ("study_id", "arm_id", "muscle", "phase", "timepoint_days",
+              "outcome_type", "modality", "measurement_site")
+
+# The partial table holds rows recovered from papers that never published a full set of
+# numbers - a percent change with no group size, a figure-only study whose text gives one
+# summary value. Those rows are still worth having, so they are validated against a smaller
+# core and live in their own file rather than being forced into the main table.
+REQUIRED_PARTIAL = (
+    "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
+    "duration_days", "phase", "timepoint_days", "exposure_flag", "arm_id", "muscle",
+    "outcome_type", "modality", "pct_change", "data_source", "page_ref", "extractor",
+    "extraction_date", "extraction_confidence", "double_extracted", "qc_flag",
+)
 
 REQUIRED_ALWAYS = (
     "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
-    "duration_days", "phase", "timepoint_days", "arm_id", "arm_type", "cm_modality",
-    "n_arm", "n_analysed", "sex", "age_mean", "population", "muscle", "is_composite",
-    "laterality", "outcome_type", "modality", "unit_original", "unit_si", "pct_change",
+    "duration_days", "phase", "timepoint_days", "exposure_flag", "arm_id", "arm_type", "cm_modality",
+    "n_arm", "n_analysed", "sex", "population", "muscle", "is_composite",
+    "outcome_type", "modality", "unit_original", "unit_si", "pct_change",
     "data_source", "page_ref", "extractor", "extraction_date", "extraction_confidence",
     "double_extracted",
 )
@@ -72,8 +94,15 @@ def as_float(value: str):
         return None
 
 
+def site_slug(site: str) -> str:
+    """A short, stable suffix so two sites on one muscle cannot collide in row_id."""
+    cleaned = re.sub(r"[^a-z0-9]+", "_", (site or "").lower()).strip("_")
+    return "" if cleaned in {"", "na"} else "__" + cleaned[:24]
+
+
 def expected_row_id(row: dict) -> str:
-    return "{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}".format(**row)
+    return ("{study_id}__{arm_id}__{muscle}__{phase}_{timepoint_days}"
+            "__{modality}_{outcome_type}").format(**row) + site_slug(row.get("measurement_site", ""))
 
 
 def load_known_cohorts() -> set:
@@ -83,8 +112,9 @@ def load_known_cohorts() -> set:
         return {row["cohort_id"].strip() for row in csv.DictReader(handle)}
 
 
-def validate(path: Path) -> list:
+def validate(path: Path, partial: bool = False) -> list:
     errors = []
+    required = REQUIRED_PARTIAL if partial else REQUIRED_ALWAYS
 
     with TEMPLATE_CSV.open(encoding="utf-8-sig", newline="") as handle:
         expected_columns = next(csv.reader(handle))
@@ -117,7 +147,7 @@ def validate(path: Path) -> list:
     for line_number, row in enumerate(rows, start=2):  # line 1 is the header
         where = f"line {line_number}"
 
-        for field in REQUIRED_ALWAYS:
+        for field in required:
             if is_missing(row[field]):
                 errors.append(f"{where}: required field '{field}' is empty")
 
@@ -137,6 +167,15 @@ def validate(path: Path) -> list:
                 "add it to data/schema.md first"
             )
 
+        # Check 4b - some age information, whether a mean or a range, unless the paper
+        # genuinely never published one (astronaut cohorts, where demographics are withheld)
+        if (not partial
+                and "age_not_published" not in row["qc_flag"]
+                and is_missing(row["age_mean"])
+                and (is_missing(row["age_min"]) or is_missing(row["age_max"]))):
+            errors.append(f"{where}: needs age_mean, or age_min and age_max - "
+                          "several papers publish only an inclusion range")
+
         # Check 5 - pct_change present and sane
         pct_change = as_float(row["pct_change"])
         if pct_change is None:
@@ -147,7 +186,8 @@ def validate(path: Path) -> list:
         # Check 6 - the recomputed percentage agrees with the recorded one
         baseline = as_float(row["value_baseline"])
         followup = as_float(row["value_followup"])
-        if baseline and followup is not None and pct_change is not None:
+        skip_agreement = "pct_of_individual_means" in row["qc_flag"]
+        if baseline and followup is not None and pct_change is not None and not skip_agreement:
             recomputed = (followup - baseline) / baseline * 100.0
             if abs(recomputed - pct_change) > 0.5:
                 errors.append(
@@ -165,7 +205,7 @@ def validate(path: Path) -> list:
         # Check 8 - pct_female exactly when sex = mixed
         is_mixed = row["sex"].strip() == "mixed"
         has_pct_female = not is_missing(row["pct_female"])
-        if is_mixed and not has_pct_female:
+        if is_mixed and not has_pct_female and not partial:
             errors.append(f"{where}: sex = mixed requires pct_female")
         if not is_mixed and has_pct_female:
             errors.append(f"{where}: pct_female is only for mixed-sex arms")
@@ -193,14 +233,16 @@ def validate(path: Path) -> list:
 
 
 def main() -> int:
-    if len(sys.argv) < 2:
+    arguments = [a for a in sys.argv[1:] if a != "--partial"]
+    partial = "--partial" in sys.argv[1:]
+    if not arguments:
         print(__doc__)
         return 2
 
     exit_code = 0
-    for argument in sys.argv[1:]:
+    for argument in arguments:
         path = Path(argument)
-        errors = validate(path)
+        errors = validate(path, partial=partial or path.name.endswith("_partial.csv"))
         if errors:
             exit_code = 1
             print(f"FAIL {path} - {len(errors)} problem(s):")
