@@ -1,0 +1,134 @@
+"""What the model leaned on, and whether it leaned on the same thing every fold.
+
+`DESIGN.md` section 11 sets the two constraints this module exists to enforce. Importance is
+recomputed inside every fold and reported as a stability table first and a magnitude second,
+because at 31 campaigns a ranking that changes from fold to fold is the finding. And nothing
+here is causal: a feature the model used is not a cause of atrophy, it is a feature the model
+used.
+
+SHAP is the requested method. When it is not installed the module falls back to permutation
+importance and says so in the output, because the two are different claims and a figure must
+never imply the one it did not compute.
+"""
+
+from __future__ import annotations
+
+from typing import Any, Callable, Iterable, Sequence
+
+import numpy as np
+import pandas as pd
+
+
+def shap_available() -> bool:
+    try:
+        import shap  # noqa: F401
+    except ModuleNotFoundError:
+        return False
+    return True
+
+
+def describe_method(config: dict[str, Any]) -> dict[str, str]:
+    """What was asked for, what was used, and why they differ."""
+    requested = config["explain"]["method"]
+    if requested == "shap" and not shap_available():
+        return {
+            "requested": requested,
+            "used": "permutation_importance",
+            "note": (
+                "shap is not installed, so importance is permutation-based. Install the "
+                "optional stack with `pip install -r requirements.txt` to compute SHAP "
+                "values. Do not label a permutation plot as SHAP."
+            ),
+        }
+    return {"requested": requested, "used": requested, "note": ""}
+
+
+def permutation_importance(
+    model: Any,
+    design: np.ndarray,
+    truth: np.ndarray,
+    feature_names: Sequence[str],
+    seed: int = 0,
+    repeats: int = 10,
+    score: Callable[[np.ndarray, np.ndarray], float] | None = None,
+) -> dict[str, float]:
+    """How much worse the predictions get when one feature is shuffled.
+
+    Reported as the increase in mean absolute error, in percentage points of muscle change,
+    so the number means something on its own rather than only in a ranking.
+    """
+    design = np.asarray(design, dtype=float)
+    truth = np.asarray(truth, dtype=float)
+    score = score or (lambda a, b: float(np.mean(np.abs(a - b))))
+    rng = np.random.default_rng(seed)
+
+    reference = score(truth, model.predict(design))
+    importances: dict[str, float] = {}
+    for column, name in enumerate(feature_names):
+        losses = []
+        for _ in range(repeats):
+            shuffled = design.copy()
+            shuffled[:, column] = rng.permutation(shuffled[:, column])
+            losses.append(score(truth, model.predict(shuffled)) - reference)
+        importances[name] = float(np.mean(losses))
+    return importances
+
+
+def stability_table(
+    per_fold: Iterable[dict[str, float]], top_k: int = 3
+) -> pd.DataFrame:
+    """How often each feature reached the top `k` across folds.
+
+    This table, not the average importance, is what may be shown when the ranking moves.
+    """
+    folds = list(per_fold)
+    counts: dict[str, int] = {}
+    for scores in folds:
+        ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+        for name, _ in ranked[:top_k]:
+            counts[name] = counts.get(name, 0) + 1
+
+    mean_importance = {
+        name: float(np.mean([scores.get(name, np.nan) for scores in folds]))
+        for name in {name for scores in folds for name in scores}
+    }
+    rows = [
+        {
+            "feature": name,
+            "folds_in_top_k": counts.get(name, 0),
+            "share": counts.get(name, 0) / len(folds),
+            "mean_importance": mean_importance[name],
+        }
+        for name in mean_importance
+    ]
+    table = pd.DataFrame(rows)
+    return table.sort_values(
+        ["folds_in_top_k", "mean_importance"], ascending=False
+    ).reset_index(drop=True)
+
+
+def explain_folds(
+    model_factory: Callable[[], Any],
+    design: np.ndarray,
+    truth: np.ndarray,
+    folds: Iterable[tuple[np.ndarray, np.ndarray]],
+    feature_names: Sequence[str],
+    config: dict[str, Any],
+) -> tuple[pd.DataFrame, dict[str, str]]:
+    """Refit inside every fold and return the stability table with the method used."""
+    method = describe_method(config)
+    per_fold: list[dict[str, float]] = []
+    for train, test in folds:
+        model = model_factory()
+        model.fit(design[train], truth[train])
+        per_fold.append(
+            permutation_importance(
+                model,
+                design[test],
+                truth[test],
+                feature_names,
+                seed=int(config["seed"]),
+            )
+        )
+    table = stability_table(per_fold, top_k=int(config["explain"]["stability_top_k"]))
+    return table, method
