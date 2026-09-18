@@ -146,8 +146,8 @@ def build(name: str, config: dict[str, Any]) -> Callable[[], Any]:
             StandardScaler(), RidgeCV(alphas=np.logspace(-3, 3, 13))
         ),
         "random_forest": lambda: RandomForestRegressor(
-            n_estimators=500, min_samples_leaf=3, random_state=seed, n_jobs=-1
-        ),
+            n_estimators=500, min_samples_leaf=3, random_state=seed, n_jobs=1
+        ),  # the search parallelises over folds; nesting the two only fights for cores
         "svr": lambda: make_pipeline(StandardScaler(), SVR(kernel="rbf", C=10.0)),
         "gradient_boosting": lambda: GradientBoostingRegressor(
             n_estimators=300, max_depth=2, learning_rate=0.05, random_state=seed
