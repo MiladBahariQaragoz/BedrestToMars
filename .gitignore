@@ -38,3 +38,11 @@ data/search/all_records.csv
 data/search/screening.csv
 data/search/.access_cache.json
 resources/figures/
+
+# Handoff archives built by framework/make_handoff.py - large, and every file in them
+# is already either committed here or deliberately excluded above.
+DGLRM_handoff_*.zip
+
+# Correspondence and QC workbooks received from the co-author. The findings that came
+# out of them are recorded in data/reconciliation_log.md, which is the citable record.
+docs/recieved from coauthor/
