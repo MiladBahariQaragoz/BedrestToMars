@@ -121,18 +121,16 @@ the paper reported the quadriceps *and* its four heads, and a model handed both 
 the same tissue twice, inflating its own precision.
 
 `composite_of` is populated on only 50 of the 185 composite rows, so the mapping cannot come
-from the data. It comes from `config.yaml`, as an explicit, reviewable table with two levels:
+from the data. It lives in [`data/muscle_map.csv`](../data/muscle_map.csv): one line per
+muscle giving its family, its functional class, its components where it is a composite, and
+a written reason for the assignment. `framework/muscle_map.py` joins it onto the rows at load
+time, and refuses to run if the dataset names a muscle the table does not cover.
 
-```yaml
-muscle_tree:
-  quadriceps:      [rectus_femoris, vastus_lateralis, vastus_medialis, vastus_intermedius]
-  vasti:           [vastus_lateralis, vastus_medialis, vastus_intermedius]
-  triceps_surae:   [soleus, gastrocnemius_medialis, gastrocnemius_lateralis]
-  # ... full table maintained with the schema's controlled vocabulary
-muscle_family:     # the level the primary model works at
-  quadriceps:      knee_extensors
-  soleus:          plantar_flexors
-  # ...
+```
+muscle,muscle_family,muscle_function_class,components,fibre_profile,rationale
+quadriceps,knee_extensors,antigravity_extensor,rectus_femoris|vastus_lateralis|…,mixed,Principal knee extensor group; resists knee collapse under body weight
+soleus,plantar_flexors,antigravity_extensor,,slow_dominant,Monoarticular plantarflexor carrying continuous postural load in stance; roughly 80% type I fibres
+rectus_femoris,knee_extensors,mixed,,mixed,Crosses two joints - extends the knee but flexes the hip; loses less than the vasti in bed rest
 ```
 
 **Resolution rule, applied per measurement occasion** (`cohort_id` × `arm_id` ×
@@ -181,7 +179,7 @@ reserve for the age term below.
 | `age_mean`, `population` | 38 of 421 rows are older adults, all from one campaign. A coefficient would be a coefficient for that campaign | Sensitivity analysis; the third study-level slot if the reviewer asks |
 | `sex`, `pct_female` | 347 rows men only, 31 women only, 25 mixed, 18 unstated. The confound with campaign is nearly total | Sex-stratified sensitivity analysis if N allows (`PLAN.md` task 4.5) |
 | `cm_modality` | Eight categories across 126 rows, several with under ten | Descriptive table and a secondary model restricted to countermeasure arms |
-| `measurement_site` | More than two-thirds of rows say nothing; the values that exist are free text needing cleaning | Within-muscle heterogeneity sensitivity analysis |
+| `measurement_site` | 515 of 737 rows say nothing, and the rest were free text until normalised into `site_kind` and `site_position_pct` (`framework/measurement_site.py`) | Within-muscle heterogeneity sensitivity analysis (S11) |
 | `hdt_angle_deg`, `design` | 420 of 421 rows are the same analogue family; near-constant | Reported in the corpus description |
 | `nutrition_controlled`, `bmi_mean`, `body_mass_mean_kg` | Sparse and collinear with campaign | Recorded only |
 | `extraction_confidence`, `data_source` | Quality markers, not physiology | Sensitivity analysis excluding figure-derived and low-confidence rows |
@@ -380,6 +378,7 @@ primary result.
 | S8 | Add `age_mean` as the third study-level covariate | Whether the older cohort shifts anything |
 | S9 | Sex-stratified, if the fold structure survives it | Honest answer to a question that will be asked |
 | S10 | Recovery rows included with a phase term | Whether reconditioning can be modelled at all with this corpus |
+| S11 | Restricted to rows with a stated `site_kind`, then split by `site_position_pct` | Whether where the slice was taken moved the estimate |
 
 S1, S2 and S4 are pre-registered as the three that must be shown in the report whatever they
 say. The rest are reported if they change a conclusion, and listed as run-and-unremarkable if
@@ -393,13 +392,15 @@ declared in `config.yaml`, and no module contains a number that is not in `confi
 | Module | Responsibility | Key interface |
 |---|---|---|
 | `data_loader.py` | Read the frozen CSV, verify its SHA-256 against `dataset_v1.0.sha256`, apply the §3 predicates | `load(config) -> pd.DataFrame` |
-| `features.py` | The §5 resolution rule, the muscle-family map, encodings, the duration basis functions | `build(df, config) -> X, y, groups` |
+| `features.py` | The §5 resolution rule, encodings, the duration basis functions | `build(df, config) -> X, y, groups` |
+| `muscle_map.py` | Muscle family and functional class from `data/muscle_map.csv`; fails loudly on an unmapped muscle | `annotate(rows) -> rows` |
+| `measurement_site.py` | `site_kind` and `site_position_pct` from `data/measurement_site_map.csv` | `annotate(rows) -> rows` |
 | `cv.py` | Leave-one-cohort-out splitter and the leakage assertions of §8.1 | `loco_split(groups) -> Iterator[train_idx, test_idx]` |
 | `models.py` | The tier-1 estimator and the four tier-2 families, each behind one fit/predict interface | `build_estimators(config) -> dict[str, Estimator]` |
 | `evaluate.py` | Fold metrics, cohort-weighted aggregates, the cohort bootstrap, the baseline comparison | `evaluate(estimators, splits, config) -> Results` |
 | `explain.py` | Per-fold SHAP and the stability table | `explain(model, folds, config) -> ShapReport` |
 
-`config.yaml` holds the subset predicates, the muscle tree and family map, the feature lists,
+`config.yaml` holds the subset predicates, the feature lists,
 the duration forms, model families and their grids, the number of bootstrap replicates, and
 the random seed. Changing an analysis means editing that file, and the file is committed with
 the result it produced.
@@ -451,15 +452,30 @@ a number that cannot be regenerated cannot go on a slide (`PLAN.md` §15).
 
 ## 17. Before the first run
 
-Three things block the pipeline and belong to P2 rather than P3.
+Two of the three blockers are cleared. Both were cleared by building a reviewable table
+rather than by editing the frozen dataset, so the assignment can be argued with, changed, and
+re-run without a new dataset version.
 
-| # | Blocker | Owner |
+| # | Blocker | State |
 |---|---|---|
-| 1 | `muscle_function_class` is `NA` on all 474 unloading rows. The muscle-family map in `config.yaml` is the P3 substitute, but the antigravity / non-antigravity assignment behind it is a physiological judgement (`PLAN.md` task 2.7) | Partner |
-| 2 | `measurement_site` carries both `NA` and `na`, and free-text values needing a controlled vocabulary before S-analyses can use it | Qaragoz |
-| 3 | The muscle tree and family map in `config.yaml` need review against the schema's controlled vocabulary before any coefficient is quoted | Both |
+| 1 | `muscle_function_class` was `NA` on all 737 rows | **Cleared.** [`data/muscle_map.csv`](../data/muscle_map.csv) classifies all 51 muscles — 19 antigravity extensors, 8 flexors, 24 mixed — each with a written reason. Assigned from mechanical role first and fibre-type composition second ([Johnson et al. 1973](https://doi.org/10.1016/0022-510X(73)90023-3)). **Needs the partner's physiological sign-off before a coefficient is quoted**, and that review is a line edit in one CSV, not a re-extraction |
+| 2 | `measurement_site` carried both `NA` and `na` plus 38 free-text strings | **Cleared.** [`data/measurement_site_map.csv`](../data/measurement_site_map.csv) resolves every string into `site_kind` and, where the paper gave one, a position along the segment |
+| 3 | Both tables reviewed against the schema's controlled vocabulary | Open — Both |
 
-None of them blocks writing the code. All of them block quoting a number.
+The two judgement calls in the muscle map that a physiologist may well overturn, and which
+are therefore flagged here rather than buried in a CSV:
+
+- **`rectus_femoris` is `mixed`, not an antigravity extensor.** It extends the knee but flexes
+  the hip, and it consistently atrophies less than the monoarticular vasti. Classifying it
+  with them would blunt exactly the contrast claim 2 rests on.
+- **`tibialis_anterior` is a `flexor` despite being slow-fibre dominant.** Roughly 73% type I,
+  but it lifts the foot rather than carrying body weight. It is the cleanest test in the
+  corpus of whether unloading atrophy tracks mechanical role or fibre type — and the answer
+  the literature gives is mechanical role, which is why the classification is built on role.
+
+The deep posterior compartment is classified the same way: `flexor_digitorum_longus`,
+`flexor_hallucis_longus` and `tibialis_posterior` are named for what they do to the toes, but
+what they do to the ankle is plantarflexion, so they sit with the antigravity extensors.
 
 ## 18. References
 
