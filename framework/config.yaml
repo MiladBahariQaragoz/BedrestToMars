@@ -1,0 +1,87 @@
+# Every choice the framework makes is declared here rather than written into code.
+# A results file is only comparable with another if both name the same config.
+
+dataset:
+  path: data/dataset_v1.0.csv
+  sha256_path: data/dataset_v1.0.sha256
+  version: "1.0"
+  verify_sha256: true          # refuse to run against an edited dataset
+
+maps:
+  muscle: data/muscle_map.csv
+  measurement_site: data/measurement_site_map.csv
+
+subset:
+  phase: bed_rest              # predicate 1 - recovery rows answer a different question
+  drop_muscles:                # predicate 2 - trunk and hip-flexor muscles are not lower limb
+    - multifidus
+    - lumbar_erector_spinae
+    - quadratus_lumborum
+    - psoas
+    - iliopsoas
+  resolution: component_first  # predicate 3 - see DESIGN.md section 5
+  whole_segment_muscles:
+    - whole_lower_limb
+    - whole_thigh
+    - whole_calf
+
+subsets:
+  A:                           # duration-response, all campaigns
+    include_whole_segment: true
+  B:                           # muscle ranking, named muscles only
+    include_whole_segment: false
+
+features:
+  duration_form: saturating    # log | saturating | spline - DESIGN.md section 7.1
+  spline_knots_pct: [10, 50, 90]
+  saturating_tau_grid: [7, 10, 14, 21, 28, 35, 45, 60, 90]
+  categorical:
+    - muscle_family
+    - arm_type
+    - modality_outcome
+  binary:
+    - is_composite
+  never_model:                 # provenance, not signal - DESIGN.md section 6.3
+    - row_id
+    - study_id
+    - doi
+    - source_file
+    - page_ref
+    - extractor
+    - extraction_date
+    - notes
+    - campaign_name
+    - registry_id
+    - cohort_id
+
+target:
+  column: pct_change
+  weight_column: n_analysed
+  valid_range: [-60, 40]       # anything outside is an extraction error, not a finding
+
+cv:
+  scheme: leave_one_cohort_out
+  group_column: cohort_id
+  assert_no_leakage: true
+
+models:
+  baseline: duration_only
+  families:
+    - ridge
+    - random_forest
+    - svr
+    - gradient_boosting
+  tuning: nested               # nested | fixed - never tune against the outer fold
+
+evaluate:
+  metrics: [mae, rmse, r2]
+  weight_by: cohort            # cohort | row - a slide number is never row-weighted
+  bootstrap:
+    replicates: 2000
+    unit: cohort
+
+explain:
+  method: shap                 # falls back to permutation importance when shap is absent
+  stability_top_k: 3
+
+seed: 20260918
