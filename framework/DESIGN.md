@@ -358,6 +358,44 @@ The fitted saturating curve gives a time constant of 10 days and an eventual los
 average up towards the less affected tissue, which is exactly why the muscle-specific model
 in subset B is the one that answers "how much soleus is left".
 
+### 9.2 Tier 2 as first run — the null result
+
+Run on 2026-09-18, subset A, leave-one-cohort-out with hyperparameters tuned by a
+campaign-grouped search inside each training fold. `results/model_comparison.csv`.
+
+| Model | Out-of-cohort MAE | 95% CI | vs baseline | Pooled R² |
+|---|---|---|---|---|
+| Duration-only curve (log) | **3.14 pp** | 2.35 – 4.02 | — | 0.02 |
+| Support vector regression | 3.21 pp | 2.47 – 4.09 | −2.3% | 0.20 |
+| Random forest | 3.25 pp | 2.51 – 4.06 | −3.8% | 0.20 |
+| Gradient boosting | 3.26 pp | 2.59 – 4.03 | −4.0% | 0.18 |
+| Ridge regression | 3.45 pp | 2.70 – 4.28 | −10.0% | 0.16 |
+
+**No family beats the duration curve, and three of the four are within a tenth of a
+percentage point of it.** Under `PLAN.md` §8 that is rung B of the fallback ladder, and it was
+pre-committed to before anything was fitted. It is reported as a finding, not softened.
+
+The interesting part is the last column. Pooled R² rises from 0.02 to about 0.20 the moment
+muscle identity enters the model, so the flexible families *are* finding real structure - they
+are simply not converting it into a lower absolute error, because the residual is dominated by
+between-campaign differences that no feature in this dataset explains. That is a statement
+about the published literature rather than about the algorithms: aggregate means from 31
+campaigns, each with its own imaging protocol and population, carry about this much signal and
+no more.
+
+The worst fold for every family is `wise2005` (MAE 8.5-9.4 pp) - 60 days of bed rest in women
+only, the corpus's largest single departure from the average campaign, and a clean
+illustration of why error is reported per fold rather than as one mean.
+
+**Importance.** SHAP is computed exactly for the tree ensembles. The best-scoring family here
+is SVR, where no exact explainer exists and a sampling explainer is a different and far slower
+computation, so its importance is permutation-based and every output says which was used. Only
+`duration` reaches the top three in more than two-thirds of folds; nothing else is stable,
+which under §11 means importance is presented as indicative and the stability table is shown
+instead of a tidy bar chart.
+
+---
+
 ## 10. Uncertainty, and the 180-day question
 
 Confidence intervals on every reported metric come from a **bootstrap over cohorts**, not
