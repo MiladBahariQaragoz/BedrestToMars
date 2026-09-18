@@ -53,6 +53,35 @@ def test_stability_counts_how_often_a_feature_stays_in_the_top_k() -> None:
     assert modality["folds_in_top_k"] == 1
 
 
+def test_shap_is_used_for_a_tree_model_and_named_honestly() -> None:
+    """If the report says SHAP, SHAP must be what was computed."""
+    if not explain.shap_available():
+        return
+    from sklearn.ensemble import RandomForestRegressor
+
+    rng = np.random.default_rng(1)
+    design = rng.normal(size=(120, 2))
+    truth = design[:, 0] * 3.0
+    model = RandomForestRegressor(n_estimators=40, random_state=0).fit(design, truth)
+    scores, method = explain.importance(model, design, truth, ["signal", "noise"], CONFIG)
+    assert method == "shap"
+    assert scores["signal"] > scores["noise"]
+
+
+def test_a_non_tree_model_falls_back_and_says_so() -> None:
+    """SHAP on a kernel model is a different and far slower computation; do not pretend."""
+    try:
+        from sklearn.svm import SVR
+    except ModuleNotFoundError:
+        return
+    rng = np.random.default_rng(2)
+    design = rng.normal(size=(80, 2))
+    truth = design[:, 0] * 2.0
+    model = SVR().fit(design, truth)
+    _, method = explain.importance(model, design, truth, ["signal", "noise"], CONFIG)
+    assert method == "permutation_importance"
+
+
 def test_the_method_actually_used_is_recorded() -> None:
     """A SHAP plot and a permutation plot are different claims and must not be confused."""
     report = explain.describe_method(CONFIG)

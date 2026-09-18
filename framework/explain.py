@@ -27,20 +27,79 @@ def shap_available() -> bool:
     return True
 
 
-def describe_method(config: dict[str, Any]) -> dict[str, str]:
-    """What was asked for, what was used, and why they differ."""
+def describe_method(config: dict[str, Any], used: str | None = None) -> dict[str, str]:
+    """What was asked for, what was actually computed, and why they differ."""
     requested = config["explain"]["method"]
+    if used is None:
+        used = requested if (requested != "shap" or shap_available()) else "permutation_importance"
+    if used == requested:
+        return {"requested": requested, "used": used, "note": ""}
     if requested == "shap" and not shap_available():
-        return {
-            "requested": requested,
-            "used": "permutation_importance",
-            "note": (
-                "shap is not installed, so importance is permutation-based. Install the "
-                "optional stack with `pip install -r requirements.txt` to compute SHAP "
-                "values. Do not label a permutation plot as SHAP."
-            ),
-        }
-    return {"requested": requested, "used": requested, "note": ""}
+        note = (
+            "shap is not installed, so importance is permutation-based. Install the "
+            "optional stack with `pip install -r requirements.txt` to compute SHAP values. "
+            "Do not label a permutation plot as SHAP."
+        )
+    else:
+        note = (
+            "SHAP was computed where the model allows it cheaply - the tree ensembles - and "
+            "permutation importance elsewhere. A kernel model needs a sampling explainer, "
+            "which is a different and much slower computation, and the two must not be "
+            "presented under one label."
+        )
+    return {"requested": requested, "used": used, "note": note}
+
+
+def _is_tree_ensemble(model: Any) -> bool:
+    """Tree ensembles have an exact, fast SHAP explainer; other models do not."""
+    try:
+        from sklearn.ensemble import (
+            ExtraTreesRegressor,
+            GradientBoostingRegressor,
+            RandomForestRegressor,
+        )
+        from sklearn.tree import DecisionTreeRegressor
+    except ModuleNotFoundError:
+        return False
+    return isinstance(
+        model,
+        (
+            RandomForestRegressor,
+            GradientBoostingRegressor,
+            ExtraTreesRegressor,
+            DecisionTreeRegressor,
+        ),
+    )
+
+
+def shap_importance(
+    model: Any, design: np.ndarray, feature_names: Sequence[str]
+) -> dict[str, float]:
+    """Mean absolute SHAP value per feature, in percentage points of muscle change."""
+    import shap
+
+    explainer = shap.TreeExplainer(model)
+    values = np.asarray(explainer.shap_values(np.asarray(design, dtype=float)))
+    magnitude = np.abs(values).mean(axis=0)
+    return {name: float(magnitude[index]) for index, name in enumerate(feature_names)}
+
+
+def importance(
+    model: Any,
+    design: np.ndarray,
+    truth: np.ndarray,
+    feature_names: Sequence[str],
+    config: dict[str, Any],
+) -> tuple[dict[str, float], str]:
+    """Importance for one fitted model, and the name of the method that produced it."""
+    if config["explain"]["method"] == "shap" and shap_available() and _is_tree_ensemble(model):
+        return shap_importance(model, design, feature_names), "shap"
+    return (
+        permutation_importance(
+            model, design, truth, feature_names, seed=int(config["seed"])
+        ),
+        "permutation_importance",
+    )
 
 
 def permutation_importance(
@@ -116,19 +175,15 @@ def explain_folds(
     config: dict[str, Any],
 ) -> tuple[pd.DataFrame, dict[str, str]]:
     """Refit inside every fold and return the stability table with the method used."""
-    method = describe_method(config)
     per_fold: list[dict[str, float]] = []
+    used: set[str] = set()
     for train, test in folds:
         model = model_factory()
         model.fit(design[train], truth[train])
-        per_fold.append(
-            permutation_importance(
-                model,
-                design[test],
-                truth[test],
-                feature_names,
-                seed=int(config["seed"]),
-            )
+        scores, method_used = importance(
+            model, design[test], truth[test], feature_names, config
         )
+        per_fold.append(scores)
+        used.add(method_used)
     table = stability_table(per_fold, top_k=int(config["explain"]["stability_top_k"]))
-    return table, method
+    return table, describe_method(config, used="+".join(sorted(used)))
