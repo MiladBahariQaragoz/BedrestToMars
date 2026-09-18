@@ -251,6 +251,10 @@ The double-extraction check in 2.1 is not bureaucracy. It is the only evidence t
 
 ## 7. P3 — Design of the Framework (1 day, Sep 15)
 
+> **Status 2026-09-18: complete**, four days late. `framework/DESIGN.md`, `config.yaml`, six
+> modules with 73 tests, and the baseline in all three forms. Task 3.2 — the framework
+> diagram — is the one part still outstanding. See [`docs/STATUS.md`](docs/STATUS.md).
+
 One day, on `feat/ai-framework`. The output is a design document and a runnable skeleton, not a finished analysis.
 
 | # | Task | Output |
@@ -275,6 +279,12 @@ One day, on `feat/ai-framework`. The output is a design document and a runnable 
 ---
 
 ## 8. P4 — Optional: Run the Framework (6 days, Sep 16 – Sep 21)
+
+> **Status 2026-09-18: tier 2 done, tier 1 outstanding.** The four families ran under
+> leave-one-cohort-out with nested tuning and **none beat the duration-only baseline** —
+> rung B of the ladder in §13, reported as a finding. Still to do: the three-level
+> meta-regression that produces the coefficients, the sensitivity analyses, the
+> extrapolation, and the partner's sign-off. See [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md).
 
 This was agreed as "if we had time." The calendar says there is time: six days. Treat it as planned work with a hard stop, not as a stretch goal — and if P1 or P2 overran, this is the window that absorbs it.
 

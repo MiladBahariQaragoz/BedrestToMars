@@ -10,6 +10,9 @@ DGLRM accepted abstract — oral presentation plus written report.
 - **Extraction schema (frozen):** [`data/schema.md`](data/schema.md)
 - **Screening decisions:** [`docs/screening_decisions.md`](docs/screening_decisions.md)
 - **Frozen dataset:** [`data/dataset_v1.0.csv`](data/dataset_v1.0.csv) (tag `dataset-v1.0`) — what is in it and its limits: [`data/DATASET_CARD.md`](data/DATASET_CARD.md)
+- **Where the project stands, with every number so far:** [`docs/STATUS.md`](docs/STATUS.md)
+- **What to do next:** [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md)
+- **Framework design (also the methods section):** [`framework/DESIGN.md`](framework/DESIGN.md)
 
 ---
 
