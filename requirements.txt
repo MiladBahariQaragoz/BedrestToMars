@@ -1,0 +1,12 @@
+# Core - the loader, the features, the cross-validation and the baseline need only these.
+numpy>=2.0
+pandas>=2.2
+PyYAML>=6.0
+
+# Tier 2 - the four comparative model families and the interpretation (P4).
+scikit-learn>=1.5
+scipy>=1.13
+shap>=0.45
+
+# Figures.
+matplotlib>=3.8
