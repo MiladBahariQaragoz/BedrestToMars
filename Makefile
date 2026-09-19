@@ -12,7 +12,7 @@ help:
 	@echo "make baseline  - fit the duration-only baseline, write results/baseline.json"
 	@echo "make models    - fit the four comparative families, write results/model_comparison.*"
 	@echo "make venv      - create the virtual environment this project needs"
-	@echo "make all       - regenerate every result from data/dataset_v1.0.csv"
+	@echo "make all       - regenerate every result from data/dataset_v1.1.csv"
 
 test:
 	$(PYTHON) framework/tests/run_all.py
@@ -21,7 +21,7 @@ test:
 # numpy, pandas, scipy and PyYAML can reproduce every coefficient in the report.
 tier1: results/tier1_curve.json
 
-results/tier1_curve.json: data/dataset_v1.0.csv data/muscle_map.csv \
+results/tier1_curve.json: data/dataset_v1.1.csv data/muscle_map.csv \
                           data/measurement_site_map.csv framework/config.yaml \
                           framework/run_tier1.py framework/tier1.py \
                           framework/features.py framework/data_loader.py
@@ -34,7 +34,7 @@ results/sensitivity.md: results/tier1_curve.json framework/sensitivity.py
 
 baseline: results/baseline.json
 
-results/baseline.json: data/dataset_v1.0.csv data/muscle_map.csv \
+results/baseline.json: data/dataset_v1.1.csv data/muscle_map.csv \
                        data/measurement_site_map.csv framework/config.yaml \
                        framework/run_baseline.py framework/models.py \
                        framework/features.py framework/data_loader.py framework/cv.py \

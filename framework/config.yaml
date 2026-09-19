@@ -2,9 +2,9 @@
 # A results file is only comparable with another if both name the same config.
 
 dataset:
-  path: data/dataset_v1.0.csv
-  sha256_path: data/dataset_v1.0.sha256
-  version: "1.0"
+  path: data/dataset_v1.1.csv
+  sha256_path: data/dataset_v1.1.sha256
+  version: "1.1"
   verify_sha256: true          # refuse to run against an edited dataset
 
 maps:
