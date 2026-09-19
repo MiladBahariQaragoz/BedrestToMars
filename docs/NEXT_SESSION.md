@@ -1,6 +1,7 @@
 # Start here next time
 
-Written 2026-09-18 at the end of the P3/P4 modelling work. Current state and every number so
+Written 2026-09-18 at the end of the P3/P4 modelling work, updated 2026-09-19 when tier 1
+was implemented. Current state and every number so
 far: [`STATUS.md`](STATUS.md). The plan itself has not changed: [`../PLAN.md`](../PLAN.md).
 
 **Deadlines:** upload 10 October 2026, talk 15 or 16 October. Today's date when this was
@@ -14,7 +15,7 @@ written was 18 September, so the internal schedule has 10 days of buffer left in
 cd ~/GoogleDrive/DGLRM
 git status --short                # if files show as modified but look identical, it is CRLF
 git checkout feat/ai-framework && git pull
-PYTHON=~/.venvs/dglrm/bin/python make test     # expect 73 checks in 10 files, all passing
+PYTHON=~/.venvs/dglrm/bin/python make test     # expect 106 checks in 12 files, all passing
 ```
 
 If `make venv` has never run on this machine, run it first — the environment cannot live in
@@ -24,28 +25,28 @@ Also still sitting in the project folder from the venv attempt: `rm -rf .venv .v
 
 ---
 
-## 1. Tier 1 — the three-level meta-regression *(the big one)*
+## 1. Tier 1 — done, and what it left open
 
-This is the project's primary scientific result and the only substantial piece of
-`framework/DESIGN.md` that has no code behind it. Everything below is specified in §7 of that
-document; it needs implementing, not designing.
+Implemented on 19 September: `framework/tier1.py`, `framework/run_tier1.py`, 27 checks, and
+`results/tier1_curve.json` plus `results/tier1_muscle_ranking.csv`. It is fitted by maximum
+likelihood rather than through `statsmodels`, for the reasons in `STATUS.md` §5. The numbers
+it produced are in `STATUS.md` §3 and the headline is **−2.41 pp of muscle per doubling of
+unloading duration** (95% CI −3.32 to −1.49), with the muscle ranking now carrying intervals.
 
-- Fit `pct_change ~ f(duration) + muscle_family + arm_type + covariates` with random
-  intercepts for cohort, study within cohort, and muscle within cohort.
-- Weight by `n_analysed`; cluster-robust standard errors on `cohort_id`.
-- Fit all three duration forms and report them side by side with AIC. The saturating form is
-  the headline unless the spline shows a shape it cannot follow.
-- Run it twice: subset A for the duration curve, subset B for the muscle ranking.
-- Write `results/tier1_curve.json` and `results/tier1_muscle_ranking.csv`.
+Three things it left for whoever picks this up:
 
-`statsmodels` is installed in the venv (`MixedLM` gives two levels; the third level and the
-cluster-robust sandwich need to be built on top, or the model fitted by maximum likelihood
-directly). Write the test first, as with every other module — `framework/tests/` shows the
-pattern, and a synthetic dataset with known variance components is the right first test.
-
-**Why it matters:** right now the project can say how *wrong* its predictions are, but not
-how much muscle is lost per day with a confidence interval. Claims 1 and 2 of the talk both
-need that number.
+- **The tau profile stops at the top of its grid** (`saturating_tau_grid` ends at 90 days),
+  so the saturating curve is still falling at the longest observation and its −20.3%
+  asymptote is an extrapolation. The grid was deliberately *not* widened after the fact. If
+  the report wants an asymptote, widen it as a declared decision, re-run, and say that is
+  what happened.
+- **The reference muscle family is `dorsiflexors`**, which is the alphabetically first level
+  and therefore an accident rather than a choice. Every contrast in the ranking CSV is
+  against it. Picking the reference deliberately — the argument for dorsiflexors is that they
+  are the non-antigravity control — would make the coefficient table read better.
+- **Nothing is weighted by inverse variance yet.** Rows are weighted by `n_analysed`, as
+  `DESIGN.md` §7.2 specifies; the inverse-variance version is sensitivity analysis S-IV on
+  the 289 rows carrying an SD.
 
 ## 2. The five figures
 
@@ -54,8 +55,9 @@ need that number.
 | Fig | Content | Blocked by |
 |---|---|---|
 | F4 | The framework diagram: sources → screening → schema → dataset → folds → two tiers → evaluation | Nothing. **Do this first** — it carries the whole AI contribution and `PLAN.md` task 3.2 has been open since P3 |
-| F2 | Duration–response: `pct_change` against `duration_days`, coloured by muscle family, fitted curve with band, control arms only | Tier 1 |
-| F3 | Muscle vulnerability ranking with confidence intervals, sorted | Tier 1 on subset B |
+| — | *(every figure is now unblocked: tier 1 was the only dependency)* | |
+| F2 | Duration–response: `pct_change` against `duration_days`, coloured by muscle family, fitted curve with band, control arms only | Nothing — `results/tier1_curve.json` carries the curve and its band on a one-day grid |
+| F3 | Muscle vulnerability ranking with confidence intervals, sorted | Nothing — `results/tier1_muscle_ranking.csv` is already sorted worst first, with intervals |
 | F1 | Corpus overview: screening flow plus a timeline strip of each campaign | Nothing — the PRISMA counts exist |
 | F5 | Model comparison against the baseline, or the stability table | Nothing — `results/model_comparison.csv` exists |
 
@@ -63,6 +65,8 @@ Colourblind-safe palette, sample size on the figure itself, text no smaller than
 text.
 
 ## 3. Close out P4
+
+**The figures are now the critical path** — nothing else blocks them.
 
 - Run sensitivity analyses S1–S11 from `DESIGN.md` §12. S1 (composite-first), S2 (drop MEDES)
   and S4 (MRI volume only) are pre-registered as must-show.
@@ -98,9 +102,10 @@ Everything in P5 and P6 is built on assumptions until that arrives.
 ## Quick reference
 
 ```bash
-PYTHON=~/.venvs/dglrm/bin/python make test       # 73 checks
+PYTHON=~/.venvs/dglrm/bin/python make test       # 106 checks
 PYTHON=~/.venvs/dglrm/bin/python make baseline   # results/baseline.json
 PYTHON=~/.venvs/dglrm/bin/python make models     # results/model_comparison.*  (~2.5 min)
+PYTHON=~/.venvs/dglrm/bin/python make tier1      # results/tier1_curve.json, results/tier1_muscle_ranking.csv
 PYTHON=~/.venvs/dglrm/bin/python make all        # everything
 
 python framework/muscle_map.py                   # print the muscle classification for review
