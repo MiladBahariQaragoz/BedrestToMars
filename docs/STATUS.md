@@ -59,7 +59,7 @@ can be argued with and re-run without a new dataset version.
 | `framework/run_tier1.py` | **New.** Fits both subsets, writes `results/tier1_curve.json` and `results/tier1_muscle_ranking.csv` |
 | `framework/run_baseline.py` | Fits the baseline, writes `results/baseline.json` |
 | `framework/run_models.py` | Runs the four families with nested tuning, writes `results/model_comparison.*` |
-| `framework/tests/` | 127 checks in 13 files, run by `make test` |
+| `framework/tests/` | 120 checks in 13 files, run by `make test` |
 | `framework/DESIGN.md` | The design document: what is modelled, how it is validated, what may be claimed |
 
 ### Results
@@ -256,7 +256,7 @@ make venv                                   # creates ~/.venvs/dglrm from requir
 PYTHON=~/.venvs/dglrm/bin/python make all   # tests, tier 1, S6, baseline, four models
 ```
 
-`make test` alone runs the 127 checks. `make tier1`, `make sensitivity`, `make baseline`
+`make test` alone runs the 120 checks. `make tier1`, `make sensitivity`, `make baseline`
 and `make models` regenerate one set of results each. The loader refuses to run if `dataset_v1.1.csv` no longer matches its
 recorded hash, so no result can quietly come from an edited dataset.
 
@@ -300,3 +300,8 @@ this mount — that is Drive sync, not corruption; `git fsck` has come back clea
 | No extrapolation to 180 days | `PLAN.md` task 4.7, a backup slide. Tier 1 makes it computable, and §10 of `DESIGN.md` governs what may be said about it |
 | The tau profile stops at the top of its grid | The saturating asymptote is an extrapolation past 119 days, not a plateau. Either widen the grid deliberately or quote the curve only inside the observed range |
 | DGLRM author instructions still unknown | `PLAN.md` task 0.2, outstanding since kickoff |
+| **No `LICENSE` file** | The repository is public but not open source: without one, a reader has no right to use the code or the dataset. `docs/licensing.md` §5 |
+| **`data/search/fulltext_digests/` reproduces paper text verbatim** | 68 committed files of tables and sentences copied from papers; at least 30 come from closed, bronze or green-OA articles that grant no reuse right. Blocks making the repository public. `docs/licensing.md` §2 |
+| NASA is not acknowledged as a data source | NASA asks to be credited and nothing in the repository does it yet. `docs/licensing.md` §3 |
+| The `repository` value added to `data_source` has one lead's signature, not two | `data/schema.md` is frozen and says a change needs both. README open question 1.1 |
+| `extraction_figures.csv` fails `validate_extraction.py` without `--partial` | Pre-existing, not caused by v1.1: 23 rows lack `sex` or an age. It validates cleanly in partial mode, so either the file is a partial table and the runner should say so, or the rows need filling |
