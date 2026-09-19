@@ -129,6 +129,31 @@ def test_design_from_resolved_can_swap_the_duration_form() -> None:
     assert len(spline.columns) == len(logarithmic.columns) + 1
 
 
+def test_the_reference_level_of_a_dummy_set_can_be_declared() -> None:
+    """Which level is absorbed into the intercept is a choice, not the alphabet's business."""
+    resolved = features.resolve(FRAME, CONFIG, subset="A")
+    default = features.design_from_resolved(resolved, CONFIG)
+    chosen = features.design_from_resolved(
+        resolved, CONFIG, reference_levels={"muscle_family": "knee_extensors"}
+    )
+    assert "muscle_family_knee_extensors" not in chosen.columns
+    assert "muscle_family_dorsiflexors" in chosen.columns
+    assert "muscle_family_dorsiflexors" not in default.columns
+    assert len(chosen.columns) == len(default.columns)
+
+
+def test_an_unknown_reference_level_is_refused_rather_than_ignored() -> None:
+    resolved = features.resolve(FRAME, CONFIG, subset="A")
+    try:
+        features.design_from_resolved(
+            resolved, CONFIG, reference_levels={"muscle_family": "gluteus_maximus"}
+        )
+    except ValueError as error:
+        assert "gluteus_maximus" in str(error)
+        return
+    raise AssertionError("a reference level that is not in the data must be refused")
+
+
 def test_design_from_resolved_can_carry_an_intercept() -> None:
     resolved = features.resolve(FRAME, CONFIG, subset="A")
     with_intercept = features.design_from_resolved(resolved, CONFIG, intercept=True)

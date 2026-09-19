@@ -112,12 +112,18 @@ def design_from_resolved(
     form: str | None = None,
     tau: float | None = None,
     intercept: bool = False,
+    reference_levels: dict[str, str] | None = None,
 ) -> pd.DataFrame:
     """Encode already-resolved rows as a numeric design matrix.
 
     Split out from `design_matrix` because tier 1 fits three duration forms against the
     same resolved rows and needs an intercept it can interpret, while tier 2 takes the
     single form the config declares and lets its estimators carry their own.
+
+    `reference_levels` names the level of a categorical that is absorbed into the intercept.
+    Left unset, it is the alphabetically first level, which is fine for an estimator that
+    only cares about the span of the design and wrong for tier 1, where every contrast is
+    read against the reference and inherits its uncertainty.
     """
     settings = config["features"]
     columns: dict[str, pd.Series] = {}
@@ -144,10 +150,21 @@ def design_from_resolved(
         "arm_type": resolved["arm_type"],
         "modality_outcome": modality_outcome,
     }
+    references = reference_levels or {}
     for name, values in categorical.items():
         if name not in settings["categorical"]:
             continue
-        dummies = pd.get_dummies(values, prefix=name, drop_first=True, dtype=float)
+        reference = references.get(name)
+        if reference is None:
+            dummies = pd.get_dummies(values, prefix=name, drop_first=True, dtype=float)
+        else:
+            if reference not in set(values):
+                raise ValueError(
+                    f"{reference} is not a level of {name} in these rows: "
+                    f"{sorted(set(values))}"
+                )
+            dummies = pd.get_dummies(values, prefix=name, drop_first=False, dtype=float)
+            dummies = dummies.drop(columns=[f"{name}_{reference}"])
         for column in dummies.columns:
             columns[column] = dummies[column]
 
