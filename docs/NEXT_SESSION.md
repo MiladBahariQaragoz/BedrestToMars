@@ -33,20 +33,19 @@ likelihood rather than through `statsmodels`, for the reasons in `STATUS.md` §5
 it produced are in `STATUS.md` §3 and the headline is **−2.41 pp of muscle per doubling of
 unloading duration** (95% CI −3.32 to −1.49), with the muscle ranking now carrying intervals.
 
-Three things it left for whoever picks this up:
+All three of the decisions it raised have been taken:
 
-- **The tau profile stops at the top of its grid** (`saturating_tau_grid` ends at 90 days),
-  so the saturating curve is still falling at the longest observation and its −20.3%
-  asymptote is an extrapolation. The grid was deliberately *not* widened after the fact. If
-  the report wants an asymptote, widen it as a declared decision, re-run, and say that is
-  what happened.
-- **The reference muscle family is `dorsiflexors`**, which is the alphabetically first level
-  and therefore an accident rather than a choice. Every contrast in the ranking CSV is
-  against it. Picking the reference deliberately — the argument for dorsiflexors is that they
-  are the non-antigravity control — would make the coefficient table read better.
-- **Nothing is weighted by inverse variance yet.** Rows are weighted by `n_analysed`, as
-  `DESIGN.md` §7.2 specifies; the inverse-variance version is sensitivity analysis S-IV on
-  the 289 rows carrying an SD.
+- **The tau grid stays as declared.** It ends at 90 days and the profile stops there, so the
+  saturating curve is still falling at the longest observation and its **−20.0% asymptote is
+  an extrapolation past 119 days**. Widening the grid after reading the result would have
+  been re-declaring a pre-registration, so it was not done. Quote the curve inside the
+  observed range, and if the report wants an asymptote, say what it is.
+- **The reference muscle family is knee extensors**, chosen for having 86 rows across 22
+  campaigns rather than dorsiflexors' 8 across 4. The antigravity comparison is emitted
+  separately as `key_contrasts` so that the choice of reference cannot change it.
+- **S6 is run.** Inverse-variance weighting needs a dispersion of the change, which only 160
+  of 342 rows from 7 of 31 campaigns carry. `results/sensitivity.md` has the three-row table.
+  It is not neutral and cannot be adjudicated on 7 campaigns.
 
 ## 2. The five figures
 
@@ -68,8 +67,9 @@ text.
 
 **The figures are now the critical path** — nothing else blocks them.
 
-- Run sensitivity analyses S1–S11 from `DESIGN.md` §12. S1 (composite-first), S2 (drop MEDES)
-  and S4 (MRI volume only) are pre-registered as must-show.
+- Run the rest of the sensitivity analyses from `DESIGN.md` §12 — S6 is done and
+  `framework/sensitivity.py` shows the shape the others take. S1 (composite-first),
+  S2 (drop MEDES) and S4 (MRI volume only) are pre-registered as must-show.
 - Extrapolate the saturating curve to 180 days with a **prediction** interval and the explicit
   statement that the longest observation is 119 days (`PLAN.md` task 4.7). Backup slide only.
 - Ask the partner for the physiological sign-off on `data/muscle_map.csv` — it is a line edit
