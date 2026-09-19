@@ -3,11 +3,12 @@
 
 PYTHON ?= python3
 
-.PHONY: all test tier1 baseline models venv clean help
+.PHONY: all test tier1 sensitivity baseline models venv clean help
 
 help:
 	@echo "make test      - run every test in framework/tests"
 	@echo "make tier1     - fit the meta-regression, write results/tier1_*"
+	@echo "make sensitivity - run the declared sensitivity analyses, write results/sensitivity.md"
 	@echo "make baseline  - fit the duration-only baseline, write results/baseline.json"
 	@echo "make models    - fit the four comparative families, write results/model_comparison.*"
 	@echo "make venv      - create the virtual environment this project needs"
@@ -25,6 +26,11 @@ results/tier1_curve.json: data/dataset_v1.0.csv data/muscle_map.csv \
                           framework/run_tier1.py framework/tier1.py \
                           framework/features.py framework/data_loader.py
 	$(PYTHON) framework/run_tier1.py
+
+sensitivity: results/sensitivity.md
+
+results/sensitivity.md: results/tier1_curve.json framework/sensitivity.py
+	$(PYTHON) framework/sensitivity.py
 
 baseline: results/baseline.json
 
@@ -52,10 +58,10 @@ venv:
 	$(VENV)/bin/pip install -r requirements.txt
 	@echo "created $(VENV) - run the framework with PYTHON=$(VENV)/bin/python make all"
 
-all: test tier1 baseline models
+all: test tier1 sensitivity baseline models
 
 clean:
 	rm -f results/baseline.json results/model_comparison.csv results/model_comparison.json \
 	      results/importance_stability.csv results/tier1_curve.json \
-	      results/tier1_muscle_ranking.csv
+	      results/tier1_muscle_ranking.csv results/sensitivity.md
 	find framework -name '__pycache__' -type d -exec rm -rf {} +
