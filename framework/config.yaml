@@ -71,6 +71,10 @@ models:
     - random_forest
     - svr
     - gradient_boosting
+    - tabpfn                   # pretrained tabular foundation model (Hollmann et al., Nature
+                               # 2025), fitted in-context; fixed declared defaults, no grid,
+                               # skipped silently where the package is absent
+  tabpfn_device: cpu           # 342 rows do not need a GPU, and CPU keeps the run reproducible
   tuning: nested               # nested | fixed - never tune against the outer fold
   inner_folds: 5               # grouped by cohort inside the training fold only
   grids:                       # small on purpose: 31 campaigns cannot support a large search
@@ -85,6 +89,7 @@ models:
     gradient_boosting:
       max_depth: [1, 2]
       learning_rate: [0.03, 0.1]
+    tabpfn: {}                  # empty by contract: fixed declared defaults, nothing to tune
 
 evaluate:
   metrics: [mae, rmse, r2]

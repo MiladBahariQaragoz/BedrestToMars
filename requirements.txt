@@ -10,3 +10,10 @@ shap>=0.45
 
 # Figures.
 matplotlib>=3.8
+
+# Optional fifth family - the pretrained tabular foundation model (Hollmann et al., Nature
+# 2025). Pulls torch (a ~200 MB CPU wheel); the framework skips the family silently without
+# it, and every other result runs unchanged. Pin 2.0.9: the later major versions put the
+# checkpoint behind a one-time browser license login that cannot be completed
+# non-interactively, and 2.0.9 is the version this family was validated on.
+#   pip install tabpfn==2.0.9

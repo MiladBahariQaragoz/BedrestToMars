@@ -31,6 +31,27 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 IMPROVEMENT_THRESHOLD = 0.15
 
 
+class FixedSearch:
+    """An estimator with fixed declared defaults, wearing the interface of a search.
+
+    `run_family` asks the returned object for `fit`, `predict` and `best_params_`. A family
+    whose settings are fixed by declaration rather than tuned in-fold (the prior-fitted
+    network has nothing to search) needs that interface without the search, so the fold loop
+    and the chosen-parameters record stay identical for every family.
+    """
+
+    def __init__(self, estimator: Any) -> None:
+        self.estimator = estimator
+        self.best_params_: dict[str, Any] = {}
+
+    def fit(self, design: np.ndarray, target: np.ndarray, groups: Any = None) -> "FixedSearch":
+        self.estimator.fit(design, target)
+        return self
+
+    def predict(self, design: np.ndarray) -> np.ndarray:
+        return self.estimator.predict(design)
+
+
 def build_search(family: str, config: dict[str, Any]):
     """An estimator wrapped in a grouped search over the declared grid.
 
@@ -38,6 +59,12 @@ def build_search(family: str, config: dict[str, Any]):
     with help from the campaign it will be scored on, and never chosen with help from the
     same participants appearing under another paper's name.
     """
+    if family == "tabpfn":
+        # Fixed declared defaults (`DESIGN.md`: nested tuning *or* fixed defaults). A
+        # prior-fitted network is used in-context; there is no grid to search, and tuning
+        # its few knobs against these 31 campaigns would only add a way to overfit.
+        return FixedSearch(models.build(family, config)())
+
     from sklearn.model_selection import GridSearchCV, GroupKFold
 
     estimator = models.build(family, config)()
@@ -197,6 +224,7 @@ def run(config: dict[str, Any] | None = None, subset: str = "A") -> dict[str, An
         "provenance": {
             **baseline["provenance"],
             "sklearn": __import__("sklearn").__version__,
+            "tabpfn": __import__("tabpfn").__version__ if models.tabpfn_available() else "absent",
             "python": platform.python_version(),
         },
     }

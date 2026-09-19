@@ -37,6 +37,27 @@ def test_every_declared_family_has_a_grid() -> None:
         assert family in grids, family
 
 
+def test_fixed_search_duck_types_the_search_interface() -> None:
+    """A fixed-defaults family must be indistinguishable from a tuned one inside the loop."""
+    from sklearn.linear_model import LinearRegression
+
+    search = run_models.FixedSearch(LinearRegression())
+    design = np.arange(40, dtype=float).reshape(-1, 1)
+    target = -0.5 * design[:, 0]
+    search.fit(design, target, groups=np.array(["a"] * 20 + ["b"] * 20))
+    assert search.best_params_ == {}
+    assert np.isfinite(search.predict(design)).all()
+
+
+def test_tabpfn_searches_nothing_because_nothing_is_declared() -> None:
+    """The empty grid in config is the contract: fixed defaults, fitted in-context."""
+    if not models.tabpfn_available():
+        return
+    search = run_models.build_search("tabpfn", CONFIG)
+    assert isinstance(search, run_models.FixedSearch)
+    assert CONFIG["models"]["grids"]["tabpfn"] == {}
+
+
 def test_tuning_happens_inside_the_training_fold_only() -> None:
     """The search must never see the held-out campaign, and must group by campaign."""
     search = run_models.build_search("svr", CONFIG)
