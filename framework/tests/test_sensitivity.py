@@ -72,8 +72,8 @@ def test_weights_are_the_inverse_of_the_squared_standard_error() -> None:
 def test_the_restricted_set_is_much_smaller_and_says_so() -> None:
     """The finding, not a detail: most campaigns never publish a dispersion of the change."""
     restricted = RESULT["restricted"]
-    assert restricted["rows"] == 160
-    assert restricted["cohorts"] == 7
+    assert restricted["rows"] == 161
+    assert restricted["cohorts"] == 8
     assert restricted["rows"] < RESULT["primary"]["rows"]
     assert restricted["cohorts"] < RESULT["primary"]["cohorts"]
 
@@ -95,8 +95,8 @@ def test_every_analysis_reports_the_headline_coefficient_with_an_interval() -> N
 
 def test_the_primary_analysis_is_the_one_the_report_quotes() -> None:
     primary = RESULT["analyses"]["primary"]
-    assert primary["n_obs"] == 342
-    assert primary["n_cohorts"] == 31
+    assert primary["n_obs"] == 346
+    assert primary["n_cohorts"] == 32
     assert primary["weights"] == "n_analysed"
 
 

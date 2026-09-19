@@ -52,7 +52,7 @@ def test_the_spline_is_reported_as_a_shape_check() -> None:
 
 def test_every_coefficient_carries_an_interval_on_campaign_degrees_of_freedom() -> None:
     for form, fitted in RESULT["forms"].items():
-        assert fitted["df"] == 30, form
+        assert fitted["df"] == 31, form   # the 32 campaigns, minus one
         for effect in fitted["fixed_effects"]:
             assert effect["ci_low"] <= effect["estimate"] <= effect["ci_high"], effect
             assert effect["se"] > 0.0, effect
@@ -134,9 +134,9 @@ def test_the_ranking_is_sorted_worst_first_and_carries_intervals() -> None:
 
 def test_provenance_names_both_subsets_and_the_frozen_dataset() -> None:
     provenance = RESULT["provenance"]
-    assert provenance["dataset_version"] == "1.0"
+    assert provenance["dataset_version"] == CONFIG["dataset"]["version"]
     assert len(provenance["dataset_sha256"]) == 64
-    assert provenance["curve_subset"] == {"subset": "A", "rows": 342, "cohorts": 31}
+    assert provenance["curve_subset"] == {"subset": "A", "rows": 346, "cohorts": 32}
     assert provenance["ranking_subset"] == {"subset": "B", "rows": 304, "cohorts": 25}
     assert provenance["estimation"] == "maximum likelihood"
     assert provenance["inference"] == "cluster-robust on cohort_id"

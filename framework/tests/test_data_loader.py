@@ -15,6 +15,10 @@ sys.path.insert(0, str(REPO_ROOT / "framework"))
 
 import data_loader
 
+CONFIG = data_loader.load_config()
+DATASET_NAME = Path(CONFIG["dataset"]["path"]).name
+CHECKSUM_NAME = Path(CONFIG["dataset"]["sha256_path"]).name
+
 
 def test_config_loads_with_the_declared_seed() -> None:
     config = data_loader.load_config()
@@ -24,7 +28,7 @@ def test_config_loads_with_the_declared_seed() -> None:
 
 def test_load_returns_the_whole_frozen_dataset() -> None:
     frame = data_loader.load()
-    assert len(frame) == 737
+    assert len(frame) == 742
 
 
 def test_load_annotates_muscle_and_site() -> None:
@@ -48,11 +52,11 @@ def test_a_changed_dataset_is_refused() -> None:
         root = Path(tmp)
         (root / "data").mkdir()
         (root / "framework").mkdir()
-        shutil.copy(REPO_ROOT / "data" / "dataset_v1.0.csv", root / "data")
-        shutil.copy(REPO_ROOT / "data" / "dataset_v1.0.sha256", root / "data")
+        shutil.copy(REPO_ROOT / "data" / DATASET_NAME, root / "data")
+        shutil.copy(REPO_ROOT / "data" / CHECKSUM_NAME, root / "data")
         shutil.copy(REPO_ROOT / "data" / "muscle_map.csv", root / "data")
         shutil.copy(REPO_ROOT / "data" / "measurement_site_map.csv", root / "data")
-        target = root / "data" / "dataset_v1.0.csv"
+        target = root / "data" / DATASET_NAME
         target.write_text(target.read_text(encoding="utf-8") + "\n", encoding="utf-8")
         config = data_loader.load_config()
         try:
@@ -64,8 +68,8 @@ def test_a_changed_dataset_is_refused() -> None:
 
 def test_subset_applies_the_declared_predicates() -> None:
     frame = data_loader.subset(data_loader.load())
-    assert len(frame) == 421
-    assert frame["cohort_id"].nunique() == 31
+    assert len(frame) == 425
+    assert frame["cohort_id"].nunique() == 32
     assert (frame["phase"] == "bed_rest").all()
     assert not frame["muscle"].isin({"psoas", "multifidus"}).any()
 

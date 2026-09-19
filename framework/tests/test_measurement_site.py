@@ -14,7 +14,9 @@ sys.path.insert(0, str(REPO_ROOT / "framework"))
 
 import measurement_site
 
-DATASET = REPO_ROOT / "data" / "dataset_v1.0.csv"
+import data_loader
+
+DATASET = REPO_ROOT / data_loader.load_config()["dataset"]["path"]
 
 KINDS = {"unstated", "whole_muscle", "partial_region", "single_slice", "multi_slice_mean"}
 
@@ -51,7 +53,7 @@ def test_position_is_a_percentage_or_absent() -> None:
 
 def test_annotate_fills_every_row() -> None:
     rows = measurement_site.annotate(dataset_rows())
-    assert len(rows) == 737
+    assert len(rows) == 742
     for row in rows:
         assert row["site_kind"] in KINDS
 
@@ -75,7 +77,7 @@ def test_site_is_unstated_on_most_rows() -> None:
     """Half the corpus does not say where it measured - the model must not pretend it does."""
     rows = measurement_site.annotate(dataset_rows())
     unstated = sum(1 for row in rows if row["site_kind"] == "unstated")
-    assert unstated == 515, unstated
+    assert unstated == 520, unstated
 
 
 def main() -> int:

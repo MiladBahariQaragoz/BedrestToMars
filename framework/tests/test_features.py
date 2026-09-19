@@ -22,8 +22,8 @@ FRAME = data_loader.subset(data_loader.load(CONFIG), CONFIG)
 
 def test_subset_a_keeps_every_campaign() -> None:
     subset_a = features.resolve(FRAME, CONFIG, subset="A")
-    assert len(subset_a) == 342
-    assert subset_a["cohort_id"].nunique() == 31
+    assert len(subset_a) == 346
+    assert subset_a["cohort_id"].nunique() == 32
 
 
 def test_subset_b_drops_whole_segment_rows_and_the_campaigns_that_only_have_them() -> None:
@@ -48,7 +48,7 @@ def test_a_composite_is_dropped_when_its_components_are_present() -> None:
 def test_whole_segment_rows_survive_in_subset_a() -> None:
     subset_a = features.resolve(FRAME, CONFIG, subset="A")
     whole = subset_a[subset_a["muscle"].isin(CONFIG["subset"]["whole_segment_muscles"])]
-    assert len(whole) == 38
+    assert len(whole) == 42
     assert (whole["muscle_family"] == "whole_limb").all()
 
 
@@ -67,7 +67,7 @@ def test_saturating_basis_is_bounded_and_monotone() -> None:
 
 def test_design_matrix_has_no_missing_values_and_no_provenance() -> None:
     matrix, target, groups = features.design_matrix(FRAME, CONFIG, subset="A")
-    assert len(matrix) == len(target) == len(groups) == 342
+    assert len(matrix) == len(target) == len(groups) == 346
     assert not matrix.isna().any().any()
     for column in CONFIG["features"]["never_model"]:
         assert column not in matrix.columns
@@ -82,7 +82,7 @@ def test_design_matrix_carries_the_duration_and_the_muscle_families() -> None:
 
 def test_groups_are_the_cohorts() -> None:
     _, _, groups = features.design_matrix(FRAME, CONFIG, subset="A")
-    assert groups.nunique() == 31
+    assert groups.nunique() == 32
 
 
 def test_spline_basis_is_two_columns_and_linear_in_its_first() -> None:

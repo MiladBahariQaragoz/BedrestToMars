@@ -27,7 +27,7 @@ def test_all_three_forms_are_fitted() -> None:
 def test_every_form_is_scored_out_of_cohort() -> None:
     result = run_baseline.run(CONFIG)
     for form, scores in result["forms"].items():
-        assert scores["folds"] == 31, form
+        assert scores["folds"] == 32, form
         assert scores["mae"] > 0, form
         assert scores["ci95"]["low"] <= scores["mae"] <= scores["ci95"]["high"], form
 
@@ -48,11 +48,11 @@ def test_pooled_r2_accompanies_every_form() -> None:
 def test_provenance_is_recorded() -> None:
     result = run_baseline.run(CONFIG)
     provenance = result["provenance"]
-    assert provenance["dataset_version"] == "1.0"
+    assert provenance["dataset_version"] == CONFIG["dataset"]["version"]
     assert len(provenance["dataset_sha256"]) == 64
     assert provenance["seed"] == CONFIG["seed"]
-    assert provenance["rows"] == 342
-    assert provenance["cohorts"] == 31
+    assert provenance["rows"] == 346
+    assert provenance["cohorts"] == 32
 
 
 def test_writing_produces_readable_json() -> None:

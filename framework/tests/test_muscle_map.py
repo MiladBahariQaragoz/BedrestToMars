@@ -17,7 +17,9 @@ import csv
 
 import muscle_map
 
-DATASET = REPO_ROOT / "data" / "dataset_v1.0.csv"
+import data_loader
+
+DATASET = REPO_ROOT / data_loader.load_config()["dataset"]["path"]
 
 CLASSES = {"antigravity_extensor", "flexor", "mixed"}
 FAMILIES = {
@@ -86,7 +88,7 @@ def test_every_rationale_is_written() -> None:
 
 def test_annotate_fills_every_row() -> None:
     rows = muscle_map.annotate(dataset_rows())
-    assert len(rows) == 737
+    assert len(rows) == 742
     for row in rows:
         assert row["muscle_function_class"] in CLASSES
         assert row["muscle_family"] in FAMILIES

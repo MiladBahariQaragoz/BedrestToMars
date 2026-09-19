@@ -29,7 +29,7 @@ _, _, GROUPS = features.design_matrix(FRAME, CONFIG, subset="A")
 
 def test_one_fold_per_cohort() -> None:
     folds = list(cv.loco_split(GROUPS))
-    assert len(folds) == GROUPS.nunique() == 31
+    assert len(folds) == GROUPS.nunique() == 32
 
 
 def test_each_cohort_is_held_out_exactly_once() -> None:

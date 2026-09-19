@@ -43,7 +43,7 @@ def test_perfect_prediction_scores_perfectly() -> None:
 
 def test_one_fold_per_campaign_with_finite_errors() -> None:
     folds = evaluate.run_loco("duration_only", FRAME, CONFIG, subset="A")
-    assert len(folds) == 31
+    assert len(folds) == 32
     assert np.isfinite(folds["mae"]).all()
     assert set(folds["held_out_cohort"]) == set(FRAME["cohort_id"])
 
@@ -99,7 +99,7 @@ def test_pooled_r2_is_reported_because_per_fold_r2_cannot_work_here() -> None:
     truth, predicted, groups = evaluate.out_of_fold_predictions(
         "duration_only", FRAME, CONFIG, subset="A"
     )
-    assert len(truth) == len(predicted) == len(groups) == 342
+    assert len(truth) == len(predicted) == len(groups) == 346
     pooled = evaluate.metrics(truth, predicted)
     per_fold = evaluate.aggregate(
         evaluate.run_loco("duration_only", FRAME, CONFIG, subset="A")

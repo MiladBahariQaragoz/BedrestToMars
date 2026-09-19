@@ -48,10 +48,10 @@ def test_tuning_happens_inside_the_training_fold_only() -> None:
 
 def test_one_family_runs_across_every_campaign() -> None:
     result = run_models.run_family("ridge", FRAME, CONFIG, subset="A")
-    assert len(result["folds"]) == 31
+    assert len(result["folds"]) == 32
     assert np.isfinite([fold["mae"] for fold in result["folds"]]).all()
     assert result["chosen_parameters"]
-    assert len(result["chosen_parameters"]) == 31
+    assert len(result["chosen_parameters"]) == 32
 
 
 def test_the_comparison_is_against_the_duration_curve() -> None:
@@ -64,8 +64,8 @@ def test_the_comparison_is_against_the_duration_curve() -> None:
 def test_results_carry_their_provenance() -> None:
     result = run_models.run_family("ridge", FRAME, CONFIG, subset="A")
     assert result["model"] == "ridge"
-    assert result["n_rows"] == 342
-    assert result["n_cohorts"] == 31
+    assert result["n_rows"] == 346
+    assert result["n_cohorts"] == 32
 
 
 def main() -> int:

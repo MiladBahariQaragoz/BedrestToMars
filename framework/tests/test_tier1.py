@@ -259,8 +259,8 @@ def test_it_fits_the_real_subset_a() -> None:
     frame = data_loader.subset(data_loader.load(CONFIG), CONFIG)
     resolved = features.resolve(frame, CONFIG, subset="A")
     fitted = tier1.fit_form(resolved, CONFIG, form="log")
-    assert fitted.n_obs == 342
-    assert fitted.n_cohorts == 31
+    assert fitted.n_obs == 346
+    assert fitted.n_cohorts == 32
     assert np.isfinite(fitted.coefficients).all()
     assert np.isfinite(fitted.standard_errors).all()
     assert fitted.variance_components["cohort"] > 0.0
