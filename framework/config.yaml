@@ -71,6 +71,10 @@ tier1:                         # DESIGN.md section 7 - the primary model
   ci_level: 0.95
   curve_days: [5, 119, 1]      # start, stop, step - never past the longest observation
   ranking_days: 60             # the duration the muscle ranking is reported at
+  reference_levels:            # which level each contrast is read against, chosen not inherited
+    muscle_family: knee_extensors    # 86 rows across 22 campaigns - the tightest anchor there is
+  key_contrasts:               # reported whichever level the intercept absorbs
+    - [plantar_flexors, dorsiflexors]
 
 models:
   baseline: duration_only

@@ -127,14 +127,42 @@ def _headline(forms: dict[str, tier1.Tier1Fit], config: dict[str, Any]) -> dict[
     }
 
 
-def _reference_levels(resolved: pd.DataFrame) -> dict[str, str]:
-    """Which level each dummy set leaves out - the scenario every contrast is against."""
+def _reference_levels(resolved: pd.DataFrame, config: dict[str, Any]) -> dict[str, str]:
+    """Which level each dummy set leaves out - the scenario every contrast is against.
+
+    Declared levels win; anything not declared falls back to the alphabetically first level,
+    which is what `pandas` would have absorbed anyway.
+    """
+    declared = config.get("tier1", {}).get("reference_levels") or {}
     modality_outcome = resolved["modality"] + "_" + resolved["outcome_type"]
-    return {
-        "muscle_family": sorted(resolved["muscle_family"].unique())[0],
-        "arm_type": sorted(resolved["arm_type"].unique())[0],
-        "modality_outcome": sorted(modality_outcome.unique())[0],
+    available = {
+        "muscle_family": sorted(resolved["muscle_family"].unique()),
+        "arm_type": sorted(resolved["arm_type"].unique()),
+        "modality_outcome": sorted(modality_outcome.unique()),
     }
+    return {name: declared.get(name, levels[0]) for name, levels in available.items()}
+
+
+def _key_contrasts(
+    fitted: tier1.Tier1Fit, resolved: pd.DataFrame, config: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """Comparisons that must be reported whichever level the intercept absorbed.
+
+    A contrast between two families is the difference of their coefficients, and the
+    reference family's coefficient is zero by construction, so this works whether or not one
+    side of the pair happens to be the reference.
+    """
+    rows: list[dict[str, Any]] = []
+    for left, right in config.get("tier1", {}).get("key_contrasts") or []:
+        vector = np.zeros(len(fitted.columns))
+        for family, sign in ((left, 1.0), (right, -1.0)):
+            column = f"muscle_family_{family}"
+            if column in fitted.columns:
+                vector[list(fitted.columns).index(column)] = sign
+        if not vector.any():
+            continue
+        rows.append({"left": left, "right": right, **fitted.contrast(vector)})
+    return rows
 
 
 def _curve(
@@ -143,7 +171,7 @@ def _curve(
     start, stop, step = config["tier1"]["curve_days"]
     grid = np.arange(float(start), float(stop) + float(step) / 2.0, float(step))
     points = tier1.curve(fitted, grid)
-    reference = _reference_levels(resolved)
+    reference = _reference_levels(resolved, config)
     return {
         **points,
         "form": fitted.form,
@@ -164,7 +192,7 @@ def _ranking(
 ) -> list[dict[str, Any]]:
     """One row per muscle family: its contrast against the reference, and its own level."""
     days = float(config["tier1"]["ranking_days"])
-    reference = _reference_levels(resolved)["muscle_family"]
+    reference = _reference_levels(resolved, config)["muscle_family"]
     counts = resolved.groupby("muscle_family").agg(
         n_rows=("row_id", "size"), n_cohorts=("cohort_id", "nunique")
     )
@@ -236,6 +264,7 @@ def run(config: dict[str, Any] | None = None) -> dict[str, Any]:
         "headline": headline,
         "curve": _curve(forms[headline["form"]], curve_rows, config),
         "muscle_ranking": _ranking(ranking_fit, ranking_rows, config),
+        "key_contrasts": _key_contrasts(ranking_fit, ranking_rows, config),
         "ranking_model": _form_report(ranking_fit),
         "provenance": {
             "dataset_version": config["dataset"]["version"],

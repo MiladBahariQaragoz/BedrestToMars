@@ -131,11 +131,17 @@ class Tier1Fit:
         variance = float(vector @ self.cov @ vector)
         error = float(np.sqrt(max(variance, 0.0)))
         quantile = float(stats.t.ppf(0.5 + level / 2.0, self.df))
+        p_value = (
+            float(2.0 * stats.t.sf(abs(estimate / error), self.df))
+            if error > 0.0
+            else float("nan")
+        )
         return {
             "estimate": estimate,
             "se": error,
             "ci_low": estimate - quantile * error,
             "ci_high": estimate + quantile * error,
+            "p": p_value,
         }
 
     def summary(self) -> list[dict[str, Any]]:
@@ -387,9 +393,16 @@ def fit_form(
     muscle = resolved["muscle"]
     knots = tuple(features.spline_knots(days, config)) if form == "spline" else None
 
+    references = config.get("tier1", {}).get("reference_levels") or None
+
     def _one(tau: float | None) -> Tier1Fit:
         design = features.design_from_resolved(
-            resolved, config, form=form, tau=tau, intercept=True
+            resolved,
+            config,
+            form=form,
+            tau=tau,
+            intercept=True,
+            reference_levels=references,
         )
         design, dropped = drop_aliased(design)
         fitted = fit(

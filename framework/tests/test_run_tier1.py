@@ -94,6 +94,26 @@ def test_the_curve_says_whose_curve_it_is() -> None:
     assert "reference" in scenario["meaning"]
 
 
+def test_the_reference_family_is_the_declared_one_not_the_alphabet() -> None:
+    """Every contrast inherits the reference's uncertainty, so the reference is a choice."""
+    declared = CONFIG["tier1"]["reference_levels"]["muscle_family"]
+    assert RESULT["curve"]["scenario"]["muscle_family"] == declared
+    reference = [row for row in RESULT["muscle_ranking"] if row["is_reference"]]
+    assert [row["muscle_family"] for row in reference] == [declared]
+
+
+def test_the_declared_contrasts_are_reported_whatever_the_reference_is() -> None:
+    """Antigravity against not-antigravity is the comparison the talk makes; it must not
+    depend on which level happened to be absorbed into the intercept."""
+    contrasts = RESULT["key_contrasts"]
+    assert contrasts
+    for contrast in contrasts:
+        assert contrast["ci_low"] <= contrast["estimate"] <= contrast["ci_high"]
+        assert 0.0 <= contrast["p"] <= 1.0
+    pairs = {(contrast["left"], contrast["right"]) for contrast in contrasts}
+    assert ("plantar_flexors", "dorsiflexors") in pairs
+
+
 def test_the_ranking_covers_every_family_in_subset_b() -> None:
     ranking = RESULT["muscle_ranking"]
     families = {row["muscle_family"] for row in ranking}
