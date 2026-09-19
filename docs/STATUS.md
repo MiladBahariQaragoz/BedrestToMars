@@ -3,7 +3,9 @@
 Where "From Bed Rest to Mars" stands, what exists on disk, and what every number currently
 says. Written at the end of the P3/P4 modelling work so the next person to open the
 repository — including a future version of either of us — can start without re-deriving
-anything. Updated on 19 September, when tier 1 was implemented and fitted.
+anything. Updated on 19 September, when tier 1 was implemented and fitted, and again the
+same day when `dataset_v1.1` pooled one campaign from NASA's open bed-rest archive and every
+result below was refitted against it.
 
 **Next actions live in [`NEXT_SESSION.md`](NEXT_SESSION.md).**
 
@@ -15,7 +17,7 @@ anything. Updated on 19 September, when tier 1 was implemented and fitted.
 |---|---|---|
 | P0 Kickoff | Sep 4 | **Done.** Repository, branches, frozen schema, screening decisions |
 | P1 Literature research | Sep 5–11 | **Done.** 5731 records identified, screened, extracted; merged into `main` |
-| P2 Integration | Sep 12–14 | **Done.** Reconciled, QC'd, `dataset_v1.0` frozen and tagged; merged into `main` |
+| P2 Integration | Sep 12–14 | **Done.** Reconciled, QC'd, `dataset_v1.0` frozen and tagged; merged into `main`. `dataset_v1.1` followed on Sep 19 |
 | P3 Framework design | Sep 15 | **Done** (late, completed Sep 18). `framework/DESIGN.md`, config, six modules, baseline |
 | P4 Run the framework | Sep 16–21 | **Partly done.** Tier 1 fitted (Sep 19) and tier 2 complete with a null result. Sensitivity analyses not yet run |
 | P5 Report and slides | Sep 22–28 | Not started |
@@ -27,7 +29,9 @@ anything. Updated on 19 September, when tier 1 was implemented and fitted.
 
 | Artefact | What it is |
 |---|---|
-| `data/dataset_v1.0.csv` | The frozen dataset. 737 rows, 51 studies, 35 campaigns. SHA-256 verified on every load; tag `dataset-v1.0` |
+| `data/dataset_v1.1.csv` | The frozen dataset. 742 rows, 52 studies, 36 campaigns. SHA-256 verified on every load; tag `dataset-v1.1`. `dataset_v1.0.csv` stays in the repository and still rebuilds |
+| `data/raw/extraction_nasa.csv` | **New.** The five rows v1.1 added, computed from NASA's archive by `framework/extract_nasa.py` rather than typed from a paper |
+| `data/nasa/` | **New.** Seven folders of open NASA NLSP bed-rest files with a manifest and a card. Six of them are a companion set that must never be pooled — four are campaigns the dataset already holds |
 | `data/DATASET_CARD.md` | What is in it, where it came from, and its limits |
 | `data/muscle_map.csv` | **New.** All 51 muscles classified by mechanical function and family, one written reason each |
 | `data/measurement_site_map.csv` | **New.** The 40 free-text site strings resolved into a kind and a position |
@@ -50,6 +54,8 @@ can be argued with and re-run without a new dataset version.
 | `framework/models.py` | The duration-only baseline in three forms, plus the four comparative families |
 | `framework/evaluate.py` | Fold metrics, campaign-weighted aggregates, the campaign bootstrap, pooled R² |
 | `framework/explain.py` | SHAP for tree models, permutation importance elsewhere, fold-stability table |
+| `framework/fetch_nasa_nlsp.py` | **New.** Downloads the open NASA NLSP bed-rest folders and records every file's UUID and SHA-256 |
+| `framework/extract_nasa.py` | **New.** Turns the one poolable NASA campaign into schema rows, and refuses the rest by name |
 | `framework/run_tier1.py` | **New.** Fits both subsets, writes `results/tier1_curve.json` and `results/tier1_muscle_ranking.csv` |
 | `framework/run_baseline.py` | Fits the baseline, writes `results/baseline.json` |
 | `framework/run_models.py` | Runs the four families with nested tuning, writes `results/model_comparison.*` |
@@ -67,31 +73,31 @@ can be argued with and re-run without a new dataset version.
 
 ### The modelling subsets
 
-Unloading-phase, lower-limb rows only: **421 rows, 41 studies, 31 campaigns, 13 durations
+Unloading-phase, lower-limb rows only: **425 rows, 42 studies, 32 campaigns, 13 durations
 (5–119 days)**. After the one-tissue-one-row rule:
 
 | Subset | Rows | Campaigns | Used for |
 |---|---|---|---|
-| A | 342 | 31 | Duration–response. Keeps the 38 whole-segment rows, because six campaigns report nothing else and they sit at the short durations |
+| A | 346 | 32 | Duration–response. Keeps the 42 whole-segment rows, because seven campaigns report nothing else and they sit at the short durations |
 | B | 304 | 25 | Muscle ranking. Named muscles only |
 
 ### Tier 1 — the meta-regression *(the primary result)*
 
 Three random intercepts (campaign, study within campaign, muscle within campaign), weighted
 by `n_analysed`, fitted by maximum likelihood, intervals cluster-robust on `cohort_id` with
-30 degrees of freedom. Subset A, 342 rows, 31 campaigns.
+31 degrees of freedom. Subset A, 346 rows, 32 campaigns.
 
 | Duration form | AIC | What it estimates |
 |---|---|---|
-| **Logarithmic** | **2124.6** | −3.47 pp per e-fold of duration (95% CI −4.79 to −2.15), i.e. **−2.41 pp per doubling** (−3.32 to −1.49) |
-| Saturating exponential | 2125.4 | tau 90 days, eventual loss −20.0% (−25.1 to −14.8) |
-| Restricted cubic spline | 2125.3 | Shape check only |
+| **Logarithmic** | **2151.5** | −3.48 pp per e-fold of duration (95% CI −4.70 to −2.25), i.e. **−2.41 pp per doubling** (−3.26 to −1.56) |
+| Saturating exponential | 2152.3 | tau 90 days, eventual loss −19.9% (−24.8 to −15.0) |
+| Restricted cubic spline | 2152.2 | Shape check only |
 
 **All three land within one AIC point of each other**, so the data do not distinguish between
 them. The declared rule (DESIGN.md §7.1) keeps the saturating form as the headline, and the
 spline shows no shape the parametric forms miss. Two things to say out loud when quoting it:
 the profiled tau stopped at the **top of the declared grid**, so the curve is still falling at
-the longest observation and the −20.0% asymptote is an extrapolation past 119 days rather than
+the longest observation and the −19.9% asymptote is an extrapolation past 119 days rather than
 a plateau in the data; and the curve is drawn for one scenario — a control arm, the reference
 muscle family, the reference modality, not a composite.
 
@@ -99,8 +105,8 @@ The fitted curve at the reference scenario:
 
 | Day | 5 | 14 | 30 | 60 | 90 | 119 |
 |---|---|---|---|---|---|---|
-| Loss | −4.6% | −6.1% | −8.4% | −11.8% | −14.2% | −15.9% |
-| 95% CI | −8.8 to −0.5 | −10.3 to −1.9 | −12.7 to −4.2 | −16.4 to −7.2 | −19.1 to −9.4 | −21.0 to −10.8 |
+| Loss | −4.3% | −5.8% | −8.1% | −11.4% | −13.8% | −15.5% |
+| 95% CI | −7.9 to −0.7 | −9.3 to −2.2 | −11.7 to −4.5 | −15.2 to −7.6 | −17.8 to −9.8 | −19.7 to −11.3 |
 
 **Where the variance sits**, which is the number that explains the whole validation design:
 59% residual, **23% between muscles within a campaign**, 9% between campaigns, 9% between the
@@ -142,17 +148,17 @@ which is the first countermeasure effect the project has estimated rather than d
 
 `DESIGN.md` §7.2 weights rows by `n_analysed`. The classical alternative weights by the
 inverse of each estimate's variance, and it needs a dispersion **of the change** — which only
-**160 of 342 rows, from 7 of 31 campaigns**, carry. Most papers print the spread of the
+**161 of 346 rows, from 8 of 32 campaigns**, carry. Most papers print the spread of the
 baseline, or nothing.
 
 | Analysis | Weights | Rows | Campaigns | Duration coefficient (95% CI) | LOCO MAE |
 |---|---|---|---|---|---|
-| Primary | `n_analysed` | 342 | 31 | −16.59 (−20.93 to −12.26) | 3.45 pp |
-| Restricted to rows with a change dispersion | `n_analysed` | 160 | 7 | −14.12 (−19.85 to −8.38) | 3.18 pp |
-| **S6** — the same rows | inverse variance | 160 | 7 | −11.57 (−14.30 to −8.85) | 3.24 pp |
+| Primary | `n_analysed` | 346 | 32 | −16.49 (−20.49 to −12.49) | 3.47 pp |
+| Restricted to rows with a change dispersion | `n_analysed` | 161 | 8 | −13.94 (−18.62 to −9.26) | 2.81 pp |
+| **S6** — the same rows | inverse variance | 161 | 8 | −11.57 (−14.18 to −8.97) | 2.88 pp |
 
 The middle row exists so the comparison is fair: the restriction alone moves the coefficient
-by 2.5 pp, and the weighting moves it another 2.6 pp. **The scheme is not neutral, and seven
+by 2.6 pp, and the weighting moves it another 2.4 pp. **The scheme is not neutral, and eight
 campaigns cannot adjudicate between the two** — the intervals overlap throughout. The sentence
 for the report is that inverse-variance weighting is unavailable as a primary scheme on this
 literature, not that it was tried and made no difference.
@@ -163,9 +169,9 @@ Leave-one-cohort-out, weighted by campaign.
 
 | Curve shape | Out-of-cohort MAE | 95% CI | Pooled R² |
 |---|---|---|---|
-| Linear in days | 3.57 pp | 2.84–4.38 | −0.09 |
-| **Logarithmic** | **3.14 pp** | 2.35–4.02 | 0.02 |
-| Saturating exponential | 3.24 pp | 2.46–4.11 | 0.06 |
+| Linear in days | 3.62 pp | 2.89–4.39 | −0.08 |
+| **Logarithmic** | **3.21 pp** | 2.45–4.05 | 0.03 |
+| Saturating exponential | 3.32 pp | 2.54–4.14 | 0.06 |
 
 Fitted saturating curve: time constant 10 days, eventual loss −9.3% averaged across all
 muscles in subset A.
@@ -176,16 +182,16 @@ Hyperparameters tuned by a campaign-grouped search inside each training fold.
 
 | Model | Out-of-cohort MAE | 95% CI | vs baseline | Pooled R² |
 |---|---|---|---|---|
-| Duration-only curve | 3.14 pp | 2.35–4.02 | — | 0.02 |
-| Support vector regression | 3.21 pp | 2.47–4.09 | −2.3% | 0.20 |
-| Random forest | 3.25 pp | 2.51–4.06 | −3.8% | 0.20 |
-| Gradient boosting | 3.26 pp | 2.59–4.03 | −4.0% | 0.18 |
-| Ridge regression | 3.45 pp | 2.70–4.28 | −10.0% | 0.16 |
+| Duration-only curve | 3.21 pp | 2.45–4.05 | — | 0.03 |
+| Support vector regression | 3.22 pp | 2.48–3.98 | −0.4% | 0.22 |
+| Random forest | 3.34 pp | 2.59–4.13 | −4.1% | 0.19 |
+| Gradient boosting | 3.38 pp | 2.67–4.14 | −5.3% | 0.10 |
+| Ridge regression | 3.56 pp | 2.86–4.35 | −11.0% | 0.18 |
 
 **No family beats the curve.** `PLAN.md` §8 set the bar at a 15% relative improvement and
 pre-committed to reporting the outcome either way. This is rung B of the fallback ladder.
 
-Worst fold for every family: `wise2005` (MAE 8.5–9.4 pp) — 60 days, women only.
+Worst fold for every family: `wise2005` (MAE 9.0–9.4 pp) — 60 days, women only.
 
 ### The classification sanity check
 
@@ -195,7 +201,7 @@ before anyone signs it off:
 | Class | Rows | Mean change |
 |---|---|---|
 | Antigravity extensors | 129 | −12.0% |
-| Mixed | 133 | −6.4% |
+| Mixed | 137 | −6.7% |
 | Flexors | 33 | −6.1% |
 
 By family, worst first: plantar flexors −14.7%, evertors −12.2%, knee extensors −8.7%,
@@ -203,8 +209,8 @@ knee flexors −7.8%, dorsiflexors −7.5%, hip adductors −4.1%, hip rotators 
 
 ### Feature stability
 
-Across the 31 folds, only `duration` reaches the top three in more than two-thirds of them
-(68%). Nothing else is stable. Importance is therefore presented as indicative, with the
+Across the 32 folds, only `duration` reaches the top three in more than two-thirds of them
+(69%). Nothing else is stable. Importance is therefore presented as indicative, with the
 stability table shown rather than a bar chart.
 
 ## 4. What the numbers mean
@@ -212,16 +218,16 @@ stability table shown rather than a bar chart.
 Three claims the evidence currently supports, in order of how well it supports them.
 
 1. **Muscle loss follows a curved, not linear, path against unloading duration, at about
-   −2.4 pp per doubling of days** (95% CI −3.3 to −1.5). The straight line is the worst of the
+   −2.4 pp per doubling of days** (95% CI −3.3 to −1.6). The straight line is the worst of the
    baseline's three forms, and tier 1 now attaches an interval to the curve. What tier 1 also
    shows is that the corpus cannot say *which* curve: log, saturating and spline sit within
    one AIC point of each other.
 2. **Which muscle you ask about matters more than anything else in the dataset.** Pooled R²
-   goes from 0.02 with duration alone to about 0.20 once muscle identity enters, and tier 1
+   goes from 0.03 with duration alone to about 0.20 once muscle identity enters, and tier 1
    turns that into coefficients: plantar flexors −5.7 pp against the reference family
    (p = 0.002), hip rotators +8.4 pp (p < 0.001), 23% of all variance sitting between muscles
    within a campaign. Antigravity extensors lose roughly twice what flexors lose.
-3. **At 31 campaigns, flexible models add nothing to a simple curve.** They find the same
+3. **At 32 campaigns, flexible models add nothing to a simple curve.** They find the same
    structure and do not convert it into lower error, because the residual is dominated by
    between-campaign differences no feature in this dataset explains. That is a statement about
    the published literature, not about the algorithms.
@@ -251,7 +257,7 @@ PYTHON=~/.venvs/dglrm/bin/python make all   # tests, tier 1, S6, baseline, four 
 ```
 
 `make test` alone runs the 127 checks. `make tier1`, `make sensitivity`, `make baseline`
-and `make models` regenerate one set of results each. The loader refuses to run if `dataset_v1.0.csv` no longer matches its
+and `make models` regenerate one set of results each. The loader refuses to run if `dataset_v1.1.csv` no longer matches its
 recorded hash, so no result can quietly come from an edited dataset.
 
 The core — loading, features, folds, baseline, evaluation and **tier 1** — needs only numpy,
@@ -265,12 +271,14 @@ that produced a null one.
 |---|---|---|
 | `main` | `f8e42e6` | P1 and P2 merged. Carries the frozen dataset and the whole literature record |
 | `feat/ai-framework` | tip | 25 commits ahead of `main` — the entire P3/P4 framework, tier 1 included. **Not yet merged** |
+| `feat/nasa-open-data` | tip | The NLSP fetcher and the downloaded archive with its card. **Not yet merged** |
+| `feat/nasa-integration` | tip | `feat/ai-framework` plus the NASA archive, `dataset_v1.1`, and every result refitted. **Not yet merged** |
 | `feat/literature-review` | merged | Closed by the P1 merge |
 | `feat/integration` | merged | Closed by the P2 merge |
 | `chore/line-endings` | merged | Line-ending pin and the handoff packager |
 | `feat/report-slides` | at old `main` | Untouched, for P5 |
 
-Tag `dataset-v1.0` marks the frozen dataset. No `results-v1.0` tag yet — see
+Tags `dataset-v1.0` and `dataset-v1.1` mark the two frozen datasets. No `results-v1.1` tag yet — see
 `NEXT_SESSION.md` item 3. One more thing this mount does: a stale, empty
 `.git/packed-refs.lock` appears now and then and makes every commit print a scary message
 after it has already succeeded. Delete it when no git process is running.

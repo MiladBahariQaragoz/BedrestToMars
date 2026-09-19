@@ -9,7 +9,8 @@ DGLRM accepted abstract — oral presentation plus written report.
 - **Work plan:** [`PLAN.md`](PLAN.md)
 - **Extraction schema (frozen):** [`data/schema.md`](data/schema.md)
 - **Screening decisions:** [`docs/screening_decisions.md`](docs/screening_decisions.md)
-- **Frozen dataset:** [`data/dataset_v1.0.csv`](data/dataset_v1.0.csv) (tag `dataset-v1.0`) — what is in it and its limits: [`data/DATASET_CARD.md`](data/DATASET_CARD.md)
+- **Frozen dataset:** [`data/dataset_v1.1.csv`](data/dataset_v1.1.csv) (tag `dataset-v1.1`) — what is in it and its limits: [`data/DATASET_CARD.md`](data/DATASET_CARD.md). v1.0 stays in the repository and still rebuilds.
+- **NASA open data companion:** [`data/nasa/CARD.md`](data/nasa/CARD.md) — what was fetched from the NASA Life Sciences Portal, which campaign of it v1.1 pooled, and which folders must never be pooled because the dataset already holds their participants
 - **Where the project stands, with every number so far:** [`docs/STATUS.md`](docs/STATUS.md)
 - **What to do next:** [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md)
 - **Framework design (also the methods section):** [`framework/DESIGN.md`](framework/DESIGN.md)

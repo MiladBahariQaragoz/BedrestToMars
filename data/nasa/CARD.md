@@ -3,10 +3,15 @@
 Fetched 2026-09-19 from the NASA Life Sciences Portal by `framework/fetch_nasa_nlsp.py`
 (commit adds both). Every file's UUID and SHA-256 is in [`MANIFEST.json`](MANIFEST.json).
 
-**This is a companion dataset, not part of `dataset_v1.0.csv`.** The frozen dataset is
-untouched. Nothing in this directory may be pooled into the literature-derived rows
-without going through the v1.1 process (`data/DATASET_CARD.md` §"Changing it") — and for
-two of the folders below, pooling is not an upgrade but a double count (§"The rule").
+**One of the seven folders below is now part of `dataset_v1.1.csv`; the other six are a
+companion set.** On 2026-09-19 the v1.1 process (`data/DATASET_CARD.md` §"Changing it")
+took the three blocks of `MR035G_Campaign_3_DXA_Whole_Body` whose own scan dates confirm a
+90-day bed rest, aggregated them to five cohort-level rows, and froze them as cohort
+`nasa_utmb_c3` — see `framework/extract_nasa.py` and `data/reconciliation_log.md` §v1.1.
+`dataset_v1.0.csv` is untouched and still rebuilds from its own three tables.
+
+Nothing else here may be pooled without going through that same process, and for four of
+the folders below pooling is not an upgrade but a double count (§"The rule").
 
 ## What it is
 
@@ -22,7 +27,7 @@ investigators named on the experiment pages.
 | `BEDREST_IRATS_iDXA_CFT70/` | Campaign 11 | Per-subject iDXA incl. demographics tables (group-level summaries) | Same campaign as `nasa_sprint_br70` |
 | `BRSMIDXA_CFT70_iDXA/` | Campaign 11 | Per-subject iDXA standard measures | Same campaign as `nasa_sprint_br70` |
 | `MR035G_Campaign_1_DXA/` | UTMB Campaign 1, 60-day | Whole-body DXA incl. leg lean. Only 3 subject ids are visible in the 13 files — needs a close read before use | **New campaign — no cohort in v1.0** |
-| `MR035G_Campaign_3_DXA_Whole_Body/` (+`_ReadMe/`) | UTMB Campaign 3, 60/90-day | Whole-body DXA incl. `L/R_LEG_LEAN` (118 of 183 files carry the leg-lean columns; 32 subject ids; phases C3A…H) | **New campaign** (its 60- and 90-day phases are one campaign until argued otherwise) |
+| `MR035G_Campaign_3_DXA_Whole_Body/` (+`_ReadMe/`) | UTMB Campaign 3, 60/90-day | Whole-body DXA incl. `L/R_LEG_LEAN` (118 of 183 files carry the leg-lean columns; 32 subject ids; phases C3A…H) | **Pooled into v1.1** as cohort `nasa_utmb_c3` — blocks C3A, C3C and C3D only (90 days, 13 participants). The other five blocks are shorter, or have no dated pre/post pair, and are left out |
 | `MR035G_AG_PILOT_DXA_ANALYZED/` | Artificial-Gravity Pilot (UTMB, 2006) | Whole-body DXA, 16 subject ids | **New campaign — distinct from `agbresa` (2019)** |
 | `MR035G_MEDES_DXA/` | MEDES/WISE 2005, 60-day, 24 women | Whole-body DXA — 24 subject ids, exactly the published WISE cohort | **Same campaign as cohort `wise2005`** |
 
