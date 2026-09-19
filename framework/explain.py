@@ -110,11 +110,18 @@ def permutation_importance(
     seed: int = 0,
     repeats: int = 10,
     score: Callable[[np.ndarray, np.ndarray], float] | None = None,
+    batch_rows: int = 65536,
 ) -> dict[str, float]:
     """How much worse the predictions get when one feature is shuffled.
 
     Reported as the increase in mean absolute error, in percentage points of muscle change,
     so the number means something on its own rather than only in a ranking.
+
+    The shuffled designs are scored in batches rather than one `predict` call each: every
+    family in this framework predicts a row independently of the rows around it, so one call
+    over stacked rows is the same computation as many calls - and for the prior-fitted
+    family, whose per-call overhead is seconds on CPU, it is the difference between minutes
+    and hours.
     """
     design = np.asarray(design, dtype=float)
     truth = np.asarray(truth, dtype=float)
@@ -122,13 +129,27 @@ def permutation_importance(
     rng = np.random.default_rng(seed)
 
     reference = score(truth, model.predict(design))
-    importances: dict[str, float] = {}
-    for column, name in enumerate(feature_names):
-        losses = []
+
+    shuffled: list[np.ndarray] = []
+    for column in range(design.shape[1]):
         for _ in range(repeats):
-            shuffled = design.copy()
-            shuffled[:, column] = rng.permutation(shuffled[:, column])
-            losses.append(score(truth, model.predict(shuffled)) - reference)
+            copy = design.copy()
+            copy[:, column] = rng.permutation(copy[:, column])
+            shuffled.append(copy)
+
+    rows = design.shape[0]
+    per_call = max(1, batch_rows // rows) if rows else 1
+    predictions: list[np.ndarray] = []
+    for start in range(0, len(shuffled), per_call):
+        stacked = np.vstack(shuffled[start : start + per_call])
+        batch = np.asarray(model.predict(stacked), dtype=float).reshape(len(shuffled[start : start + per_call]), rows)
+        predictions.extend(batch)
+
+    importances: dict[str, float] = {}
+    index = 0
+    for name in feature_names:
+        losses = [score(truth, predictions[index + r]) - reference for r in range(repeats)]
+        index += repeats
         importances[name] = float(np.mean(losses))
     return importances
 

@@ -38,6 +38,20 @@ def test_permutation_importance_finds_the_used_feature() -> None:
     assert scores["noise"] < 0.1
 
 
+def test_batched_permutation_gives_the_same_answer_as_one_call_per_shuffle() -> None:
+    """Batching is a speed device: same shuffles, same predictions, same importances."""
+    rng = np.random.default_rng(3)
+    design = rng.normal(size=(60, 3))
+    truth = design[:, 0] * 2.0
+    direct = explain.permutation_importance(
+        _SumsFirstColumn(), design, truth, ["a", "b", "c"], seed=5
+    )
+    batched = explain.permutation_importance(
+        _SumsFirstColumn(), design, truth, ["a", "b", "c"], seed=5, batch_rows=13
+    )
+    assert direct == batched
+
+
 def test_stability_counts_how_often_a_feature_stays_in_the_top_k() -> None:
     per_fold = [
         {"duration": 1.0, "muscle": 0.5, "modality": 0.1},
