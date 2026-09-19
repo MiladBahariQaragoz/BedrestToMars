@@ -1,6 +1,7 @@
 model,loco_mae_pp,ci95_low,ci95_high,rmse_pp,r2_pooled,vs_baseline_relative,beats_baseline_by_15pct,worst_fold_cohort,worst_fold_mae_pp
 duration_only (log),3.136,,,,,0.0,,,
-svr,3.209,2.465,4.094,3.792,0.2,-0.023,False,wise2005,9.413
-random_forest,3.254,2.514,4.06,3.856,0.201,-0.038,False,wise2005,8.494
+svr,3.145,2.391,4.016,3.733,0.229,-0.003,False,wise2005,9.413
+tabpfn,3.248,2.439,4.143,3.796,0.03,-0.036,False,wise2005,8.789
+random_forest,3.253,2.514,4.06,3.856,0.201,-0.037,False,wise2005,8.489
 gradient_boosting,3.26,2.589,4.031,3.923,0.179,-0.04,False,wise2005,8.98
-ridge,3.449,2.696,4.276,4.069,0.156,-0.1,False,wise2005,9.301
+ridge,3.47,2.732,4.286,4.115,0.153,-0.107,False,wise2005,9.301
