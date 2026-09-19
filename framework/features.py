@@ -13,7 +13,7 @@ declared in `config.yaml` and described in `DESIGN.md` sections 3.1 and 5.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Sequence
 
 import numpy as np
 import pandas as pd
@@ -64,24 +64,79 @@ def duration_basis(
     raise ValueError(f"unknown duration form: {form}")
 
 
-def design_matrix(
-    frame: pd.DataFrame, config: dict[str, Any], subset: str = "A", tau: float | None = None
-) -> tuple[pd.DataFrame, pd.Series, pd.Series]:
-    """Return `(X, y, groups)` for the requested subset.
+def spline_knots(days: np.ndarray, config: dict[str, Any]) -> tuple[float, ...]:
+    """The knot positions, taken from the declared percentiles of observed duration.
 
-    `groups` is `cohort_id` and is never a column of `X`: a model that can read the campaign
-    identity has already failed the validation in `cv.py`.
+    Placing knots at quantiles rather than at round numbers of days is what keeps the
+    shape check honest: the spline is told where the data are, not where we expect the
+    curve to bend.
     """
-    resolved = resolve(frame, config, subset=subset)
-    settings = config["features"]
+    percentiles = config["features"]["spline_knots_pct"]
+    values = np.asarray(days, dtype=float)
+    return tuple(float(value) for value in np.percentile(values, percentiles))
 
+
+def spline_basis(days: np.ndarray, knots: Sequence[float]) -> np.ndarray:
+    """A restricted cubic spline on duration, as two columns.
+
+    The restriction is that the fitted function is linear before the first knot and after
+    the last one, so the curve cannot invent a shape at the ends where there are almost no
+    campaigns. With three knots that costs two degrees of freedom. The construction is the
+    standard one (Harrell, *Regression Modeling Strategies*, section 2.4.4).
+
+    This form is a diagnostic, never the headline curve: it says whether the parametric
+    forms in `duration_basis` are lying about the shape (DESIGN.md section 7.1).
+    """
+    days = np.asarray(days, dtype=float)
+    if len(knots) != 3:
+        raise ValueError(f"the declared basis needs exactly three knots, got {len(knots)}")
+    first, middle, last = (float(knot) for knot in knots)
+    if not first < middle < last:
+        raise ValueError(f"knots must be strictly increasing, got {knots}")
+
+    def cube(values: np.ndarray) -> np.ndarray:
+        return np.clip(values, 0.0, None) ** 3
+
+    scale = (last - first) ** 2
+    nonlinear = (
+        cube(days - first)
+        - cube(days - middle) * (last - first) / (last - middle)
+        + cube(days - last) * (middle - first) / (last - middle)
+    ) / scale
+    return np.column_stack([days, nonlinear])
+
+
+def design_from_resolved(
+    resolved: pd.DataFrame,
+    config: dict[str, Any],
+    form: str | None = None,
+    tau: float | None = None,
+    intercept: bool = False,
+) -> pd.DataFrame:
+    """Encode already-resolved rows as a numeric design matrix.
+
+    Split out from `design_matrix` because tier 1 fits three duration forms against the
+    same resolved rows and needs an intercept it can interpret, while tier 2 takes the
+    single form the config declares and lets its estimators carry their own.
+    """
+    settings = config["features"]
     columns: dict[str, pd.Series] = {}
-    form = settings["duration_form"]
-    tau = tau if tau is not None else float(settings["saturating_tau_grid"][3])
-    columns[f"duration_{form}"] = pd.Series(
-        duration_basis(resolved["duration_days"].to_numpy(), form=form, tau=tau),
-        index=resolved.index,
-    )
+    if intercept:
+        columns["intercept"] = pd.Series(1.0, index=resolved.index)
+
+    form = form or settings["duration_form"]
+    days = resolved["duration_days"].to_numpy(dtype=float)
+    if form == "spline":
+        basis = spline_basis(days, spline_knots(days, config))
+        for number in (1, 2):
+            columns[f"duration_spline_{number}"] = pd.Series(
+                basis[:, number - 1], index=resolved.index
+            )
+    else:
+        tau = tau if tau is not None else float(settings["saturating_tau_grid"][3])
+        columns[f"duration_{form}"] = pd.Series(
+            duration_basis(days, form=form, tau=tau), index=resolved.index
+        )
 
     modality_outcome = resolved["modality"] + "_" + resolved["outcome_type"]
     categorical = {
@@ -99,7 +154,19 @@ def design_matrix(
     for name in settings["binary"]:
         columns[name] = (resolved[name] == "TRUE").astype(float)
 
-    matrix = pd.DataFrame(columns, index=resolved.index)
+    return pd.DataFrame(columns, index=resolved.index)
+
+
+def design_matrix(
+    frame: pd.DataFrame, config: dict[str, Any], subset: str = "A", tau: float | None = None
+) -> tuple[pd.DataFrame, pd.Series, pd.Series]:
+    """Return `(X, y, groups)` for the requested subset.
+
+    `groups` is `cohort_id` and is never a column of `X`: a model that can read the campaign
+    identity has already failed the validation in `cv.py`.
+    """
+    resolved = resolve(frame, config, subset=subset)
+    matrix = design_from_resolved(resolved, config, tau=tau)
     target = resolved[config["target"]["column"]].astype(float)
     groups = resolved[config["cv"]["group_column"]]
     return matrix, target, groups

@@ -85,6 +85,57 @@ def test_groups_are_the_cohorts() -> None:
     assert groups.nunique() == 31
 
 
+def test_spline_basis_is_two_columns_and_linear_in_its_first() -> None:
+    """A restricted cubic spline with three knots spends two degrees of freedom."""
+    days = np.array([5.0, 20.0, 60.0, 90.0, 119.0])
+    basis = features.spline_basis(days, knots=(10.0, 45.0, 100.0))
+    assert basis.shape == (5, 2)
+    assert np.allclose(basis[:, 0], days)
+
+
+def test_spline_basis_is_linear_beyond_the_outer_knots() -> None:
+    """That restriction is the whole point of the form: the tails cannot run away."""
+    knots = (10.0, 45.0, 100.0)
+    beyond = np.array([100.0, 110.0, 120.0, 130.0])
+    basis = features.spline_basis(beyond, knots=knots)
+    second_differences = np.diff(basis[:, 1], n=2)
+    assert np.allclose(second_differences, 0.0, atol=1e-8)
+
+
+def test_spline_knots_come_from_the_declared_percentiles() -> None:
+    days = FRAME["duration_days"].to_numpy(dtype=float)
+    knots = features.spline_knots(days, CONFIG)
+    assert len(knots) == 3
+    assert list(knots) == sorted(knots)
+    assert np.isclose(knots[1], np.percentile(days, 50))
+
+
+def test_design_from_resolved_matches_the_full_design_matrix() -> None:
+    """The two entry points must not drift apart: one is the other plus `resolve`."""
+    resolved = features.resolve(FRAME, CONFIG, subset="A")
+    matrix, _, _ = features.design_matrix(FRAME, CONFIG, subset="A")
+    direct = features.design_from_resolved(resolved, CONFIG)
+    assert list(direct.columns) == list(matrix.columns)
+    assert np.allclose(direct.to_numpy(dtype=float), matrix.to_numpy(dtype=float))
+
+
+def test_design_from_resolved_can_swap_the_duration_form() -> None:
+    """Tier 1 fits three duration forms against one config, so the form is an argument."""
+    resolved = features.resolve(FRAME, CONFIG, subset="A")
+    logarithmic = features.design_from_resolved(resolved, CONFIG, form="log")
+    spline = features.design_from_resolved(resolved, CONFIG, form="spline")
+    assert "duration_log" in logarithmic.columns
+    assert {"duration_spline_1", "duration_spline_2"} <= set(spline.columns)
+    assert len(spline.columns) == len(logarithmic.columns) + 1
+
+
+def test_design_from_resolved_can_carry_an_intercept() -> None:
+    resolved = features.resolve(FRAME, CONFIG, subset="A")
+    with_intercept = features.design_from_resolved(resolved, CONFIG, intercept=True)
+    assert with_intercept.columns[0] == "intercept"
+    assert (with_intercept["intercept"] == 1.0).all()
+
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0
