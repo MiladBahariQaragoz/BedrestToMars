@@ -64,6 +64,14 @@ cv:
   group_column: cohort_id
   assert_no_leakage: true
 
+tier1:                         # DESIGN.md section 7 - the primary model
+  forms: [log, saturating, spline]
+  headline_form: saturating    # a diagnostic spline is never the headline, however well it fits
+  aic_margin: 4.0              # another form takes the headline only by beating it this far
+  ci_level: 0.95
+  curve_days: [5, 119, 1]      # start, stop, step - never past the longest observation
+  ranking_days: 60             # the duration the muscle ranking is reported at
+
 models:
   baseline: duration_only
   families:
