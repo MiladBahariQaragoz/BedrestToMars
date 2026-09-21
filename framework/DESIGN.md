@@ -394,6 +394,96 @@ computation, so its importance is permutation-based and every output says which 
 which under §11 means importance is presented as indicative and the stability table is shown
 instead of a tidy bar chart.
 
+### 9.3 Tier 3 — a language model forecasting ranges
+
+**Added 2026-09-21, after the tier-2 null result was known. It is not pre-registered, and the
+report must say so.** What this section can do is declare the method and the bars before the
+first answer is requested, and it was committed before any was.
+
+The question tier 2 leaves open is whether something that reads the *description* of a
+campaign - who the participants were, what they did, which muscle, which scanner - can do what
+eleven numeric columns could not. TypeSafe's Jev (`jev-1.13.0`, pinned in `config.yaml`) is a
+model built for exactly one kind of answer: given a state and a fixed set of options, it
+returns a calibrated probability for every option. It is not asked for a number. For each row
+it is asked one Choice question - *which of these ranges will the measurement fall in?* - and
+everything numeric is computed in `forecast.py` from the probabilities it returns. TypeSafe's
+own documentation is plain that the model is not a calculator.
+
+**Two arms.**
+
+| Arm | What the model forecasts | Ranges | Rows | Campaigns | Reference baseline |
+|---|---|---|---|---|---|
+| `without_history` | Percent change from baseline | 2 pp wide, −30 to +4, open at both ends | 346 | 32 | Duration curve |
+| `with_history` | Change since the previous scan of the same measurement | 1 pp wide, −14 to +4, open at both ends | 84 | 5 | Last scan plus the curve's step |
+
+The first arm sees nothing of the held-out campaign, as the tier-2 families do. The second
+also sees that campaign's earlier scans - the same measurement's history and every other
+muscle and group scanned **strictly before** the target day - so it answers a forecasting
+question: given the day-28 scan, where is the day-56 scan? Only 84 rows have an earlier scan
+to show, and the five campaigns are not equal: `berlin_bbr1` alone carries 39 of them.
+
+**What the model is shown** (`forecast.build_state`): a short background paragraph; the
+participants, protocol, countermeasure and measurement of the target row, in words; the target
+day and how far it sits from the planned end; the duration curve fitted to the training
+campaigns; and as many of the training campaigns' observations - and, in the second arm, their
+scan-to-scan changes - as fit a declared budget of 24,000 estimated tokens, most relevant first
+(same muscle, then same family, then same kind of group, then nearest day). TypeSafe's input
+is cheap, so the state is as full as the budget allows.
+
+**What it is never shown, by assertion rather than by care:** any row of the held-out campaign
+in the reference tables; any scan of the held-out campaign on or after the target day; the
+target's own outcome; and anything that names a paper, an author, a campaign or a registry.
+The last rule is the §6.3 rule applied to text, and it also keeps the model from recognising a
+published study and recalling its number.
+
+**The baselines get distributions too.** Each baseline's forecast is its point plus the
+residuals it made on the training campaigns, binned into the same ranges. That puts the model
+and the baselines on identical footing for every metric below, rather than comparing a
+distribution with a point.
+
+| Arm | Baseline | Point |
+|---|---|---|
+| `without_history` | `duration_curve` | The log duration curve, fitted to the training campaigns |
+| `with_history` | `last_scan` | No further change |
+| `with_history` | `last_scan_plus_curve` | The curve's step from the last scan's day to the target day |
+
+**The time axis is the day of the scan**, `timepoint_days`, for the model and for every tier-3
+baseline. Tiers 1 and 2 use `duration_days`, the campaign's *planned* length. For 200 of the
+346 rows in subset A the scan came before the end of bed rest, and for about 120 of them more
+than a week before - a day-14 scan in a 56-day campaign enters tiers 1 and 2 as 56 days. The
+tier-3 numbers are therefore compared with baselines refitted on the scan day, never with the
+§9.2 table. Whether tiers 1 and 2 should move to the scan day is recorded as an open question
+in `docs/STATUS.md`, not decided here.
+
+**Metrics**, each averaged within a held-out campaign and then across campaigns, with the
+campaign bootstrap of §8.3:
+
+- **MAE** of the probability-weighted mean - the same kind of number as §9.2.
+- **CRPS** in percentage points. It is the proper score for a forecast distribution, and for a
+  forecast with no spread at all it reduces to the absolute error, so it reads on the MAE's
+  scale.
+- **Log score** of the range holding the truth.
+- **Coverage and width of the most probable range** at 50% and 80% - the shortest run of
+  adjacent ranges whose probability reaches the level. This is the "most probable range" the
+  forecast reports, and a range is only worth quoting if its coverage matches its level.
+
+**Bars, declared before the first answer.**
+
+| Criterion | Target | If missed |
+|---|---|---|
+| Model vs the arm's reference baseline, MAE | ≥ 15% relative improvement | Report the null result, as in §9.2 |
+| Model vs the arm's reference baseline, CRPS | ≥ 15% relative improvement | Reported alongside the MAE, never instead of it |
+| Coverage of the 80% range | Between 70% and 90% | The ranges are miscalibrated: show coverage and width, and do not call them 80% ranges |
+| Leakage | The three assertions above hold for every request | **Blocking** |
+| Reproducibility | `make forecast` rebuilds every number from the committed answer cache without calling the API | **Blocking** |
+
+**What this tier cannot rule out.** Jev was pretrained on text that may include some of these
+papers. Withholding every name is the strongest guard available here, but a model that has
+read a paper could still recognise it from a description plus a set of numbers, and no
+cross-validation can see that. A win in the arm without history should be read with that in
+mind. The second arm is less exposed, because the answer it needs is a change between two
+scans, which papers rarely print.
+
 ---
 
 ## 10. Uncertainty, and the 180-day question
@@ -475,6 +565,9 @@ declared in `config.yaml`, and no module contains a number that is not in `confi
 | `models.py` | The tier-1 estimator and the four tier-2 families, each behind one fit/predict interface | `build_estimators(config) -> dict[str, Estimator]` |
 | `evaluate.py` | Fold metrics, cohort-weighted aggregates, the cohort bootstrap, the baseline comparison | `evaluate(estimators, splits, config) -> Results` |
 | `explain.py` | Per-fold SHAP and the stability table | `explain(model, folds, config) -> ShapReport` |
+| `forecast.py` | Tier 3: the ranges, the state the model is shown and its assertions, the point, interval and proper scores | `build_state(target, train, held_out, arm, config) -> state, info` |
+| `typesafe_client.py` | One POST per request to TypeSafe, retried with backoff, every answer cached on disk by a hash of its request | `CachedAnswerer(cache_dir, model)(requests) -> answers` |
+| `run_forecast.py` | Tier 3's two arms under leave-one-cohort-out, with baselines scored on the same metrics | `run(config, answerer) -> result` |
 
 `config.yaml` holds the subset predicates, the feature lists,
 the duration forms, model families and their grids, the number of bootstrap replicates, and
