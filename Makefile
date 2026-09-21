@@ -105,7 +105,7 @@ venv:
 	$(VENV)/bin/pip install -r requirements.txt
 	@echo "created $(VENV) - run the framework with PYTHON=$(VENV)/bin/python make all"
 
-all: test tier1 sensitivity baseline models forecast ablation figures
+all: test tier1 sensitivity baseline models forecast ablation validation figures
 
 clean:
 	rm -f results/baseline.json results/model_comparison.csv results/model_comparison.json \
