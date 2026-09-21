@@ -43,9 +43,16 @@ def _truth(row: pd.Series, arm: str, config: dict[str, Any]) -> float:
 
 
 def fold_plan(
-    config: dict[str, Any], resolved: pd.DataFrame, arm: str
+    config: dict[str, Any], resolved: pd.DataFrame, arm: str, variant: str = "full"
 ) -> list[dict[str, Any]]:
-    """One entry per forecast: its state, question, truth and the baselines' distributions."""
+    """One entry per forecast: its state, question, truth and the baselines' distributions.
+
+    `variant` selects an ablation (`DESIGN.md` section 9.3.2). Under `scrambled_reference`
+    the model is shown the training rows with their values shuffled, and a curve fitted to
+    those; the baselines keep the real curve, so the yardstick does not move.
+    """
+    if variant != "scrambled_reference" and variant not in forecast.VARIANTS:
+        raise ValueError(f"unknown variant {variant!r}")
     time = config["forecast"]["time_column"]
     target_column = config["target"]["column"]
     bins = forecast.arm_bins(config, arm)
@@ -54,7 +61,7 @@ def fold_plan(
     groups = resolved[config["cv"]["group_column"]]
 
     plan: list[dict[str, Any]] = []
-    for cohort in pd.unique(rows["cohort_id"]):
+    for fold, cohort in enumerate(pd.unique(rows["cohort_id"])):
         train = resolved[resolved["cohort_id"] != cohort]
         held_out = resolved[resolved["cohort_id"] == cohort]
         cv.assert_no_leakage(train.index.to_numpy(), held_out.index.to_numpy(), groups)
@@ -72,9 +79,19 @@ def fold_plan(
             )
             residuals = {"last_scan": change, "last_scan_plus_curve": change - expected}
 
+        shown, shown_curve, shown_transitions, shown_variant = train, curve, transitions, variant
+        if variant == "scrambled_reference":
+            shown = forecast.scramble(train, seed=int(config["seed"]) + fold)
+            shown_curve = forecast.reference_curve(shown, config)
+            shown_transitions = (
+                forecast.with_history(shown, config) if arm == "with_history" else None
+            )
+            shown_variant = "full"
+
         for index, row in rows[rows["cohort_id"] == cohort].iterrows():
             state, info = forecast.build_state(
-                row, train, held_out, arm, config, curve=curve, train_transitions=transitions
+                row, shown, held_out, arm, config, curve=shown_curve,
+                train_transitions=shown_transitions, variant=shown_variant,
             )
             day = float(row[time])
             if arm == "without_history":
@@ -173,7 +190,11 @@ def summarise(
 
 
 def _paired_gain(
-    predictions: pd.DataFrame, reference: str, metric: str, config: dict[str, Any]
+    predictions: pd.DataFrame,
+    reference: str,
+    metric: str,
+    config: dict[str, Any],
+    model: str = "jev",
 ) -> tuple[pd.Series, dict[str, float]]:
     """The reference's error minus the model's, per campaign, with a campaign bootstrap.
 
@@ -182,7 +203,7 @@ def _paired_gain(
     Positive means the model is better.
     """
     by_campaign = predictions.groupby(["cohort", "model"], sort=False)[metric].mean().unstack("model")
-    gains = by_campaign[reference] - by_campaign["jev"]
+    gains = by_campaign[reference] - by_campaign[model]
     replicates = int(config["evaluate"]["bootstrap"]["replicates"])
     rng = np.random.default_rng(int(config["seed"]))
     values = gains.to_numpy(dtype=float)

@@ -3,7 +3,7 @@
 
 PYTHON ?= python3
 
-.PHONY: all test tier1 sensitivity baseline models forecast forecast-live venv clean help
+.PHONY: all test tier1 sensitivity baseline models forecast forecast-live ablation ablation-live venv clean help
 
 help:
 	@echo "make test      - run every test in framework/tests"
@@ -13,6 +13,8 @@ help:
 	@echo "make models    - fit the four comparative families, write results/model_comparison.*"
 	@echo "make forecast  - score the TypeSafe forecast from the answer cache, write results/forecast*"
 	@echo "make forecast-live - as forecast, asking TypeSafe for any uncached answer (needs TYPESAFE_API_KEY)"
+	@echo "make ablation  - score the tier-3 ablations and recognition probe from the cache"
+	@echo "make ablation-live - as ablation, asking TypeSafe for any uncached answer"
 	@echo "make venv      - create the virtual environment this project needs"
 	@echo "make all       - regenerate every result from data/dataset_v1.1.csv"
 
@@ -65,6 +67,14 @@ results/forecast.json: $(FORECAST_DEPS)
 forecast-live: $(FORECAST_DEPS)
 	$(PYTHON) framework/run_forecast.py
 
+ablation: results/forecast_ablation.json
+
+results/forecast_ablation.json: $(FORECAST_DEPS) framework/run_ablation.py
+	$(PYTHON) framework/run_ablation.py --offline
+
+ablation-live: $(FORECAST_DEPS) framework/run_ablation.py
+	$(PYTHON) framework/run_ablation.py
+
 # The environment cannot live in the Google Drive folder: the mount refuses the symlinks
 # venv creates. It is recreated per machine instead, which is also the only thing that
 # travels - a virtual environment carries absolute paths and compiled binaries.
@@ -82,5 +92,6 @@ clean:
 	rm -f results/baseline.json results/model_comparison.csv results/model_comparison.json \
 	      results/importance_stability.csv results/tier1_curve.json \
 	      results/tier1_muscle_ranking.csv results/sensitivity.md \
-	      results/forecast.json results/forecast_comparison.csv results/forecast_predictions.csv
+	      results/forecast.json results/forecast_comparison.csv results/forecast_predictions.csv \
+	      results/forecast_ablation.json results/forecast_ablation.csv results/forecast_recognition.csv
 	find framework -name '__pycache__' -type d -exec rm -rf {} +
