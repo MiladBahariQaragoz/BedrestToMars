@@ -22,7 +22,7 @@ TypeSafe language-model forecast - was added and run on its own branch,
 | P2 Integration | Sep 12–14 | **Done.** Reconciled, QC'd, `dataset_v1.0` frozen and tagged; merged into `main`. `dataset_v1.1` followed on Sep 19 |
 | P3 Framework design | Sep 15 | **Done** (late, completed Sep 18). `framework/DESIGN.md`, config, six modules, baseline |
 | P4 Run the framework | Sep 16–21 | **Partly done.** Tier 1 fitted (Sep 19) and tier 2 complete with a null result. Tier 3, a TypeSafe forecast, run Sep 21 (§3). Sensitivity analyses not yet run |
-| P5 Report and slides | Sep 22–28 | Not started |
+| P5 Report and slides | Sep 22–28 | **Started early.** The five figures F1–F5 are drawn from the results (Sep 21); the report and the deck are not started |
 | P6 Rehearse and present | Sep 29–Oct 2 | Not started. Talk is 15/16 Oct, upload 10 Oct |
 
 ## 2. What exists
@@ -65,7 +65,8 @@ can be argued with and re-run without a new dataset version.
 | `framework/typesafe_client.py` | **New.** Calls TypeSafe, retried with backoff, and caches every answer under a hash of its request |
 | `framework/run_forecast.py` | **New.** Runs tier 3's two arms against matched baselines, writes `results/forecast*` |
 | `framework/run_ablation.py` | **New.** Tier 3's three ablations and the recognition probe, writes `results/forecast_ablation*` and `results/forecast_recognition.csv` |
-| `framework/tests/` | 185 checks in 17 files, run by `make test` |
+| `framework/plot_figures.py` | **New.** Draws F1–F5 from the results files, writes `figures/*.svg` and `*.png` |
+| `framework/tests/` | 202 checks in 18 files, run by `make test` |
 | `framework/DESIGN.md` | The design document: what is modelled, how it is validated, what may be claimed |
 
 ### Results
@@ -316,7 +317,7 @@ make venv                                   # creates ~/.venvs/dglrm from requir
 PYTHON=~/.venvs/dglrm/bin/python make all   # tests, tier 1, S6, baseline, four models
 ```
 
-`make test` alone runs the 185 checks. `make forecast` and `make ablation` rebuild tier 3 from the answer cache;
+`make test` alone runs the 202 checks. `make figures` redraws F1–F5. `make forecast` and `make ablation` rebuild tier 3 from the answer cache;
 `make forecast-live` asks TypeSafe for any answer the cache lacks and needs `TYPESAFE_API_KEY`. `make tier1`, `make sensitivity`, `make baseline`
 and `make models` regenerate one set of results each. The loader refuses to run if `dataset_v1.1.csv` no longer matches its
 recorded hash, so no result can quietly come from an edited dataset.
@@ -357,7 +358,6 @@ this mount — that is Drive sync, not corruption; `git fsck` has come back clea
 |---|---|
 | Tier 3's ranges are overconfident | Its 80% ranges hold the truth 62% (without history) and 38% (with) of the time. Quote its point forecasts, not its ranges, until a recalibration rule is declared and run |
 | Tier 3's gain has no tested mechanism | The ablations show what it does not need - anything identifying a study - and that it reads the reference values. Why that beats tier 2 is an interpretation (`DESIGN.md` §9.3.3), not a result |
-| **No figures exist** | F1–F5 in `PLAN.md` §9 are all outstanding, including the framework diagram (task 3.2), which is the slide carrying the whole AI contribution |
 | Sensitivity analyses S1–S5 and S7–S11 not run | S1, S2 and S4 are pre-registered as must-show in the report. S6 is done |
 | The muscle map has no physiological sign-off | Numbers can be computed but not yet quoted. Partner review is a line edit in one CSV |
 | `feat/ai-framework` is not merged into `main` | P3 and P4 are not formally closed |

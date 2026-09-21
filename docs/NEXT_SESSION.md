@@ -16,7 +16,7 @@ written was 18 September, so the internal schedule has 10 days of buffer left in
 cd ~/GoogleDrive/DGLRM
 git status --short                # if files show as modified but look identical, it is CRLF
 git checkout feat/nasa-integration && git pull   # the tip: feat/ai-framework plus v1.1
-PYTHON=~/.venvs/dglrm/bin/python make test       # expect 185 checks in 17 files, all passing
+PYTHON=~/.venvs/dglrm/bin/python make test       # expect 202 checks in 18 files, all passing
 ```
 
 If `make venv` has never run on this machine, run it first — the environment cannot live in
@@ -80,25 +80,27 @@ Two smaller ones, for whoever is in the files anyway:
   the same way on `feat/ai-framework`. Either the file is a partial table and the validator
   should recognise it the way it recognises `*_partial.csv`, or the rows want filling.
 
-## 2. The five figures
+## 2. The five figures — drawn
 
-`PLAN.md` §9 names them; none exist. In the order they earn their place:
+Drawn on 21 September by `framework/plot_figures.py`, from the results files, and rebuilt by
+`make figures`. Each is a full 16:9 slide in `figures/`, SVG for the deck and PNG for anything
+else, with no text under the 24 pt slide body and every title computed from the numbers it
+states.
 
-| Fig | Content | Blocked by |
+| Fig | File | What it shows |
 |---|---|---|
-| F4 | The framework diagram: sources → screening → schema → dataset → folds → two tiers → evaluation | Nothing. **Do this first** — it carries the whole AI contribution and `PLAN.md` task 3.2 has been open since P3 |
-| — | *(every figure is now unblocked: tier 1 was the only dependency)* | |
-| F2 | Duration–response: `pct_change` against `duration_days`, coloured by muscle family, fitted curve with band, control arms only | Nothing — `results/tier1_curve.json` carries the curve and its band on a one-day grid |
-| F3 | Muscle vulnerability ranking with confidence intervals, sorted | Nothing — `results/tier1_muscle_ranking.csv` is already sorted worst first, with intervals |
-| F1 | Corpus overview: screening flow plus a timeline strip of each campaign | Nothing — the PRISMA counts exist |
-| F5 | Model comparison against the baseline, or the stability table | Nothing — `results/model_comparison.csv` exists |
+| F1 | `figures/F1_corpus` | Screening flow counted from the search tables, and one bar per campaign with its scan days |
+| F2 | `figures/F2_duration` | Control-arm measurements on the day of the scan, by functional class, with the tier-1 curve and its band |
+| F3 | `figures/F3_muscles` | The muscle ranking at day 60 with intervals, and each family's rows and campaigns |
+| F4 | `figures/F4_framework` | The framework: search to dataset to folds to the three tiers (`PLAN.md` task 3.2) |
+| F5 | `figures/F5_models` | Every model's out-of-campaign error against the duration curve |
 
-Colourblind-safe palette, sample size on the figure itself, text no smaller than slide body
-text.
+What is left for them is judgement, not work: whether F5 leads with Jev or with the null
+result, and whether the partner wants F2 coloured by class or by family.
 
 ## 3. Close out P4
 
-**The figures are now the critical path** — nothing else blocks them.
+**The figures are done; the report is now the critical path.**
 
 - Run the rest of the sensitivity analyses from `DESIGN.md` §12 — S6 is done and
   `framework/sensitivity.py` shows the shape the others take. S1 (composite-first),
@@ -135,7 +137,7 @@ Everything in P5 and P6 is built on assumptions until that arrives.
 ## Quick reference
 
 ```bash
-PYTHON=~/.venvs/dglrm/bin/python make test       # 185 checks
+PYTHON=~/.venvs/dglrm/bin/python make test       # 202 checks
 PYTHON=~/.venvs/dglrm/bin/python make baseline   # results/baseline.json
 PYTHON=~/.venvs/dglrm/bin/python make models     # results/model_comparison.*  (~2.5 min)
 PYTHON=~/.venvs/dglrm/bin/python make tier1      # results/tier1_curve.json, results/tier1_muscle_ranking.csv
