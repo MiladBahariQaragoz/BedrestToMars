@@ -537,6 +537,50 @@ eleven numeric columns of tier 2 did not. Three things keep that from being a he
    2.8 pp wide and hold the truth 38% of the time. Its point forecasts can be quoted; its ranges
    cannot, until they are recalibrated or widened by a rule declared in advance.
 
+### 9.3.2 Is the gain signal or recognition? The ablations
+
+**Declared on 2026-09-21, after §9.3.1 and before the first ablation answer.** Everything here
+runs on the arm without history, where the concern sits. `framework/run_ablation.py`,
+`make ablation`.
+
+Three ablations change one thing each about what the model is shown, and are scored exactly
+as the first run was, against the same duration curve:
+
+| Variant | What changes | What it tests |
+|---|---|---|
+| `generic` | The target is described only by muscle, role, method, kind of group and day. No participants, no countermeasure protocol, no planned length, no measurement site | Whether the gain needs anything that could identify a study. This is roughly the information tier 2 had |
+| `scrambled_reference` | The other campaigns' values are shuffled among their rows, and the curve shown is fitted to the shuffled rows. The baseline keeps the real curve | Whether the model reads the reference numbers at all |
+| `no_reference` | No curve and no observations from other campaigns | What the model manages on its own knowledge |
+
+**The recognition probe** shows the model the target's description exactly as the full
+forecast sends it - participants, protocol, measurement, day - with one question: which of
+these campaigns does it come from? The options are the 11 campaigns in subset A that have a
+proper name (AGBRESA, BBR1, BBR2-2, BRACE, LunHab, MEDES LTBR, NASA SPRINT, UTMB Campaign 3,
+PlanHab, VBR, WISE-2005) and "none of these". Descriptive names such as "30-day unilateral
+lower limb suspension" are left out because the name would give the answer away. Chance is
+one in twelve. Every row of those 11 campaigns is probed.
+
+**Reading rules, declared before any answer.**
+
+- A campaign is **recognised** when the model's top choice is its true name on at least half
+  of its rows.
+- Recognition is a **live explanation** for the gain if two or more of the three campaigns that
+  carry most of it (`nasa_sprint_br70`, `berlin_bbr2`, `medes_ltbr90`) are recognised, or if
+  the Spearman correlation between a campaign's recognition (mean probability on its true name)
+  and its gain is 0.5 or more. With 11 campaigns only a strong association counts.
+- `generic` **keeps the gain** if its paired gain over the curve has a 95% interval above zero
+  and is at least half the full run's (0.21 pp or more).
+- `scrambled_reference` **shows the model uses the reference data** if its paired gain over
+  the curve has an interval that reaches zero or falls below it.
+- `no_reference` is descriptive.
+
+| `generic` keeps the gain | Recognition live | Reading |
+|---|---|---|
+| Yes | No | The gain needs nothing that identifies a study. Tier 3's point forecasts may be quoted as a result, with the §9.3.1 caveats |
+| Yes | Yes | The gain survives without identifying details, but the model can name campaigns. Quote it, and name the concern next to it |
+| No | No | The participant and protocol details carry the gain, yet the model cannot name the campaigns: the likelier reading is that those details carry physiology - sex, age, countermeasure dose. Quote it with that stated |
+| No | Yes | The gain cannot be separated from recognition. It is reported as exploratory and not quoted as a result |
+
 ---
 
 ## 10. Uncertainty, and the 180-day question
