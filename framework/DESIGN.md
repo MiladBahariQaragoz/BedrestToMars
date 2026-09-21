@@ -581,6 +581,58 @@ one in twelve. Every row of those 11 campaigns is probed.
 | No | No | The participant and protocol details carry the gain, yet the model cannot name the campaigns: the likelier reading is that those details carry physiology - sex, age, countermeasure dose. Quote it with that stated |
 | No | Yes | The gain cannot be separated from recognition. It is reported as exploratory and not quoted as a result |
 
+### 9.3.3 The ablations as run
+
+Run on 2026-09-21: 1,280 new answers, with the full variant answered from the first run's
+cache. `results/forecast_ablation.csv`, `results/forecast_ablation_campaigns.csv` and
+`results/forecast_recognition.csv`; `make ablation` rebuilds them.
+
+| Variant | MAE | Paired gain over the curve (95% CI) | Change from the full run (95% CI) |
+|---|---|---|---|
+| Full | 2.71 pp | **+0.42** (+0.13 to +0.73) | — |
+| Generic | 2.83 pp | **+0.30** (+0.02 to +0.61) | −0.12 (−0.25 to +0.02) |
+| Scrambled reference | 4.37 pp | −1.24 (−1.94 to −0.58) | −1.66 (−2.31 to −1.06) |
+| No reference | 5.83 pp | −2.71 (−3.57 to −1.73) | −3.12 (−3.90 to −2.27) |
+| Duration curve | 3.13 pp | | |
+
+**The recognition probe.** The model puts a mean probability of 0.14 on the true campaign,
+against 0.08 by chance, and names it first on 19% of rows. Three campaigns pass the
+recognition bar: NASA SPRINT and AGBRESA (named first on 67% of their rows) and VBR (50%). Of
+the three that carry most of the gain, only SPRINT is recognised; for BBR2-2 and MEDES LTBR the
+model's commonest answer is "none of these campaigns". Recognition and gain correlate at
+ρ = 0.38 (p = 0.25, 11 campaigns).
+
+**Against the rules:**
+
+- `generic` **keeps the gain**: 0.30 pp, at least half of 0.42, with an interval above zero.
+  Its difference from the full run, −0.12 pp, has an interval that includes zero.
+- **Recognition is not a live explanation**: one of the three campaigns, not two, and a
+  correlation below 0.5.
+- `scrambled_reference` **shows the model reads the reference data**: shuffle the values and
+  the gain becomes a loss of 1.24 pp.
+- `no_reference`: on its own knowledge the model is far worse than the curve, 5.83 pp against
+  3.13.
+
+That is the first row of the reading table. **Tier 3's point forecasts may be quoted as a
+result, with the caveats of §9.3.1** - not pre-registered, below its 15% MAE bar, and
+overconfident ranges.
+
+**What the campaign-level errors add** (`forecast_ablation_campaigns.csv`). If the model were
+recalling published numbers, it would do best without reference data on the campaigns it can
+name. It does not: without reference data it is worse than the curve on AGBRESA (6.13 pp
+against 2.95) and VBR (5.73 against 0.95). SPRINT is the exception, 4.80 against 5.92, and
+the one place recognition may contribute. But the generic variant, which gives the model
+nothing to recognise SPRINT by, still beats the curve there, 3.79 against 5.92, so most of
+SPRINT's gain does not depend on recognition either.
+
+**What the gain is, then.** Without identifying details the model still does better than the
+curve, and it does so only when it can read the other campaigns' values. The likeliest reading
+is that the model does a kind of reasoning tier 2 could not: it picks out the reference rows
+that match the target - same muscle, same kind of group, a nearby day - and weighs them, where
+tier 2's families were given the same kind of information as one-hot columns and a
+duration basis. That is an interpretation, not a test. The ablations establish what the gain
+does not need; they do not establish its mechanism.
+
 ---
 
 ## 10. Uncertainty, and the 180-day question
