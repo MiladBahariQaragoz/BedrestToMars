@@ -126,6 +126,14 @@ def test_the_repeat_check_asks_the_declared_number_of_requests_again() -> None:
     assert repeats["max_abs_probability_difference"] == 0.0
 
 
+def test_the_repeat_check_says_how_far_the_forecasts_themselves_moved() -> None:
+    """Probabilities can wobble while the forecast holds; the forecast is what is scored."""
+    repeats = RESULT["repeats"]
+    assert repeats["mean_point_shift_pp"] == repeats["max_point_shift_pp"] == 0.0
+    assert repeats["same_top_range"] == repeats["requests"]
+    assert repeats["mae_first_pp"] == repeats["mae_second_pp"]
+
+
 def test_comparing_repeats_counts_every_changed_answer() -> None:
     first = {"forecast": {"probabilities": {"a": 0.6, "b": 0.4}}}
     same = {"forecast": {"probabilities": {"a": 0.6, "b": 0.4}}}

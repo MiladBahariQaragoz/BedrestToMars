@@ -32,6 +32,7 @@ import pandas as pd
 
 import data_loader
 import features
+import forecast
 import run_baseline
 import run_forecast
 import typesafe_client
@@ -140,7 +141,34 @@ def _repeat(
         client = repeat_client or typesafe_client.client_from_config(config)
         with ThreadPoolExecutor(max_workers=int(config["forecast"]["concurrency"])) as pool:
             fresh = list(pool.map(lambda r: client.ask(r["state"], r["questions"]), requests))
-    return compare_repeats(originals, [f["answers"] for f in fresh]), fresh
+    report = compare_repeats(originals, [f["answers"] for f in fresh])
+    report.update(_forecast_drift(config, plan[:count], originals, [f["answers"] for f in fresh]))
+    return report, fresh
+
+
+def _forecast_drift(
+    config: dict[str, Any],
+    plan: list[dict[str, Any]],
+    originals: list[dict[str, Any]],
+    fresh: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """How far the scored forecast moved between the two askings, not only its probabilities."""
+    bins = forecast.arm_bins(config, "without_history")
+    shifts, first_errors, second_errors, same_top = [], [], [], 0
+    for entry, before, after in zip(plan, originals, fresh):
+        first = forecast.point(bins, forecast.probabilities_from_answer(bins, before["forecast"]))
+        second = forecast.point(bins, forecast.probabilities_from_answer(bins, after["forecast"]))
+        shifts.append(abs(first - second))
+        first_errors.append(abs(entry["truth"] - first))
+        second_errors.append(abs(entry["truth"] - second))
+        same_top += before["forecast"]["choice"] == after["forecast"]["choice"]
+    return {
+        "mean_point_shift_pp": float(np.mean(shifts)) if shifts else 0.0,
+        "max_point_shift_pp": float(np.max(shifts)) if shifts else 0.0,
+        "same_top_range": int(same_top),
+        "mae_first_pp": float(np.mean(first_errors)) if first_errors else 0.0,
+        "mae_second_pp": float(np.mean(second_errors)) if second_errors else 0.0,
+    }
 
 
 def run(
@@ -273,7 +301,10 @@ def main() -> int:
     repeats = result["repeats"]
     print(
         f"\nrepeats: {repeats['identical']} of {repeats['requests']} identical, "
-        f"largest probability change {repeats['max_abs_probability_difference']:.3f}"
+        f"largest probability change {repeats['max_abs_probability_difference']:.3f}; "
+        f"forecasts moved {repeats['mean_point_shift_pp']:.2f} pp on average "
+        f"({repeats['max_point_shift_pp']:.2f} at most), same top range {repeats['same_top_range']}, "
+        f"MAE {repeats['mae_first_pp']:.3f} then {repeats['mae_second_pp']:.3f}"
     )
     return 0
 
