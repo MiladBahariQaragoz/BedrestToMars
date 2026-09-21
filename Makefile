@@ -3,7 +3,7 @@
 
 PYTHON ?= python3
 
-.PHONY: all test tier1 sensitivity baseline models forecast forecast-live ablation ablation-live venv clean help
+.PHONY: all test tier1 sensitivity baseline models forecast forecast-live ablation ablation-live figures venv clean help
 
 help:
 	@echo "make test      - run every test in framework/tests"
@@ -15,6 +15,7 @@ help:
 	@echo "make forecast-live - as forecast, asking TypeSafe for any uncached answer (needs TYPESAFE_API_KEY)"
 	@echo "make ablation  - score the tier-3 ablations and recognition probe from the cache"
 	@echo "make ablation-live - as ablation, asking TypeSafe for any uncached answer"
+	@echo "make figures   - draw F1-F5 from the results, write figures/*.svg and *.png"
 	@echo "make venv      - create the virtual environment this project needs"
 	@echo "make all       - regenerate every result from data/dataset_v1.1.csv"
 
@@ -75,6 +76,14 @@ results/forecast_ablation.json: $(FORECAST_DEPS) framework/run_ablation.py
 ablation-live: $(FORECAST_DEPS) framework/run_ablation.py
 	$(PYTHON) framework/run_ablation.py
 
+# The five figures of PLAN.md section 9, drawn from the results files - never by hand.
+figures: figures/F5_models.svg
+
+figures/F5_models.svg: results/tier1_curve.json results/tier1_muscle_ranking.csv \
+                       results/baseline.json results/model_comparison.csv \
+                       results/forecast.json framework/plot_figures.py
+	$(PYTHON) framework/plot_figures.py
+
 # The environment cannot live in the Google Drive folder: the mount refuses the symlinks
 # venv creates. It is recreated per machine instead, which is also the only thing that
 # travels - a virtual environment carries absolute paths and compiled binaries.
@@ -86,7 +95,7 @@ venv:
 	$(VENV)/bin/pip install -r requirements.txt
 	@echo "created $(VENV) - run the framework with PYTHON=$(VENV)/bin/python make all"
 
-all: test tier1 sensitivity baseline models forecast ablation
+all: test tier1 sensitivity baseline models forecast ablation figures
 
 clean:
 	rm -f results/baseline.json results/model_comparison.csv results/model_comparison.json \
