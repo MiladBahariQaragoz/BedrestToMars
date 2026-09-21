@@ -60,6 +60,7 @@ MODEL_LABELS = {
     "random_forest": "Random forest",
     "svr": "Support vector",
     "gradient_boosting": "Gradient boosting",
+    "tabpfn": "TabPFN (post hoc)",
     "jev": "Jev (TypeSafe)",
 }
 
@@ -152,6 +153,7 @@ def load_inputs(config: dict[str, Any] | None = None) -> dict[str, Any]:
         "ranking": pd.read_csv(RESULTS / "tier1_muscle_ranking.csv"),
         "baseline": _json("baseline.json"),
         "models": pd.read_csv(RESULTS / "model_comparison.csv"),
+        "tabpfn": _json("tabpfn_comparison.json"),
         "forecast": _json("forecast.json"),
         "predictions": pd.read_csv(RESULTS / "forecast_predictions.csv", dtype={"row_id": str}),
         "ablation": _json("forecast_ablation.json"),
@@ -427,6 +429,10 @@ def _model_rows(inputs: dict[str, Any]) -> pd.DataFrame:
             continue
         rows.append({"model": row["model"], "mae": row["loco_mae_pp"],
                      "low": row["ci95_low"], "high": row["ci95_high"]})
+    # The post-hoc fifth family, from its own results file and its own environment.
+    tabpfn = inputs["tabpfn"]["models"]["tabpfn"]
+    rows.append({"model": "tabpfn", "mae": tabpfn["mae"],
+                 "low": tabpfn["ci95"]["low"], "high": tabpfn["ci95"]["high"]})
     jev = inputs["forecast"]["arms"]["without_history"]["models"]["jev"]
     rows.append({"model": "jev", "mae": jev["mae"],
                  "low": jev["mae_ci95"]["low"], "high": jev["mae_ci95"]["high"]})
@@ -447,8 +453,8 @@ def f5_models(inputs: dict[str, Any]) -> plt.Figure:
     )
     axis = figure.add_axes([0.30, 0.16, 0.62, 0.66])
     positions = np.arange(len(rows))
-    colours = [ACCENT if model == "jev" else (INK if model == "duration_only" else INK_2)
-               for model in rows["model"]]
+    special = {"jev": ACCENT, "duration_only": INK, "tabpfn": SERIES[1]}
+    colours = [special.get(model, INK_2) for model in rows["model"]]
     axis.hlines(positions, rows["low"], rows["high"], colors=colours, linewidth=3)
     axis.scatter(rows["mae"], positions, s=150, c=colours, edgecolors=SURFACE, linewidths=2,
                  zorder=3)

@@ -136,6 +136,30 @@ def test_the_model_figure_shows_every_model_and_a_line_at_the_baseline() -> None
     assert any(abs(line.get_xdata()[0] - baseline) < 1e-9 for line in vertical)
 
 
+def test_the_model_figure_adds_tabpfn_as_post_hoc_in_its_own_colour() -> None:
+    """TabPFN was added after the null result: it sits on F5 at its own error, labelled post hoc
+    and coloured apart from the four declared families, so nobody reads it as one of them."""
+    import json
+
+    record = json.loads((REPO_ROOT / "results" / "tabpfn_comparison.json").read_text(encoding="utf-8"))
+    tabpfn_mae = record["models"]["tabpfn"]["mae"]
+    forest_mae = INPUTS["models"].set_index("model").loc["random_forest", "loco_mae_pp"]
+
+    import matplotlib.collections
+
+    axis = FIGURES["F5_models"].axes[0]
+    points = next(c for c in axis.collections if isinstance(c, matplotlib.collections.PathCollection))
+    offsets = points.get_offsets()
+    colours = points.get_facecolors()
+    labels = {tick.get_loc(): tick.label1.get_text() for tick in axis.yaxis.get_major_ticks()}
+
+    at_tabpfn = [i for i, (x, _) in enumerate(offsets) if abs(x - tabpfn_mae) < 1e-9]
+    at_forest = [i for i, (x, _) in enumerate(offsets) if abs(x - forest_mae) < 1e-9]
+    assert len(at_tabpfn) == 1, "TabPFN must be drawn exactly once, at its own error"
+    assert labels[offsets[at_tabpfn[0]][1]] == "TabPFN (post hoc)"
+    assert not mcolors.same_color(colours[at_tabpfn[0]], colours[at_forest[0]])
+
+
 def test_the_framework_diagram_names_the_three_tiers() -> None:
     text = _joined(FIGURES["F4_framework"])
     for stage in ("Tier 1", "Tier 2", "Tier 3", "leave-one-campaign-out"):

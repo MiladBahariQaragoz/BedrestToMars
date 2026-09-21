@@ -102,6 +102,7 @@ figures: figures/F9_jev_example.svg
 
 figures/F9_jev_example.svg: results/tier1_curve.json results/tier1_muscle_ranking.csv \
                             results/baseline.json results/model_comparison.csv \
+                            results/tabpfn_comparison.json \
                             results/forecast.json results/forecast_predictions.csv \
                             results/forecast_ablation.json results/forecast_validation.json \
                             framework/plot_figures.py
