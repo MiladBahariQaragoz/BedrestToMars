@@ -22,6 +22,7 @@ that names a paper, author or campaign is sent, and the target's own outcome is 
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
@@ -38,7 +39,7 @@ import models
 LOG_FLOOR = 1e-6
 MISSING = {"", "NA", "na", "nan", "NaN", "None"}
 IDENTITY_COLUMNS = ("cohort_id", "campaign_name", "study_id", "first_author", "doi", "registry_id")
-VARIANTS = ("full", "generic", "no_reference")
+VARIANTS = ("full", "generic", "no_reference", "reordered")
 GENERIC_MEASUREMENT = (
     "muscle", "muscle_family", "functional_role", "granularity", "made_up_of",
     "imaging_method", "quantity",
@@ -133,6 +134,11 @@ def make_bins(edges: Sequence[float]) -> Bins:
             "width off the step"
         )
     return Bins(edges=tuple(float(value) for value in values), step=float(gaps[0]))
+
+
+def shift_bins(bins: Bins) -> Bins:
+    """The same ranges moved half a step up: a check that answers do not hang on where edges fall."""
+    return make_bins([edge + bins.step / 2 for edge in bins.edges])
 
 
 def arm_bins(config: dict[str, Any], arm: str) -> Bins:
@@ -507,9 +513,10 @@ def build_state(
     campaign. Only the `with_history` arm reads `held_out`, and only scans taken strictly
     before the target day.
 
-    `variant` is one of the ablations of `DESIGN.md` section 9.3.2. `generic` describes the
-    target only by what identifies no study - muscle, role, method, kind of group and day.
-    `no_reference` drops everything taken from the other campaigns.
+    `variant` is one of the ablations of `DESIGN.md` sections 9.3.2 and 9.3.4. `generic`
+    describes the target only by what identifies no study - muscle, role, method, kind of
+    group and day. `no_reference` drops everything taken from the other campaigns.
+    `reordered` shows exactly the rows the full state shows, in a shuffled order.
     """
     if variant not in VARIANTS:
         raise ValueError(f"unknown variant {variant!r}; declared: {VARIANTS}")
@@ -620,6 +627,12 @@ def build_state(
     budget = token_budget or int(settings["state_token_budget"])
     chars_per_token = float(settings["chars_per_token"])
     kept = _fit_to_budget(state, budget * chars_per_token, trimmable)
+    if variant == "reordered":
+        seed = int(hashlib.sha256(str(target.get("row_id", "")).encode()).hexdigest()[:8], 16)
+        rng = np.random.default_rng(seed)
+        for key in trimmable:
+            if key in state:
+                state[key] = [state[key][i] for i in rng.permutation(len(state[key]))]
     _assert_no_identity(state, target)
 
     info = {

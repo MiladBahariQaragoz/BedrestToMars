@@ -313,6 +313,27 @@ def test_the_recognition_question_offers_each_named_campaign_once_and_none() -> 
     assert len(question["criteria"]) == len(names) + 1
 
 
+def test_the_reordered_variant_shows_the_same_rows_in_another_order() -> None:
+    target, train, held_out = _fold("medes_ltbr90", history=True)
+    full, _ = forecast.build_state(target, train, held_out, "with_history", CONFIG)
+    moved, _ = forecast.build_state(target, train, held_out, "with_history", CONFIG, variant="reordered")
+    again, _ = forecast.build_state(target, train, held_out, "with_history", CONFIG, variant="reordered")
+    for key in ("observations_other_campaigns", "scan_to_scan_changes_other_campaigns",
+                "earlier_scans_in_this_campaign"):
+        as_text = lambda records: sorted(json.dumps(record, sort_keys=True) for record in records)
+        assert as_text(moved[key]) == as_text(full[key]), key
+        assert moved[key] == again[key], key
+    assert moved["observations_other_campaigns"] != full["observations_other_campaigns"]
+
+
+def test_shifted_bins_move_every_edge_by_half_a_step() -> None:
+    bins = forecast.arm_bins(CONFIG, "without_history")
+    shifted = forecast.shift_bins(bins)
+    assert shifted.count == bins.count and shifted.step == bins.step
+    assert np.allclose(np.asarray(shifted.edges) - np.asarray(bins.edges), bins.step / 2)
+    assert set(shifted.labels).isdisjoint(bins.labels)
+
+
 # --- the question -----------------------------------------------------------------------
 
 
