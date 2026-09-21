@@ -3,7 +3,7 @@
 
 PYTHON ?= python3
 
-.PHONY: all test tier1 sensitivity baseline models venv clean help
+.PHONY: all test tier1 sensitivity baseline models forecast forecast-live venv clean help
 
 help:
 	@echo "make test      - run every test in framework/tests"
@@ -11,6 +11,8 @@ help:
 	@echo "make sensitivity - run the declared sensitivity analyses, write results/sensitivity.md"
 	@echo "make baseline  - fit the duration-only baseline, write results/baseline.json"
 	@echo "make models    - fit the four comparative families, write results/model_comparison.*"
+	@echo "make forecast  - score the TypeSafe forecast from the answer cache, write results/forecast*"
+	@echo "make forecast-live - as forecast, asking TypeSafe for any uncached answer (needs TYPESAFE_API_KEY)"
 	@echo "make venv      - create the virtual environment this project needs"
 	@echo "make all       - regenerate every result from data/dataset_v1.1.csv"
 
@@ -47,6 +49,22 @@ results/model_comparison.csv: results/baseline.json framework/run_models.py \
                               framework/explain.py framework/models.py
 	$(PYTHON) framework/run_models.py
 
+# Tier 3 depends on a service outside the repository, so `make forecast` never calls it: every
+# answer is read from results/forecast_cache/, keyed by a hash of the exact request. Filling the
+# cache is a deliberate step, `make forecast-live`, and needs TYPESAFE_API_KEY (DESIGN.md 9.3).
+FORECAST_DEPS = data/dataset_v1.1.csv data/muscle_map.csv data/measurement_site_map.csv \
+                framework/config.yaml framework/run_forecast.py framework/forecast.py \
+                framework/typesafe_client.py framework/features.py framework/data_loader.py \
+                framework/models.py
+
+forecast: results/forecast.json
+
+results/forecast.json: $(FORECAST_DEPS)
+	$(PYTHON) framework/run_forecast.py --offline
+
+forecast-live: $(FORECAST_DEPS)
+	$(PYTHON) framework/run_forecast.py
+
 # The environment cannot live in the Google Drive folder: the mount refuses the symlinks
 # venv creates. It is recreated per machine instead, which is also the only thing that
 # travels - a virtual environment carries absolute paths and compiled binaries.
@@ -63,5 +81,6 @@ all: test tier1 sensitivity baseline models
 clean:
 	rm -f results/baseline.json results/model_comparison.csv results/model_comparison.json \
 	      results/importance_stability.csv results/tier1_curve.json \
-	      results/tier1_muscle_ranking.csv results/sensitivity.md
+	      results/tier1_muscle_ranking.csv results/sensitivity.md \
+	      results/forecast.json results/forecast_comparison.csv results/forecast_predictions.csv
 	find framework -name '__pycache__' -type d -exec rm -rf {} +
