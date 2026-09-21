@@ -3,7 +3,7 @@
 
 PYTHON ?= python3
 
-.PHONY: all test tier1 sensitivity baseline models forecast forecast-live ablation ablation-live figures venv clean help
+.PHONY: all test tier1 sensitivity baseline models forecast forecast-live ablation ablation-live validation validation-live figures venv clean help
 
 help:
 	@echo "make test      - run every test in framework/tests"
@@ -15,6 +15,8 @@ help:
 	@echo "make forecast-live - as forecast, asking TypeSafe for any uncached answer (needs TYPESAFE_API_KEY)"
 	@echo "make ablation  - score the tier-3 ablations and recognition probe from the cache"
 	@echo "make ablation-live - as ablation, asking TypeSafe for any uncached answer"
+	@echo "make validation - score the tier-3 validation battery from the cache"
+	@echo "make validation-live - as validation, asking TypeSafe for any uncached answer"
 	@echo "make figures   - draw F1-F5 from the results, write figures/*.svg and *.png"
 	@echo "make venv      - create the virtual environment this project needs"
 	@echo "make all       - regenerate every result from data/dataset_v1.1.csv"
@@ -75,6 +77,14 @@ results/forecast_ablation.json: $(FORECAST_DEPS) framework/run_ablation.py
 
 ablation-live: $(FORECAST_DEPS) framework/run_ablation.py
 	$(PYTHON) framework/run_ablation.py
+
+validation: results/forecast_validation.json
+
+results/forecast_validation.json: $(FORECAST_DEPS) framework/run_validation.py
+	$(PYTHON) framework/run_validation.py --offline
+
+validation-live: $(FORECAST_DEPS) framework/run_validation.py
+	$(PYTHON) framework/run_validation.py
 
 # The five figures of PLAN.md section 9, drawn from the results files - never by hand.
 figures: figures/F5_models.svg

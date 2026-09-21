@@ -160,5 +160,10 @@ forecast:                      # DESIGN.md section 9.3 - added 21 Sep, after the
         planhab_br21: PlanHab
         wbv_hdt14: Vibration Bed Rest Study (VBR)
         wise2005: WISE-2005
+  validation:                  # DESIGN.md section 9.3.4 - declared before the first validation answer
+    runs:                      # every run is leave-one-campaign-out, scored against the arm's reference
+      with_history: [full, generic, scrambled_reference, no_reference, scrambled_history, reordered, shifted_bins]
+      without_history: [full, reordered, shifted_bins]
+    repeats: 20                # identical requests sent again past the cache: does the model answer the same?
 
 seed: 20260918

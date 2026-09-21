@@ -42,6 +42,39 @@ def _truth(row: pd.Series, arm: str, config: dict[str, Any]) -> float:
     return value if arm == "without_history" else value - float(row["prev_value"])
 
 
+EXTRA_VARIANTS = ("scrambled_reference", "scrambled_history", "shifted_bins")
+
+
+def plan_bins(config: dict[str, Any], arm: str, variant: str = "full") -> forecast.Bins:
+    """The ranges a variant is asked and scored on: the declared ones, or shifted half a step."""
+    bins = forecast.arm_bins(config, arm)
+    return forecast.shift_bins(bins) if variant == "shifted_bins" else bins
+
+
+def _shuffled_history(
+    row: pd.Series, held_out: pd.DataFrame, config: dict[str, Any], seed: int
+) -> tuple[pd.Series, pd.DataFrame]:
+    """The target, and its campaign, as shown under `scrambled_history`.
+
+    Only scans taken before the target day are shuffled, and only among themselves, so the
+    model sees the campaign's real earlier values attached to the wrong rows - never a value
+    from the target day or after it. The target's own history is rebuilt from the shuffle.
+    """
+    time = config["forecast"]["time_column"]
+    day = float(row[time])
+    earlier = forecast.scramble(held_out[held_out[time].astype(float) < day], seed=seed)
+    shown = pd.concat([earlier, held_out[held_out[time].astype(float) >= day]])
+    series = config["forecast"]["series"]
+    same = earlier
+    for column in series:
+        same = same[same[column] == row[column]]
+    by_day = same.groupby(time)["pct_change"].mean().sort_index()
+    shown_row = row.copy()
+    shown_row.at["prev_value"] = float(by_day.iloc[-1])
+    shown_row.at["history"] = [(float(d), float(v)) for d, v in by_day.items()]
+    return shown_row, shown
+
+
 def fold_plan(
     config: dict[str, Any], resolved: pd.DataFrame, arm: str, variant: str = "full"
 ) -> list[dict[str, Any]]:
@@ -51,11 +84,13 @@ def fold_plan(
     the model is shown the training rows with their values shuffled, and a curve fitted to
     those; the baselines keep the real curve, so the yardstick does not move.
     """
-    if variant != "scrambled_reference" and variant not in forecast.VARIANTS:
+    if variant not in EXTRA_VARIANTS and variant not in forecast.VARIANTS:
         raise ValueError(f"unknown variant {variant!r}")
+    if variant == "scrambled_history" and arm != "with_history":
+        raise ValueError("scrambled_history needs a history to scramble: only the with_history arm has one")
     time = config["forecast"]["time_column"]
     target_column = config["target"]["column"]
-    bins = forecast.arm_bins(config, arm)
+    bins = plan_bins(config, arm, variant)
     question = forecast.question(bins, arm)
     rows = resolved if arm == "without_history" else forecast.with_history(resolved, config)
     groups = resolved[config["cv"]["group_column"]]
@@ -87,10 +122,16 @@ def fold_plan(
                 forecast.with_history(shown, config) if arm == "with_history" else None
             )
             shown_variant = "full"
+        if variant in ("scrambled_history", "shifted_bins"):
+            shown_variant = "full"
 
         for index, row in rows[rows["cohort_id"] == cohort].iterrows():
+            shown_row, shown_held_out = row, held_out
+            if variant == "scrambled_history":
+                seed = int(config["seed"]) + fold * 1000 + int(index)
+                shown_row, shown_held_out = _shuffled_history(row, held_out, config, seed)
             state, info = forecast.build_state(
-                row, shown, held_out, arm, config, curve=shown_curve,
+                shown_row, shown, shown_held_out, arm, config, curve=shown_curve,
                 train_transitions=shown_transitions, variant=shown_variant,
             )
             day = float(row[time])
