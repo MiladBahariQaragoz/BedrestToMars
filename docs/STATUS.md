@@ -65,8 +65,9 @@ can be argued with and re-run without a new dataset version.
 | `framework/typesafe_client.py` | **New.** Calls TypeSafe, retried with backoff, and caches every answer under a hash of its request |
 | `framework/run_forecast.py` | **New.** Runs tier 3's two arms against matched baselines, writes `results/forecast*` |
 | `framework/run_ablation.py` | **New.** Tier 3's three ablations and the recognition probe, writes `results/forecast_ablation*` and `results/forecast_recognition.csv` |
+| `framework/run_validation.py` | **New.** Tier 3's validation battery: history-arm ablations, presentation checks, repeats. Writes `results/forecast_validation*` and `results/forecast_repeats.json` |
 | `framework/plot_figures.py` | **New.** Draws F1–F5 from the results files, writes `figures/*.svg` and `*.png` |
-| `framework/tests/` | 202 checks in 18 files, run by `make test` |
+| `framework/tests/` | 215 checks in 19 files, run by `make test` |
 | `framework/DESIGN.md` | The design document: what is modelled, how it is validated, what may be claimed |
 
 ### Results
@@ -247,6 +248,22 @@ values are shuffled, and the model cannot name two of the three campaigns carryi
 NASA SPRINT; ρ = 0.38 between recognition and gain). By the declared rules, **tier 3's point
 forecasts may be quoted as a result**, with the caveats above.
 
+**Does it hold up?** A validation battery was declared (`DESIGN.md` §9.3.4) and run the same
+day (§9.3.5), leave-one-campaign-out throughout:
+
+- The result without history **survives both presentation checks**: reordered reference rows
+  keep a gain of 0.34 pp (0.07 to 0.62), ranges shifted half a step 0.45 pp (0.15 to 0.78).
+- **Answers are not identical between runs** - none of 20 repeats matched - but a forecast
+  moves by about 0.17 pp and the error on the repeated rows by 0.02 pp, far below the 0.42 pp
+  gain.
+- On the history arm the model **does not read the earlier scans**: shuffling them leaves the
+  error unchanged. The earlier scans help every method a great deal (Jev 5.83 → 2.84 pp on the
+  same rows, the baselines 7.27 → 3.21), but through the anchor the code adds, not through the
+  model.
+
+Quote tier 3 from the arm without history, say that repeated runs differ slightly, and say
+nothing about the model using a campaign's history.
+
 ### The classification sanity check
 
 Unadjusted control-arm means by functional class, which is why the muscle map is believable
@@ -317,7 +334,7 @@ make venv                                   # creates ~/.venvs/dglrm from requir
 PYTHON=~/.venvs/dglrm/bin/python make all   # tests, tier 1, S6, baseline, four models
 ```
 
-`make test` alone runs the 202 checks. `make figures` redraws F1–F5. `make forecast` and `make ablation` rebuild tier 3 from the answer cache;
+`make test` alone runs the 215 checks. `make figures` redraws F1–F5. `make forecast` and `make ablation` rebuild tier 3 from the answer cache;
 `make forecast-live` asks TypeSafe for any answer the cache lacks and needs `TYPESAFE_API_KEY`. `make tier1`, `make sensitivity`, `make baseline`
 and `make models` regenerate one set of results each. The loader refuses to run if `dataset_v1.1.csv` no longer matches its
 recorded hash, so no result can quietly come from an edited dataset.

@@ -680,6 +680,70 @@ which of the three failed. With five campaigns, every interval on the history ar
 bootstrap over five values and is indicative, not decisive; that is said wherever one is
 quoted.
 
+### 9.3.5 The validation battery as run
+
+Run on 2026-09-21: 1,195 new answers, 20 repeats past the cache. `results/forecast_validation.csv`
+and `results/forecast_repeats.json`; `make validation` rebuilds them.
+
+**The arm without history** (346 rows, 32 campaigns; the duration curve scores 3.13 pp):
+
+| Run | MAE | Paired gain over the curve (95% CI) | Change from the full run (95% CI) |
+|---|---|---|---|
+| Full | 2.71 pp | +0.42 (+0.13 to +0.73) | — |
+| Reordered | 2.79 pp | +0.34 (+0.07 to +0.62) | −0.08 (−0.20 to +0.05) |
+| Shifted ranges | 2.68 pp | +0.45 (+0.15 to +0.78) | +0.03 (−0.03 to +0.09) |
+
+**The history arm** (84 rows, 5 campaigns; last scan plus the curve's step scores 3.21 pp):
+
+| Run | MAE | Paired gain over the reference (95% CI) | Change from the full run (95% CI) |
+|---|---|---|---|
+| Full | 2.84 pp | +0.37 (+0.03 to +0.75) | — |
+| Generic | 2.87 pp | +0.34 (+0.10 to +0.59) | −0.02 (−0.23 to +0.14) |
+| Scrambled reference | 2.98 pp | +0.24 (−0.22 to +0.77) | −0.13 (−0.43 to +0.10) |
+| No reference | 3.37 pp | −0.16 (−1.48 to +0.94) | −0.52 (−1.57 to +0.48) |
+| Scrambled history | 2.78 pp | +0.43 (+0.08 to +0.78) | +0.06 (−0.14 to +0.29) |
+| Reordered | 2.78 pp | +0.44 (+0.07 to +0.90) | +0.07 (−0.06 to +0.17) |
+| Shifted ranges | 2.90 pp | +0.31 (+0.04 to +0.58) | −0.05 (−0.27 to +0.10) |
+
+**What the earlier scans buy**, on the same 84 rows: the model's error falls from 5.83 to
+2.84 pp (paired +2.98, 95% CI +1.54 to +5.51), and the baselines' from 7.27 to 3.21 pp
+(+4.06, +2.52 to +5.99).
+
+**The repeats:** none of the 20 came back identical. The probabilities moved by 0.034 on
+average and 0.09 at most; the forecasts by 0.17 pp on average and 0.48 at most; the most likely
+range held in 18 of 20; the error on those rows went from 2.456 to 2.479 pp.
+
+**Against the rules:**
+
+- **Robust to presentation - yes, on both arms.** Without history, the MAE moves by 3% under
+  reordering and 1% under shifted ranges, and the gain over the curve keeps an interval above
+  zero under both. On the history arm both moves are 2% and the gain keeps its sign.
+- **`generic` keeps the history arm's gain - yes**: +0.34 pp, interval above zero.
+- **Reads the earlier scans - no.** Shuffling the held-out campaign's earlier values leaves the
+  error where it was (+0.06 pp, interval across zero). The model does not use them to forecast
+  the change.
+- **Reads the other campaigns, on the history arm - not shown.** Both reference ablations are
+  worse in their point estimates, by 0.13 and 0.52 pp, but on five campaigns neither interval
+  clears zero.
+- **The earlier scans help - yes, strongly, and not because of the model.** The baselines gain
+  more from them than the model does. What the earlier scans supply is the anchor - where the
+  muscle already is - and the code supplies it, by adding the forecast change to the last scan.
+  The model's own edge on the history arm is forecasting the change better than the curve's
+  step, and that edge does not come from the earlier values.
+- **Consistent - no, by the letter of the rule.** Read against the spread it measured: a single
+  forecast moves by about 0.17 pp between askings and the error on the repeated rows by 0.02 pp.
+  The differences between presentation runs, 0.03 to 0.08 pp, are of that order; the gain over
+  the curve, 0.42 pp, is not.
+
+**The verdict the rules give.** Of the three conditions for calling tier 3 working rather than
+lucky, the one that carries the quoted number holds: the result without history survives both
+presentation checks, and the model's run-to-run variation is far smaller than the gain. The
+other two fail and are reported as failing: the model's answers are not reproducible bit for
+bit, and on the history arm it does not read what it is given. Two consequences for the
+report: the tier-3 number is quoted from the arm without history, with its caveats and the
+note that repeated runs differ slightly; and nothing may be said about the model using a
+campaign's earlier scans, because the test for exactly that came back empty.
+
 ### 9.4 The time axis, corrected
 
 **Found and fixed on 2026-09-21.** Tiers 1 and 2 read `duration_days` as the exposure. The
