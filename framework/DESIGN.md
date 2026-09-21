@@ -1,9 +1,12 @@
 # Framework Design — v1.0
 
-**Status:** P3 deliverable (`PLAN.md` §7, task 3.1). Written against frozen dataset
-`dataset_v1.0` (tag `dataset-v1.0`, SHA-256 `a253cbec…c02f7`).
-**Branch:** `feat/ai-framework`
-**Supersedes:** nothing. This is the first version.
+**Status:** P3 deliverable (`PLAN.md` §7, task 3.1), first written against `dataset_v1.0`.
+Updated on 2026-09-21 for `dataset_v1.1` (tag `dataset-v1.1`, SHA-256 `dd214c6a…`), for the
+day-of-scan correction (§9.4) and for tier 3 (§9.3). The first-run sections, §9.1 and §9.2,
+keep their v1.0 numbers as the record of what ran then.
+**Branch:** `feat/ai-framework`, continued on `feat/nasa-integration` and the branches stacked
+on it (`docs/STATUS.md` §7).
+**Supersedes:** nothing. This is the first version, amended in place.
 
 This document specifies what is modelled, how it is validated, and what may be claimed from
 the result. It is written to be complete enough that someone outside the team could implement
@@ -26,7 +29,7 @@ model can be made to fit tightly.
 
 The abstract promises a comparative framework of four model families with
 leave-one-study-out validation and SHAP interpretation. That promise is kept in tier 2. But
-with 31 independent campaigns in the modelling subset, a flexible learner is being asked to
+with 32 independent campaigns in the modelling subset, a flexible learner is being asked to
 work at roughly a tenth of the sample size where it starts to behave well
 ([van der Ploeg et al. 2014](https://doi.org/10.1186/1471-2288-14-137)), so tier 2 cannot be
 the primary evidence for anything.
@@ -43,6 +46,12 @@ Tier 1 is the scientific answer and survives every rung of the fallback ladder i
 §13. Tier 2 is allowed to produce a null result; `PLAN.md` §8 pre-commits to reporting it
 either way.
 
+A third tier was added on 21 September, after tier 2's null result: a language model,
+TypeSafe's Jev, that reads a description of each held-out campaign alongside the other
+campaigns' data and gives a probability for every range of outcome (§9.3). It was not part of
+this design as first written, it is reported as a post-hoc addition, and every rule it was
+held to was committed before the answer it governs.
+
 ## 3. The modelling subset
 
 The frozen dataset holds every row that was extracted, marked but unfiltered, so the subset
@@ -51,16 +60,16 @@ order:
 
 | # | Predicate | Rows kept | Reason |
 |---|---|---|---|
-| 0 | All rows in `dataset_v1.0.csv` | 737 | |
-| 1 | `phase == "bed_rest"` | 474 | Recovery answers a different question and enters only the reconditioning sensitivity analysis (schema rule 7) |
-| 2 | Lower-limb muscles only — drops `multifidus`, `lumbar_erector_spinae`, `quadratus_lumborum`, `psoas`, `iliopsoas` | 421 | The abstract is about lower-limb atrophy; trunk muscles unload differently and would be answering another question inside the same coefficient |
-| 3 | One tissue per measurement occasion (§5) | 342 | A model given both `quadriceps` and its four heads fits the same tissue twice (schema rule 4) |
+| 0 | All rows in `dataset_v1.1.csv` | 742 | |
+| 1 | `phase == "bed_rest"` | 478 | Recovery answers a different question and enters only the reconditioning sensitivity analysis (schema rule 7) |
+| 2 | Lower-limb muscles only — drops `multifidus`, `lumbar_erector_spinae`, `quadratus_lumborum`, `psoas`, `iliopsoas` | 425 | The abstract is about lower-limb atrophy; trunk muscles unload differently and would be answering another question inside the same coefficient |
+| 3 | One tissue per measurement occasion (§5) | 346 | A model given both `quadriceps` and its four heads fits the same tissue twice (schema rule 4) |
 
-After predicates 1 and 2: **421 rows, 41 studies, 31 independent cohorts, 13 distinct
-unloading durations (5–119 days), 295 control and 126 countermeasure rows.** 369 rows are
-MRI, 25 DXA, 15 CT, 12 ultrasound; 314 are MRI volume specifically.
+After predicates 1 and 2: **425 rows, 42 studies, 32 independent cohorts, 13 planned
+durations and scans on 24 distinct days (5–119), 299 control and 126 countermeasure rows.**
+369 rows are MRI, 29 DXA, 15 CT, 12 ultrasound; 314 are MRI volume specifically.
 
-**The sample size is 31, not 421.** Every design decision below follows from that. The
+**The sample size is 32, not 425.** Every design decision below follows from that. The
 largest single campaign, the 90-day MEDES study, contributes 103 rows — 24% of the subset —
 and the two Berlin campaigns another 106 between them.
 
@@ -71,14 +80,14 @@ The talk makes two quantitative claims, and they do not want the same rows.
 | | Subset A — duration–response | Subset B — muscle ranking |
 |---|---|---|
 | Supports | Claim 1: how much is lost by day *t* | Claim 2: which muscles are selectively vulnerable |
-| Rows | 342 | 304 |
-| Cohorts | **31** | 25 |
-| Contents | Everything after predicate 3, including the 38 whole-segment rows (`whole_thigh`, `whole_lower_limb`, `whole_calf`) carried as their own muscle family | Named muscles only |
+| Rows | 346 | 304 |
+| Cohorts | **32** | 25 |
+| Contents | Everything after predicate 3, including the 42 whole-segment rows (`whole_thigh`, `whole_lower_limb`, `whole_calf`) carried as their own muscle family | Named muscles only |
 
-The difference is worth stating because it is not cosmetic. Six campaigns — `drummond_br7`,
-`imbp_br21`, `lunhab_br10`, `planhab_br10`, `planhab_br21`, `tanner_br5` — report *only*
-whole-segment measurements, and they are concentrated at 5 to 21 days, which is exactly where
-the duration curve bends hardest. Excluding whole-segment rows to get a cleaner muscle
+The difference is worth stating because it is not cosmetic. Seven campaigns — `drummond_br7`,
+`imbp_br21`, `lunhab_br10`, `nasa_utmb_c3`, `planhab_br10`, `planhab_br21`, `tanner_br5` —
+report *only* whole-segment measurements, and six of them sit at 5 to 21 days, which is
+exactly where the duration curve bends hardest. Excluding whole-segment rows to get a cleaner muscle
 vocabulary would cost a fifth of the campaigns and the short-duration evidence with them. So
 subset A keeps them, with `whole_limb` as an explicit level of `muscle_family`, and subset B —
 which is about telling muscles apart — drops them and says so.
@@ -114,13 +123,13 @@ the audience thinks in. The nonlinearity goes into the duration term instead (§
 
 ## 5. One tissue, one row
 
-The dataset deliberately keeps both composite muscles and their components: 185 composite
+The dataset deliberately keeps both composite muscles and their components: 189 composite
 rows (`quadriceps`, `triceps_surae`, `vasti`, `anterior_tibial_group`, …) and 236 component
-rows. On 20 of the 89 measurement occasions in the subset, both are present —
+rows. On 20 of the 93 measurement occasions in the subset, both are present —
 the paper reported the quadriceps *and* its four heads, and a model handed both is fitting
 the same tissue twice, inflating its own precision.
 
-`composite_of` is populated on only 50 of the 185 composite rows, so the mapping cannot come
+`composite_of` is populated on only 50 of the 189 composite rows, so the mapping cannot come
 from the data. It lives in [`data/muscle_map.csv`](../data/muscle_map.csv): one line per
 muscle giving its family, its functional class, its components where it is a composite, and
 a written reason for the assignment. `framework/muscle_map.py` joins it onto the rows at load
@@ -145,7 +154,7 @@ rectus_femoris,knee_extensors,mixed,,mixed,Crosses two joints - extends the knee
    `muscle_family = whole_limb`, which keeps them in subset A and out of subset B (§3.1).
 
 Preferring components in step 1 is the aggressive direction: it means the primary model runs
-at mixed granularity, since only 12 of the 31 cohorts report components at all. The muscle
+at mixed granularity, since only 12 of the 32 cohorts report components at all. The muscle
 random effect in §7 is what makes that legitimate, and §12 runs the opposite preference
 (composite-first) to show the conclusion does not depend on the choice.
 
@@ -154,7 +163,7 @@ random effect in §7 is what makes that legitimate, and §12 runs the opposite p
 The covariate budget is set by the number of cohorts, not the number of rows. Cochrane's
 guidance is ten studies per study-level covariate
 ([Handbook §9.6.4](https://handbook-5-1.cochrane.org/chapter_9/9_6_4_meta_regression.htm));
-at 31 cohorts that permits **three study-level terms**. Variables that vary *within* a
+at 32 cohorts that permits **three study-level terms**. Variables that vary *within* a
 cohort — muscle, arm, timepoint, modality — are far cheaper, because each cohort contributes
 its own internal contrast, and those are where most of the interesting variation lives.
 
@@ -166,7 +175,7 @@ its own internal contrast, and those are where most of the interesting variation
 | `muscle_family` | within-cohort | Categorical, from `config.yaml` | Claim 2 of the talk. Antigravity selectivity is the second-strongest finding in the corpus |
 | `arm_type` | within-cohort | Binary, `control` / `countermeasure` | 126 countermeasure rows. Binary because at this N a dose ordinal would be fitting noise (`PLAN.md` task 2.8) |
 | `is_composite` / `muscle_grain` | row | Binary | Composite measurements are systematically less extreme than their most affected component; without this the mixed granularity of §5 leaks into the muscle coefficients |
-| `modality` + `outcome_type` | study | Categorical pair, collapsed to `MRI_volume` / `CT_CSA` / `DXA_lean_mass` / `ultrasound_thickness` | DXA lean mass and MRI volume do not measure the same thing (`PLAN.md` task 2.4). 314 of 421 rows are MRI volume, so this is mostly a correction term for a minority |
+| `modality` + `outcome_type` | study | Categorical pair, collapsed to `MRI_volume` / `CT_CSA` / `DXA_lean_mass` / `ultrasound_thickness` | DXA lean mass and MRI volume do not measure the same thing (`PLAN.md` task 2.4). 314 of 425 rows are MRI volume, so this is mostly a correction term for a minority |
 | `pct_estimator` | row | Binary | Which of the two estimators in §4 the row carries |
 
 That is two of the three study-level slots (duration, modality-outcome). The third is held in
@@ -176,11 +185,11 @@ reserve for the age term below.
 
 | Variable | Why not a feature | Where it is used instead |
 |---|---|---|
-| `age_mean`, `population` | 38 of 421 rows are older adults, all from one campaign. A coefficient would be a coefficient for that campaign | Sensitivity analysis; the third study-level slot if the reviewer asks |
-| `sex`, `pct_female` | 347 rows men only, 31 women only, 25 mixed, 18 unstated. The confound with campaign is nearly total | Sex-stratified sensitivity analysis if N allows (`PLAN.md` task 4.5) |
-| `cm_modality` | Eight categories across 126 rows, several with under ten | Descriptive table and a secondary model restricted to countermeasure arms |
-| `measurement_site` | 515 of 737 rows say nothing, and the rest were free text until normalised into `site_kind` and `site_position_pct` (`framework/measurement_site.py`) | Within-muscle heterogeneity sensitivity analysis (S11) |
-| `hdt_angle_deg`, `design` | 420 of 421 rows are the same analogue family; near-constant | Reported in the corpus description |
+| `age_mean`, `population` | 38 of 425 rows are older adults, from six campaigns. The contrast rides on those campaigns and cannot be separated from them at this N | Sensitivity analysis; the third study-level slot if the reviewer asks |
+| `sex`, `pct_female` | 347 rows men only, 34 women only, 26 mixed, 18 unstated. The confound with campaign is nearly total | Sex-stratified sensitivity analysis if N allows (`PLAN.md` task 4.5) |
+| `cm_modality` | Nine named categories across 126 rows, four with under ten; two countermeasure rows carry `none`, a QC item | Descriptive table and a secondary model restricted to countermeasure arms |
+| `measurement_site` | 520 of 742 rows say nothing, and the rest were free text until normalised into `site_kind` and `site_position_pct` (`framework/measurement_site.py`) | Within-muscle heterogeneity sensitivity analysis (S11) |
+| `hdt_angle_deg`, `design` | 419 of 425 rows are bed rest, head-down or horizontal; near-constant | Reported in the corpus description |
 | `nutrition_controlled`, `bmi_mean`, `body_mass_mean_kg` | Sparse and collinear with campaign | Recorded only |
 | `extraction_confidence`, `data_source` | Quality markers, not physiology | Sensitivity analysis excluding figure-derived and low-confidence rows |
 
@@ -259,7 +268,7 @@ intervals, sorted. Those two files are figures F2 and F3 in `PLAN.md` §9.
 
 ## 8. Tier 2 — the comparative models
 
-Subset A, 342 rows from 31 campaigns. Four families, exactly as the abstract states: linear regression (penalised - ridge, with the
+Subset A, 346 rows from 32 campaigns. Four families, exactly as the abstract states: linear regression (penalised - ridge, with the
 penalty chosen inside the fold), random forest, support vector regression with an RBF kernel,
 and gradient boosting.
 
@@ -271,7 +280,7 @@ sides of the fold boundary, and the reported error then measures memorisation
 (`PLAN.md` §2, finding 3). Grouped cross-validation is the standard response to clustered
 data, and leave-one-study-out is its established form in pooled analyses.
 
-31 cohorts means 31 folds. Each fold trains on 30 campaigns and predicts one held-out
+32 cohorts means 32 folds. Each fold trains on 31 campaigns and predicts one held-out
 campaign it has never seen.
 
 **The leakage guard is an assertion, not a convention.** `cv.py` asserts, for every fold,
@@ -855,12 +864,12 @@ they do not.
 
 ## 13. Modules
 
-Six modules, each with one job and a typed signature. No module reads a file that is not
+One job per module, each with a typed signature. No module reads a file that is not
 declared in `config.yaml`, and no module contains a number that is not in `config.yaml`.
 
 | Module | Responsibility | Key interface |
 |---|---|---|
-| `data_loader.py` | Read the frozen CSV, verify its SHA-256 against `dataset_v1.0.sha256`, apply the §3 predicates | `load(config) -> pd.DataFrame` |
+| `data_loader.py` | Read the frozen CSV, verify its SHA-256 against the file the config names (`dataset_v1.1.sha256`), apply the §3 predicates | `load(config) -> pd.DataFrame` |
 | `features.py` | The §5 resolution rule, encodings, the duration basis functions | `build(df, config) -> X, y, groups` |
 | `muscle_map.py` | Muscle family and functional class from `data/muscle_map.csv`; fails loudly on an unmapped muscle | `annotate(rows) -> rows` |
 | `measurement_site.py` | `site_kind` and `site_position_pct` from `data/measurement_site_map.csv` | `annotate(rows) -> rows` |
@@ -871,20 +880,27 @@ declared in `config.yaml`, and no module contains a number that is not in `confi
 | `forecast.py` | Tier 3: the ranges, the state the model is shown and its assertions, the point, interval and proper scores | `build_state(target, train, held_out, arm, config) -> state, info` |
 | `typesafe_client.py` | One POST per request to TypeSafe, retried with backoff, every answer cached on disk by a hash of its request | `CachedAnswerer(cache_dir, model)(requests) -> answers` |
 | `run_forecast.py` | Tier 3's two arms under leave-one-cohort-out, with baselines scored on the same metrics | `run(config, answerer) -> result` |
+| `tier1.py`, `run_tier1.py` | The three-level meta-regression of §7, and the run that writes the curve and the ranking | `fit_form(resolved, config, form) -> Tier1Fit` |
+| `sensitivity.py` | The declared sensitivity analyses of §12 | `run(config) -> result` |
+| `run_baseline.py`, `run_models.py` | The duration-only baseline in three forms, and the four families of §8 | `run(config) -> result` |
+| `run_ablation.py` | Tier 3's ablations and recognition probe, §9.3.2 | `run(config, answerer) -> result` |
+| `run_validation.py` | Tier 3's validation battery, §9.3.4 | `run(config, answerer) -> result` |
+| `plot_figures.py` | Every figure, drawn from the results files | `render_all(directory, config) -> paths` |
 
 `config.yaml` holds the subset predicates, the feature lists,
 the duration forms, model families and their grids, the number of bootstrap replicates, and
 the random seed. Changing an analysis means editing that file, and the file is committed with
 the result it produced.
 
-The framework diagram (`PLAN.md` task 3.2, `figures/framework.svg`) draws exactly this chain:
-sources → screening → schema → frozen dataset → subset → features → LOCO folds → tier 1 and
-tier 2 → evaluation → SHAP.
+The framework diagram (`PLAN.md` task 3.2, `figures/F4_framework.svg`) draws this chain:
+search → screening and extraction → frozen dataset → modelling subset → leave-one-campaign-out
+folds → tiers 1, 2 and 3.
 
 ## 14. Reproducibility
 
-`make all` regenerates every number and every figure from `data/dataset_v1.0.csv` and
-`config.yaml`, on a clean checkout, with no manual step. This is blocking, not aspirational:
+`make all` regenerates every number and every figure from `data/dataset_v1.1.csv` and
+`config.yaml`, on a clean checkout, with no manual step. Tier 3 is rebuilt from the model's
+answers committed in `results/forecast_cache/`, never by calling the service again. This is blocking, not aspirational:
 a number that cannot be regenerated cannot go on a slide (`PLAN.md` §15).
 
 - The loader refuses to run if the dataset SHA-256 does not match, so a silent edit cannot
@@ -892,8 +908,9 @@ a number that cannot be regenerated cannot go on a slide (`PLAN.md` §15).
 - One seed, declared in `config.yaml`, set for every stochastic component.
 - Package versions pinned in `requirements.txt`; the versions used are written into each
   results file.
-- Every file in `results/` and `figures/` records the dataset tag and the git commit it came
-  from.
+- Every file in `results/` records the dataset version and the git commit it came from. The
+  figures carry neither: they are drawn from those files by `make figures`, and a figure is
+  only as current as the results it was last drawn from.
 
 ## 15. Assumptions, stated plainly
 
@@ -905,7 +922,7 @@ a number that cannot be regenerated cannot go on a slide (`PLAN.md` §15).
 3. **Cohorts are independent of one another.** Within-cohort dependence is modelled; the
    assumption that two different campaigns share nothing is untested and untestable here.
 4. **Published means are unbiased estimates of what happened.** Publication bias in this
-   literature is plausible and unquantifiable with 31 campaigns; it is a limitation, not a
+   literature is plausible and unquantifiable with 32 campaigns; it is a limitation, not a
    correction term.
 5. **Bed rest is an analogue.** Nothing in this framework establishes that its coefficients
    transfer to actual microgravity. The 14 spaceflight rows in the dataset are far too few to

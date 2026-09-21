@@ -131,6 +131,13 @@ Two committed files were checked against the same standard and are clean:
 - `data/search/fulltext_scan.csv` carries titles, DOIs and **counts** of what the scan found.
   Titles and DOIs are bibliographic metadata, which is how every reference list works.
 
+## 4a. Added since this review — 21 September
+
+| Added | What it holds | Publishable? |
+|---|---|---|
+| `results/forecast_cache/` | 2,822 answers from TypeSafe's Jev: a probability for each range, the model's name and token counts, each filed under a hash of its request. The requests themselves - descriptions and values derived from the dataset - are not stored | No paper text and nothing not already derivable from the committed dataset. TypeSafe's terms on redistributing model outputs have not been read: decision L7 |
+| `figures/` | Figures drawn by the project's own code from its own results | Yes, under whichever documentation licence L1 settles |
+
 ## 5. The repository has no licence
 
 There is no `LICENSE` file. In the absence of one, default copyright applies and a reader has
@@ -149,6 +156,7 @@ This is the one item on this page that blocks the stated goal by itself, and it 
 | L3 | Whether removing them from the working tree is enough | Qaragoz | It is not, if the history is published: the files stay in every earlier commit. Either accept that, or rewrite the history before the repository is made public — which is cheap now and expensive after anyone clones it |
 | L4 | Whether `data/nasa/` is re-hosted or fetched | Both leads | Either is defensible. If it stays, record the basis (US government work, not subject to copyright) and add NASA's acknowledgement. If it goes, the fetcher and the manifest already make it reproducible |
 | L5 | The NASA acknowledgement text | Qaragoz | Add to `README.md` and the dataset card: data courtesy of the NASA Life Sciences Data Archive / NASA Life Sciences Portal, naming experiment `4469ebdc-0a65-55e8-bbff-3cf6b044c4c6` and the principal investigators on its experiment page |
+| L7 | Whether TypeSafe's terms allow its answers to be published | Qaragoz | Read the terms before the repository goes public. If they restrict it, move `results/forecast_cache/` out of the repository; `make forecast-live` and its siblings rebuild it, at the price of answers that differ slightly from the committed ones |
 | L6 | Whether the released dataset needs the EU database-right question answered | Both leads | Only if it is published under a formal licence with an institution's name on it. Worth one email to whoever does research data management |
 
 None of these blocks the talk. L1 and L2 block making the repository public, and L5 is owed to

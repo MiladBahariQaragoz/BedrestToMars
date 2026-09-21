@@ -2,7 +2,8 @@
 
 Written 2026-09-18 at the end of the P3/P4 modelling work, updated 2026-09-19 when tier 1
 was implemented and again the same day when `dataset_v1.1` pooled a NASA campaign and every
-result was refitted. Current state and every number so
+result was refitted. Updated on 2026-09-21 for tier 3, the day-of-scan correction and figures
+F1–F9. Current state and every number so
 far: [`STATUS.md`](STATUS.md). The plan itself has not changed: [`../PLAN.md`](../PLAN.md).
 
 **Deadlines:** upload 10 October 2026, talk 15 or 16 October. Today's date when this was
@@ -15,7 +16,7 @@ written was 18 September, so the internal schedule has 10 days of buffer left in
 ```bash
 cd ~/GoogleDrive/DGLRM
 git status --short                # if files show as modified but look identical, it is CRLF
-git checkout feat/nasa-integration && git pull   # the tip: feat/ai-framework plus v1.1
+git checkout feat/jev-figures && git pull        # the tip of the stack (STATUS.md §7)
 PYTHON=~/.venvs/dglrm/bin/python make test       # expect 223 checks in 19 files, all passing
 ```
 
@@ -115,7 +116,8 @@ both of us. And whether the partner wants F2 coloured by class or by family.
   statement that the longest observation is 119 days (`PLAN.md` task 4.7). Backup slide only.
 - Ask the partner for the physiological sign-off on `data/muscle_map.csv` — it is a line edit
   in one CSV, and until it happens the coefficients can be computed but not quoted.
-- Tag `results-v1.0` and merge `feat/ai-framework` into `main`. That formally closes P3 and P4.
+- Tag the results and merge `feat/jev-figures`, the tip of the stack, into `main`. That formally
+  closes P3 and P4.
 
 ## 4. Then P5 — report and slides
 
@@ -128,9 +130,17 @@ rather than rewritten:
 
 The one thing the deck now needs that it did not need in September: **the null result is the
 story, not a footnote.** Four model families, honestly validated, none beating a simple
-duration curve — and the reason (31 campaigns, not 421 rows) is a better answer to "why not
+duration curve — and the reason (32 campaigns, not 425 rows) is a better answer to "why not
 just use machine learning?" than any accuracy number would have been. `STATUS.md` §4 has the
-three claims in the order the evidence supports them.
+four claims in the order the evidence supports them.
+
+Tier 3 adds a second half to that story, and it has to be told with its caveats on the slide,
+not held back for questions: a language model reading the other campaigns' data does beat the
+curve (0.42 pp, 95% CI 0.13 to 0.73, better in 20 of 32 campaigns), survives every ablation and
+presentation check, and cannot be explained by recognising published studies. It was added
+after the null result, it misses the 15% bar it was held to, its ranges are overconfident, its
+answers vary slightly between runs, and it does not use a campaign's earlier scans.
+`DESIGN.md` §9.3 to §9.3.5 carry every number.
 
 ## 5. Still unanswered from kickoff
 

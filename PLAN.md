@@ -254,6 +254,8 @@ The double-extraction check in 2.1 is not bureaucracy. It is the only evidence t
 > **Status 2026-09-18: complete**, four days late. `framework/DESIGN.md`, `config.yaml`, six
 > modules with 73 tests, and the baseline in all three forms. Task 3.2 — the framework
 > diagram — is the one part still outstanding. See [`docs/STATUS.md`](docs/STATUS.md).
+>
+> **Status 2026-09-21:** task 3.2 done - the framework diagram is `figures/F4_framework.svg`.
 
 One day, on `feat/ai-framework`. The output is a design document and a runnable skeleton, not a finished analysis.
 
@@ -285,6 +287,12 @@ One day, on `feat/ai-framework`. The output is a design document and a runnable 
 > rung B of the ladder in §13, reported as a finding. Still to do: the three-level
 > meta-regression that produces the coefficients, the sensitivity analyses, the
 > extrapolation, and the partner's sign-off. See [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md).
+>
+> **Status 2026-09-21:** tier 1 fitted (19 Sep) and refitted on the day of the scan (21 Sep).
+> Tier 2 is still a null result. A third tier - a language-model forecast added after that null
+> result, and reported as post-hoc - beats the duration curve by 0.42 pp but misses the 15% bar.
+> Figures F1–F9 are drawn. Still to do: sensitivity analyses S1, S2 and S4, the extrapolation,
+> the partner's sign-off, and the merge. See [`docs/STATUS.md`](docs/STATUS.md).
 
 This was agreed as "if we had time." The calendar says there is time: six days. Treat it as planned work with a hard stop, not as a stretch goal — and if P1 or P2 overran, this is the window that absorbs it.
 

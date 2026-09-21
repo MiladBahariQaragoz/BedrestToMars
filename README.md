@@ -14,6 +14,7 @@ DGLRM accepted abstract — oral presentation plus written report.
 - **Where the project stands, with every number so far:** [`docs/STATUS.md`](docs/STATUS.md)
 - **What to do next:** [`docs/NEXT_SESSION.md`](docs/NEXT_SESSION.md)
 - **Framework design (also the methods section):** [`framework/DESIGN.md`](framework/DESIGN.md)
+- **Figures:** [`figures/`](figures/) — F1 to F9, drawn from the results by `make figures`, never by hand
 - **What may be published, and what may not:** [`docs/licensing.md`](docs/licensing.md) — the licence review of every file in the repository, and the two things that block making it public
 
 ---
@@ -72,6 +73,9 @@ and treat everything after them as rehearsal and contingency.
 | `feat/ai-framework` | Qaragoz | P1 AI track, P3 framework design, P4 model runs |
 | `feat/integration` | Both | P2 reconciliation of extracted science with the framework |
 | `feat/report-slides` | Both | P5 report, deck, figures |
+
+In practice P3 and P4 continued on a stack of branches built one on another, from
+`feat/ai-framework` to `feat/jev-figures`; `docs/STATUS.md` §7 lists them.
 
 Conventions: atomic commits, `type: what and why`, push after every intentional commit,
 never `--no-verify`.
