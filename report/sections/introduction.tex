@@ -1,0 +1,69 @@
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{Musculoskeletal deconditioning and long-duration missions}
+
+Skeletal muscle adapts to the load it carries. When the load is removed---in weightlessness, or when a healthy
+person lies in bed for weeks---the muscles that normally hold the body up against gravity lose mass and strength.
+For a crew on a transit to Mars, which lasts on the order of six months, that loss is not an abstraction: a crew
+has to be able to stand, move and work on arrival, and countermeasures have to be planned before departure. A
+planner therefore needs two numbers that the literature does not currently provide in one place: how much of a
+given muscle is lost after a given number of days of unloading, and how much that depends on anything other than
+time and the muscle in question.
+
+\subsection{Bed rest as a terrestrial analogue}
+
+Actual spaceflight data on lower-limb muscle size are scarce, and the few available cohorts are small. The
+established terrestrial analogue is bed rest: healthy volunteers remain in bed, usually tilted six degrees
+head-down so that fluid shifts towards the head as it does in orbit, for days to months, while their muscles are
+scanned before, during and after the unloading. Related models unload one leg (unilateral lower-limb suspension)
+or the whole body in water (dry immersion). Over three decades these campaigns---run at NASA, MEDES in Toulouse,
+the Charit\'e in Berlin, the DLR in Cologne, and elsewhere---have produced a large and heterogeneous literature
+on muscle loss~\citep{leblanc1992,alkner2004,belavy2009,miokovic2012,trappe2007,trappe2024sprint,dulac2024}.
+
+\subsection{The gap}
+
+Each campaign reports its own muscles, at its own time points, with its own imaging protocol, participants and
+countermeasures. A reader who wants to know how much soleus is left after sixty days has to read dozens of papers
+and reconcile them by hand. Two further difficulties make naive pooling misleading. First, many papers report the
+same participants: a single campaign can yield five or more publications, so counting papers overstates the
+evidence and, worse, leaks information across the folds of any cross-validation that treats papers as
+independent. Second, the numbers themselves are heterogeneous: some papers report muscle volume by magnetic
+resonance imaging (MRI), others cross-sectional area by computed tomography (CT), lean mass by dual-energy X-ray
+absorptiometry (DXA), or thickness by ultrasound; some report a composite such as the quadriceps together with its
+four heads; and some report only a percentage change.
+
+\subsection{Aim and contributions}
+
+The project had one aim, taken from the accepted abstract: to develop a literature-derived dataset and a
+machine-learning framework for predicting lower-limb muscle atrophy in spaceflight analogues. It makes four
+contributions.
+
+\begin{enumerate}
+  \item \textbf{A frozen, documented dataset.} 742 comparisons against baseline from 52 studies and 36 independent
+        campaigns, each traceable to a table, figure or page of its source, extracted into a schema frozen before
+        extraction began and released under a hash-verified version tag (\cref{sec:methods-data,sec:results-data}).
+  \item \textbf{A campaign map.} Every study is assigned to the campaign that produced its participants, which
+        makes the campaign---not the paper---the unit of validation (\cref{sec:cohort-map}).
+  \item \textbf{A three-tier modelling framework} in which a three-level meta-regression carries the scientific
+        estimate, four machine-learning families test whether flexible models find structure the curve misses, and
+        a probabilistic language-model forecast tests whether a model that reads each campaign's description can do
+        what the numeric columns cannot (\cref{sec:methods-models}).
+  \item \textbf{A declared evaluation.} Every threshold, reading rule and sensitivity analysis was written down
+        before the answer it governs, and every number in this report is regenerated from the frozen dataset by
+        one command (\cref{sec:reproducibility}).
+\end{enumerate}
+
+The report is written as a framework-and-dataset contribution, not a performance contribution. With 32 independent
+campaigns in the modelling subset, no cross-validated error will impress a machine-learning audience, and it does
+not need to: the questions that matter here are whether the estimates are physiologically plausible, whether the
+uncertainty is stated honestly, and whether the approach could ever inform mission planning.
+
+\subsection{Structure of the report}
+
+\Cref{sec:background} summarises the physiological and methodological background. \Cref{sec:methods-data}
+describes how the dataset was built and \cref{sec:methods-models} how it was modelled. \Cref{sec:results-data}
+describes the corpus and the dataset, and \cref{sec:results-models} reports the three tiers.
+\Cref{sec:discussion} interprets the findings, states the limitations in full, lists the work that remains and
+reconciles the results with the accepted abstract. The appendices hold the verbatim search strategies, the
+extraction schema, the campaign table, the muscle classification and the full model outputs.

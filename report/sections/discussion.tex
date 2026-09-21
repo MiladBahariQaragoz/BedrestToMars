@@ -1,0 +1,216 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Principal findings}
+
+Four statements are supported by the evidence, listed in order of how well it supports them.
+
+\begin{enumerate}
+  \item \textbf{Muscle loss during bed rest follows a curved, not linear, path}: about 3\pp{} per doubling of days
+        (95\% CI 2.5 to 3.4), with the reference curve at $-12\%$ by day 60 and $-15\%$ by day 119. The corpus
+        cannot say \emph{which} curve: logarithmic, saturating and spline forms are indistinguishable.
+  \item \textbf{Which muscle is measured matters more than anything else in the dataset.} Thirty per cent of the
+        variance lies between muscles within a campaign; plantar flexors lose 5.7\pp{} more than knee extensors
+        and 5.6\pp{} more than their antagonists, the dorsiflexors; antigravity extensors lose roughly twice what
+        flexors lose. The flexible models of tier~2 lean on the same two variables.
+  \item \textbf{At 32 campaigns, tabular machine learning adds nothing to a simple curve.} The four families find
+        the muscle structure---pooled $R^2$ doubles or triples---but do not convert it into lower out-of-campaign
+        error. That is a statement about how much signal the published literature contains, not about the
+        algorithms.
+  \item \textbf{A model that reads the other campaigns' data in context adds a little.} The language-model forecast
+        is 0.42\pp{} more accurate than the curve, survives the removal of study-identifying detail and every
+        presentation check, and is not explained by recognition of published campaigns. It was not pre-registered,
+        it misses its declared bar and its ranges are overconfident; it is a finding to report, not the headline.
+\end{enumerate}
+
+\subsection{The duration--response}
+
+The clearest single result is negative about shape and positive about magnitude. A straight line in days is the worst
+of the three baseline forms, and the curvature is real: roughly 40\% of the loss the reference curve reaches by day
+119 has already occurred by day 14 ($-6.0\%$ of $-15.3\%$). What the data cannot do is choose between a curve that
+keeps falling with the logarithm of time and one that approaches a plateau. The 32 campaigns are concentrated at 5--21
+and 56--90 days, with a single campaign at 119 days, and both forms pass through that support equally well. The
+saturating form was kept as the headline by a rule declared in advance, because its parameters are interpretable---a
+time constant of 60 days and an eventual loss of about 17\%---not because the data prefer it. For planning purposes
+the honest summary is the curve and its band over the observed range, not the asymptote.
+
+Two properties of the curve should be kept in view when quoting it. It is drawn for one scenario: a control arm, knee
+extensors, measured as CT cross-sectional area. For MRI volume it sits about half a percentage point higher, and for
+plantar flexors about 5.7\pp{} lower. And it is fitted to group means: it describes what a group of similar people
+would lose on average, not what an individual will lose.
+
+\subsection{Muscle-specific vulnerability: mechanical role}
+
+The ranking reproduces, as adjusted coefficients with intervals, the selective vulnerability reported by
+muscle-resolved bed-rest studies~\citep{belavy2009,miokovic2012,marusic2021}: the plantar flexors are the most
+affected family and the hip rotators and adductors the least. The corpus also offers a partial test of the two usual
+explanations. Tibialis anterior, the principal dorsiflexor, is slow-fibre dominant like the soleus~\citep{johnson1973}
+but does not carry body weight; if fibre type governed atrophy, the dorsiflexors should lose like the plantar flexors.
+They do not: they lose like the knee extensors ($-10.2\%$ against $-10.1\%$ at day 60) and 5.6\pp{} less than the
+plantar flexors. The comparison rests on eight dorsiflexor rows from four campaigns and on a classification that has
+not yet been signed off, so it is suggestive rather than decisive, but it points towards mechanical role.
+
+The countermeasure effect, 3.7\pp{} less loss in countermeasure arms, pools every countermeasure type, from flywheel
+exercise to nutrition. It shows that the dataset can detect a countermeasure effect at all; it cannot say which
+countermeasure works, which would need more campaigns per modality than the literature provides.
+
+\subsection{Why flexible learners did not help}
+
+The tier-2 null result is the most important methodological finding of the project, and the explanation is the
+sample size. There are 346 rows, but 32 independent campaigns, and the error that matters is the error on a campaign
+the model has never seen. Most of what distinguishes one campaign from another---its imaging protocol, its
+population, the exact definition of its muscles, its countermeasure dose---is either not recorded in a way that can be
+modelled or is perfectly confounded with the campaign itself. The flexible families learn the muscle structure, which
+raises pooled $R^2$, but the part of the residual that decides out-of-campaign error is between-campaign, and no
+column explains it. With roughly a tenth of the sample size at which flexible learners begin to behave
+well~\citep{vanderploeg2014}, this is the expected outcome, and it was prepared for in advance.
+
+The answer this gives to the question ``why not simply use machine learning?'' is a better one than any accuracy
+figure would have been: because at this sample size the unit of evidence is the campaign, and the literature holds 32
+of them. It also explains why the meta-regression, and not a predictive model, is the right primary tool: it
+estimates exactly the structure the learners found, with intervals, and it does not need to predict unseen campaigns
+to be useful.
+
+\subsection{What tier 3 does and does not show}
+
+The language-model forecast is the only method in the project whose advantage over the curve has a paired interval
+that excludes zero. The ablations establish what the gain does not need---anything that identifies a study---and that
+it depends on the reference values: shuffle them and the gain becomes a loss. The recognition probe finds that the
+model can name some campaigns, but not the ones carrying the gain. The likeliest reading is that the model does a kind
+of case-based reasoning that tier 2 could not: it picks out the reference rows that match the target---same muscle,
+same kind of group, a nearby day---and weighs them, where tier 2 received the same information as one-hot columns and
+a duration basis. That is an interpretation, not a tested mechanism.
+
+The limits are as clear as the gain. The method was added after the null result; it misses the 15\% bar declared for
+it; its ranges are overconfident, so its uncertainty cannot be quoted; its answers vary slightly between identical
+requests; and on the history arm it does not use the campaign's earlier scans at all---the benefit of history comes
+entirely from the anchor the code supplies. Pretraining exposure to some of these papers cannot be excluded by any
+cross-validation.
+
+\subsection{Implications for mission planning}
+
+The results support three statements a countermeasure planner can use, at group level and within the observed range
+of 5 to 119 days: that most of the loss seen by four months has accumulated within the first weeks; that the calf's
+antigravity muscles are the ones to protect first; and that countermeasure arms in the literature lose measurably
+less than controls. They do not support a prediction for an individual astronaut, a statement about actual
+microgravity, or a number for day 180. Extrapolation to a six-month transit was specified but has not been run; when
+it is, it will be computed from the tier-1 curve only, reported as a prediction interval drawn on the same axes as the
+data, and accompanied by the statement that the longest observation is 119 days and that the remainder is an
+assumption about curve shape.
+
+\subsection{Reconciliation with the accepted abstract}
+\label{sec:abstract-reconciliation}
+
+The accepted abstract was written before the literature search and is the contract for the presentation. The results
+confirm its central claims and correct several of its numbers (\cref{tab:abstract}). None of the corrections weakens
+the claims; most strengthen the evidence behind them.
+
+\begin{table}[htbp]
+\centering
+\caption[Reconciliation with the accepted abstract]{The accepted abstract against the results.}
+\label{tab:abstract}
+\small
+\begin{tabularx}{\linewidth}{@{}L{4.6cm} Y@{}}
+\toprule
+Abstract & Result \\
+\midrule
+``15 bed-rest and HDBR studies (1992--2025)'' & 52 studies (1992--2026) from 36 independent campaigns; the modelling
+  subset holds 41 studies from 32 campaigns \\
+``unloading durations of 14--119 days'' & Planned durations and scan days both span 5--119 days \\
+Variables include participant characteristics & Recorded, but not modelled: age and sex are almost perfectly confounded
+  with the campaign and are reserved for sensitivity analyses S8 and S9 \\
+Linear regression, random forest, SVR, gradient boosting & As stated; linear regression is penalised (ridge) \\
+Leave-one-study-out cross-validation & Leave-one-\emph{campaign}-out: stricter, because papers from one campaign share
+  participants \\
+SHAP-based interpretation & Done for the best family; the top two features are stable, the third is not \\
+``consistent relationship between duration and loss'' & Confirmed: curved, about $-3$\pp{} per doubling of days \\
+Soleus, gastrocnemius and triceps surae most susceptible, ``losses approaching 20--30\% during prolonged bed rest'' &
+  Plantar flexors are the most affected family, $-15.8\%$ at day 60 by the model; individual group means reach $-30\%$
+  at the longest durations, but the modelled averages do not \\
+``Exercise countermeasures consistently associated with reduced muscle loss'' & Countermeasure arms lose 3.7\pp{} less
+  (95\% CI 1.5 to 5.9), all countermeasure types pooled \\
+Duration and muscle-specific vulnerability as major determinants & Confirmed by tier 1 (variance components,
+  coefficients) and by tier-2 importance \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Limitations}
+\label{sec:limitations}
+
+The limitations are stated in full; several are properties of the literature rather than of the analysis.
+
+\begin{enumerate}
+  \item \textbf{Small effective sample.} The modelling subset holds 32 independent campaigns. Every interval is wide
+        accordingly, and the covariate budget is about three study-level terms.
+  \item \textbf{Clustering and dominance.} One campaign (MEDES LTBR) supplies 40\% of the full dataset and a quarter of
+        the modelling subset; 15 campaigns contribute five rows or fewer. Campaign weighting and campaign-level
+        validation mitigate this, but the must-show sensitivity analysis that drops the largest campaign (S2) has not
+        been run.
+  \item \textbf{Search coverage.} The search starts in 2013; older work enters only through a convenience corpus of
+        nine papers. Embase was not searched, 1,023 records were not screened in the time available, and 19 included
+        studies report their results only as charts without a baseline.
+  \item \textbf{No human double extraction.} The extraction was verified against the sources with AI assistance, and
+        the pre-search corpus rows were not verified by a second person at all.
+  \item \textbf{Heterogeneous measurements in one target.} MRI volume, CT and MRI cross-sectional area, DXA lean mass
+        and ultrasound thickness are treated as one target with a modality term; the MRI-only sensitivity analysis
+        (S4) is outstanding. The measurement site along a muscle, which matters~\citep{miokovic2012}, is ignored in
+        the primary model, and 547 rows do not state which leg was imaged.
+  \item \textbf{Mixed granularity and two estimators.} Composites and components coexist, resolved by a rule whose
+        opposite (S1) has not been run; the target mixes the printed mean of individual changes with a value
+        recomputed from group means.
+  \item \textbf{Publication bias} is plausible in this literature and cannot be quantified with 32 campaigns.
+  \item \textbf{Bed rest is an analogue.} Nothing here establishes that the coefficients transfer to microgravity;
+        the 14 spaceflight rows are too few to test it and eight of them are lumbar multifidus.
+  \item \textbf{No data beyond 119 days}, and a single campaign at 119 days.
+  \item \textbf{Mostly young men.} 347 of the 425 lower-limb unloading rows come from men-only groups and 38 from
+        older adults, in six campaigns.
+  \item \textbf{Group means, not individuals.} Every row is an arm mean; nothing can be said about individual
+        susceptibility.
+  \item \textbf{The NASA campaign is thin.} Three of its four in-bed-rest occasions rest on one participant.
+  \item \textbf{Unsigned classification.} The muscle classification awaits physiological sign-off, a blocking
+        condition for quoting coefficients by class.
+  \item \textbf{Assumptions of the model.} Campaigns are assumed independent of one another; missing dispersions and
+        ages are assumed uninformative; the tier-2 families were fitted unweighted.
+  \item \textbf{Tier 3} is post hoc, overconfident, not bit-reproducible, and exposed to possible pretraining on the
+        source papers.
+  \item \textbf{Most sensitivity analyses are outstanding}, including the three declared as must-show.
+\end{enumerate}
+
+\section{Status of the work and remaining tasks}
+\label{sec:outstanding}
+
+The internal schedule placed the modelling hard stop on 21 September 2026; the report and slides follow, with the
+upload deadline on 10 October and the presentation on 15 or 16 October. The following items remain, in order of
+priority.
+
+\begin{enumerate}
+  \item \textbf{Sensitivity analyses S1, S2 and S4} (composite-first resolution, without MEDES LTBR, MRI volume only),
+        declared as must-show in this report; then the remaining analyses where they would change a conclusion.
+  \item \textbf{Physiological sign-off} of \file{data/muscle\_map.csv} and of the fitted relationships by the
+        scientific lead---a blocking criterion, and a line edit in one file.
+  \item \textbf{The 180-day extrapolation} with a prediction interval, as a clearly caveated backup result.
+  \item \textbf{Recalibration of tier 3's ranges} by a rule declared in advance, if its uncertainty is to be quoted.
+  \item \textbf{Reconcile the PRISMA counts} at the full-text stage with the final extraction.
+  \item \textbf{Close P3 and P4 formally}: tag the results and merge the branch stack ending at \ReportBranch{} into
+        \code{main}.
+  \item \textbf{Repository housekeeping before publication}: add a licence (code and dataset need different ones),
+        remove the full-text digests that reproduce copyrighted text, acknowledge NASA as a data source, check the
+        terms under which tier 3's cached answers may be published, and obtain both leads' agreement to the one
+        schema change in v1.1.
+  \item \textbf{Two data checks}: two countermeasure-arm rows carry \code{cm\_modality = none}, and the figure-derived
+        extraction table fails the validator unless run in partial mode (23 rows lack sex or age).
+  \item \textbf{Author instructions} from the organisers (slide format, time limit, disclosure requirements), still
+        outstanding.
+\end{enumerate}
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+The published bed-rest literature, organised into one frozen dataset of 742 comparisons from 52 studies and 36
+campaigns, supports a quantified duration--response---about 3 percentage points of muscle per doubling of days of
+unloading, curved rather than linear---and a muscle-specific vulnerability led by the plantar flexors, with
+countermeasure arms losing measurably less. Tested honestly, by holding out whole campaigns, four machine-learning
+families add nothing to a simple duration curve, because the sample size is the number of campaigns, not the number of
+rows; a language model reading the other campaigns' data adds a small, robust but post-hoc improvement. The dataset
+and the framework are the contribution, and every number in this report can be regenerated from them with one command.

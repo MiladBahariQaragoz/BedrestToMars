@@ -1,0 +1,40 @@
+\section*{Data and code availability}
+\addcontentsline{toc}{section}{Data and code availability}
+
+The frozen dataset (\code{data/dataset\_v1.1.csv}, tag \code{dataset-v1.1}), its card, the extraction schema, the
+campaign map, the muscle classification, the framework code, the configuration, every results file and the cached
+answers of the tier-3 model are held in the project repository~\citep{dglrm2026repo}. \code{make all} regenerates
+every result from the dataset, and \file{report/make\_figures.py} regenerates every table and figure in this report
+from the results. The source PDFs and the database exports are not redistributed, for copyright and licence reasons;
+the merge scripts and derived counts are included so that the search tables can be rebuilt from one's own exports.
+\draftnote{the repository has no licence file yet, and the full-text digests under
+\file{data/search/fulltext\_digests/} reproduce copyrighted text; both must be resolved before this statement can say
+the data are openly available (\file{docs/licensing.md}).}
+
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+Data for UTMB Campaign 3 were provided courtesy of the NASA Life Sciences Data Archive through the NASA Life
+Sciences Portal (experiment \code{4469ebdc-0a65-55e8-bbff-3cf6b044c4c6}); we thank the principal investigators
+named on the experiment page. \draftnote{name the principal investigators from the NLSP experiment page, and add any
+institutional or funding acknowledgements.}
+
+\section*{Author contributions}
+\addcontentsline{toc}{section}{Author contributions}
+
+\draftnote{to be confirmed by both authors.} M.~Bahari Qaragoz designed the extraction schema and the modelling
+framework, implemented the software, ran the analyses and drafted the report. [Co-author] designed and ran the
+literature search and screening, led the extraction and its source verification, and is responsible for the
+physiological interpretation. Both authors built the campaign map and reconciled the dataset.
+
+\section*{Use of AI-based tools}
+\addcontentsline{toc}{section}{Use of AI-based tools}
+
+The source verification of the extraction (\cref{sec:verification}) was AI-assisted. Tier 3 of the framework is
+itself a language model, used as a forecasting method under the controls described in \cref{sec:tier3}.
+\draftnote{state here, as required by the venue's policy, any AI assistance used in writing the code or this report.}
+
+\section*{Competing interests and funding}
+\addcontentsline{toc}{section}{Competing interests and funding}
+
+\draftnote{to be completed.}

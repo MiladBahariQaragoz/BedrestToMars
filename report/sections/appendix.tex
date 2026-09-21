@@ -1,0 +1,230 @@
+\section{Search strategies}
+\label{app:search}
+
+All searches were run on 4 September 2026 with a publication-date limit of 2013 onwards applied in each interface.
+The strings below are reproduced verbatim from \file{docs/literature-review/search\_log.md}.
+
+\paragraph{PubMed} (1,412 records; filters: humans, 2013 onwards)
+{\footnotesize
+\begin{verbatim}
+("Bed Rest"[Mesh] OR "Head-Down Tilt"[Mesh] OR "Weightlessness Simulation"[Mesh]
+ OR "Immobilization"[Mesh] OR "bed rest"[tiab] OR bedrest[tiab] OR "bed-rest"[tiab]
+ OR "head-down tilt"[tiab] OR "head down tilt"[tiab] OR "head-down bed rest"[tiab]
+ OR HDBR[tiab] OR "6 degrees head-down"[tiab] OR antiorthostatic[tiab]
+ OR "anti-orthostatic"[tiab] OR hypokinesia[tiab] OR hypodynamia[tiab]
+ OR "dry immersion"[tiab] OR "unilateral lower limb suspension"[tiab] OR ULLS[tiab]
+ OR "limb suspension"[tiab] OR "simulated microgravity"[tiab]
+ OR "microgravity analogue"[tiab] OR "microgravity analog"[tiab]
+ OR "spaceflight analogue"[tiab] OR "spaceflight analog"[tiab]
+ OR "ground-based analogue"[tiab] OR "mechanical unloading"[tiab]
+ OR "muscle unloading"[tiab] OR disuse[tiab])
+AND
+("Muscular Atrophy"[Mesh] OR "Muscle, Skeletal"[Mesh] OR atroph*[tiab]
+ OR "muscle volume"[tiab] OR "muscle mass"[tiab] OR "muscle size"[tiab]
+ OR "cross-sectional area"[tiab] OR CSA[tiab] OR PCSA[tiab] OR "lean mass"[tiab]
+ OR "lean tissue"[tiab] OR "muscle thickness"[tiab] OR "muscle wasting"[tiab]
+ OR deconditioning[tiab] OR soleus[tiab] OR gastrocnemius[tiab]
+ OR "triceps surae"[tiab] OR "plantar flexor"[tiab] OR quadriceps[tiab]
+ OR "vastus lateralis"[tiab] OR "knee extensor"[tiab])
+AND humans[Filter]
+\end{verbatim}
+}
+
+\paragraph{Scopus} (1,757 records)
+{\footnotesize
+\begin{verbatim}
+TITLE-ABS-KEY(
+  ("bed rest" OR bedrest OR "head-down tilt" OR "head down bed rest" OR HDBR
+   OR antiorthostatic OR hypokinesia OR hypodynamia OR "dry immersion"
+   OR "limb suspension" OR ULLS OR "simulated microgravity" OR "microgravity analog*"
+   OR "spaceflight analog*" OR "mechanical unloading" OR "muscle unloading" OR disuse)
+  AND
+  (atroph* OR "muscle volume" OR "muscle mass" OR "muscle size"
+   OR "cross-sectional area" OR PCSA OR "lean mass" OR "muscle thickness"
+   OR "muscle wasting" OR deconditioning OR soleus OR gastrocnemius
+   OR "triceps surae" OR quadriceps OR "vastus lateralis" OR "knee extensor")
+)
+AND NOT TITLE-ABS-KEY(rodent OR mice OR mouse OR rat OR hindlimb OR "hind limb")
+AND DOCTYPE(ar OR cp OR re)
+\end{verbatim}
+}
+
+\paragraph{Web of Science Core Collection} (1,876 records)
+{\footnotesize
+\begin{verbatim}
+TS=(("bed rest" OR bedrest OR "head-down tilt" OR "head down bed rest" OR HDBR
+     OR antiorthostatic OR hypokinesia OR hypodynamia OR "dry immersion"
+     OR "limb suspension" OR ULLS OR "simulated microgravity"
+     OR "microgravity analog*" OR "spaceflight analog*" OR "mechanical unloading"
+     OR "muscle unloading" OR disuse)
+    AND
+    (atroph* OR "muscle volume" OR "muscle mass" OR "muscle size"
+     OR "cross-sectional area" OR PCSA OR "lean mass" OR "muscle thickness"
+     OR "muscle wasting" OR deconditioning OR soleus OR gastrocnemius
+     OR "triceps surae" OR quadriceps OR "vastus lateralis" OR "knee extensor"))
+NOT TS=(rat OR rats OR mice OR mouse OR rodent OR hindlimb OR "hind limb")
+\end{verbatim}
+}
+
+\paragraph{NASA Technical Reports Server} (686 records; five queries)
+{\footnotesize
+\begin{verbatim}
+"bed rest" "muscle volume"
+"bed rest" muscle atrophy
+"head-down tilt" muscle
+"antiorthostatic" muscle
+bed rest countermeasure exercise muscle
+\end{verbatim}
+}
+
+\section{Extraction schema}
+\label{app:schema}
+
+\Cref{tab:schema} lists the 61 columns of the frozen schema by group. The full definitions, units, controlled
+vocabularies and validation checks are in \file{data/schema.md}.
+
+\begin{table}[htbp]
+\centering
+\caption[The extraction schema]{The 61 columns of the frozen extraction schema. One row is one study, arm, muscle
+and measurement occasion, compared with that arm's baseline.}
+\label{tab:schema}
+\small
+\begin{tabularx}{\linewidth}{@{}L{3.3cm} Y@{}}
+\toprule
+Group & Columns \\
+\midrule
+Identity and provenance & \code{row\_id}, \code{study\_id}, \code{cohort\_id}, \code{campaign\_name}, \code{registry\_id},
+  \code{first\_author}, \code{year}, \code{doi}, \code{source\_file} \\
+Unloading design & \code{design}, \code{hdt\_angle\_deg}, \code{duration\_days}, \code{phase}, \code{timepoint\_days},
+  \code{days\_from\_unloading\_end}, \code{exposure\_flag} \\
+Arm and participants & \code{arm\_id}, \code{arm\_type}, \code{cm\_modality}, \code{cm\_dose}, \code{n\_arm},
+  \code{n\_analysed}, \code{sex}, \code{pct\_female}, \code{age\_mean}, \code{age\_sd}, \code{age\_min}, \code{age\_max},
+  \code{population}, \code{bmi\_mean}, \code{body\_mass\_mean\_kg}, \code{nutrition\_controlled} \\
+What was measured & \code{muscle}, \code{muscle\_function\_class}, \code{is\_composite}, \code{composite\_of},
+  \code{laterality}, \code{measurement\_site}, \code{outcome\_type}, \code{modality} \\
+Values & \code{unit\_original}, \code{value\_baseline\_original}, \code{value\_followup\_original}, \code{unit\_si},
+  \code{value\_baseline}, \code{value\_followup}, \code{change\_absolute}, \code{pct\_change}, \code{variance\_of},
+  \code{variance\_type}, \code{variance\_value}, \code{p\_value} \\
+Provenance and quality control & \code{data\_source}, \code{digitizer\_tool}, \code{page\_ref}, \code{extractor},
+  \code{extraction\_date}, \code{extraction\_confidence}, \code{double\_extracted}, \code{qc\_flag}, \code{notes} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+\section{The 36 campaigns}
+\label{app:campaigns}
+
+{\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}P{4.3cm} l r P{3.4cm} P{2.4cm} r r@{}}
+\caption[The 36 campaigns of the dataset]{The 36 independent campaigns of \code{dataset\_v1.1}, ordered by planned
+length. Design: HDBR, head-down tilt bed rest; HBR, horizontal bed rest; ULLS, unilateral lower-limb suspension;
+DI, dry immersion; SF, spaceflight. Studies: the number of papers reporting the campaign in the dataset, with their
+references. Rows: all rows, and rows in modelling subset A. Registry identifiers are shown where known.}
+\label{tab:campaigns}\\
+\toprule
+Campaign & Design & Days & Studies & Modality & Rows & A \\
+\midrule
+\endfirsthead
+\multicolumn{7}{@{}l}{\small\itshape Table \thetable, continued} \\
+\toprule
+Campaign & Design & Days & Studies & Modality & Rows & A \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\inputtable{generated/tab_campaigns.tex}
+\end{longtable}}
+
+\clearpage
+\section{Muscle classification}
+\label{app:musclemap}
+
+{\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{longtable}{@{}P{3.1cm} P{2.2cm} P{1.5cm} P{1.7cm} P{6.2cm}@{}}
+\caption[Muscle classification]{Muscle classification from \file{data/muscle\_map.csv}: family, functional class,
+fibre-type profile and the written rationale for each of the 51 muscles and muscle groups. Joined to the dataset at
+load time. Awaiting physiological sign-off.}
+\label{tab:musclemap}\\
+\toprule
+Muscle & Family & Class & Fibre profile & Rationale \\
+\midrule
+\endfirsthead
+\multicolumn{5}{@{}l}{\small\itshape Table \thetable, continued} \\
+\toprule
+Muscle & Family & Class & Fibre profile & Rationale \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\inputtable{generated/tab_muscle_map.tex}
+\end{longtable}}
+
+\clearpage
+\section{Tier-1 coefficients}
+\label{app:fixed}
+
+\begin{table}[H]
+\centering
+\caption[Tier-1 fixed effects]{Tier-1 fixed effects, in percentage points, with 95\% cluster-robust confidence
+intervals: the saturating form on subset A (346 rows, 32 campaigns, $\tau = 60$ days, $t_{31}$) and the ranking model
+on subset B (304 rows, 25 campaigns, $\tau = 60$ days, $t_{24}$). The duration coefficient multiplies
+$1 - e^{-t/\tau}$ and so equals the eventual change relative to the intercept. Subset B has no whole-segment rows and
+no DXA rows.}
+\label{tab:fixed}
+\small
+\begin{tabularx}{\linewidth}{@{}Y c c c c@{}}
+\toprule
+& \multicolumn{2}{c}{Subset A, saturating} & \multicolumn{2}{c}{Subset B, ranking model} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-5}
+Term & Estimate (95\% CI) & $p$ & Estimate (95\% CI) & $p$ \\
+\midrule
+\inputtable{generated/tab_fixed_effects.tex}
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Tier-3 recognition probe by campaign}
+\label{app:recognition}
+
+\begin{table}[H]
+\centering
+\caption[Recognition probe by campaign]{Recognition probe: for each of the 11 campaigns with a proper name, the rows
+probed, the mean probability the model placed on the true name, the share of rows on which the true name was its
+first choice, its commonest first choice, and the campaign's paired MAE gain over the curve in the forecast without
+history.}
+\label{tab:recognition}
+\small
+\begin{tabularx}{\linewidth}{@{}l r c c Y r@{}}
+\toprule
+Campaign & Rows & Mean $p$(true) & Named first & Commonest first choice & Gain (pp) \\
+\midrule
+\inputtable{generated/tab_recognition.tex}
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Reproducing the results}
+\label{app:reproduce}
+
+From a clean checkout of the repository at the commit named on the title page:
+
+{\footnotesize
+\begin{verbatim}
+make venv                                   # creates a virtual environment from requirements.txt
+PYTHON=~/.venvs/dglrm/bin/python make test  # 223 checks in 19 files
+PYTHON=~/.venvs/dglrm/bin/python make all   # tier 1, S6, baseline, the four families
+make forecast ablation validation           # tier 3, rebuilt from results/forecast_cache/
+make figures                                # slide figures F1-F9
+python report/make_figures.py               # this report's figures and tables
+cd report && pdflatex main && bibtex main && pdflatex main && pdflatex main
+\end{verbatim}
+}
+
+The loader refuses to run if \code{data/dataset\_v1.1.csv} no longer matches its recorded SHA-256
+({\small\ttfamily\seqsplit{dd214c6aa33dee7ab62358bc56c1e6a72eb330085484022ba1ee2bad394395b9}}), so no result can come from an edited
+dataset. \code{make forecast-live} asks the TypeSafe service for any answer the cache lacks and needs an API key;
+because the service's answers vary slightly between identical requests, a live rebuild moves individual forecasts by
+about 0.17\pp{} (\cref{sec:results-validation}).

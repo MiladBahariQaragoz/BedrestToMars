@@ -1,0 +1,70 @@
+\section{Background}
+\label{sec:background}
+
+\draftnote{The physiological background (PLAN.md task 1.7, \file{docs/background.md}) is the scientific lead's
+section and has not been drafted yet. The text below is a placeholder written from the corpus and the design
+document so that the report reads end to end; it should be replaced or rewritten by the co-author.}
+
+\subsection{Unloading atrophy is not uniform across muscles}
+
+Bed-rest studies that image individual muscles find that loss is concentrated in the muscles that carry body
+weight in upright stance. In the first Berlin Bed-Rest Study, MRI of the whole lower limb showed the calf, and the
+soleus and gastrocnemius in particular, among the most affected muscles, with the vasti losing more than rectus
+femoris and the hip musculature losing less~\citep{belavy2009}. The same group showed that atrophy is heterogeneous
+even within a single muscle, depending on where along its length the slice is taken~\citep{miokovic2012}. The
+90-day Long-Term Bed Rest study at MEDES documented large losses in the knee extensors and plantar flexors and their
+partial prevention by flywheel resistance exercise~\citep{alkner2004,belavy2017}, and a 17-week horizontal bed rest
+at NASA established the longest unloading duration in the corpus~\citep{leblanc1992}. A systematic review of
+bed-rest studies described the loss of strength and muscle size as nonuniform across muscle groups and over
+time~\citep{marusic2021}.
+
+Two explanations are usually offered for this selectivity: fibre-type composition, since the soleus is dominated
+by slow (type~I) fibres, and mechanical role, since the soleus and the vasti resist collapse of the ankle and knee
+under body weight. The two are confounded in most muscles, but not in all. Tibialis anterior is also slow-fibre
+dominant~\citep{johnson1973} yet lifts the foot rather than carrying body weight, and rectus femoris extends the
+knee but also flexes the hip. How the framework classifies these muscles, and why, is set out in
+\cref{sec:muscle-map}.
+
+\subsection{Countermeasures}
+
+Most recent campaigns include one or more countermeasure arms: resistance or flywheel exercise, aerobic exercise,
+reactive jumps, whole-body vibration, artificial gravity by short-arm centrifugation, neuromuscular electrical
+stimulation, blood-flow restriction and nutritional supplementation, alone or in combination. The corpus contains
+examples of each~\citep[e.g.][]{zange2009,kramer2017,mandic2026,hansen2024,fuchs2025bfr,trappe2024sprint}. At the
+number of campaigns available here, countermeasures can be modelled only coarsely (\cref{sec:features}).
+
+\subsection{Pooling aggregate data from clustered studies}
+
+The dataset consists of published group means, several per paper and several papers per campaign. The standard
+statistical treatment of such data is aggregate-data meta-regression with a multilevel random-effects structure:
+effect sizes nested in studies, studies nested in higher-level clusters~\citep{assink2016,harrer2021,viechtbauer2010}.
+Its practical advantage here is that it does not require the within-study covariances between muscles, which no
+bed-rest paper reports. Dose--response meta-analysis offers flexible, spline-based forms for the exposure
+term~\citep{crippa2019}. Two cautions from that literature shape the design: the number of study-level covariates
+that can be supported is roughly one per ten independent studies~\citep{higgins2011}, and many published
+meta-regressions fail on exactly the points of clustering, covariate count and ecological
+inference~\citep{geissbuhler2021}.
+
+\subsection{Machine learning at small sample sizes}
+
+Flexible learners such as random forests~\citep{breiman2001}, gradient boosting~\citep{friedman2001} and support
+vector regression~\citep{smola2004} are data hungry: simulation studies suggest that they need many times more
+events per variable than classical regression before their performance stabilises~\citep{vanderploeg2014}. When
+observations are clustered, random cross-validation splits place correlated observations on both sides of the fold
+boundary and overstate performance; grouped (blocked) cross-validation is the recommended
+remedy~\citep{roberts2017}. Model-agnostic importance measures such as SHAP~\citep{lundberg2017} describe what a
+fitted model relies on, not what causes the outcome, and at small sample sizes their rankings can be unstable
+across folds.
+
+\subsection{Positioning: what machine learning adds to meta-regression}
+
+The sharpest methodological question this project faces is why machine learning should be used at all when
+mixed-effects meta-regression is the established tool. The position taken here is that it should not replace the
+meta-regression, and does not. The meta-regression (tier~1) is the estimator: it produces coefficients with
+intervals, and it is the primary result. The machine-learning families (tier~2) are a test: given the same rows
+and the same leave-one-campaign-out discipline, do flexible models find structure---interactions, thresholds,
+nonlinearities in covariates---that the curve misses? A null answer is informative, because it says how much
+signal the published literature contains. The language-model forecast (tier~3) asks a different question again:
+whether a model that reads the \emph{description} of a campaign, and the other campaigns' data in context, can
+extract information the numeric columns do not carry. Its outputs are probability distributions and are scored with
+proper scoring rules~\citep{gneiting2007,epstein1969}.
