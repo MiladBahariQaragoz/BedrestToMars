@@ -109,4 +109,34 @@ explain:
   method: shap                 # falls back to permutation importance when shap is absent
   stability_top_k: 3
 
+forecast:                      # DESIGN.md section 9.3 - added 21 Sep, after the tier-2 null result
+  model: jev-1.13.0            # pinned, never jev-latest: a result names the model that made it
+  endpoint: https://api.typesafe.ai/v1/systemone
+  api_key_env: TYPESAFE_API_KEY
+  cache_dir: results/forecast_cache
+  time_column: timepoint_days  # the day of the scan, not the campaign's planned length
+  concurrency: 8
+  state_token_budget: 24000    # the model takes 32k tokens for the state plus the longest question
+  chars_per_token: 3.0         # a conservative estimate for JSON dense with numbers
+  interval_levels: [0.5, 0.8]
+  reference_curve_days: [5, 14, 30, 60, 90, 119]
+  series:                      # one measurement followed over time within one group
+    - cohort_id
+    - arm_id
+    - muscle
+    - measurement_site
+    - modality
+    - outcome_type
+    - laterality
+  arms:
+    without_history:           # nothing of the held-out campaign is shown - comparable with tier 2
+      target: level            # percent change from the pre-bed-rest baseline
+      edges: [-30, -28, -26, -24, -22, -20, -18, -16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4]
+      reference_baseline: duration_curve
+    with_history:              # the same measurement's earlier scans are shown
+      target: change           # change since the previous scan, in percentage points
+      edges: [-14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
+      reference_baseline: last_scan_plus_curve
+  relative_improvement_bar: 0.15   # the PLAN.md section 8 bar, applied to each arm's reference
+
 seed: 20260918
