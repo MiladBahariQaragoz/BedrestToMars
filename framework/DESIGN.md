@@ -486,6 +486,57 @@ cross-validation can see that. A win in the arm without history should be read w
 mind. The second arm is less exposed, because the answer it needs is a change between two
 scans, which papers rarely print.
 
+### 9.3.1 Tier 3 as first run
+
+Run on 2026-09-21 against `dataset_v1.1`, subset A, with `jev-1.13.0`: 430 requests, the
+largest 26,390 input tokens. `results/forecast_comparison.csv` carries the table and
+`make forecast` rebuilds it from the committed answers.
+
+**Without history** - 346 rows, 32 campaigns:
+
+| Model | MAE | 95% CI | CRPS | 80% range covers | 80% range width | Pooled R² |
+|---|---|---|---|---|---|---|
+| Jev | **2.71 pp** | 2.12 – 3.33 | **2.05 pp** | 62% | 5.4 pp | 0.43 |
+| Duration curve, scan day | 3.13 pp | 2.37 – 3.92 | 2.49 pp | 90% | 15.5 pp | 0.14 |
+
+**With history** - 84 rows, 5 campaigns, forecasting the change since the last scan:
+
+| Model | MAE | 95% CI | CRPS | 80% range covers | 80% range width | Pooled R² |
+|---|---|---|---|---|---|---|
+| Jev | **2.84 pp** | 2.19 – 3.50 | 2.21 pp | 38% | 2.8 pp | 0.19 |
+| Last scan | 3.66 pp | 2.91 – 4.42 | 2.44 pp | 69% | 9.0 pp | −0.22 |
+| Last scan plus the curve's step | 3.21 pp | 2.58 – 3.87 | **2.16 pp** | 77% | 8.8 pp | 0.02 |
+
+**Against the bars declared above:**
+
+- **MAE: missed in both arms**, by 13.3% and 11.5% against the 15% asked for. Under the rule of
+  §9 that is a null result, and it is reported as one.
+- **CRPS: met without history** (17.7%), **missed with history** (2.2% worse than the reference).
+- **80% ranges: miscalibrated in both arms.** They hold the truth 62% and 38% of the time, so
+  they may not be called 80% ranges. The log score says the same thing from the other side:
+  without history it is worse than the curve's (2.84 against 2.29) despite the better CRPS,
+  because when the model is wrong it has put almost no probability where the truth landed.
+- **The paired difference**, which is the quantity a comparison claims: without history the
+  model's error is lower by **0.42 pp (95% CI 0.13 to 0.73)** and it wins in 20 of 32 campaigns;
+  with history, by 0.37 pp (0.03 to 0.75) in 4 of 5.
+
+**What it means.** This is the first model in the project whose advantage over the duration
+curve has a paired interval that excludes zero, and its pooled R² of 0.43 is about twice what
+the tier-2 families reached. Something in the written description carries signal that the
+eleven numeric columns of tier 2 did not. Three things keep that from being a headline:
+
+1. **It misses its own bar** on the metric declared first, and it was not pre-registered.
+2. **The gain is concentrated.** Three campaigns - `nasa_sprint_br70`, `berlin_bbr2` and
+   `medes_ltbr90` - carry more than half of it. They are long, multi-muscle MRI campaigns, where
+   knowing the muscle matters most; they are also among the most published campaigns in the
+   field, where recognition is most likely. This run cannot tell the two apart. The one
+   campaign no paper reports, `nasa_utmb_c3`, computed from NASA's raw archive, points
+   against pure recognition: the model beats the curve there by 0.67 pp without history. It
+   is one campaign and four rows, so it is an observation, not a test.
+3. **The model is overconfident**, badly so once it sees the history, where its 80% ranges are
+   2.8 pp wide and hold the truth 38% of the time. Its point forecasts can be quoted; its ranges
+   cannot, until they are recalibrated or widened by a rule declared in advance.
+
 ---
 
 ## 10. Uncertainty, and the 180-day question

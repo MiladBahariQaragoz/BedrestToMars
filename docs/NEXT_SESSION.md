@@ -16,7 +16,7 @@ written was 18 September, so the internal schedule has 10 days of buffer left in
 cd ~/GoogleDrive/DGLRM
 git status --short                # if files show as modified but look identical, it is CRLF
 git checkout feat/nasa-integration && git pull   # the tip: feat/ai-framework plus v1.1
-PYTHON=~/.venvs/dglrm/bin/python make test       # expect 120 checks in 13 files, all passing
+PYTHON=~/.venvs/dglrm/bin/python make test       # expect 170 checks in 16 files, all passing
 ```
 
 If `make venv` has never run on this machine, run it first — the environment cannot live in
@@ -133,7 +133,7 @@ Everything in P5 and P6 is built on assumptions until that arrives.
 ## Quick reference
 
 ```bash
-PYTHON=~/.venvs/dglrm/bin/python make test       # 120 checks
+PYTHON=~/.venvs/dglrm/bin/python make test       # 170 checks
 PYTHON=~/.venvs/dglrm/bin/python make baseline   # results/baseline.json
 PYTHON=~/.venvs/dglrm/bin/python make models     # results/model_comparison.*  (~2.5 min)
 PYTHON=~/.venvs/dglrm/bin/python make tier1      # results/tier1_curve.json, results/tier1_muscle_ranking.csv
