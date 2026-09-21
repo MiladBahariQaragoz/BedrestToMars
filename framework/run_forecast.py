@@ -172,8 +172,41 @@ def summarise(
     return summary
 
 
-def _compare(models: dict[str, dict[str, Any]], reference: str, bar: float) -> dict[str, Any]:
+def _paired_gain(
+    predictions: pd.DataFrame, reference: str, metric: str, config: dict[str, Any]
+) -> tuple[pd.Series, dict[str, float]]:
+    """The reference's error minus the model's, per campaign, with a campaign bootstrap.
+
+    Two marginal intervals can overlap while the paired difference is clearly non-zero, or
+    the reverse; the difference is the quantity a comparison claims, so it gets the interval.
+    Positive means the model is better.
+    """
+    by_campaign = predictions.groupby(["cohort", "model"], sort=False)[metric].mean().unstack("model")
+    gains = by_campaign[reference] - by_campaign["jev"]
+    replicates = int(config["evaluate"]["bootstrap"]["replicates"])
+    rng = np.random.default_rng(int(config["seed"]))
+    values = gains.to_numpy(dtype=float)
+    draws = np.array(
+        [np.mean(rng.choice(values, size=len(values), replace=True)) for _ in range(replicates)]
+    )
+    interval = {
+        "point": float(values.mean()),
+        "low": float(np.quantile(draws, 0.025)),
+        "high": float(np.quantile(draws, 0.975)),
+    }
+    return gains, interval
+
+
+def _compare(
+    models: dict[str, dict[str, Any]],
+    reference: str,
+    bar: float,
+    predictions: pd.DataFrame,
+    config: dict[str, Any],
+) -> dict[str, Any]:
     jev, base = models["jev"], models[reference]
+    mae_gains, mae_interval = _paired_gain(predictions, reference, "abs_error", config)
+    crps_gains, crps_interval = _paired_gain(predictions, reference, "crps", config)
     mae_gain = (base["mae"] - jev["mae"]) / base["mae"]
     crps_gain = (base["crps"] - jev["crps"]) / base["crps"]
     return {
@@ -183,6 +216,11 @@ def _compare(models: dict[str, dict[str, Any]], reference: str, bar: float) -> d
         "relative_crps_improvement": float(crps_gain),
         "beats_bar_on_mae": bool(mae_gain >= bar),
         "beats_bar_on_crps": bool(crps_gain >= bar),
+        "campaigns": int(len(mae_gains)),
+        "campaigns_better_on_mae": int((mae_gains > 0).sum()),
+        "campaigns_better_on_crps": int((crps_gains > 0).sum()),
+        "paired_mae_gain_pp": mae_interval,
+        "paired_crps_gain_pp": crps_interval,
     }
 
 
@@ -236,7 +274,7 @@ def run(
             "models": models,
             "comparison": _compare(
                 models, settings["arms"][arm]["reference_baseline"],
-                float(settings["relative_improvement_bar"]),
+                float(settings["relative_improvement_bar"]), predictions, config,
             ),
             "state_tokens_estimated": {"mean": float(tokens.mean()), "max": int(tokens.max())},
             "input_tokens_reported": {
@@ -344,7 +382,13 @@ def main() -> int:
         print(
             f"  jev vs {comparison['reference']}: MAE {comparison['relative_mae_improvement']:+.1%}, "
             f"CRPS {comparison['relative_crps_improvement']:+.1%} "
-            f"(bar {comparison['bar']:.0%}: {'met' if comparison['beats_bar_on_mae'] else 'not met'})\n"
+            f"(bar {comparison['bar']:.0%}: {'met' if comparison['beats_bar_on_mae'] else 'not met'})"
+        )
+        paired = comparison["paired_mae_gain_pp"]
+        print(
+            f"  paired MAE gain {paired['point']:+.2f} pp (95% CI {paired['low']:+.2f} to "
+            f"{paired['high']:+.2f}), better in {comparison['campaigns_better_on_mae']} of "
+            f"{comparison['campaigns']} campaigns\n"
         )
     return 0
 

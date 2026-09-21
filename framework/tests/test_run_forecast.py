@@ -128,6 +128,19 @@ def test_the_comparison_names_each_arms_reference_and_the_bar() -> None:
         assert isinstance(comparison["beats_bar_on_mae"], bool)
 
 
+def test_the_comparison_reports_a_paired_campaign_gain_with_an_interval() -> None:
+    """Two overlapping marginal intervals say little; the paired difference is what is quoted."""
+    comparison = UNIFORM["arms"]["without_history"]["comparison"]
+    assert comparison["campaigns"] == 32
+    assert 0 <= comparison["campaigns_better_on_mae"] <= 32
+    for metric in ("paired_mae_gain_pp", "paired_crps_gain_pp"):
+        gain = comparison[metric]
+        assert gain["low"] <= gain["point"] <= gain["high"], (metric, gain)
+    assert comparison["paired_crps_gain_pp"]["point"] < 0  # spreading evenly loses to the curve
+    echoed = ECHO["arms"]["without_history"]["comparison"]["paired_mae_gain_pp"]["point"]
+    assert abs(echoed) < 0.75
+
+
 def test_every_state_fits_the_token_budget() -> None:
     budget = CONFIG["forecast"]["state_token_budget"]
     for arm in CONFIG["forecast"]["arms"]:
