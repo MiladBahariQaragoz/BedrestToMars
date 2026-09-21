@@ -1,0 +1,52 @@
+muscle,muscle_family,muscle_function_class,components,fibre_profile,rationale
+adductor_brevis,hip_adductors,mixed,,unknown,Hip adduction with a minor flexion component; no role in supporting body weight against gravity
+adductor_longus,hip_adductors,mixed,,unknown,Hip adduction with a minor flexion component; not an antigravity extensor
+adductor_magnus,hip_adductors,mixed,,unknown,Adductor with a posterior head that extends the hip; part extensor part adductor
+anterior_thigh_compartment,knee_extensors,antigravity_extensor,quadriceps|sartorius,mixed,Compartment measurement dominated by the quadriceps
+anterior_tibial_group,dorsiflexors,flexor,tibialis_anterior|extensor_digitorum_longus,slow_dominant,Ankle dorsiflexors; they lift the foot rather than support the body
+biceps_femoris_long_head,knee_flexors,mixed,,unknown,Crosses two joints - extends the hip and flexes the knee
+biceps_femoris_short_head,knee_flexors,flexor,,unknown,Crosses the knee only and flexes it; no hip extension role
+extensor_digitorum_longus,dorsiflexors,flexor,,unknown,Extends the toes but dorsiflexes the ankle; the name refers to the toes not the ankle
+flexor_digitorum_longus,plantar_flexors,antigravity_extensor,,unknown,Flexes the toes but plantarflexes the ankle; contributes to push-off and postural support
+flexor_digitorum_with_tibialis_posterior,plantar_flexors,antigravity_extensor,flexor_digitorum_longus|tibialis_posterior,unknown,Deep posterior compartment measured as one block; both members plantarflex the ankle
+flexor_hallucis_longus,plantar_flexors,antigravity_extensor,,unknown,Flexes the great toe but plantarflexes the ankle
+gastrocnemius_lateralis,plantar_flexors,antigravity_extensor,,mixed,Biarticular plantarflexor loaded during standing and walking
+gastrocnemius_medialis,plantar_flexors,antigravity_extensor,,mixed,Biarticular plantarflexor loaded during standing and walking
+gastrocnemius_total,plantar_flexors,antigravity_extensor,gastrocnemius_medialis|gastrocnemius_lateralis,mixed,Both gastrocnemius heads reported as one value
+gluteals,hip_extensors,mixed,gluteus_maximus|gluteus_medius|gluteus_minimus,unknown,Reported as one block; mixes the hip extensor with the two abductors
+gluteus_maximus,hip_extensors,antigravity_extensor,,unknown,Principal hip extensor; resists trunk flexion against gravity in stance and stair climbing
+gluteus_medius,hip_abductors,mixed,,unknown,Frontal-plane pelvic stabiliser rather than an extensor
+gluteus_minimus,hip_abductors,mixed,,unknown,Frontal-plane pelvic stabiliser rather than an extensor
+gracilis,hip_adductors,mixed,,unknown,Adducts the hip and assists knee flexion; crosses two joints in neither an extensor role
+hamstrings,knee_flexors,mixed,biceps_femoris_long_head|biceps_femoris_short_head|semimembranosus|semitendinosus,unknown,Group value; the biarticular members extend the hip while all of them flex the knee
+iliopsoas,hip_flexors,flexor,,unknown,Principal hip flexor; unloaded rather than loaded by upright stance
+lateral_hamstrings,knee_flexors,mixed,biceps_femoris_long_head|biceps_femoris_short_head,unknown,Group value for the two biceps femoris heads
+lumbar_erector_spinae,trunk_extensors,antigravity_extensor,,unknown,Spinal extensor that holds the trunk upright; antigravity but not lower limb
+medial_hamstrings,knee_flexors,mixed,semimembranosus|semitendinosus,unknown,Group value for the two medial hamstrings
+multifidus,trunk_extensors,antigravity_extensor,,slow_dominant,Deep segmental spinal extensor and postural stabiliser; antigravity but not lower limb
+obturator_externus,hip_rotators,mixed,,unknown,Deep external rotator and joint stabiliser
+obturator_internus,hip_rotators,mixed,,unknown,Deep external rotator and joint stabiliser
+pectineus,hip_flexors,flexor,,unknown,Flexes and adducts the hip
+peroneals,evertors,mixed,,unknown,Evert the foot and assist plantarflexion weakly; a stabiliser rather than a supporter
+plantar_flexors,plantar_flexors,antigravity_extensor,soleus|gastrocnemius_medialis|gastrocnemius_lateralis|tibialis_posterior|flexor_digitorum_longus|flexor_hallucis_longus|peroneals,mixed,Whole posterior compartment reported as one value
+popliteus,knee_flexors,mixed,,unknown,Unlocks and rotates the knee; a small stabiliser
+posterior_thigh_compartment,knee_flexors,mixed,hamstrings|adductor_magnus,unknown,Compartment measurement dominated by the hamstrings
+psoas,hip_flexors,flexor,,unknown,Hip flexor; unloaded rather than loaded by upright stance
+quadratus_femoris,hip_rotators,mixed,,unknown,Deep external rotator and joint stabiliser
+quadratus_lumborum,trunk_extensors,mixed,,unknown,Lateral flexor and stabiliser of the lumbar spine rather than a pure extensor
+quadriceps,knee_extensors,antigravity_extensor,rectus_femoris|vastus_lateralis|vastus_medialis|vastus_intermedius,mixed,Principal knee extensor group; resists knee collapse under body weight
+rectus_femoris,knee_extensors,mixed,,mixed,Crosses two joints - extends the knee but flexes the hip; loses less than the vasti in bed rest
+sartorius,hip_flexors,flexor,,unknown,Flexes and externally rotates the hip and assists knee flexion
+semimembranosus,knee_flexors,mixed,,unknown,Crosses two joints - extends the hip and flexes the knee
+semitendinosus,knee_flexors,mixed,,unknown,Crosses two joints - extends the hip and flexes the knee
+soleus,plantar_flexors,antigravity_extensor,,slow_dominant,Monoarticular plantarflexor carrying continuous postural load in stance; roughly 80% type I fibres
+tibialis_anterior,dorsiflexors,flexor,,slow_dominant,Ankle dorsiflexor. Slow-fibre dominant but not weight-bearing - the case that separates fibre type from mechanical role
+tibialis_posterior,plantar_flexors,antigravity_extensor,,unknown,Plantarflexes and inverts the ankle and supports the medial arch
+triceps_surae,plantar_flexors,antigravity_extensor,soleus|gastrocnemius_medialis|gastrocnemius_lateralis,mixed,Soleus plus both gastrocnemius heads reported as one value
+vasti,knee_extensors,antigravity_extensor,vastus_lateralis|vastus_medialis|vastus_intermedius,mixed,The three monoarticular knee extensors reported as one value
+vastus_intermedius,knee_extensors,antigravity_extensor,,mixed,Monoarticular knee extensor
+vastus_lateralis,knee_extensors,antigravity_extensor,,fast_leaning,Monoarticular knee extensor
+vastus_medialis,knee_extensors,antigravity_extensor,,mixed,Monoarticular knee extensor
+whole_calf,whole_limb,mixed,,mixed,Whole-segment measurement spanning muscles of every functional class
+whole_lower_limb,whole_limb,mixed,,mixed,Whole-segment measurement spanning muscles of every functional class
+whole_thigh,whole_limb,mixed,,mixed,Whole-segment measurement spanning muscles of every functional class

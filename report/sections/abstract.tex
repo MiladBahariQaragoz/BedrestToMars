@@ -1,0 +1,44 @@
+% Structured abstract. Every number is from results/ at the commit named on the title page.
+\begin{small}
+\noindent\textbf{\sffamily Introduction.} Musculoskeletal deconditioning is one of the obstacles to long-duration
+spaceflight, and head-down and horizontal bed rest are its established terrestrial analogues. Three decades of
+bed-rest studies report lower-limb muscle loss, but they report it campaign by campaign, with different muscles,
+durations, imaging methods and countermeasures. We set out to turn that literature into one documented dataset
+and to build a modelling framework that estimates, and honestly validates, how much muscle is lost after a given
+period of unloading and which muscles lose most.
+
+\noindent\textbf{\sffamily Methods.} A systematic search of PubMed, Scopus, Web of Science and the NASA Technical
+Reports Server (2013 onwards; 5,731 records), a pre-search corpus of older studies and one campaign from NASA's
+open bed-rest archive were extracted into a frozen schema in which one row is one study, arm, muscle and
+measurement occasion. Papers reporting the same participants were mapped to a single campaign, and the campaign,
+not the paper, is the unit of every validation. The framework has three tiers: (1)~a three-level meta-regression,
+nonlinear in the day of the scan, with random intercepts for campaign, study and muscle and cluster-robust
+inference; (2)~four machine-learning families (ridge regression, random forest, support vector regression and
+gradient boosting) compared with a duration-only curve under leave-one-campaign-out cross-validation with nested
+tuning, joined post hoc by a pretrained tabular neural network (TabPFN); and (3)~a post-hoc probabilistic forecast by a language model (TypeSafe's Jev) that reads each held-out
+campaign's description alongside the other campaigns' data, checked by ablations, a recognition probe and a
+validation battery. Every bar was declared before the answer it governs.
+
+\noindent\textbf{\sffamily Results.} The frozen dataset holds 742 rows from 52 studies (1992--2026) and 36
+independent campaigns; the modelling subset holds 346 rows from 32 campaigns, scanned between day~5 and day~119.
+Loss follows a curved path: $-2.99$\pp{} per doubling of days (95\% CI $-3.44$ to $-2.53$), a time constant of 60
+days and an eventual loss of $-17.3\%$ ($-20.9$ to $-13.7$) for the reference scenario, although logarithmic,
+saturating and spline forms are indistinguishable (within 1.3 AIC points). Which muscle is measured matters most:
+30\% of the variance lies between muscles within a campaign, plantar flexors lose 5.69\pp{} more than knee
+extensors at day~60 ($p = 0.001$) and 5.60\pp{} more than dorsiflexors ($p = 0.003$), and countermeasure arms lose
+3.73\pp{} less than controls ($p = 0.002$). No machine-learning family beat the duration curve (best: random forest,
+3.18 vs.\ 3.16\pp{} out-of-campaign MAE), a null result pre-committed to in advance, and neither did TabPFN
+(3.22\pp). The language-model forecast
+was 0.42\pp{} more accurate than the curve (95\% CI 0.13 to 0.73; 20 of 32 campaigns), survived the removal of
+every study-identifying detail and every presentation check, but missed its declared 15\% improvement bar and its
+ranges were overconfident.
+
+\noindent\textbf{\sffamily Conclusions.} The published bed-rest literature supports a quantified, curved
+duration--response and a muscle-specific vulnerability led by the plantar flexors. At 32 independent campaigns,
+flexible tabular learners add nothing to a simple curve; the sample size is the number of campaigns, not the
+number of rows. The dataset and the framework are the contribution, and both are reproducible from one command.
+
+\smallskip
+\noindent\textbf{\sffamily Keywords:} bed rest; head-down tilt; muscle atrophy; spaceflight analogue;
+meta-regression; leave-one-cohort-out cross-validation; machine learning; probabilistic forecasting.
+\end{small}

@@ -1,0 +1,280 @@
+{
+  "arm": "without_history",
+  "provenance": {
+    "api_calls": 0,
+    "cache_hits": 1626,
+    "dataset_sha256": "dd214c6aa33dee7ab62358bc56c1e6a72eb330085484022ba1ee2bad394395b9",
+    "dataset_version": "1.1",
+    "git_commit": "37c37877639c154c925b93e1be1ab1379962f11b",
+    "model": "jev-1.13.0",
+    "python": "3.13.0",
+    "seed": 20260918,
+    "time_column": "timepoint_days"
+  },
+  "recognition": {
+    "campaigns": {
+      "agbresa": {
+        "mean_p_true": 0.44777777777777783,
+        "paired_mae_gain_pp": -0.2690135113082679,
+        "rows": 9,
+        "top1": 0.6666666666666666,
+        "top_choice": "agbresa"
+      },
+      "berlin_bbr1": {
+        "mean_p_true": 0.10634615384615385,
+        "paired_mae_gain_pp": 0.8565687487116067,
+        "rows": 52,
+        "top1": 0.0,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "berlin_bbr2": {
+        "mean_p_true": 0.044000000000000004,
+        "paired_mae_gain_pp": 2.8010566423730974,
+        "rows": 30,
+        "top1": 0.0,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "brace_br60": {
+        "mean_p_true": 0.061111111111111116,
+        "paired_mae_gain_pp": 0.7961783143083956,
+        "rows": 18,
+        "top1": 0.0,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "lunhab_br10": {
+        "mean_p_true": 0.035,
+        "paired_mae_gain_pp": -0.4850292397660825,
+        "rows": 4,
+        "top1": 0.0,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "medes_ltbr90": {
+        "mean_p_true": 0.18476744186046512,
+        "paired_mae_gain_pp": 1.7514150449034176,
+        "rows": 86,
+        "top1": 0.4069767441860465,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "nasa_sprint_br70": {
+        "mean_p_true": 0.5466666666666667,
+        "paired_mae_gain_pp": 2.9458309037900876,
+        "rows": 3,
+        "top1": 0.6666666666666666,
+        "top_choice": "nasa_sprint"
+      },
+      "nasa_utmb_c3": {
+        "mean_p_true": 0.0575,
+        "paired_mae_gain_pp": 0.6660526315789479,
+        "rows": 4,
+        "top1": 0.0,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "planhab_br21": {
+        "mean_p_true": 0.03,
+        "paired_mae_gain_pp": -0.4631782945736429,
+        "rows": 2,
+        "top1": 0.0,
+        "top_choice": "none_of_these_campaigns"
+      },
+      "wbv_hdt14": {
+        "mean_p_true": 0.37124999999999997,
+        "paired_mae_gain_pp": -0.03982383001613776,
+        "rows": 8,
+        "top1": 0.5,
+        "top_choice": "vibration_bed_rest_study_vbr"
+      },
+      "wise2005": {
+        "mean_p_true": 0.03576923076923077,
+        "paired_mae_gain_pp": 1.4966346153846146,
+        "rows": 26,
+        "top1": 0.0,
+        "top_choice": "medes_long_term_bed_rest_ltbr"
+      }
+    },
+    "chance": 0.08333333333333333,
+    "mean_p_true": 0.13983471074380166,
+    "rows": 242,
+    "spearman_with_gain": {
+      "n": 11,
+      "p": 0.2589258736842221,
+      "rho": 0.3727272727272728
+    },
+    "top1_accuracy": 0.19421487603305784
+  },
+  "reference": {
+    "duration_curve": {
+      "coverage_50": 0.6229960184356986,
+      "coverage_80": 0.9023828823792487,
+      "crps": 2.489595417427939,
+      "crps_ci95": {
+        "high": 2.968775558803286,
+        "low": 2.0595379244230076
+      },
+      "folds": 32,
+      "log_score": 2.291656646971908,
+      "mae": 3.1260957581995426,
+      "mae_ci95": {
+        "high": 3.9164981918086004,
+        "low": 2.3711780342744357
+      },
+      "r2_pooled": 0.13553763840149213,
+      "rows": 346,
+      "width_50": 7.972383720930233,
+      "width_80": 15.453125,
+      "worst_fold": {
+        "cohort": "wise2005",
+        "mae": 9.25778846153846
+      }
+    }
+  },
+  "variants": {
+    "full": {
+      "campaigns_better_than_curve": 20,
+      "coverage_50": 0.3874614665857399,
+      "coverage_80": 0.6195558519323054,
+      "crps": 2.0489431722151528,
+      "crps_ci95": {
+        "high": 2.5376648703114646,
+        "low": 1.5876624629466043
+      },
+      "description": "the first run itself",
+      "folds": 32,
+      "log_score": 2.8409724672016377,
+      "mae": 2.710473293278284,
+      "mae_ci95": {
+        "high": 3.325904128249325,
+        "low": 2.1203669867044943
+      },
+      "mean_confidence": 0.48346820809248553,
+      "paired_mae_change_vs_full_pp": {
+        "high": 0.0,
+        "low": 0.0,
+        "point": 0.0
+      },
+      "paired_mae_gain_vs_curve_pp": {
+        "high": 0.7334454704187501,
+        "low": 0.12623305943912844,
+        "point": 0.41562246492125926
+      },
+      "r2_pooled": 0.4341002379502302,
+      "rows": 346,
+      "width_50": 2.8337144525371274,
+      "width_80": 5.430745005963029,
+      "worst_fold": {
+        "cohort": "wise2005",
+        "mae": 7.761153846153846
+      }
+    },
+    "generic": {
+      "campaigns_better_than_curve": 20,
+      "coverage_50": 0.3301445768378908,
+      "coverage_80": 0.5345179307933667,
+      "crps": 2.2476225841179542,
+      "crps_ci95": {
+        "high": 2.77960370983715,
+        "low": 1.7405750059526972
+      },
+      "description": "the target described only by muscle, role, method, kind of group and day",
+      "folds": 32,
+      "log_score": 3.262581266376115,
+      "mae": 2.8248456148179986,
+      "mae_ci95": {
+        "high": 3.4653475923834254,
+        "low": 2.2059680573186706
+      },
+      "mean_confidence": 0.586271676300578,
+      "paired_mae_change_vs_full_pp": {
+        "high": 0.01632333967151685,
+        "low": -0.24245877727159515,
+        "point": -0.11437232153971488
+      },
+      "paired_mae_gain_vs_curve_pp": {
+        "high": 0.618473842408923,
+        "low": 0.014135887086499804,
+        "point": 0.30125014338154443
+      },
+      "r2_pooled": 0.37699138304835966,
+      "rows": 346,
+      "width_50": 2.5108875418831813,
+      "width_80": 4.864261977525059,
+      "worst_fold": {
+        "cohort": "wise2005",
+        "mae": 7.383142968142968
+      }
+    },
+    "no_reference": {
+      "campaigns_better_than_curve": 6,
+      "coverage_50": 0.5550431742837265,
+      "coverage_80": 0.85459051203964,
+      "crps": 3.5377531516474,
+      "crps_ci95": {
+        "high": 3.972474572962382,
+        "low": 3.107394354067026
+      },
+      "description": "no curve and no observations from other campaigns",
+      "folds": 32,
+      "log_score": 2.648535485300976,
+      "mae": 5.849812030777146,
+      "mae_ci95": {
+        "high": 6.469351098322973,
+        "low": 5.2609083714955025
+      },
+      "mean_confidence": 0.12482658959537572,
+      "paired_mae_change_vs_full_pp": {
+        "high": -2.288973098213111,
+        "low": -3.919604258191788,
+        "point": -3.1393387374988633
+      },
+      "paired_mae_gain_vs_curve_pp": {
+        "high": -1.7588599871779205,
+        "low": -3.5806632809350374,
+        "point": -2.723716272577604
+      },
+      "r2_pooled": -0.13993456550717376,
+      "rows": 346,
+      "width_50": 8.138007523000255,
+      "width_80": 15.146501911363831,
+      "worst_fold": {
+        "cohort": "brace_br60",
+        "mae": 10.332643097643098
+      }
+    },
+    "scrambled_reference": {
+      "campaigns_better_than_curve": 7,
+      "coverage_50": 0.24708448245875572,
+      "coverage_80": 0.5765018492489423,
+      "crps": 3.359898972600038,
+      "crps_ci95": {
+        "high": 4.0076628394125215,
+        "low": 2.7785733578839955
+      },
+      "description": "the other campaigns' values shuffled among their rows",
+      "folds": 32,
+      "log_score": 3.385046800984237,
+      "mae": 4.373913517890019,
+      "mae_ci95": {
+        "high": 5.09751314432415,
+        "low": 3.72629361114544
+      },
+      "mean_confidence": 0.4296531791907515,
+      "paired_mae_change_vs_full_pp": {
+        "high": -1.0695486464897077,
+        "low": -2.3222796577407614,
+        "point": -1.663440224611736
+      },
+      "paired_mae_gain_vs_curve_pp": {
+        "high": -0.5865184840636702,
+        "low": -1.9359729360533127,
+        "point": -1.247817759690477
+      },
+      "r2_pooled": -0.016682906295793165,
+      "rows": 346,
+      "width_50": 3.393582467274328,
+      "width_80": 7.809898850342164,
+      "worst_fold": {
+        "cohort": "wise2005",
+        "mae": 9.757198912198913
+      }
+    }
+  }
+}

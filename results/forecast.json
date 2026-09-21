@@ -1,0 +1,257 @@
+{
+  "arms": {
+    "with_history": {
+      "comparison": {
+        "bar": 0.15,
+        "beats_bar_on_crps": false,
+        "beats_bar_on_mae": false,
+        "campaigns": 5,
+        "campaigns_better_on_crps": 2,
+        "campaigns_better_on_mae": 4,
+        "paired_crps_gain_pp": {
+          "high": 0.1626195211141681,
+          "low": -0.3118337651027122,
+          "point": -0.04779121423691453
+        },
+        "paired_mae_gain_pp": {
+          "high": 0.7548297681154827,
+          "low": 0.033204806950838425,
+          "point": 0.36953791185937507
+        },
+        "reference": "last_scan_plus_curve",
+        "relative_crps_improvement": -0.022116319907997326,
+        "relative_mae_improvement": 0.1149740647121619
+      },
+      "edges": [
+        -14.0,
+        -13.0,
+        -12.0,
+        -11.0,
+        -10.0,
+        -9.0,
+        -8.0,
+        -7.0,
+        -6.0,
+        -5.0,
+        -4.0,
+        -3.0,
+        -2.0,
+        -1.0,
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0
+      ],
+      "input_tokens_reported": {
+        "max": 26223,
+        "total": 2187677
+      },
+      "models": {
+        "jev": {
+          "coverage_50": 0.2213919413919414,
+          "coverage_80": 0.3821978021978022,
+          "crps": 2.2086938615002656,
+          "crps_ci95": {
+            "high": 2.793426280379553,
+            "low": 1.698844564285696
+          },
+          "folds": 5,
+          "log_score": 4.877126936159073,
+          "mae": 2.8445600917600915,
+          "mae_ci95": {
+            "high": 3.500210678210678,
+            "low": 2.19056317016317
+          },
+          "mean_confidence": 0.6517857142857143,
+          "r2_pooled": 0.18657373740159489,
+          "rows": 84,
+          "width_50": 1.3061538461538462,
+          "width_80": 2.831721611721612,
+          "worst_fold": {
+            "cohort": "nasa_utmb_c3",
+            "mae": 3.6230976430976427
+          }
+        },
+        "last_scan": {
+          "coverage_50": 0.5641758241758241,
+          "coverage_80": 0.6863003663003663,
+          "crps": 2.44396236100467,
+          "crps_ci95": {
+            "high": 2.826186580670368,
+            "low": 2.0781871318864193
+          },
+          "folds": 5,
+          "log_score": 4.686958927293599,
+          "mae": 3.6604600575867656,
+          "mae_ci95": {
+            "high": 4.420223979591826,
+            "low": 2.9070573324536055
+          },
+          "r2_pooled": -0.22442936239279643,
+          "rows": 84,
+          "width_50": 4.2,
+          "width_80": 9.0,
+          "worst_fold": {
+            "cohort": "nasa_utmb_c3",
+            "mae": 5.010370370370371
+          }
+        },
+        "last_scan_plus_curve": {
+          "coverage_50": 0.49765567765567764,
+          "coverage_80": 0.7712820512820513,
+          "crps": 2.160902647263351,
+          "crps_ci95": {
+            "high": 2.6880935251146263,
+            "low": 1.7081499656423589
+          },
+          "folds": 5,
+          "log_score": 3.904810395959051,
+          "mae": 3.2140980036194664,
+          "mae_ci95": {
+            "high": 3.870147480635178,
+            "low": 2.580605442682461
+          },
+          "r2_pooled": 0.01876621340589224,
+          "rows": 84,
+          "width_50": 4.933333333333334,
+          "width_80": 8.8,
+          "worst_fold": {
+            "cohort": "wise2005",
+            "mae": 4.184316239316239
+          }
+        }
+      },
+      "observations_kept_mean": 127.20238095238095,
+      "state_tokens_estimated": {
+        "max": 25997,
+        "mean": 25944.809523809523
+      },
+      "target": "change"
+    },
+    "without_history": {
+      "comparison": {
+        "bar": 0.15,
+        "beats_bar_on_crps": true,
+        "beats_bar_on_mae": false,
+        "campaigns": 32,
+        "campaigns_better_on_crps": 24,
+        "campaigns_better_on_mae": 20,
+        "paired_crps_gain_pp": {
+          "high": 0.6625059457827456,
+          "low": 0.22448214274117506,
+          "point": 0.44065224521278623
+        },
+        "paired_mae_gain_pp": {
+          "high": 0.7334454704187501,
+          "low": 0.12623305943912844,
+          "point": 0.41562246492125926
+        },
+        "reference": "duration_curve",
+        "relative_crps_improvement": 0.1769975322608983,
+        "relative_mae_improvement": 0.13295256993683208
+      },
+      "edges": [
+        -30.0,
+        -28.0,
+        -26.0,
+        -24.0,
+        -22.0,
+        -20.0,
+        -18.0,
+        -16.0,
+        -14.0,
+        -12.0,
+        -10.0,
+        -8.0,
+        -6.0,
+        -4.0,
+        -2.0,
+        0.0,
+        2.0,
+        4.0
+      ],
+      "input_tokens_reported": {
+        "max": 26390,
+        "total": 9042465
+      },
+      "models": {
+        "duration_curve": {
+          "coverage_50": 0.6229960184356986,
+          "coverage_80": 0.9023828823792487,
+          "crps": 2.489595417427939,
+          "crps_ci95": {
+            "high": 2.968775558803286,
+            "low": 2.0595379244230076
+          },
+          "folds": 32,
+          "log_score": 2.291656646971908,
+          "mae": 3.1260957581995426,
+          "mae_ci95": {
+            "high": 3.9164981918086004,
+            "low": 2.3711780342744357
+          },
+          "r2_pooled": 0.13553763840149213,
+          "rows": 346,
+          "width_50": 7.972383720930233,
+          "width_80": 15.453125,
+          "worst_fold": {
+            "cohort": "wise2005",
+            "mae": 9.25778846153846
+          }
+        },
+        "jev": {
+          "coverage_50": 0.3874614665857399,
+          "coverage_80": 0.6195558519323054,
+          "crps": 2.0489431722151528,
+          "crps_ci95": {
+            "high": 2.5376648703114646,
+            "low": 1.5876624629466043
+          },
+          "folds": 32,
+          "log_score": 2.8409724672016377,
+          "mae": 2.710473293278284,
+          "mae_ci95": {
+            "high": 3.325904128249325,
+            "low": 2.1203669867044943
+          },
+          "mean_confidence": 0.48346820809248553,
+          "r2_pooled": 0.4341002379502302,
+          "rows": 346,
+          "width_50": 2.8337144525371274,
+          "width_80": 5.430745005963029,
+          "worst_fold": {
+            "cohort": "wise2005",
+            "mae": 7.761153846153846
+          }
+        }
+      },
+      "observations_kept_mean": 238.5664739884393,
+      "state_tokens_estimated": {
+        "max": 25999,
+        "mean": 25948.658959537574
+      },
+      "target": "level"
+    }
+  },
+  "provenance": {
+    "api_calls": 0,
+    "cache_hits": 430,
+    "dataset_sha256": "dd214c6aa33dee7ab62358bc56c1e6a72eb330085484022ba1ee2bad394395b9",
+    "dataset_version": "1.1",
+    "endpoint": "https://api.typesafe.ai/v1/systemone",
+    "git_commit": "42c0a6418f21852b1d6fdb95b3f92adf58637769",
+    "model": "jev-1.13.0",
+    "models_reported": [
+      "jev-1.13.0"
+    ],
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "python": "3.13.0",
+    "requests": 430,
+    "seed": 20260918,
+    "subset": "A",
+    "time_column": "timepoint_days",
+    "weighted_by": "cohort"
+  }
+}

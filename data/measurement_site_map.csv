@@ -1,0 +1,41 @@
+measurement_site,site_kind,site_position_pct,site_reference,notes
+NA,unstated,,,Not reported by the paper
+na,unstated,,,Not reported by the paper - the lower-case spelling used by one extraction pass
+whole muscle,whole_muscle,,,Volume of the entire muscle
+whole thigh,whole_muscle,,,Volume of the entire segment
+muscle belly,partial_region,,,Belly only - excludes the tapering ends
+left thigh,whole_muscle,,,Whole segment; the side belongs in laterality not in the site
+right thigh,whole_muscle,,,Whole segment; the side belongs in laterality not in the site
+lower_portion_only,partial_region,,,Distal part of the muscle only
+lower portion only,partial_region,,,Distal part of the muscle only - alternative spelling
+upper 33% of thigh,partial_region,,thigh_length,Proximal third of the segment
+upper calf,partial_region,,,Proximal calf only
+gluteal level,single_slice,,,One slice at the level of the gluteal fold
+intrinsic lower back,partial_region,,,Deep paraspinal tissue only
+maximum CSA,single_slice,,,The largest cross-section found along the muscle
+mid-thigh,single_slice,50,thigh_length,Conventionally the midpoint of the segment
+20% patella-trochanter,single_slice,20,patella_trochanter,Percent of the patella-to-trochanter distance
+40% patella-trochanter,single_slice,40,patella_trochanter,Percent of the patella-to-trochanter distance
+60% patella-trochanter,single_slice,60,patella_trochanter,Percent of the patella-to-trochanter distance
+80% patella-trochanter,single_slice,80,patella_trochanter,Percent of the patella-to-trochanter distance
+38% tibia length,single_slice,38,tibia_length,Percent of tibia length from the distal end
+66% tibia length,single_slice,66,tibia_length,Percent of tibia length from the distal end
+10% of ROI,single_slice,10,region_of_interest,Percent along the paper's own region of interest
+30% of ROI,single_slice,30,region_of_interest,Percent along the paper's own region of interest
+50% of ROI,single_slice,50,region_of_interest,Percent along the paper's own region of interest
+70% of ROI,single_slice,70,region_of_interest,Percent along the paper's own region of interest
+90% of ROI,single_slice,90,region_of_interest,Percent along the paper's own region of interest
+"mean of 30, 50 and 70% femur length",multi_slice_mean,50,femur_length,Mean of three slices - the midpoint is the centre of the sampled range
+all lumbar levels averaged,multi_slice_mean,,lumbar_spine,Mean across the lumbar levels the paper measured
+L1/L2 intervertebral disc level,single_slice,,lumbar_spine,One axial slice at a named disc level
+L2/L3 intervertebral disc level,single_slice,,lumbar_spine,One axial slice at a named disc level
+L3/L4 intervertebral disc level,single_slice,,lumbar_spine,One axial slice at a named disc level
+L4/L5 intervertebral disc level,single_slice,,lumbar_spine,One axial slice at a named disc level
+L5/S1 intervertebral disc level,single_slice,,lumbar_spine,One axial slice at a named disc level
+L2 vertebral level,single_slice,,lumbar_spine,One axial slice at a named vertebral body
+L3 vertebral level,single_slice,,lumbar_spine,One axial slice at a named vertebral body
+L4 vertebral level,single_slice,,lumbar_spine,One axial slice at a named vertebral body
+L5 vertebral level,single_slice,,lumbar_spine,One axial slice at a named vertebral body
+total lumbar paraspinal muscle,whole_muscle,,lumbar_spine,All paraspinal tissue summed
+total paraspinal CSA,whole_muscle,,lumbar_spine,All paraspinal tissue summed
+paraspinal functional CSA (lean tissue only),whole_muscle,,lumbar_spine,Lean tissue only - fat excluded by the paper

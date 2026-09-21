@@ -1,0 +1,235 @@
+% From Bed Rest to Mars - written report, initial draft.
+%
+% Build (from this directory):
+%   python ../report/make_figures.py      % or, from the repository root: python report/make_figures.py
+%   pdflatex main && bibtex main && pdflatex main && pdflatex main
+%
+% Every table under generated/ and every figure under figures/ is written by make_figures.py
+% from results/ and the frozen dataset. Numbers quoted in the prose were checked against the
+% same files; if a result is refitted, rerun the script and re-read the prose against it.
+
+\documentclass[11pt,a4paper]{article}
+
+% --- encoding and fonts -------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext}
+\usepackage[varqu,varl]{inconsolata}
+\usepackage{newtxmath}
+\usepackage[final]{microtype}
+
+% --- page -----------------------------------------------------------------------------------
+\usepackage[a4paper,top=2.6cm,bottom=2.6cm,left=2.5cm,right=2.5cm,headheight=14pt]{geometry}
+\linespread{1.06}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{accent}{HTML}{1C5CAB}
+\definecolor{inktwo}{HTML}{52514E}
+\definecolor{rulegrey}{HTML}{C3C2B7}
+\definecolor{notebg}{HTML}{F4F7FC}
+
+% --- structure ------------------------------------------------------------------------------
+\usepackage{titlesec}
+\titleformat{\section}{\sffamily\Large\bfseries\color{accent}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\sffamily\large\bfseries}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
+\titleformat{\paragraph}[runin]{\sffamily\normalsize\bfseries}{}{}{}[.]
+\titlespacing*{\section}{0pt}{1.6em}{0.7em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsubsection}{0pt}{1.0em}{0.35em}
+\titlespacing*{\paragraph}{0pt}{0.6em}{0.6em}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\footnotesize\color{inktwo}From Bed Rest to Mars}
+\fancyhead[R]{\sffamily\footnotesize\color{inktwo}Written report --- initial draft}
+\fancyfoot[C]{\sffamily\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{rulegrey}\hrule height \headrulewidth width \headwidth \vskip-\headrulewidth}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\sffamily\footnotesize\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% --- tables, figures, lists -----------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{threeparttable}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{ragged2e}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{5pt}
+\usepackage[font=small,labelfont={bf,sf},labelsep=period,justification=justified,singlelinecheck=false,skip=6pt]{caption}
+\captionsetup[table]{position=top}
+\usepackage{subcaption}
+\usepackage{float}
+% Let text share pages with floats instead of leaving half-empty float pages.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.85}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\usepackage{enumitem}
+\setlist{itemsep=0.15em,topsep=0.3em,parsep=0.1em,leftmargin=1.6em}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{siunitx}
+\sisetup{detect-all,group-separator={,},group-minimum-digits=4}
+
+% --- diagrams -------------------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc,fit,backgrounds,shapes.misc}
+\tikzset{
+  box/.style={draw=rulegrey,rounded corners=2pt,fill=white,align=center,font=\sffamily\footnotesize,
+              inner sep=4pt,text width=#1},
+  box/.default=4.2cm,
+  keybox/.style={box=#1,draw=accent,fill=notebg,line width=0.6pt},
+  keybox/.default=4.2cm,
+  sidebox/.style={draw=rulegrey,rounded corners=2pt,fill=gray!4,align=left,font=\sffamily\scriptsize,
+                  inner sep=4pt,text width=#1},
+  sidebox/.default=4.6cm,
+  flow/.style={-{Stealth[length=5pt]},draw=inktwo,line width=0.6pt},
+  stage/.style={font=\sffamily\scriptsize\bfseries,text=accent,rotate=90,anchor=south},
+}
+
+% --- references and links -------------------------------------------------------------------
+\usepackage[numbers,sort&compress]{natbib}
+\setlength{\bibsep}{2pt plus 0.5pt}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true,linkcolor=accent,citecolor=accent,urlcolor=accent,
+            pdftitle={From Bed Rest to Mars: written report (initial draft)},
+            pdfauthor={Milad Bahari Qaragoz and co-author}]{hyperref}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+\crefname{equation}{Equation}{Equations}
+
+% --- project macros -------------------------------------------------------------------------
+\newcommand{\pp}{\,pp}
+% Identifiers and paths may break after an underscore or a slash, never inside a word.
+\usepackage{seqsplit}
+\newcommand{\breakable}{\def\_{\textunderscore\allowbreak}\def\/{/\allowbreak}}
+\DeclareRobustCommand{\code}[1]{{\small\ttfamily\breakable #1}}
+\DeclareRobustCommand{\file}[1]{{\small\ttfamily\breakable\filepath#1/\relax}}
+\def\filepath#1/#2\relax{#1\ifx\relax#2\relax\else/\allowbreak\filepath#2\relax\fi}
+\newcommand{\Jev}{Jev}
+\newcommand{\ReportBranch}{\code{feat/jev-figures}}
+\newcommand{\ReportCommit}{\code{12b254f}}
+\newcommand{\DatasetHash}{\code{dd214c6a\ldots b9}}
+% Generated tables are read with the TeX primitive so that \midrule and \bottomrule may follow them
+% inside an alignment; LaTeX's own \input is not expandable there.
+\makeatletter
+\newcommand{\inputtable}[1]{\@@input #1 }\makeatother
+% A marked editorial note for the authors; kept visible on purpose in this draft.
+\newcommand{\draftnote}[1]{{\color{accent}\sffamily\small[\,Draft note: #1\,]}}
+
+\usepackage[most]{tcolorbox}
+\newtcolorbox{keybox}[1]{enhanced,breakable,colback=notebg,colframe=accent,boxrule=0.6pt,arc=2pt,
+  left=7pt,right=7pt,top=5pt,bottom=5pt,fontupper=\small,before skip=8pt,after skip=10pt,
+  title={#1},fonttitle=\sffamily\bfseries\small,coltitle=accent,colbacktitle=notebg,
+  attach title to upper={\par\smallskip}}
+
+\begin{document}
+
+% =========================================================================================
+% Title page
+% =========================================================================================
+\begin{titlepage}
+\thispagestyle{empty}
+\sffamily
+\vspace*{-0.6cm}
+{\small\color{inktwo}DGLRM 2026 \textperiodcentered\ Written report accompanying the oral presentation\par}
+\vspace{0.3cm}
+{\color{accent}\rule{\linewidth}{1.2pt}}
+\vspace{0.9cm}
+
+{\fontsize{24}{29}\selectfont\bfseries From Bed Rest to Mars\par}
+\vspace{0.35cm}
+{\Large A literature-derived dataset and machine-learning framework for predicting lower-limb muscle atrophy in spaceflight analogues\par}
+\vspace{1.0cm}
+
+{\large Milad Bahari Qaragoz\textsuperscript{1} \quad and \quad [Co-author]\textsuperscript{2}\par}
+\vspace{0.3cm}
+{\small\color{inktwo}
+\textsuperscript{1}AI framework lead: extraction schema, framework design, modelling and results. [Affiliation]\par
+\textsuperscript{2}Scientific lead: literature search, screening, extraction and physiological interpretation. [Affiliation]\par}
+\vspace{1.0cm}
+
+\begin{tabular}{@{}ll@{}}
+\textbf{Version} & 0.1 --- initial draft for internal review \\
+\textbf{Date} & 21 September 2026 \\
+\textbf{Dataset} & \code{dataset\_v1.1.csv}, git tag \code{dataset-v1.1}, SHA-256 \DatasetHash \\
+\textbf{Code and results} & branch \ReportBranch, commit \ReportCommit \\
+\textbf{Repository} & \url{https://github.com/MiladBahariQaragoz/BedrestToMars} \\
+\end{tabular}
+
+\vfill
+\begin{tcolorbox}[colback=notebg,colframe=accent,boxrule=0.6pt,arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,
+  fontupper=\small\sffamily]
+\textbf{\color{accent}Status of this document.} This is the first complete draft of the written report. It sets
+out the full record of what was done and found, and has not yet been condensed. Every table and figure is
+generated from the frozen dataset and the committed results files; numbers in the text were checked against the
+same files. Items that still need a decision or a co-author's input are marked \draftnote{like this}. The accepted
+abstract remains the contract for the presentation; \cref{sec:abstract-reconciliation} lists where the results now
+differ from its wording.
+\end{tcolorbox}
+\end{titlepage}
+
+% =========================================================================================
+% Abstract
+% =========================================================================================
+\pagenumbering{roman}
+\setcounter{page}{2}
+\begin{center}
+{\sffamily\Large\bfseries\color{accent} Abstract}
+\end{center}
+\vspace{-0.2cm}
+\input{sections/abstract}
+
+\clearpage
+\tableofcontents
+\clearpage
+\listoffigures
+\listoftables
+\clearpage
+\pagenumbering{arabic}
+
+% =========================================================================================
+% Body
+% =========================================================================================
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/methods_data}
+\input{sections/methods_models}
+\input{sections/results_data}
+\input{sections/results_models}
+\input{sections/discussion}
+\input{sections/backmatter}
+
+% =========================================================================================
+% References
+% =========================================================================================
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{unsrtnat}
+{\small\bibliography{references,corpus}}
+
+% =========================================================================================
+% Appendices
+% =========================================================================================
+\clearpage
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\input{sections/appendix}
+
+\end{document}

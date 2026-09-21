@@ -126,3 +126,91 @@ leave-one-cohort-out keeps them together; whether a model should see both is a m
 
 `13.pdf` (Belavý 2011) contributes no rows: it pools the two arms of the first Berlin
 Bed-Rest Study, whose control arm is extracted from `12.pdf`.
+
+---
+
+# v1.1 — the NASA NLSP open archive (2026-09-19)
+
+`data/nasa/` holds seven folders of derived, individual-participant CSVs downloaded from the
+NASA Life Sciences Portal (`framework/fetch_nasa_nlsp.py`, manifest and provenance in
+`data/nasa/CARD.md`). This release pools one of them into the dataset and states, per folder,
+why the other six stay a companion set.
+
+## What entered the dataset
+
+| | v1.0 | v1.1 |
+|---|---|---|
+| Rows | 737 | 742 |
+| Studies | 51 | 52 |
+| Independent cohorts | 35 | 36 |
+| Rows in the bed-rest lower-limb subset | 421 | 425 |
+| Campaigns in subset A | 31 | 32 |
+| Rows carrying a dispersion of the change (S6) | 160 from 7 campaigns | 161 from 8 campaigns |
+
+The five new rows are in `data/raw/extraction_nasa.csv`, written by
+`framework/extract_nasa.py`, and all belong to one new cohort, `nasa_utmb_c3` — the NASA
+Flight Analog Project's UTMB Campaign 3, 90 days of 6° head-down bed rest, whole-lower-limb
+lean mass by DXA:
+
+| phase | timepoint | n | baseline → follow-up | pct_change |
+|---|---|---|---|---|
+| bed_rest | day 30 | 1 | 15.108 → 12.774 kg | −15.45 |
+| bed_rest | day 45 | 1 | 15.108 → 12.547 kg | −16.95 |
+| bed_rest | day 58 | 1 | 15.108 → 12.304 kg | −18.56 |
+| bed_rest | day 63 | 13 | 17.895 → 16.183 kg | −10.03 |
+| recovery | day 92 (2 days after reambulation) | 13 | 17.895 → 16.903 kg | −6.04 |
+
+`pct_change` is the mean of each participant's own percent change, so every row carries
+`qc_flag = pct_of_individual_means` and the group means sit in `value_baseline` and
+`value_followup` (schema rule 3). The three single-participant rows are one 48-year-old
+woman scanned repeatedly through her bed rest; they are weighted `n_analysed = 1` and are
+the only within-campaign duration resolution the archive offers.
+
+## Three decisions, and what they rest on
+
+**1. A campaign that is already in the dataset is not added a second time.** Three of the
+seven folders (`BEDREST_IRATS_MRI_ULTRASOUND_CFT70`, `BEDREST_IRATS_iDXA_CFT70`,
+`BRSMIDXA_CFT70_iDXA`) are the campaign behind cohort `nasa_sprint_br70`, and
+`MR035G_MEDES_DXA` is the campaign behind `wise2005`. Their participants are already
+represented as literature rows. Pooling them would be a double count that leave-one-cohort-out
+could not see, so they stay a companion set — the use they were fetched for is external
+validation against participants the literature rows never saw.
+
+**2. Two folders carry no phase labels, so nothing can be read off them.**
+`MR035G_Campaign_1_DXA` and `MR035G_AG_PILOT_DXA_ANALYZED` have no `TEST_PHASE` and no
+`BR_DAY` column anywhere in the folder — only scan dates. Deciding which scan is the baseline
+and which the follow-up would mean reading it out of the calendar, which is imputation, and
+schema rule 1 forbids it. Campaign 1 additionally shows only three participants. Both are
+recoverable if the NLSP experiment pages are read and the campaign windows written down;
+until then they contribute nothing.
+
+**3. Only the blocks whose own dates confirm their length are pooled.** Campaign 3 ran in
+eight lettered blocks between 2005 and 2010 and they are not all the same length. For every
+participant `framework/extract_nasa.py` derives the start of bed rest from a pre-test scan
+(`SCAN_DATE` + `BR_DAY`, which counts down to the start) and the end from a post-test scan
+(`SCAN_DATE` − `BR_DAY`, which counts up from the end). Blocks C3A, C3C and C3D come out at
+90 days and are pooled — 13 participants. The other five are left out and named in the
+script's report: C3B (~43–52 days by its own dates, and post-test scans only), C3E, C3F
+(no dated pre/post pair), C3G (~53 days, post-test only) and C3H (60 days, post-test only,
+one participant). The script raises rather than writes if a pooled block's dates stop
+agreeing with the duration declared for it.
+
+The three pooled blocks are held as **one cohort**, not three. They are blocks of one
+campaign at one site, and no participant id appears in more than one of them; treating them
+as three independent campaigns would inflate the sample size that validation is counted in,
+which is the error `cohort_id` exists to prevent.
+
+## One schema touch
+
+`data_source` gains the value `repository`, for a row taken from an open data archive rather
+than from a paper. Such a row has no author line and no DOI to name — NLSP publishes campaign
+files under an experiment UUID and nothing else — so `validate_extraction.py` waives `doi` and
+`first_author` for `repository` rows and holds them to `source_file` and `page_ref` instead,
+which is what schema rule 9 actually asks for. Both leads should confirm this addition
+(`data/schema.md` is frozen and says changes need both).
+
+## What did not change
+
+The v1.0 file is untouched. `data/dataset_v1.0.csv` and its checksum are still in the
+repository and still rebuild byte for byte from the three original tables; `build_dataset.py`
+refuses to overwrite a frozen file, and v1.1 is a new name rather than an edit.

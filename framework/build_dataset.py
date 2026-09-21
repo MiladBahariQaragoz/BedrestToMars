@@ -1,9 +1,9 @@
-"""Freeze the modelling dataset from the three extraction tables.
+"""Freeze the modelling dataset from the four extraction tables.
 
     python framework/build_dataset.py
 
-Reads the main, partial and figure tables in data/raw/, drops every row flagged as a second
-copy of an observation another row already carries (see data/reconciliation_log.md), and
+Reads the main, partial, figure and NASA tables in data/raw/, drops every row flagged as a
+second copy of an observation another row already carries (see data/reconciliation_log.md), and
 writes data/dataset_v<VERSION>.csv - the 61 schema columns with a source_table column in
 front - plus its SHA-256 in data/dataset_v<VERSION>.sha256.
 
@@ -24,13 +24,16 @@ import io
 from collections import Counter
 from pathlib import Path
 
-VERSION = "1.0"
+VERSION = "1.1"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TABLES = {
     "main": REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv",
     "partial": REPO_ROOT / "data" / "raw" / "extraction_partial.csv",
     "figures": REPO_ROOT / "data" / "raw" / "extraction_figures.csv",
+    # Aggregated from the open NASA NLSP archive rather than from a paper; written by
+    # framework/extract_nasa.py, which also argues which NASA folders may not be pooled.
+    "nasa": REPO_ROOT / "data" / "raw" / "extraction_nasa.csv",
 }
 COHORTS = REPO_ROOT / "data" / "cohorts.csv"
 OUT = REPO_ROOT / "data" / f"dataset_v{VERSION}.csv"
