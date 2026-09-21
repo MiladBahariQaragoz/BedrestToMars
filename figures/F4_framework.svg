@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-21T13:29:45.326926</dc:date>
+    <dc:date>2026-09-21T14:55:54.711905</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 28.8 93.6 28.8 102.24
 L 28.8 174.96 
 Q 28.8 183.6 37.44 183.6 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 348.48 183.6 
@@ -53,7 +53,7 @@ Q 339.84 93.6 339.84 102.24
 L 339.84 174.96 
 Q 339.84 183.6 348.48 183.6 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 658.8 183.6 
@@ -66,7 +66,7 @@ Q 650.16 93.6 650.16 102.24
 L 650.16 174.96 
 Q 650.16 183.6 658.8 183.6 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 37.44 320.4 
@@ -79,7 +79,7 @@ Q 28.8 230.4 28.8 239.04
 L 28.8 311.76 
 Q 28.8 320.4 37.44 320.4 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #ffffff; stroke: #c3c2b7; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 37.44 464.4 
@@ -92,7 +92,7 @@ Q 28.8 374.4 28.8 383.04
 L 28.8 455.76 
 Q 28.8 464.4 37.44 464.4 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 348.48 464.4 
@@ -105,7 +105,7 @@ Q 339.84 374.4 339.84 383.04
 L 339.84 455.76 
 Q 339.84 464.4 348.48 464.4 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 658.8 464.4 
@@ -118,7 +118,7 @@ Q 650.16 374.4 650.16 383.04
 L 650.16 455.76 
 Q 650.16 464.4 658.8 464.4 
 z
-" clip-path="url(#pdb82e94cc2)" style="fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#p778794e396)" style="fill: #2a78d6; fill-opacity: 0.1; stroke: #2a78d6; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <!-- One dataset, one validation, three tiers of model -->
@@ -2045,7 +2045,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pdb82e94cc2">
+  <clipPath id="p778794e396">
    <rect x="0" y="0" width="959.976" height="540"/>
   </clipPath>
  </defs>

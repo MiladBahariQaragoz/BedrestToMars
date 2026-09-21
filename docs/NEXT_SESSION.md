@@ -16,7 +16,7 @@ written was 18 September, so the internal schedule has 10 days of buffer left in
 cd ~/GoogleDrive/DGLRM
 git status --short                # if files show as modified but look identical, it is CRLF
 git checkout feat/nasa-integration && git pull   # the tip: feat/ai-framework plus v1.1
-PYTHON=~/.venvs/dglrm/bin/python make test       # expect 215 checks in 19 files, all passing
+PYTHON=~/.venvs/dglrm/bin/python make test       # expect 223 checks in 19 files, all passing
 ```
 
 If `make venv` has never run on this machine, run it first — the environment cannot live in
@@ -89,14 +89,20 @@ states.
 
 | Fig | File | What it shows |
 |---|---|---|
-| F1 | `figures/F1_corpus` | Screening flow counted from the search tables, and one bar per campaign with its scan days |
+| F1 | `figures/F1_corpus` | Screening flow counted from the search tables, and the 742 dataset rows walked down to the 346 modelled - 264 recovery scans, 53 trunk muscles, 79 counted twice |
+| F1b | `figures/F1b_campaigns` | One bar per campaign with its scan days - backup |
 | F2 | `figures/F2_duration` | Control-arm measurements on the day of the scan, by functional class, with the tier-1 curve and its band |
 | F3 | `figures/F3_muscles` | The muscle ranking at day 60 with intervals, and each family's rows and campaigns |
 | F4 | `figures/F4_framework` | The framework: search to dataset to folds to the three tiers (`PLAN.md` task 3.2) |
 | F5 | `figures/F5_models` | Every model's out-of-campaign error against the duration curve |
+| F6 | `figures/F6_jev_campaigns` | Jev's gain in each held-out campaign: better in 20 of 32 |
+| F7 | `figures/F7_jev_checks` | The gain under every check - it holds when only the presentation changes and collapses when the data is taken away |
+| F8 | `figures/F8_jev_scatter` | Forecast against actual for the curve and for Jev, all 346 rows |
+| F9 | `figures/F9_jev_example` | One forecast as Jev gives it: a probability per range. The row is chosen by rule - Jev's median error - not by hand |
 
-What is left for them is judgement, not work: whether F5 leads with Jev or with the null
-result, and whether the partner wants F2 coloured by class or by family.
+What is left for them is judgement, not work. `PLAN.md` §9 caps the deck at five figures and
+there are now ten: which five carry the talk and which become backup slides is a decision for
+both of us. And whether the partner wants F2 coloured by class or by family.
 
 ## 3. Close out P4
 
@@ -137,7 +143,7 @@ Everything in P5 and P6 is built on assumptions until that arrives.
 ## Quick reference
 
 ```bash
-PYTHON=~/.venvs/dglrm/bin/python make test       # 215 checks
+PYTHON=~/.venvs/dglrm/bin/python make test       # 223 checks
 PYTHON=~/.venvs/dglrm/bin/python make baseline   # results/baseline.json
 PYTHON=~/.venvs/dglrm/bin/python make models     # results/model_comparison.*  (~2.5 min)
 PYTHON=~/.venvs/dglrm/bin/python make tier1      # results/tier1_curve.json, results/tier1_muscle_ranking.csv

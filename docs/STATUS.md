@@ -66,8 +66,8 @@ can be argued with and re-run without a new dataset version.
 | `framework/run_forecast.py` | **New.** Runs tier 3's two arms against matched baselines, writes `results/forecast*` |
 | `framework/run_ablation.py` | **New.** Tier 3's three ablations and the recognition probe, writes `results/forecast_ablation*` and `results/forecast_recognition.csv` |
 | `framework/run_validation.py` | **New.** Tier 3's validation battery: history-arm ablations, presentation checks, repeats. Writes `results/forecast_validation*` and `results/forecast_repeats.json` |
-| `framework/plot_figures.py` | **New.** Draws F1–F5 from the results files, writes `figures/*.svg` and `*.png` |
-| `framework/tests/` | 215 checks in 19 files, run by `make test` |
+| `framework/plot_figures.py` | **New.** Draws F1–F9 from the results files, writes `figures/*.svg` and `*.png` |
+| `framework/tests/` | 223 checks in 19 files, run by `make test` |
 | `framework/DESIGN.md` | The design document: what is modelled, how it is validated, what may be claimed |
 
 ### Results
@@ -334,7 +334,7 @@ make venv                                   # creates ~/.venvs/dglrm from requir
 PYTHON=~/.venvs/dglrm/bin/python make all   # tests, tier 1, S6, baseline, four models
 ```
 
-`make test` alone runs the 215 checks. `make figures` redraws F1–F5. `make forecast` and `make ablation` rebuild tier 3 from the answer cache;
+`make test` alone runs the 223 checks. `make figures` redraws F1–F5. `make forecast` and `make ablation` rebuild tier 3 from the answer cache;
 `make forecast-live` asks TypeSafe for any answer the cache lacks and needs `TYPESAFE_API_KEY`. `make tier1`, `make sensitivity`, `make baseline`
 and `make models` regenerate one set of results each. The loader refuses to run if `dataset_v1.1.csv` no longer matches its
 recorded hash, so no result can quietly come from an edited dataset.
