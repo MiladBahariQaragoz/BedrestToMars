@@ -117,6 +117,16 @@ def test_writing_produces_the_ablation_json_and_both_tables() -> None:
         assert len(probe) == len(RESULT["recognition"]["campaigns"])
 
 
+def test_the_per_campaign_errors_of_every_variant_are_written() -> None:
+    """The recognition reading rests on campaign-level errors, so they are a result file."""
+    with tempfile.TemporaryDirectory() as tmp:
+        run_ablation.write(RESULT, Path(tmp))
+        table = pd.read_csv(Path(tmp) / "forecast_ablation_campaigns.csv")
+        expected = {"cohort", "duration_curve", *(f"jev_{v}" for v in RESULT["variants"])}
+        assert set(table.columns) == expected
+        assert len(table) == 32
+
+
 def test_an_offline_ablation_with_an_empty_cache_never_reaches_the_network() -> None:
     config = copy.deepcopy(CONFIG)
     with tempfile.TemporaryDirectory() as tmp:

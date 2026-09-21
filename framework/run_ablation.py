@@ -170,8 +170,13 @@ def run(
     )
     probe = _probe(config, resolved, answer)
 
+    campaigns = (
+        predictions.groupby(["cohort", "model"])["abs_error"].mean().unstack("model").reset_index()
+    )
+
     dataset_path = REPO_ROOT / config["dataset"]["path"]
     return {
+        "_campaigns": campaigns,
         "arm": arm,
         "variants": blocks,
         "reference": {REFERENCE: curve},
@@ -192,9 +197,11 @@ def run(
 
 def write(result: dict[str, Any], directory: Path) -> None:
     directory.mkdir(parents=True, exist_ok=True)
+    body = {key: value for key, value in result.items() if not key.startswith("_")}
     (directory / "forecast_ablation.json").write_text(
-        json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
+        json.dumps(body, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
     )
+    result["_campaigns"].round(3).to_csv(directory / "forecast_ablation_campaigns.csv", index=False)
 
     rows = []
     for name, block in [*result["variants"].items(), *result["reference"].items()]:
