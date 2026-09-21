@@ -86,12 +86,13 @@ venv:
 	$(VENV)/bin/pip install -r requirements.txt
 	@echo "created $(VENV) - run the framework with PYTHON=$(VENV)/bin/python make all"
 
-all: test tier1 sensitivity baseline models forecast
+all: test tier1 sensitivity baseline models forecast ablation
 
 clean:
 	rm -f results/baseline.json results/model_comparison.csv results/model_comparison.json \
 	      results/importance_stability.csv results/tier1_curve.json \
 	      results/tier1_muscle_ranking.csv results/sensitivity.md \
 	      results/forecast.json results/forecast_comparison.csv results/forecast_predictions.csv \
-	      results/forecast_ablation.json results/forecast_ablation.csv results/forecast_recognition.csv
+	      results/forecast_ablation.json results/forecast_ablation.csv results/forecast_recognition.csv \
+	      results/forecast_ablation_campaigns.csv
 	find framework -name '__pycache__' -type d -exec rm -rf {} +
