@@ -116,8 +116,8 @@ forecast:                      # DESIGN.md section 9.3 - added 21 Sep, after the
   cache_dir: results/forecast_cache
   time_column: timepoint_days  # the day of the scan, not the campaign's planned length
   concurrency: 8
-  state_token_budget: 24000    # the model takes 32k tokens for the state plus the longest question
-  chars_per_token: 3.0         # a conservative estimate for JSON dense with numbers
+  state_token_budget: 26000    # the model takes 32k tokens for the state plus the longest question
+  chars_per_token: 2.3         # measured 21 Sep: two full states came back at 2.3 characters per token
   interval_levels: [0.5, 0.8]
   reference_curve_days: [5, 14, 30, 60, 90, 119]
   series:                      # one measurement followed over time within one group

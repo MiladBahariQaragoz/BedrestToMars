@@ -426,9 +426,11 @@ to show, and the five campaigns are not equal: `berlin_bbr1` alone carries 39 of
 participants, protocol, countermeasure and measurement of the target row, in words; the target
 day and how far it sits from the planned end; the duration curve fitted to the training
 campaigns; and as many of the training campaigns' observations - and, in the second arm, their
-scan-to-scan changes - as fit a declared budget of 24,000 estimated tokens, most relevant first
+scan-to-scan changes - as fit a declared budget of 26,000 tokens, most relevant first
 (same muscle, then same family, then same kind of group, then nearest day). TypeSafe's input
-is cheap, so the state is as full as the budget allows.
+is cheap, so the state is as full as the budget allows. The budget is estimated at 2.3
+characters per token, the rate two full states were measured at on 21 September, which
+keeps the state and the question inside the model's 32,000-token limit.
 
 **What it is never shown, by assertion rather than by care:** any row of the held-out campaign
 in the reference tables; any scan of the held-out campaign on or after the target day; the
