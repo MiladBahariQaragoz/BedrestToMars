@@ -179,6 +179,8 @@ with muscle terms, not the baseline, answers the question for a particular muscl
 No family beats the duration-only curve (\cref{tab:models,fig:models}). The best, a random forest, scores 3.18\pp{}
 against the curve's 3.16\pp{}; the others are between 3.7\% and 5.9\% worse. The plan set the bar at a 15\% relative
 improvement and pre-committed to reporting the outcome either way. This is rung~B of the project's fallback ladder.
+A pretrained tabular neural network, TabPFN, added afterwards as a fifth family, does not beat the curve either
+(3.22\pp, 2.1\% worse).
 \end{keybox}
 
 \begin{table}[htbp]
@@ -187,7 +189,8 @@ improvement and pre-committed to reporting the outcome either way. This is rung~
 duration-only baseline in its three forms and of the four tier-2 families, subset A, 32 leave-one-campaign-out
 folds. MAE and RMSE are campaign-weighted; the interval is a campaign bootstrap; ``vs.\ baseline'' is the relative
 MAE change against the logarithmic curve (negative = worse); $R^2$ is pooled over out-of-fold predictions. The last
-column names the campaign with the largest error and that error.}
+column names the campaign with the largest error and that error. TabPFN was added after the four families' result
+was known and was run in its own environment (\cref{sec:tier2}).}
 \label{tab:models}
 \footnotesize
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l c c c c c l@{}}
@@ -203,8 +206,9 @@ Model & \makecell{MAE\\ (pp)} & 95\% CI & RMSE & \makecell{vs.\\ baseline} & $R^
 \centering
 \includegraphics[width=\linewidth]{fig_models}
 \caption[Tier 2 against the duration curve]{Tier 2 against the duration curve. (a)~Out-of-campaign MAE with 95\%
-campaign-bootstrap intervals; the dashed line is the logarithmic curve. (b)~Pooled out-of-fold $R^2$. The flexible
-families explain two to three times more variance than the curve, yet do not convert it into lower error.}
+campaign-bootstrap intervals; the dashed line is the logarithmic curve. (b)~Pooled out-of-fold $R^2$. Blue: the
+four declared families; orange: TabPFN, added post hoc. The flexible families explain two to three times more
+variance than the curve, yet do not convert it into lower error.}
 \label{fig:models}
 \end{figure}
 
@@ -213,6 +217,16 @@ once muscle identity enters: the flexible families do find real structure, but t
 absolute error, because the residual is dominated by between-campaign differences that no column in the dataset
 explains. The worst folds show where: a 21-day campaign with site-resolved thigh measurements (HDBR-21, Liphardt;
 7.8--7.9\pp) for three families, and WISE-2005, 60 days of bed rest in women only, for ridge regression (8.6\pp).
+
+\paragraph{The pretrained network} TabPFN, the post-hoc fifth family, scores 3.22\pp{} (95\% CI 2.51 to 3.97), 2.1\%
+worse than the curve and second of the five families behind the random forest. Its pooled $R^2$ of 0.39 is the highest
+of any tier-2 model: a network pretrained on millions of synthetic tables, conditioning on the training campaigns in
+context, finds the muscle structure as the tuned families do, and like them does not turn it into lower error in a
+campaign it has not seen. Its worst campaigns are the same ones: HDBR-21 (Liphardt; 7.56\pp) and WISE-2005 (7.34\pp).
+An earlier run of the same family, on \code{dataset\_v1.0} and the campaigns' planned lengths, had scored 3.25\pp{} with
+a pooled $R^2$ of 0.03, behaving like a duration-only curve; on the day of the scan it behaves like the other families.
+Either way the conclusion is the same, and it now rests on five families of very different kinds, from penalised
+regression to a pretrained transformer.
 
 \paragraph{Importance} SHAP values on the random forest identify two stable features (\cref{tab:importance}): the
 duration term reaches the top three in 29 of 32 folds (91\%) and the plantar-flexor indicator in 28 (88\%). The third
@@ -459,9 +473,10 @@ Criterion & Outcome & Evidence \\
 \midrule
 Out-of-campaign MAE $\leq$ 4\pp & Met & Every baseline form and every family, 3.16--3.40\pp \\
 Best model $\geq$ 15\% better than baseline & Not met & Best family $-0.7\%$; null result reported \\
+\quad TabPFN, post hoc, against the same bar & Not met & $-2.1\%$; pooled $R^2$ 0.39 \\
 SHAP top-3 stability $\geq$ 80\% & Not met & Top two stable (91\%, 88\%); third place 59\% \\
 Leakage audit & Met & Disjointness asserted in every fold; the assertion is tested against a bad split \\
-Reproducibility & Met & One command rebuilds every result; 223 tests pass; tier 3 rebuilt from its cache \\
+Reproducibility & Met & One command rebuilds every result; 234 tests pass; tier 3 rebuilt from its cache \\
 Physiological sign-off & \textbf{Outstanding} & Muscle classification and fitted relationships await the scientific lead \\
 \addlinespace
 Tier 3, MAE $\geq$ 15\% better & Not met & 13.3\% without history, 11.5\% with \\

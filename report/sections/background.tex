@@ -52,7 +52,9 @@ vector regression~\citep{smola2004} are data hungry: simulation studies suggest 
 events per variable than classical regression before their performance stabilises~\citep{vanderploeg2014}. When
 observations are clustered, random cross-validation splits place correlated observations on both sides of the fold
 boundary and overstate performance; grouped (blocked) cross-validation is the recommended
-remedy~\citep{roberts2017}. Model-agnostic importance measures such as SHAP~\citep{lundberg2017} describe what a
+remedy~\citep{roberts2017}. Tabular foundation models take a different route to small data: TabPFN is a transformer
+pretrained on millions of synthetic datasets that predicts for a new table in context, and was designed for tables
+of up to 10,000 rows~\citep{hollmann2025}. Model-agnostic importance measures such as SHAP~\citep{lundberg2017} describe what a
 fitted model relies on, not what causes the outcome, and at small sample sizes their rankings can be unstable
 across folds.
 

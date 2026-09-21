@@ -22,7 +22,7 @@ tiers, and \cref{tab:tiers} their roles.
   \node[keybox=14.4cm, below=5mm of subset] (loco) {\textbf{Leave-one-campaign-out}: 32 folds; no campaign on both sides of a fold, asserted in code;
      intervals by resampling campaigns};
   \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south west, anchor=north west] (t1) {\textbf{Tier 1}\\ three-level meta-regression\\ \scriptsize coefficients with cluster-robust CIs};
-  \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south, anchor=north] (t2) {\textbf{Tier 2}\\ four ML families vs.\ duration curve\\ \scriptsize out-of-campaign error, SHAP};
+  \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south, anchor=north] (t2) {\textbf{Tier 2}\\ four ML families vs.\ duration curve\\ \scriptsize + TabPFN post hoc; out-of-campaign error, SHAP};
   \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south east, anchor=north east] (t3) {\textbf{Tier 3}\\ Jev probabilistic forecast\\ \scriptsize post hoc; ablations, validation};
   \draw[flow] (search) -- (extract);
   \draw[flow] (extract) -- (dataset);
@@ -51,7 +51,8 @@ cluster-robust inference on the campaign rather than cross-validation, because i
 Question & What is the duration--response, and which muscles deviate from it? & Does a flexible learner find
   structure the curve misses? & Can a model that reads each campaign's description, and the other campaigns' data,
   do better? \\
-Method & Three-level meta-regression, nonlinear in the scan day & Ridge, random forest, SVR, gradient boosting &
+Method & Three-level meta-regression, nonlinear in the scan day & Ridge, random forest, SVR, gradient boosting;
+  TabPFN added post hoc &
   Language model returning a probability for each range of outcome \\
 Validation & Cluster-robust inference on the campaign & Leave-one-campaign-out, nested tuning & Leave-one-campaign-out,
   ablations, recognition probe, validation battery \\
@@ -203,6 +204,18 @@ over all pooled out-of-fold predictions rather than averaged over folds: most ca
 duration-only model predicts one value across a held-out fold and scores below that fold's own mean by construction,
 whatever the quality of the curve. The first baseline run returned about $-8.5$ per fold and $+0.06$ pooled from
 identical predictions.
+
+\paragraph{A fifth family, post hoc: TabPFN} On 19 September, after the null result of the four families was
+known, a fifth was added: TabPFN~\citep{hollmann2025}, a transformer pretrained on millions of synthetic tabular
+datasets that predicts in context, conditioning on the training rows it is given rather than fitting weights to
+them. It is the neural network built for exactly this regime---tables of a few hundred rows---and, having no
+hyperparameters to tune, it cannot be tuned against the outer fold. It was run with fixed declared defaults (version
+2.0.9, on CPU, seed 20260918) on the same design matrix, the same 32 folds and leakage assertions and the same
+campaign-weighted scoring, against the same logarithmic duration curve. Because tabpfn 2.0.9 requires scikit-learn
+below 1.7 while the four families were fitted with 1.8, it runs in a separate environment (scikit-learn 1.6.1,
+PyTorch 2.14) through its own runner, \file{framework/run\_tabpfn.py}, and writes its own results file; the four
+families' results are untouched. Like tier~3, it is reported as post hoc. An earlier run of the same family, on
+\code{dataset\_v1.0} and the campaigns' planned lengths, is superseded.
 
 \paragraph{Importance} SHAP values~\citep{lundberg2017} were computed exactly (tree explainer) for the best-scoring
 family, recomputed inside every fold, and summarised as the share of folds in which each feature reaches the top
@@ -383,6 +396,7 @@ records the dataset version, its hash and the commit it came from.
 
 \code{make all} regenerates every result from the frozen dataset. Tier 3 is rebuilt from the model's answers
 committed in \file{results/forecast\_cache/} (430 answers for the first run, 1,280 for the ablations and 1,195 for
-the validation battery), never by calling the service again. The test suite holds 223 checks in 19 files, including
-the deliberately failing leakage test; all 223 passed on 21 September 2026. The figures and tables of this report
-are regenerated from the results files by \file{report/make\_figures.py}.
+the validation battery), never by calling the service again. The test suite holds 234 checks in 20 files, including
+the deliberately failing leakage test. The post-hoc TabPFN family is rebuilt by \code{make tabpfn} in its own
+environment and is not part of \code{make all}. The figures and tables of this report are regenerated from the
+results files by \file{report/make\_figures.py}.

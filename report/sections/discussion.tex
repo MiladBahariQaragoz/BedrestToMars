@@ -13,10 +13,10 @@ Four statements are supported by the evidence, listed in order of how well it su
         variance lies between muscles within a campaign; plantar flexors lose 5.7\pp{} more than knee extensors
         and 5.6\pp{} more than their antagonists, the dorsiflexors; antigravity extensors lose roughly twice what
         flexors lose. The flexible models of tier~2 lean on the same two variables.
-  \item \textbf{At 32 campaigns, tabular machine learning adds nothing to a simple curve.} The four families find
-        the muscle structure---pooled $R^2$ doubles or triples---but do not convert it into lower out-of-campaign
-        error. That is a statement about how much signal the published literature contains, not about the
-        algorithms.
+  \item \textbf{At 32 campaigns, tabular machine learning adds nothing to a simple curve.} The four families, and a
+        pretrained tabular neural network added post hoc, find the muscle structure---pooled $R^2$ doubles or
+        triples---but do not convert it into lower out-of-campaign error. That is a statement about how much signal
+        the published literature contains, not about the algorithms.
   \item \textbf{A model that reads the other campaigns' data in context adds a little.} The language-model forecast
         is 0.42\pp{} more accurate than the curve, survives the removal of study-identifying detail and every
         presentation check, and is not explained by recognition of published campaigns. It was not pre-registered,
@@ -63,7 +63,11 @@ population, the exact definition of its muscles, its countermeasure dose---is ei
 modelled or is perfectly confounded with the campaign itself. The flexible families learn the muscle structure, which
 raises pooled $R^2$, but the part of the residual that decides out-of-campaign error is between-campaign, and no
 column explains it. With roughly a tenth of the sample size at which flexible learners begin to behave
-well~\citep{vanderploeg2014}, this is the expected outcome, and it was prepared for in advance.
+well~\citep{vanderploeg2014}, this is the expected outcome, and it was prepared for in advance. The post-hoc run of
+TabPFN answers the obvious rejoinder---that the families were simply too data hungry, and a model pretrained for
+small tables would do better. It does not: a network that has seen millions of synthetic datasets reaches the highest
+pooled $R^2$ of any tier-2 model and still loses to the curve out of campaign. A better prior over tabular functions
+cannot supply information the columns do not carry.
 
 The answer this gives to the question ``why not simply use machine learning?'' is a better one than any accuracy
 figure would have been: because at this sample size the unit of evidence is the campaign, and the literature holds 32
@@ -119,7 +123,8 @@ Abstract & Result \\
 ``unloading durations of 14--119 days'' & Planned durations and scan days both span 5--119 days \\
 Variables include participant characteristics & Recorded, but not modelled: age and sex are almost perfectly confounded
   with the campaign and are reserved for sensitivity analyses S8 and S9 \\
-Linear regression, random forest, SVR, gradient boosting & As stated; linear regression is penalised (ridge) \\
+Linear regression, random forest, SVR, gradient boosting & As stated; linear regression is penalised (ridge);
+  a pretrained neural network (TabPFN) was added post hoc \\
 Leave-one-study-out cross-validation & Leave-one-\emph{campaign}-out: stricter, because papers from one campaign share
   participants \\
 SHAP-based interpretation & Done for the best family; the top two features are stable, the third is not \\
@@ -211,6 +216,6 @@ The published bed-rest literature, organised into one frozen dataset of 742 comp
 campaigns, supports a quantified duration--response---about 3 percentage points of muscle per doubling of days of
 unloading, curved rather than linear---and a muscle-specific vulnerability led by the plantar flexors, with
 countermeasure arms losing measurably less. Tested honestly, by holding out whole campaigns, four machine-learning
-families add nothing to a simple duration curve, because the sample size is the number of campaigns, not the number of
+families and a pretrained tabular neural network add nothing to a simple duration curve, because the sample size is the number of campaigns, not the number of
 rows; a language model reading the other campaigns' data adds a small, robust but post-hoc improvement. The dataset
 and the framework are the contribution, and every number in this report can be regenerated from them with one command.

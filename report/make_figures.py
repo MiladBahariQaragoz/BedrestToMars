@@ -117,6 +117,7 @@ MODEL_LABELS = {
     "svr": "Support vector regression",
     "ridge": "Ridge regression",
     "gradient_boosting": "Gradient boosting",
+    "tabpfn": "TabPFN (post hoc)",
 }
 TERM_LABELS = {
     "intercept": "Intercept",
@@ -212,6 +213,30 @@ def _escape(text: str) -> str:
     )
 
 
+def _families(name: str) -> pd.DataFrame:
+    """Each family's scores from the full JSON record, unrounded, best first.
+
+    The CSV tables round to three decimals; formatting those to two again rounds twice, and
+    2.515 becomes 2.52 where the value is 2.5147. The JSON keeps every digit.
+    """
+    record = _json(name)
+    rows = [
+        {
+            "model": entry["model"],
+            "loco_mae_pp": entry["mae"],
+            "ci95_low": entry["ci95"]["low"],
+            "ci95_high": entry["ci95"]["high"],
+            "rmse_pp": entry["rmse"],
+            "r2_pooled": entry["r2_pooled"],
+            "vs_baseline_relative": entry["relative_improvement"],
+            "worst_fold_cohort": entry["worst_fold"]["cohort"],
+            "worst_fold_mae_pp": entry["worst_fold"]["mae"],
+        }
+        for entry in record["models"].values()
+    ]
+    return pd.DataFrame(rows).sort_values("loco_mae_pp").reset_index(drop=True)
+
+
 def load() -> dict:
     config = data_loader.load_config()
     frame = data_loader.load(config)
@@ -229,7 +254,8 @@ def load() -> dict:
         "validation": _json("forecast_validation.json"),
         "repeats": _json("forecast_repeats.json"),
         "predictions": pd.read_csv(RESULTS / "forecast_predictions.csv"),
-        "models": pd.read_csv(RESULTS / "model_comparison.csv"),
+        "models": _families("model_comparison.json"),
+        "tabpfn": _families("tabpfn_comparison.json"),
         "comparison": pd.read_csv(RESULTS / "forecast_comparison.csv"),
         "ablation_table": pd.read_csv(RESULTS / "forecast_ablation.csv"),
         "validation_table": pd.read_csv(RESULTS / "forecast_validation.csv"),
@@ -357,17 +383,20 @@ def _model_table(data: dict) -> pd.DataFrame:
         form = baseline[key]
         rows.append((label, form["mae"], form["ci95"]["low"], form["ci95"]["high"],
                      form.get("r2_pooled", np.nan), kind))
-    for _, model in data["models"].iloc[1:].iterrows():
+    for _, model in data["models"].iterrows():
         rows.append((MODEL_LABELS[model["model"]], model["loco_mae_pp"], model["ci95_low"],
                      model["ci95_high"], model["r2_pooled"], "family"))
+    for _, model in data["tabpfn"].iterrows():
+        rows.append((MODEL_LABELS[model["model"]], model["loco_mae_pp"], model["ci95_low"],
+                     model["ci95_high"], model["r2_pooled"], "post_hoc"))
     return pd.DataFrame(rows, columns=["label", "mae", "low", "high", "r2", "kind"])
 
 
 def fig_models(data: dict) -> Path:
     """Out-of-campaign error of every baseline form and tier-2 family, and pooled R-squared."""
     table = _model_table(data)
-    colours = {"baseline": MUTED, "reference": INK, "family": SERIES[0]}
-    figure, (left, right) = plt.subplots(1, 2, figsize=(WIDTH, 2.5), sharey=True,
+    colours = {"baseline": MUTED, "reference": INK, "family": SERIES[0], "post_hoc": SERIES[1]}
+    figure, (left, right) = plt.subplots(1, 2, figsize=(WIDTH, 2.75), sharey=True,
                                          gridspec_kw={"width_ratios": [2.2, 1], "wspace": 0.08})
     positions = np.arange(len(table))[::-1]
     for position, (_, row) in zip(positions, table.iterrows()):
@@ -711,8 +740,13 @@ def tab_models(data: dict) -> Path:
                     f"{form['rmse']:.2f} & {'reference' if key == 'log' else _num((baseline['log']['mae'] - form['mae']) / baseline['log']['mae'] * 100, 1, signed=True) + '\\%'} & "
                     f"{form['r2_pooled']:.2f} & {CAMPAIGNS.get(form['worst_fold']['cohort'], form['worst_fold']['cohort'])} ({form['worst_fold']['mae']:.1f}) \\\\")
     body.append("\\addlinespace")
-    for _, model in data["models"].iloc[1:].sort_values("loco_mae_pp").iterrows():
+    for _, model in data["models"].iterrows():
         body.append(f"{MODEL_LABELS[model['model']]} & {model['loco_mae_pp']:.2f} & {_ci(model['ci95_low'], model['ci95_high'])} & "
+                    f"{model['rmse_pp']:.2f} & {_num(model['vs_baseline_relative'] * 100, 1, signed=True)}\\% & "
+                    f"{model['r2_pooled']:.2f} & {CAMPAIGNS.get(model['worst_fold_cohort'], model['worst_fold_cohort'])} ({model['worst_fold_mae_pp']:.1f}) \\\\")
+    body.append("\\addlinespace\n\\multicolumn{7}{@{}l}{\\textit{Post hoc, added after the null result above}} \\\\")
+    for _, model in data["tabpfn"].iterrows():
+        body.append(f"\\quad {MODEL_LABELS[model['model']]} & {model['loco_mae_pp']:.2f} & {_ci(model['ci95_low'], model['ci95_high'])} & "
                     f"{model['rmse_pp']:.2f} & {_num(model['vs_baseline_relative'] * 100, 1, signed=True)}\\% & "
                     f"{model['r2_pooled']:.2f} & {CAMPAIGNS.get(model['worst_fold_cohort'], model['worst_fold_cohort'])} ({model['worst_fold_mae_pp']:.1f}) \\\\")
     return _tex("tab_models.tex", "\n".join(body) + "\n")
@@ -738,51 +772,61 @@ FORECAST_MODELS = {
 
 
 def tab_forecast(data: dict) -> Path:
-    table = data["comparison"]
+    """Tier 3 against its references, read unrounded from `forecast.json`."""
+    arms = data["forecast"]["arms"]
+    order = {"without_history": ["jev", "duration_curve"],
+             "with_history": ["jev", "last_scan", "last_scan_plus_curve"]}
     body = []
     for arm, heading in (("without_history", "Without history: percent change from baseline"),
                          ("with_history", "With history: change since the previous scan")):
-        rows = table[table["arm"] == arm]
-        first = rows.iloc[0]
+        models = arms[arm]["models"]
+        reference = arms[arm]["comparison"]["reference"]
+        first = models["jev"]
         body.append(f"\\addlinespace\n\\multicolumn{{8}}{{@{{}}l}}{{\\textit{{{heading} "
                     f"({int(first['rows'])} rows, {int(first['folds'])} campaigns)}}}} \\\\")
-        for _, row in rows.iterrows():
-            name = FORECAST_MODELS[row["model"]] + ("$^{\\dagger}$" if row["is_reference"] else "")
-            body.append(f"\\quad {name} & {row['mae_pp']:.2f} & {_ci(row['mae_ci95_low'], row['mae_ci95_high'])} & "
-                        f"{row['crps_pp']:.2f} & {row['log_score']:.2f} & "
-                        f"{100 * row['coverage_50']:.0f}\\% / {row['width_50_pp']:.1f} & "
-                        f"{100 * row['coverage_80']:.0f}\\% / {row['width_80_pp']:.1f} & {_num(row['r2_pooled'], 2)} \\\\")
+        for key in order[arm]:
+            row = models[key]
+            name = FORECAST_MODELS[key] + ("$^{\\dagger}$" if key == reference else "")
+            body.append(f"\\quad {name} & {row['mae']:.2f} & {_ci(row['mae_ci95']['low'], row['mae_ci95']['high'])} & "
+                        f"{row['crps']:.2f} & {row['log_score']:.2f} & "
+                        f"{100 * row['coverage_50']:.0f}\\% / {row['width_50']:.1f} & "
+                        f"{100 * row['coverage_80']:.0f}\\% / {row['width_80']:.1f} & {_num(row['r2_pooled'], 2)} \\\\")
     return _tex("tab_forecast.tex", "\n".join(body) + "\n")
 
 
+def _gain(interval: dict) -> str:
+    return f"{_num(interval['point'], 2, signed=True)} ({_ci(interval['low'], interval['high'])})"
+
+
 def tab_ablation(data: dict) -> Path:
-    table = data["ablation_table"]
+    """The ablations, read unrounded from `forecast_ablation.json`."""
+    variants = data["ablation"]["variants"]
     body = []
-    for _, row in table.iterrows():
-        name = ABLATION_LABELS.get(row["variant"], "Duration curve (reference)")
-        if row["variant"] == "duration_curve":
-            body.append(f"\\addlinespace\n{name} & {row['mae_pp']:.2f} & {row['crps_pp']:.2f} & "
-                        f"{100 * row['coverage_80']:.0f}\\% & --- & --- & --- \\\\")
-            continue
-        change = ("---" if row["variant"] == "full" else
-                  f"{_num(row['paired_mae_change_vs_full_pp'], 2, signed=True)} ({_ci(row['paired_mae_change_vs_full_pp_low'], row['paired_mae_change_vs_full_pp_high'])})")
-        body.append(f"{name} & {row['mae_pp']:.2f} & {row['crps_pp']:.2f} & {100 * row['coverage_80']:.0f}\\% & "
-                    f"{_num(row['paired_mae_gain_vs_curve_pp'], 2, signed=True)} ({_ci(row['paired_mae_gain_vs_curve_pp_low'], row['paired_mae_gain_vs_curve_pp_high'])}) & "
-                    f"{change} & {int(row['campaigns_better_than_curve'])} of 32 \\\\")
+    for key in ("full", "generic", "scrambled_reference", "no_reference"):
+        row = variants[key]
+        change = "---" if key == "full" else _gain(row["paired_mae_change_vs_full_pp"])
+        body.append(f"{ABLATION_LABELS[key]} & {row['mae']:.2f} & {row['crps']:.2f} & {100 * row['coverage_80']:.0f}\\% & "
+                    f"{_gain(row['paired_mae_gain_vs_curve_pp'])} & {change} & "
+                    f"{int(row['campaigns_better_than_curve'])} of {int(row['folds'])} \\\\")
+    curve = data["ablation"]["reference"]["duration_curve"]
+    body.append(f"\\addlinespace\nDuration curve (reference) & {curve['mae']:.2f} & {curve['crps']:.2f} & "
+                f"{100 * curve['coverage_80']:.0f}\\% & --- & --- & --- \\\\")
     return _tex("tab_ablation.tex", "\n".join(body) + "\n")
 
 
 def tab_validation(data: dict) -> Path:
-    table = data["validation_table"]
+    """The validation battery, read unrounded from `forecast_validation.json`, in declared order."""
+    runs = data["validation"]["runs"]
+    declared = data["config"]["forecast"]["validation"]["runs"]
     body = []
     for arm, heading in (("without_history", "Without history (346 rows, 32 campaigns; reference: duration curve)"),
                          ("with_history", "With history (84 rows, 5 campaigns; reference: last scan plus curve step)")):
         body.append(f"\\addlinespace\n\\multicolumn{{5}}{{@{{}}l}}{{\\textit{{{heading}}}}} \\\\")
-        for _, row in table[table["arm"] == arm].iterrows():
-            change = ("---" if row["variant"] == "full" else
-                      f"{_num(row['change_vs_full_pp'], 2, signed=True)} ({_ci(row['change_vs_full_low'], row['change_vs_full_high'])})")
-            body.append(f"\\quad {ABLATION_LABELS[row['variant']]} & {row['jev_mae_pp']:.2f} & {row['reference_mae_pp']:.2f} & "
-                        f"{_num(row['paired_gain_pp'], 2, signed=True)} ({_ci(row['paired_gain_low'], row['paired_gain_high'])}) & {change} \\\\")
+        for key in declared[arm]:
+            row = runs[arm][key]
+            change = "---" if key == "full" else _gain(row["paired_mae_change_vs_full_pp"])
+            body.append(f"\\quad {ABLATION_LABELS[key]} & {row['jev']['mae']:.2f} & {row['reference']['mae']:.2f} & "
+                        f"{_gain(row['paired_mae_gain_vs_reference_pp'])} & {change} \\\\")
     return _tex("tab_validation.tex", "\n".join(body) + "\n")
 
 

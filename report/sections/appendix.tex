@@ -214,9 +214,10 @@ From a clean checkout of the repository at the commit named on the title page:
 {\footnotesize
 \begin{verbatim}
 make venv                                   # creates a virtual environment from requirements.txt
-PYTHON=~/.venvs/dglrm/bin/python make test  # 223 checks in 19 files
+PYTHON=~/.venvs/dglrm/bin/python make test  # 234 checks in 20 files
 PYTHON=~/.venvs/dglrm/bin/python make all   # tier 1, S6, baseline, the four families
 make forecast ablation validation           # tier 3, rebuilt from results/forecast_cache/
+PYTHON_TABPFN=~/.venvs/dglrm-tabpfn/bin/python make tabpfn   # post hoc, own environment
 make figures                                # slide figures F1-F9
 python report/make_figures.py               # this report's figures and tables
 cd report && pdflatex main && bibtex main && pdflatex main && pdflatex main
