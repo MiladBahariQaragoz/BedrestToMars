@@ -129,6 +129,19 @@ def test_offline_serves_what_the_cache_holds() -> None:
         assert offline([request])[0]["answers"] == ANSWER
 
 
+def test_a_request_repeated_in_one_batch_is_asked_once() -> None:
+    """The model does not answer the same request identically twice; asking twice and caching
+    one answer would make the live run and its rebuild from the cache disagree."""
+    server = _Server([_ok()])
+    with tempfile.TemporaryDirectory() as tmp:
+        answerer = typesafe_client.CachedAnswerer(Path(tmp), "jev-1.13.0", client=_client(server))
+        request = {"state": {"x": 1}, "questions": QUESTIONS}
+        answers = answerer([request, dict(request), {"state": {"x": 2}, "questions": QUESTIONS}])
+        assert len(server.requests) == 2
+        assert answers[0]["answers"] == answers[1]["answers"]
+        assert answerer.calls == 2
+
+
 def test_answers_come_back_in_request_order() -> None:
     class _Echo(_Server):
         def __call__(self, request, timeout=None):

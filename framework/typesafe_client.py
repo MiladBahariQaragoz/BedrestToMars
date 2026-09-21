@@ -178,9 +178,16 @@ class CachedAnswerer:
                 "run once without --offline, with the API key set, to fill the cache"
             )
         if missing:
+            # One call per distinct request: the model does not answer twice identically, so
+            # a repeat inside the batch takes the first answer rather than a second opinion.
+            first = {}
+            for index in missing:
+                first.setdefault(keys[index], index)
             with ThreadPoolExecutor(max_workers=self.concurrency) as pool:
-                fetched = pool.map(lambda index: self._fetch(keys[index], requests[index]), missing)
-                for index, result in zip(missing, fetched):
-                    results[index] = result
-            self.calls += len(missing)
+                fetched = dict(
+                    zip(first, pool.map(lambda key: self._fetch(key, requests[first[key]]), first))
+                )
+            for index in missing:
+                results[index] = fetched[keys[index]]
+            self.calls += len(first)
         return [result for result in results if result is not None]
