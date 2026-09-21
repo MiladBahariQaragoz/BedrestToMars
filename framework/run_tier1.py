@@ -269,6 +269,7 @@ def run(config: dict[str, Any] | None = None) -> dict[str, Any]:
         "provenance": {
             "dataset_version": config["dataset"]["version"],
             "dataset_sha256": hashlib.sha256(dataset_path.read_bytes()).hexdigest(),
+            "time_column": config["features"]["time_column"],
             "curve_subset": {
                 "subset": "A",
                 "rows": int(len(curve_rows)),

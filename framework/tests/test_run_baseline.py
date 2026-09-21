@@ -63,6 +63,9 @@ def test_writing_produces_readable_json() -> None:
         assert loaded["forms"]["log"]["mae"] > 0
 
 
+def test_the_time_axis_is_recorded() -> None:
+    assert run_baseline.run(CONFIG)["provenance"]["time_column"] == "timepoint_days"
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0

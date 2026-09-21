@@ -81,7 +81,7 @@ def run_loco(
 
     resolved = features.resolve(frame, config, subset=subset)
     weights = features.weights(resolved, config).to_numpy(dtype=float)
-    days = resolved["duration_days"].to_numpy(dtype=float)
+    days = features.exposure_days(resolved, config)
     values = target.to_numpy(dtype=float)
     design = matrix.to_numpy(dtype=float)
     factory = _factory(model_name, config)
@@ -134,7 +134,7 @@ def out_of_fold_predictions(
 
     resolved = features.resolve(frame, config, subset=subset)
     weights = features.weights(resolved, config).to_numpy(dtype=float)
-    days = resolved["duration_days"].to_numpy(dtype=float)
+    days = features.exposure_days(resolved, config)
     values = target.to_numpy(dtype=float)
     design = matrix.to_numpy(dtype=float)
     factory = _factory(model_name, config)

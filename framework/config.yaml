@@ -32,6 +32,8 @@ subsets:
     include_whole_segment: false
 
 features:
+  time_column: timepoint_days  # days of unloading at the scan; duration_days is the planned
+                               # length, which put interim scans at the end (DESIGN.md 9.4)
   duration_form: saturating    # log | saturating | spline - DESIGN.md section 7.1
   spline_knots_pct: [10, 50, 90]
   saturating_tau_grid: [7, 10, 14, 21, 28, 35, 45, 60, 90]

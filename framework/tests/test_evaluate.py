@@ -115,6 +115,12 @@ def test_registry_reports_what_is_missing() -> None:
         assert "random_forest" not in reported
 
 
+def test_the_duration_curve_tells_apart_two_scans_of_one_campaign() -> None:
+    """Scored on the planned length, every scan of a campaign got the same prediction."""
+    _, predicted, groups = evaluate.out_of_fold_predictions("duration_only", FRAME, CONFIG)
+    berlin = predicted[(groups == "berlin_bbr1").to_numpy()]
+    assert len(np.unique(np.round(berlin, 6))) > 1
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0

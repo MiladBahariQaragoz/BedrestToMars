@@ -109,7 +109,7 @@ def run(config: dict[str, Any] | None = None, subset: str = "A") -> dict[str, An
     frame = data_loader.subset(data_loader.load(config), config)
     resolved = features.resolve(frame, config, subset=subset)
 
-    days = resolved["duration_days"].to_numpy(dtype=float)
+    days = features.exposure_days(resolved, config)
     values = resolved[config["target"]["column"]].to_numpy(dtype=float)
     weights = features.weights(resolved, config).to_numpy(dtype=float)
     groups = resolved[config["cv"]["group_column"]]
@@ -124,6 +124,7 @@ def run(config: dict[str, Any] | None = None, subset: str = "A") -> dict[str, An
             "dataset_version": config["dataset"]["version"],
             "dataset_sha256": hashlib.sha256(dataset_path.read_bytes()).hexdigest(),
             "subset": subset,
+            "time_column": config["features"]["time_column"],
             "rows": int(len(resolved)),
             "cohorts": int(groups.nunique()),
             "studies": int(resolved["study_id"].nunique()),

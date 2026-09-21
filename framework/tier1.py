@@ -385,7 +385,7 @@ def fit_form(
     `tau` is not searched continuously: it is chosen from the declared grid in the config,
     which keeps the fit reproducible and counts as the one extra parameter it is.
     """
-    days = resolved["duration_days"].to_numpy(dtype=float)
+    days = features.exposure_days(resolved, config)
     target = resolved[config["target"]["column"]].astype(float)
     weights = features.weights(resolved, config)
     cohort = resolved[config["cv"]["group_column"]]

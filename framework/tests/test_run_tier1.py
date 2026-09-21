@@ -140,6 +140,7 @@ def test_provenance_names_both_subsets_and_the_frozen_dataset() -> None:
     assert provenance["ranking_subset"] == {"subset": "B", "rows": 304, "cohorts": 25}
     assert provenance["estimation"] == "maximum likelihood"
     assert provenance["inference"] == "cluster-robust on cohort_id"
+    assert provenance["time_column"] == "timepoint_days"
 
 
 def test_dropped_columns_are_recorded_rather_than_lost() -> None:

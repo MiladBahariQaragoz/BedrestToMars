@@ -45,6 +45,16 @@ def resolve(
     return resolved.reset_index(drop=True)
 
 
+def exposure_days(frame: pd.DataFrame, config: dict[str, Any]) -> np.ndarray:
+    """Days of unloading when the muscle was measured - the column the config declares.
+
+    That is the day of the scan, `timepoint_days`. `duration_days` is the campaign's planned
+    length, and reading it here once put a day-14 scan of a 56-day campaign at 56 days
+    (`DESIGN.md` section 9.4).
+    """
+    return frame[config["features"]["time_column"]].to_numpy(dtype=float)
+
+
 def duration_basis(
     days: np.ndarray, form: str = "saturating", tau: float = 21.0
 ) -> np.ndarray:
@@ -131,7 +141,7 @@ def design_from_resolved(
         columns["intercept"] = pd.Series(1.0, index=resolved.index)
 
     form = form or settings["duration_form"]
-    days = resolved["duration_days"].to_numpy(dtype=float)
+    days = exposure_days(resolved, config)
     if form == "spline":
         basis = spline_basis(days, spline_knots(days, config))
         for number in (1, 2):

@@ -161,6 +161,21 @@ def test_design_from_resolved_can_carry_an_intercept() -> None:
     assert (with_intercept["intercept"] == 1.0).all()
 
 
+def test_the_time_axis_is_declared_in_the_config() -> None:
+    assert CONFIG["features"]["time_column"] == "timepoint_days"
+    days = features.exposure_days(FRAME, CONFIG)
+    assert np.array_equal(days, FRAME["timepoint_days"].to_numpy(dtype=float))
+
+
+def test_duration_enters_the_design_as_the_day_of_the_scan() -> None:
+    """A day-14 scan of a 56-day campaign is 14 days of unloading, not 56."""
+    resolved = features.resolve(FRAME, CONFIG, subset="A")
+    matrix = features.design_from_resolved(resolved, CONFIG, form="log")
+    interim = resolved["timepoint_days"] < resolved["duration_days"]
+    assert interim.sum() > 100
+    expected = np.log(resolved.loc[interim, "timepoint_days"].to_numpy(dtype=float))
+    assert np.allclose(matrix.loc[interim, "duration_log"].to_numpy(), expected)
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0

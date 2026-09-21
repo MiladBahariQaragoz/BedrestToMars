@@ -274,6 +274,15 @@ def test_the_real_design_never_carries_the_campaign_identity() -> None:
     cv.assert_groups_absent(design, CONFIG)
 
 
+def test_the_spline_knots_sit_on_the_days_of_the_scans() -> None:
+    frame = data_loader.subset(data_loader.load(CONFIG), CONFIG)
+    resolved = features.resolve(frame, CONFIG, subset="A")
+    fitted = tier1.fit_form(resolved, CONFIG, form="spline")
+    expected = np.percentile(
+        resolved["timepoint_days"].to_numpy(dtype=float), CONFIG["features"]["spline_knots_pct"]
+    )
+    assert np.allclose(fitted.knots, expected), (fitted.knots, expected)
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0
