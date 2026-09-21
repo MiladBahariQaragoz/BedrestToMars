@@ -1,6 +1,6 @@
-"""Draw the five figures of PLAN.md section 9 from the results files.
+"""Draw the figures of PLAN.md section 9, and tier 3's, from the results files.
 
-    python framework/plot_figures.py        # writes figures/F1_corpus ... F5_models, SVG and PNG
+    python framework/plot_figures.py        # writes figures/F1_corpus ... F9_jev_example
 
 Every number drawn is read from `results/` or counted from `data/`; none is typed here, and
 every title is computed from the numbers it states, so a refit cannot leave a stale claim on a
@@ -29,6 +29,8 @@ from matplotlib.patches import FancyBboxPatch
 
 import data_loader
 import features
+import forecast
+import run_forecast
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RESULTS = REPO_ROOT / "results"
@@ -151,6 +153,9 @@ def load_inputs(config: dict[str, Any] | None = None) -> dict[str, Any]:
         "baseline": _json("baseline.json"),
         "models": pd.read_csv(RESULTS / "model_comparison.csv"),
         "forecast": _json("forecast.json"),
+        "predictions": pd.read_csv(RESULTS / "forecast_predictions.csv", dtype={"row_id": str}),
+        "ablation": _json("forecast_ablation.json"),
+        "validation": _json("forecast_validation.json"),
         "screening": screening_counts(),
     }
 
@@ -193,50 +198,90 @@ def _canvas(figure: plt.Figure, rect: list[float], width: float, height: float):
     return axis
 
 
+def row_funnel(inputs: dict[str, Any]) -> dict[str, int]:
+    """Every row of the dataset, and the rows each subset rule removes on the way to the model."""
+    config, dataset, resolved = inputs["config"], inputs["dataset"], inputs["resolved"]
+    unloading = dataset[dataset["phase"] == config["subset"]["phase"]]
+    lower_limb = data_loader.subset(dataset, config)
+    return {
+        "all": int(len(dataset)),
+        "recovery": int(len(dataset) - len(unloading)),
+        "trunk": int(len(unloading) - len(lower_limb)),
+        "counted_twice": int(len(lower_limb) - len(resolved)),
+        "modelled": int(len(resolved)),
+    }
+
+
 def f1_corpus(inputs: dict[str, Any]) -> plt.Figure:
     counts = inputs["screening"]
     dataset, resolved = inputs["dataset"], inputs["resolved"]
-    time = inputs["config"]["features"]["time_column"]
+    funnel = row_funnel(inputs)
     campaigns = int(resolved["cohort_id"].nunique())
+
+    figure = _figure()
+    _title(figure, f"From {counts['identified']:,} records to {funnel['modelled']} modelled rows")
+
+    flow = _canvas(figure, [0.02, 0.02, 0.46, 0.84], 6.13, 6.3)
+    boxes = [
+        [f"{counts['identified']:,} records found", f"{counts['duplicates']:,} were duplicates"],
+        [f"{counts['screened']:,} screened", f"{counts['not_yet_screened']:,} not yet screened"],
+        [f"{counts['included']} read in full", "plus earlier papers, NASA"],
+        [f"Dataset: {funnel['all']} rows",
+         f"{dataset['study_id'].nunique()} studies, {dataset['cohort_id'].nunique()} campaigns"],
+        [f"Modelled: {funnel['modelled']} rows", f"{campaigns} campaigns"],
+    ]
+    height, gap = 1.0, 0.28
+    for index, lines in enumerate(boxes):
+        y = 6.3 - (index + 1) * height - index * gap
+        _box(flow, 0.1, y, 5.6, height, lines, accent=index == len(boxes) - 1)
+        if index + 1 < len(boxes):
+            _arrow(flow, (2.9, y), (2.9, y - gap + 0.02))
+
+    fall = figure.add_axes([0.53, 0.13, 0.44, 0.68])
+    steps = [
+        ("all", f"{funnel['all']} rows in the dataset", 0, funnel["all"], INK_2),
+        ("recovery", f"−{funnel['recovery']} recovery scans",
+         funnel["all"] - funnel["recovery"], funnel["all"], SERIES[1]),
+        ("trunk", f"−{funnel['trunk']} trunk muscles",
+         funnel["all"] - funnel["recovery"] - funnel["trunk"],
+         funnel["all"] - funnel["recovery"], SERIES[1]),
+        ("counted_twice", f"−{funnel['counted_twice']} counted twice",
+         funnel["modelled"], funnel["modelled"] + funnel["counted_twice"], SERIES[1]),
+        ("modelled", f"{funnel['modelled']} rows modelled", 0, funnel["modelled"], ACCENT),
+    ]
+    for position, (_, label, low, high, colour) in enumerate(steps):
+        y = len(steps) - 1 - position
+        fall.barh(y, high - low, left=low, height=0.34, color=colour)
+        fall.text(0, y + 0.27, label, fontsize=BODY, color=INK, va="bottom")
+    fall.set_ylim(-0.4, len(steps) - 0.05 + 0.6)
+    fall.set_xlim(0, funnel["all"] * 1.02)
+    fall.set_yticks([])
+    fall.spines["left"].set_visible(False)
+    fall.set_xticks([0, 200, 400, 600])
+    fall.set_xlabel("Rows")
+    fall.grid(axis="x")
+    fall.set_axisbelow(True)
+    return figure
+
+
+def f1b_campaigns(inputs: dict[str, Any]) -> plt.Figure:
+    resolved = inputs["resolved"]
+    time = inputs["config"]["features"]["time_column"]
+    per_campaign = resolved.groupby("cohort_id").agg(planned=("duration_days", "max")).sort_values("planned")
+    low, high = int(per_campaign["planned"].min()), int(per_campaign["planned"].max())
 
     figure = _figure()
     _title(
         figure,
-        f"From {counts['identified']:,} records to {campaigns} modelled campaigns",
+        f"{len(per_campaign)} campaigns, from {low} to {high} days of bed rest",
+        "One bar per campaign: its planned length. Dots mark the scans",
     )
-
-    flow = _canvas(figure, [0.02, 0.02, 0.50, 0.84], 6.6, 6.3)
-    rows = [
-        (5.35, [f"{counts['identified']:,} records found"], f"{counts['duplicates']:,} duplicates"),
-        (4.05, [f"{counts['screened']:,} screened"], f"{counts['not_yet_screened']:,} not yet"),
-        (2.75, [f"{counts['included']} read in full"], None),
-        (1.45, [f"{dataset['study_id'].nunique()} studies,",
-                f"{dataset['cohort_id'].nunique()} campaigns"], "+ prior papers\n+ NASA archive"),
-        (0.15, [f"{len(resolved)} rows, {campaigns} campaigns"], None),
-    ]
-    for index, (y, lines, aside) in enumerate(rows):
-        height = 0.95 if len(lines) == 1 else 1.15
-        top = y + height
-        _box(flow, 0.2, y, 4.3, height, lines, accent=index == len(rows) - 1)
-        if aside:
-            flow.text(4.75, y + height / 2, aside, fontsize=BODY, color=INK_2, va="center")
-        if index + 1 < len(rows):
-            next_y, next_lines, _ = rows[index + 1]
-            next_top = next_y + (0.95 if len(next_lines) == 1 else 1.15)
-            _arrow(flow, (2.35, y), (2.35, next_top + 0.02))
-        del top
-
-    strip = figure.add_axes([0.60, 0.20, 0.37, 0.62])
-    per_campaign = (
-        resolved.groupby("cohort_id")
-        .agg(planned=("duration_days", "max"), n=("n_analysed", "max"))
-        .sort_values("planned")
-    )
+    strip = figure.add_axes([0.05, 0.14, 0.90, 0.68])
     positions = np.arange(len(per_campaign))
     strip.barh(positions, per_campaign["planned"], height=0.55, color=ACCENT, alpha=0.85)
     for position, cohort in zip(positions, per_campaign.index):
         days = np.unique(resolved.loc[resolved["cohort_id"] == cohort, time].to_numpy(dtype=float))
-        strip.scatter(days, np.full(len(days), position), s=40, color=INK,
+        strip.scatter(days, np.full(len(days), position), s=60, color=INK,
                       edgecolors=SURFACE, linewidths=1.5, zorder=3)
     strip.set_yticks([])
     strip.spines["left"].set_visible(False)
@@ -244,8 +289,6 @@ def f1_corpus(inputs: dict[str, Any]) -> plt.Figure:
     strip.set_xlabel("Days of bed rest")
     strip.grid(axis="x")
     strip.set_axisbelow(True)
-    strip.set_title("One bar per campaign", fontsize=BODY, color=INK_2, loc="left", pad=12)
-    figure.text(0.60, 0.035, "Dots mark the scans", fontsize=BODY, color=INK_2)
     return figure
 
 
@@ -419,12 +462,184 @@ def f5_models(inputs: dict[str, Any]) -> plt.Figure:
     return figure
 
 
+
+# --- F6-F9: the TypeSafe forecast -------------------------------------------------------
+
+
+def _without_history(inputs: dict[str, Any]) -> pd.DataFrame:
+    rows = inputs["predictions"]
+    return rows[rows["arm"] == "without_history"]
+
+
+def f6_jev_campaigns(inputs: dict[str, Any]) -> plt.Figure:
+    errors = _without_history(inputs).groupby(["cohort", "model"])["abs_error"].mean().unstack()
+    gains = (errors["duration_curve"] - errors["jev"]).sort_values(ascending=False)
+    better = int((gains > 0).sum())
+    paired = inputs["forecast"]["arms"]["without_history"]["comparison"]["paired_mae_gain_pp"]
+
+    figure = _figure()
+    _title(
+        figure,
+        f"Jev beats the curve in {better} of {len(gains)} held-out campaigns",
+        f"Average gain {paired['point']:.2f} pp (95% CI {paired['low']:.2f} to {paired['high']:.2f})",
+    )
+    axis = figure.add_axes([0.10, 0.14, 0.62, 0.66])
+    positions = np.arange(len(gains))
+    colours = [ACCENT if value > 0 else SERIES[1] for value in gains]
+    axis.bar(positions, gains.to_numpy(), width=0.7, color=colours)
+    axis.axhline(0, color=INK_2, linewidth=1)
+    axis.set_xticks([])
+    axis.set_xlabel("Held-out campaigns, largest gain first")
+    axis.set_ylabel("Gain (pp)")
+    axis.grid(axis="y")
+    axis.set_axisbelow(True)
+    handles = [
+        plt.Rectangle((0, 0), 1, 1, color=ACCENT, label="Jev closer"),
+        plt.Rectangle((0, 0), 1, 1, color=SERIES[1], label="Curve closer"),
+    ]
+    axis.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=False)
+    return figure
+
+
+CHECKS = [
+    ("full", "As run", "ablation"),
+    ("generic", "No identifying details", "ablation"),
+    ("reordered", "Rows reordered", "validation"),
+    ("shifted_bins", "Ranges shifted", "validation"),
+    ("scrambled_reference", "Values shuffled", "ablation"),
+    ("no_reference", "No reference data", "ablation"),
+]
+HOLDS = {"full", "generic", "reordered", "shifted_bins"}
+
+
+def check_rows(inputs: dict[str, Any]) -> pd.DataFrame:
+    """Each scenario's paired gain over the curve, from the run that recorded it."""
+    rows = []
+    for key, label, source in CHECKS:
+        if source == "ablation":
+            gain = inputs["ablation"]["variants"][key]["paired_mae_gain_vs_curve_pp"]
+        else:
+            gain = inputs["validation"]["runs"]["without_history"][key]["paired_mae_gain_vs_reference_pp"]
+        rows.append({"key": key, "label": label, "gain": gain["point"],
+                     "low": gain["low"], "high": gain["high"], "holds": key in HOLDS})
+    return pd.DataFrame(rows)
+
+
+def f7_jev_checks(inputs: dict[str, Any]) -> plt.Figure:
+    rows = check_rows(inputs).iloc[::-1].reset_index(drop=True)
+    figure = _figure()
+    _title(
+        figure,
+        "Jev's edge holds in every way we asked",
+        "Gain over the curve with 95% CI, 32 held-out campaigns",
+    )
+    axis = figure.add_axes([0.30, 0.14, 0.38, 0.66])
+    positions = np.arange(len(rows))
+    colours = [ACCENT if holds else SERIES[1] for holds in rows["holds"]]
+    axis.hlines(positions, rows["low"], rows["high"], colors=colours, linewidth=3)
+    axis.scatter(rows["gain"], positions, s=150, c=colours, edgecolors=SURFACE, linewidths=2, zorder=3)
+    axis.axvline(0, color=INK_2, linewidth=1)
+    axis.set_yticks(positions, rows["label"])
+    axis.tick_params(axis="y", length=0)
+    axis.spines["left"].set_visible(False)
+    axis.set_xlabel("Gain over the curve (pp)")
+    axis.grid(axis="x")
+    axis.set_axisbelow(True)
+    handles = [
+        plt.Line2D([], [], color=ACCENT, marker="o", linewidth=3, label="Same data"),
+        plt.Line2D([], [], color=SERIES[1], marker="o", linewidth=3, label="Data taken away"),
+    ]
+    axis.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=False)
+    return figure
+
+
+def f8_jev_scatter(inputs: dict[str, Any]) -> plt.Figure:
+    rows = _without_history(inputs)
+    models = inputs["forecast"]["arms"]["without_history"]["models"]
+    figure = _figure()
+    _title(
+        figure,
+        "Jev tracks what the curve averages away",
+        f"Forecast against the actual change, {rows['row_id'].nunique()} rows, "
+        f"{rows['cohort'].nunique()} held-out campaigns",
+    )
+    low = float(min(rows["truth"].min(), rows["point"].min())) - 2
+    high = float(max(rows["truth"].max(), rows["point"].max())) + 2
+    panels = [("duration_curve", "Duration curve", INK_2, 0.08), ("jev", "Jev", ACCENT, 0.56)]
+    for model, name, colour, left in panels:
+        part = rows[rows["model"] == model]
+        axis = figure.add_axes([left, 0.14, 0.38, 0.58])
+        axis.plot([low, high], [low, high], color=AXIS, linewidth=1)
+        axis.scatter(part["truth"], part["point"], s=40, color=colour, edgecolors=SURFACE,
+                     linewidths=1, zorder=2)
+        axis.set_xlim(low, high)
+        axis.set_ylim(low, high)
+        axis.set_title(f"{name}, error {models[model]['mae']:.2f} pp", fontsize=BODY, loc="left")
+        axis.set_xlabel("Actual change (%)")
+        if model == "duration_curve":
+            axis.set_ylabel("Forecast (%)")
+        axis.grid(True)
+        axis.set_axisbelow(True)
+    return figure
+
+
+def example_row(inputs: dict[str, Any]) -> str:
+    """The row whose Jev error sits closest to Jev's median error - typical, not flattering."""
+    jev = _without_history(inputs)
+    jev = jev[jev["model"] == "jev"]
+    distance = (jev["abs_error"] - jev["abs_error"].median()).abs()
+    return str(jev.loc[distance.sort_values(kind="stable").index[0], "row_id"])
+
+
+def f9_jev_example(inputs: dict[str, Any]) -> plt.Figure:
+    config, resolved = inputs["config"], inputs["resolved"]
+    row_id = example_row(inputs)
+    plan = run_forecast.fold_plan(config, resolved, "without_history")
+    entry = next(e for e in plan if e["row_id"] == row_id)
+    answer = run_forecast._answerer(config, offline=True)(
+        [{"state": entry["state"], "questions": entry["questions"]}]
+    )[0]
+    bins = forecast.arm_bins(config, "without_history")
+    jev = forecast.probabilities_from_answer(bins, answer["answers"]["forecast"])
+    curve = entry["baselines"]["duration_curve"]
+    target = resolved[resolved["row_id"] == row_id].iloc[0]
+
+    figure = _figure()
+    _title(
+        figure,
+        "Jev gives a probability for every range",
+        f"{words(target['muscle'])}, day {int(entry['day'])}, from a held-out campaign; "
+        f"actual {entry['truth']:+.1f}%",
+    )
+    axis = figure.add_axes([0.09, 0.20, 0.62, 0.58])
+    centres = bins.representatives
+    width = bins.step * 0.4
+    axis.bar(centres - width / 2, jev, width=width, color=ACCENT, label="Jev")
+    axis.bar(centres + width / 2, curve, width=width, color=INK_2, label="Curve")
+    axis.axvline(entry["truth"], color=INK, linewidth=2)
+    axis.text(entry["truth"], 1.02, "Actual", transform=axis.get_xaxis_transform(),
+              ha="center", va="bottom", fontsize=BODY)
+    axis.set_xlabel("Change in muscle size (%)")
+    axis.set_ylabel("Probability")
+    axis.grid(axis="y")
+    axis.set_axisbelow(True)
+    axis.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=False)
+    figure.text(0.09, 0.035, "Chosen as typical: Jev's error here is its median error",
+                fontsize=BODY, color=INK_2)
+    return figure
+
+
 FIGURES: dict[str, Callable[[dict[str, Any]], plt.Figure]] = {
     "F1_corpus": f1_corpus,
+    "F1b_campaigns": f1b_campaigns,
     "F2_duration": f2_duration,
     "F3_muscles": f3_muscles,
     "F4_framework": f4_framework,
     "F5_models": f5_models,
+    "F6_jev_campaigns": f6_jev_campaigns,
+    "F7_jev_checks": f7_jev_checks,
+    "F8_jev_scatter": f8_jev_scatter,
+    "F9_jev_example": f9_jev_example,
 }
 
 

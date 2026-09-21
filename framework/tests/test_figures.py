@@ -51,8 +51,11 @@ def _joined(figure) -> str:
     return " ".join(text.get_text() for text in _texts(figure))
 
 
-def test_there_are_five_figures() -> None:
-    assert list(FIGURES) == ["F1_corpus", "F2_duration", "F3_muscles", "F4_framework", "F5_models"]
+def test_the_figure_set_is_the_declared_one() -> None:
+    assert list(FIGURES) == [
+        "F1_corpus", "F1b_campaigns", "F2_duration", "F3_muscles", "F4_framework",
+        "F5_models", "F6_jev_campaigns", "F7_jev_checks", "F8_jev_scatter", "F9_jev_example",
+    ]
 
 
 def test_every_figure_is_drawn_on_a_full_slide_canvas() -> None:
@@ -101,8 +104,9 @@ def test_no_text_lands_on_a_chart_it_does_not_belong_to() -> None:
 
 
 def test_every_data_figure_states_its_sample_on_the_figure() -> None:
-    for name in ("F1_corpus", "F2_duration", "F3_muscles", "F5_models"):
-        assert "campaigns" in _joined(FIGURES[name]), name
+    for name in FIGURES:
+        if name != "F4_framework":
+            assert "campaign" in _joined(FIGURES[name]), name
 
 
 def test_the_duration_figure_uses_only_the_three_validated_colours() -> None:
@@ -147,6 +151,73 @@ def test_the_screening_counts_are_counted_from_the_search_tables() -> None:
     assert counts["excluded"] == 2493
     assert counts["included"] == 74
     assert counts["not_yet_screened"] == 1023
+
+
+def test_the_row_funnel_is_counted_from_the_data() -> None:
+    assert plot_figures.row_funnel(INPUTS) == {
+        "all": 742, "recovery": 264, "trunk": 53, "counted_twice": 79, "modelled": 346,
+    }
+
+
+def test_the_corpus_figure_walks_from_every_row_to_the_modelled_ones_and_says_why() -> None:
+    text = _joined(FIGURES["F1_corpus"])
+    for part in ("742", "264", "53", "79", "346", "recovery", "trunk", "counted twice"):
+        assert part in text, part
+
+
+def test_the_campaign_figure_has_one_bar_per_campaign() -> None:
+    axis = FIGURES["F1b_campaigns"].axes[0]
+    assert len(axis.patches) == INPUTS["resolved"]["cohort_id"].nunique()
+
+
+def _jev_gains() -> pd.Series:
+    rows = pd.read_csv(REPO_ROOT / "results" / "forecast_predictions.csv")
+    rows = rows[rows["arm"] == "without_history"]
+    errors = rows.groupby(["cohort", "model"])["abs_error"].mean().unstack()
+    return errors["duration_curve"] - errors["jev"]
+
+
+def test_the_jev_campaign_figure_has_a_bar_for_each_held_out_campaign() -> None:
+    gains = _jev_gains()
+    axis = FIGURES["F6_jev_campaigns"].axes[0]
+    heights = sorted(round(patch.get_height(), 9) for patch in axis.patches)
+    assert heights == sorted(round(value, 9) for value in gains)
+    assert f"{int((gains > 0).sum())} of {len(gains)}" in _joined(FIGURES["F6_jev_campaigns"])
+
+
+def test_the_checks_figure_plots_every_scenario_at_its_recorded_gain() -> None:
+    ablation = INPUTS["ablation"]["variants"]
+    validation = INPUTS["validation"]["runs"]["without_history"]
+    expected = {
+        "full": ablation["full"]["paired_mae_gain_vs_curve_pp"]["point"],
+        "generic": ablation["generic"]["paired_mae_gain_vs_curve_pp"]["point"],
+        "reordered": validation["reordered"]["paired_mae_gain_vs_reference_pp"]["point"],
+        "shifted_bins": validation["shifted_bins"]["paired_mae_gain_vs_reference_pp"]["point"],
+        "scrambled_reference": ablation["scrambled_reference"]["paired_mae_gain_vs_curve_pp"]["point"],
+        "no_reference": ablation["no_reference"]["paired_mae_gain_vs_curve_pp"]["point"],
+    }
+    plotted = plot_figures.check_rows(INPUTS)
+    assert dict(zip(plotted["key"], plotted["gain"])) == expected
+    labels = [label.get_text() for label in FIGURES["F7_jev_checks"].axes[0].get_yticklabels()]
+    assert sorted(labels) == sorted(plotted["label"])
+
+
+def test_the_scatter_figure_shows_the_curve_and_jev_on_every_row() -> None:
+    axes = FIGURES["F8_jev_scatter"].axes
+    assert len(axes) == 2
+    for axis in axes:
+        assert sum(len(c.get_offsets()) for c in axis.collections) == 346
+
+
+def test_the_example_is_chosen_by_a_rule_not_by_hand() -> None:
+    """The row whose Jev error sits closest to Jev's median error: typical, not flattering."""
+    rows = pd.read_csv(REPO_ROOT / "results" / "forecast_predictions.csv")
+    jev = rows[(rows["arm"] == "without_history") & (rows["model"] == "jev")]
+    distance = (jev["abs_error"] - jev["abs_error"].median()).abs()
+    expected = jev.loc[distance.sort_values(kind="stable").index[0], "row_id"]
+    assert plot_figures.example_row(INPUTS) == expected
+    axis = FIGURES["F9_jev_example"].axes[0]
+    assert len(axis.patches) == 2 * plot_figures.forecast.arm_bins(CONFIG, "without_history").count
 
 
 def test_render_all_writes_an_svg_and_a_png_for_every_figure() -> None:

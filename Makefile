@@ -17,7 +17,7 @@ help:
 	@echo "make ablation-live - as ablation, asking TypeSafe for any uncached answer"
 	@echo "make validation - score the tier-3 validation battery from the cache"
 	@echo "make validation-live - as validation, asking TypeSafe for any uncached answer"
-	@echo "make figures   - draw F1-F5 from the results, write figures/*.svg and *.png"
+	@echo "make figures   - draw F1-F9 from the results, write figures/*.svg and *.png"
 	@echo "make venv      - create the virtual environment this project needs"
 	@echo "make all       - regenerate every result from data/dataset_v1.1.csv"
 
@@ -87,11 +87,13 @@ validation-live: $(FORECAST_DEPS) framework/run_validation.py
 	$(PYTHON) framework/run_validation.py
 
 # The five figures of PLAN.md section 9, drawn from the results files - never by hand.
-figures: figures/F5_models.svg
+figures: figures/F9_jev_example.svg
 
-figures/F5_models.svg: results/tier1_curve.json results/tier1_muscle_ranking.csv \
-                       results/baseline.json results/model_comparison.csv \
-                       results/forecast.json framework/plot_figures.py
+figures/F9_jev_example.svg: results/tier1_curve.json results/tier1_muscle_ranking.csv \
+                            results/baseline.json results/model_comparison.csv \
+                            results/forecast.json results/forecast_predictions.csv \
+                            results/forecast_ablation.json results/forecast_validation.json \
+                            framework/plot_figures.py
 	$(PYTHON) framework/plot_figures.py
 
 # The environment cannot live in the Google Drive folder: the mount refuses the symlinks
