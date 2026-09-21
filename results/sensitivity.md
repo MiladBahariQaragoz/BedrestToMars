@@ -10,7 +10,7 @@ is why `n_analysed` is the primary weight rather than a compromise.
 
 | # | Analysis | Weights | Rows | Campaigns | Duration coefficient (95% CI) | LOCO MAE |
 |---|---|---|---|---|---|---|
-| — | Primary - every row, weighted by participants analysed | n_analysed | 346 | 32 | -16.49 (-20.49 to -12.49) | 3.47 pp |
-| — | Restricted to rows carrying a dispersion of the change, weighted by participants | n_analysed | 161 | 8 | -13.94 (-18.62 to -9.26) | 2.81 pp |
-| S6 | S6 - the same rows, weighted by the inverse of each estimate's variance | inverse variance | 161 | 8 | -11.57 (-14.18 to -8.97) | 2.88 pp |
+| — | Primary - every row, weighted by participants analysed | n_analysed | 346 | 32 | -14.25 (-16.40 to -12.11) | 3.34 pp |
+| — | Restricted to rows carrying a dispersion of the change, weighted by participants | n_analysed | 161 | 8 | -14.51 (-15.61 to -13.42) | 2.67 pp |
+| S6 | S6 - the same rows, weighted by the inverse of each estimate's variance | inverse variance | 161 | 8 | -13.60 (-16.69 to -10.50) | 2.82 pp |
 

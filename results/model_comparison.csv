@@ -1,6 +1,6 @@
 model,loco_mae_pp,ci95_low,ci95_high,rmse_pp,r2_pooled,vs_baseline_relative,beats_baseline_by_15pct,worst_fold_cohort,worst_fold_mae_pp
-duration_only (log),3.205,,,,,0.0,,,
-svr,3.219,2.483,3.982,3.842,0.218,-0.004,False,wise2005,9.414
-random_forest,3.335,2.588,4.132,3.989,0.187,-0.041,False,wise2005,9.0
-gradient_boosting,3.375,2.668,4.145,4.047,0.095,-0.053,False,wise2005,9.351
-ridge,3.558,2.86,4.348,4.188,0.182,-0.11,False,wise2005,9.26
+duration_only (log),3.157,,,,,0.0,,,
+random_forest,3.18,2.497,3.908,3.714,0.34,-0.007,False,liphardt_br21,7.827
+svr,3.275,2.668,3.919,3.869,0.363,-0.037,False,liphardt_br21,7.903
+ridge,3.278,2.592,4.023,3.93,0.269,-0.038,False,wise2005,8.641
+gradient_boosting,3.343,2.675,4.067,3.987,0.299,-0.059,False,liphardt_br21,7.823

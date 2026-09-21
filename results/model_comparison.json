@@ -2,104 +2,110 @@
   "any_model_beats_baseline": false,
   "baseline": {
     "form": "log",
-    "mae": 3.2051956891981153
+    "mae": 3.1568914582920873
   },
-  "best_model": "svr",
+  "best_model": "random_forest",
   "importance": {
     "method": {
-      "note": "shap is not installed, so importance is permutation-based. Install the optional stack with `pip install -r requirements.txt` to compute SHAP values. Do not label a permutation plot as SHAP.",
+      "note": "",
       "requested": "shap",
-      "used": "permutation_importance"
+      "used": "shap"
     },
     "stability": [
       {
         "feature": "duration_saturating",
-        "folds_in_top_k": 22,
-        "mean_importance": 0.0,
-        "share": 0.6875
-      },
-      {
-        "feature": "muscle_family_hip_abductors",
-        "folds_in_top_k": 19,
-        "mean_importance": 0.00011315936086883916,
-        "share": 0.59375
-      },
-      {
-        "feature": "muscle_family_hip_adductors",
-        "folds_in_top_k": 18,
-        "mean_importance": 0.04115792428744512,
-        "share": 0.5625
-      },
-      {
-        "feature": "arm_type_countermeasure",
-        "folds_in_top_k": 10,
-        "mean_importance": 0.19259680112636163,
-        "share": 0.3125
+        "folds_in_top_k": 29,
+        "mean_importance": 3.9157072510903266,
+        "share": 0.90625
       },
       {
         "feature": "muscle_family_plantar_flexors",
-        "folds_in_top_k": 8,
-        "mean_importance": 0.1764382778778241,
-        "share": 0.25
+        "folds_in_top_k": 28,
+        "mean_importance": 1.714351786539674,
+        "share": 0.875
       },
       {
-        "feature": "modality_outcome_DXA_lean_mass",
-        "folds_in_top_k": 4,
-        "mean_importance": 0.10111755838438209,
-        "share": 0.125
+        "feature": "arm_type_countermeasure",
+        "folds_in_top_k": 19,
+        "mean_importance": 1.0431567101792205,
+        "share": 0.59375
+      },
+      {
+        "feature": "is_composite",
+        "folds_in_top_k": 17,
+        "mean_importance": 0.8679500858302885,
+        "share": 0.53125
       },
       {
         "feature": "modality_outcome_ultrasound_thickness",
-        "folds_in_top_k": 3,
-        "mean_importance": 0.031111203311529938,
-        "share": 0.09375
+        "folds_in_top_k": 2,
+        "mean_importance": 0.1785380255587053,
+        "share": 0.0625
+      },
+      {
+        "feature": "modality_outcome_MRI_CSA",
+        "folds_in_top_k": 1,
+        "mean_importance": 0.2063266473098227,
+        "share": 0.03125
       },
       {
         "feature": "muscle_family_knee_flexors",
-        "folds_in_top_k": 3,
-        "mean_importance": 0.028443509606331414,
-        "share": 0.09375
+        "folds_in_top_k": 0,
+        "mean_importance": 0.2633157965623319,
+        "share": 0.0
       },
       {
-        "feature": "muscle_family_knee_extensors",
-        "folds_in_top_k": 3,
-        "mean_importance": 0.002774920123601086,
-        "share": 0.09375
+        "feature": "muscle_family_hip_adductors",
+        "folds_in_top_k": 0,
+        "mean_importance": 0.25279743061454313,
+        "share": 0.0
       },
       {
         "feature": "modality_outcome_MRI_volume",
-        "folds_in_top_k": 2,
-        "mean_importance": 0.029258525229680223,
-        "share": 0.0625
-      },
-      {
-        "feature": "muscle_family_hip_flexors",
-        "folds_in_top_k": 2,
-        "mean_importance": 0.026482863735850327,
-        "share": 0.0625
-      },
-      {
-        "feature": "muscle_family_hip_extensors",
-        "folds_in_top_k": 1,
-        "mean_importance": 0.05834010564977968,
-        "share": 0.03125
+        "folds_in_top_k": 0,
+        "mean_importance": 0.16088759404263464,
+        "share": 0.0
       },
       {
         "feature": "muscle_family_whole_limb",
-        "folds_in_top_k": 1,
-        "mean_importance": 0.03219482226947169,
-        "share": 0.03125
+        "folds_in_top_k": 0,
+        "mean_importance": 0.15417698881668107,
+        "share": 0.0
+      },
+      {
+        "feature": "modality_outcome_DXA_lean_mass",
+        "folds_in_top_k": 0,
+        "mean_importance": 0.15378147476540424,
+        "share": 0.0
       },
       {
         "feature": "muscle_family_hip_rotators",
         "folds_in_top_k": 0,
-        "mean_importance": 5.325042015127679e-05,
+        "mean_importance": 0.14452836817708403,
         "share": 0.0
       },
       {
-        "feature": "modality_outcome_MRI_CSA",
+        "feature": "muscle_family_knee_extensors",
         "folds_in_top_k": 0,
-        "mean_importance": 0.0,
+        "mean_importance": 0.11501004270574244,
+        "share": 0.0
+      },
+      {
+        "feature": "muscle_family_hip_flexors",
+        "folds_in_top_k": 0,
+        "mean_importance": 0.03402429334902204,
+        "share": 0.0
+      },
+      {
+        "feature": "muscle_family_hip_extensors",
+        "folds_in_top_k": 0,
+        "mean_importance": 0.006281133128799542,
+        "share": 0.0
+      },
+      {
+        "feature": "muscle_family_hip_abductors",
+        "folds_in_top_k": 0,
+        "mean_importance": 0.005852579465516225,
         "share": 0.0
       },
       {
@@ -107,23 +113,17 @@
         "folds_in_top_k": 0,
         "mean_importance": 0.0,
         "share": 0.0
-      },
-      {
-        "feature": "is_composite",
-        "folds_in_top_k": 0,
-        "mean_importance": -0.004018676075344199,
-        "share": 0.0
       }
     ]
   },
   "models": {
     "gradient_boosting": {
-      "baseline_mae": 3.2051956891981153,
+      "baseline_mae": 3.1568914582920873,
       "beats_baseline": false,
       "chosen_parameters": [
         {
           "fold": 0,
-          "learning_rate": 0.03,
+          "learning_rate": 0.1,
           "max_depth": 1
         },
         {
@@ -139,7 +139,7 @@
         {
           "fold": 3,
           "learning_rate": 0.03,
-          "max_depth": 1
+          "max_depth": 2
         },
         {
           "fold": 4,
@@ -148,7 +148,7 @@
         },
         {
           "fold": 5,
-          "learning_rate": 0.03,
+          "learning_rate": 0.1,
           "max_depth": 1
         },
         {
@@ -159,7 +159,7 @@
         {
           "fold": 7,
           "learning_rate": 0.03,
-          "max_depth": 1
+          "max_depth": 2
         },
         {
           "fold": 8,
@@ -168,7 +168,7 @@
         },
         {
           "fold": 9,
-          "learning_rate": 0.03,
+          "learning_rate": 0.1,
           "max_depth": 1
         },
         {
@@ -204,7 +204,7 @@
         {
           "fold": 16,
           "learning_rate": 0.03,
-          "max_depth": 1
+          "max_depth": 2
         },
         {
           "fold": 17,
@@ -283,726 +283,726 @@
         }
       ],
       "ci95": {
-        "high": 4.14487618223886,
-        "low": 2.6680570901158283
+        "high": 4.06740828244761,
+        "low": 2.6751874208130713
       },
       "folds": [
         {
           "fold": 0,
           "held_out_cohort": "agbresa",
-          "mae": 3.4179572772722144,
+          "mae": 4.316081350114002,
           "n_test": 9,
-          "r2": -0.8298767810127958,
-          "rmse": 4.32565379721422
+          "r2": -2.0459260628501115,
+          "rmse": 5.580852097442983
         },
         {
           "fold": 1,
           "held_out_cohort": "maastricht_br7",
-          "mae": 1.4053138139629402,
+          "mae": 1.5346036811378276,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 1.4053138139629402
+          "rmse": 1.5346036811378276
         },
         {
           "fold": 2,
           "held_out_cohort": "maastricht_br14",
-          "mae": 1.0840818910685452,
+          "mae": 1.0994639443223477,
           "n_test": 7,
-          "r2": -1.8383025666880464,
-          "rmse": 1.5458467688614859
+          "r2": -2.290127057927472,
+          "rmse": 1.6643452944489459
         },
         {
           "fold": 3,
           "held_out_cohort": "wise2005",
-          "mae": 9.351417855570697,
+          "mae": 7.443453242460161,
           "n_test": 26,
-          "r2": -0.932277204315886,
-          "rmse": 10.565027513498716
+          "r2": -0.1968792035058955,
+          "rmse": 8.314977485998977
         },
         {
           "fold": 4,
           "held_out_cohort": "birmingham_br5_nct04422665",
-          "mae": 1.7112399073421454,
+          "mae": 1.5847504884492898,
           "n_test": 8,
-          "r2": -1.7373547538887761,
-          "rmse": 2.0904817993940488
+          "r2": -1.4903867504659267,
+          "rmse": 1.9939499231978701
         },
         {
           "fold": 5,
           "held_out_cohort": "dlr_hdt5_crossover",
-          "mae": 4.929773008087353,
+          "mae": 5.307700549589238,
           "n_test": 6,
-          "r2": -12.013501864109074,
-          "rmse": 5.7347723115331775
+          "r2": -13.87572969243569,
+          "rmse": 6.1313799518794605
         },
         {
           "fold": 6,
           "held_out_cohort": "mcgill_hdbr14",
-          "mae": 1.974422487841363,
+          "mae": 1.6800035978253969,
           "n_test": 4,
-          "r2": -0.07068482928238895,
-          "rmse": 2.193829735952344
+          "r2": 0.25847806466599943,
+          "rmse": 1.825719673886611
         },
         {
           "fold": 7,
           "held_out_cohort": "brace_br60",
-          "mae": 6.308807193377265,
+          "mae": 6.544244602860071,
           "n_test": 18,
-          "r2": -0.076164387932665,
-          "rmse": 9.858272352570268
+          "r2": -0.016698472329553127,
+          "rmse": 9.582031394416582
         },
         {
           "fold": 8,
           "held_out_cohort": "izola_br10",
-          "mae": 3.992445756172848,
+          "mae": 3.8618823335655206,
           "n_test": 8,
-          "r2": -1.3780903559634354,
-          "rmse": 5.199238054551276
+          "r2": -1.4754077861543227,
+          "rmse": 5.304554345650737
         },
         {
           "fold": 9,
           "held_out_cohort": "copenhagen_br5",
-          "mae": 2.671727853969092,
+          "mae": 3.2568792597684175,
           "n_test": 12,
-          "r2": -0.27146183762568543,
-          "rmse": 3.3650799010186487
+          "r2": -1.4668997451927108,
+          "rmse": 4.6872645506906805
         },
         {
           "fold": 10,
           "held_out_cohort": "medes_ltbr90",
-          "mae": 6.511962027199662,
+          "mae": 5.14487412396632,
           "n_test": 86,
-          "r2": -0.029804727941851183,
-          "rmse": 7.974319612822795
+          "r2": 0.2829313957736581,
+          "rmse": 6.654210750408126
         },
         {
           "fold": 11,
           "held_out_cohort": "nasa_sprint_br70",
-          "mae": 5.583807768620093,
+          "mae": 6.408735806021125,
           "n_test": 3,
-          "r2": 0.2782564338349478,
-          "rmse": 6.141924996512207
+          "r2": 0.21001850653344278,
+          "rmse": 6.42571570160571
         },
         {
           "fold": 12,
           "held_out_cohort": "imbp_br21",
-          "mae": 2.4592031086040347,
+          "mae": 2.634725360759977,
           "n_test": 2,
-          "r2": -10.751430985542662,
-          "rmse": 2.5710270184048527
+          "r2": -12.34093818067874,
+          "rmse": 2.7393936786507687
         },
         {
           "fold": 13,
           "held_out_cohort": "padova_ulls10",
-          "mae": 0.5564227536484179,
+          "mae": 0.5453870685554634,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.5564227536484179
+          "rmse": 0.5453870685554634
         },
         {
           "fold": 14,
           "held_out_cohort": "lunhab_br10",
-          "mae": 1.0515691578247206,
+          "mae": 1.0551569217751848,
           "n_test": 4,
-          "r2": -4.914656416391963,
-          "rmse": 1.1536020517007552
+          "r2": -4.948249464755924,
+          "rmse": 1.1568734285003195
         },
         {
           "fold": 15,
           "held_out_cohort": "izola_br14",
-          "mae": 2.4243615313120395,
+          "mae": 2.5952663006949757,
           "n_test": 3,
-          "r2": -3.7622873051600916,
-          "rmse": 2.7275907054996136
+          "r2": -4.311427065697499,
+          "rmse": 2.8805606040743537
         },
         {
           "fold": 16,
           "held_out_cohort": "liphardt_br21",
-          "mae": 6.795461213086966,
+          "mae": 7.822599096387121,
           "n_test": 20,
-          "r2": -2.145267490357504,
-          "rmse": 7.677369226665511
+          "r2": -2.9870481535347833,
+          "rmse": 8.643892855214396
         },
         {
           "fold": 17,
           "held_out_cohort": "nasa_br17wk",
-          "mae": 6.132684761649079,
+          "mae": 4.803168873465774,
           "n_test": 5,
-          "r2": -0.32344811351676195,
-          "rmse": 8.412211362595846
+          "r2": 0.14531664738684658,
+          "rmse": 6.760196797251273
         },
         {
           "fold": 18,
           "held_out_cohort": "valdoltra_br35",
-          "mae": 2.6161214409494336,
+          "mae": 2.7359722019680093,
           "n_test": 3,
-          "r2": 0.3349016757683586,
-          "rmse": 3.353516611650973
+          "r2": 0.2498239146179445,
+          "rmse": 3.5615507963283073
         },
         {
           "fold": 19,
           "held_out_cohort": "wbv_hdt14",
-          "mae": 2.753561060305518,
+          "mae": 1.7849614817194142,
           "n_test": 8,
-          "r2": -7.962531908350238,
-          "rmse": 3.2278388038217076
+          "r2": -2.9489390577299197,
+          "rmse": 2.1425782726918126
         },
         {
           "fold": 20,
           "held_out_cohort": "berlin_bbr1",
-          "mae": 5.422114105812383,
+          "mae": 3.68695773432123,
           "n_test": 52,
-          "r2": -0.8262257365782664,
-          "rmse": 6.548700672384645
+          "r2": 0.01986063908647029,
+          "rmse": 4.7975755861660785
         },
         {
           "fold": 21,
           "held_out_cohort": "berlin_bbr2",
-          "mae": 5.150393742425532,
+          "mae": 4.278428548732594,
           "n_test": 30,
-          "r2": 0.3346051628642156,
-          "rmse": 6.048288619819677
+          "r2": 0.5085610985851567,
+          "rmse": 5.197895684975897
         },
         {
           "fold": 22,
           "held_out_cohort": "planhab_br10",
-          "mae": 3.595398760571414,
+          "mae": 3.5749303776627626,
           "n_test": 4,
-          "r2": -7.461409666677321,
-          "rmse": 3.8287585778576405
+          "r2": -7.37669679950131,
+          "rmse": 3.809544225381302
         },
         {
           "fold": 23,
           "held_out_cohort": "planhab_br21",
           "mae": 1.3999999999999995,
           "n_test": 2,
-          "r2": -0.2617552220916586,
-          "rmse": 1.5725902948001584
+          "r2": -0.15679673974637942,
+          "rmse": 1.5057628000129708
         },
         {
           "fold": 24,
           "held_out_cohort": "cavanagh_br84",
-          "mae": 0.9097896770349427,
+          "mae": 2.655297905722645,
           "n_test": 2,
-          "r2": 0.9211582142866688,
-          "rmse": 0.9265997228675265
+          "r2": 0.271560566019472,
+          "rmse": 2.816505891356869
         },
         {
           "fold": 25,
           "held_out_cohort": "cook_ulls30",
-          "mae": 3.956090993348699,
+          "mae": 4.587766739934505,
           "n_test": 4,
-          "r2": -1.6237736233434679,
-          "rmse": 4.342622815509214
+          "r2": -2.3379061605804954,
+          "rmse": 4.898081311000493
         },
         {
           "fold": 26,
           "held_out_cohort": "drummond_br7",
-          "mae": 0.5827956731233206,
+          "mae": 0.6607143963466413,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.5827956731233206
+          "rmse": 0.6607143963466413
         },
         {
           "fold": 27,
           "held_out_cohort": "maastricht_br7_feeding",
-          "mae": 1.2247104339778865,
+          "mae": 1.2037351368910274,
           "n_test": 2,
-          "r2": -66.66291764863568,
-          "rmse": 1.2338620859295026
+          "r2": -64.39903465715824,
+          "rmse": 1.213045044417585
         },
         {
           "fold": 28,
           "held_out_cohort": "krainski_hdbr35",
-          "mae": 2.334269546389704,
+          "mae": 1.818340256433209,
           "n_test": 8,
-          "r2": 0.48235628773873496,
-          "rmse": 3.2175882653355914
+          "r2": 0.6352601168877601,
+          "rmse": 2.7008883098426706
         },
         {
           "fold": 29,
           "held_out_cohort": "tanner_br5",
-          "mae": 2.6857334677050098,
+          "mae": 2.76344017459496,
           "n_test": 2,
-          "r2": -2.355318941894132,
-          "rmse": 3.20556769692215
+          "r2": -2.4935841954499347,
+          "rmse": 3.2709481192103036
         },
         {
           "fold": 30,
           "held_out_cohort": "di5_toulouse",
-          "mae": 1.8136584167176224,
+          "mae": 1.9412180523829319,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 1.8136584167176224
+          "rmse": 1.9412180523829319
         },
         {
           "fold": 31,
           "held_out_cohort": "nasa_utmb_c3",
-          "mae": 5.204330823133757,
+          "mae": 6.249342595614491,
           "n_test": 4,
-          "r2": -2.620493806003735,
-          "rmse": 6.101784819844016
+          "r2": -3.2803288732737705,
+          "rmse": 6.634551247625156
         }
       ],
-      "mae": 3.3753633596282717,
-      "mae_row_weighted": 5.268200572965837,
+      "mae": 3.3431275688763322,
+      "mae_row_weighted": 4.549139022044342,
       "model": "gradient_boosting",
       "n_cohorts": 32,
       "n_rows": 346,
-      "r2_pooled": 0.09508309151199723,
-      "relative_improvement": -0.05309119533750823,
-      "rmse": 4.046942401655965,
+      "r2_pooled": 0.29930370628236,
+      "relative_improvement": -0.05899351087762793,
+      "rmse": 3.9867740318984404,
       "subset": "A",
       "threshold": 0.15,
       "worst_fold": {
-        "cohort": "wise2005",
-        "mae": 9.351417855570697
+        "cohort": "liphardt_br21",
+        "mae": 7.822599096387121
       }
     },
     "random_forest": {
-      "baseline_mae": 3.2051956891981153,
+      "baseline_mae": 3.1568914582920873,
       "beats_baseline": false,
       "chosen_parameters": [
         {
           "fold": 0,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 1,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 2,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 3,
-          "max_features": 0.5,
-          "min_samples_leaf": 8
+          "max_features": 1.0,
+          "min_samples_leaf": 4
         },
         {
           "fold": 4,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 5,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 6,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 7,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 8,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 9,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 10,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 11,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 12,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 13,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 14,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 15,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 16,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 17,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 18,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 19,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 20,
-          "max_features": 0.5,
-          "min_samples_leaf": 8
+          "max_features": 1.0,
+          "min_samples_leaf": 2
         },
         {
           "fold": 21,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 4
         },
         {
           "fold": 22,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 23,
-          "max_features": 0.5,
-          "min_samples_leaf": 8
+          "max_features": 1.0,
+          "min_samples_leaf": 4
         },
         {
           "fold": 24,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 25,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 26,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 27,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 28,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 29,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 30,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         },
         {
           "fold": 31,
           "max_features": 0.5,
-          "min_samples_leaf": 8
+          "min_samples_leaf": 2
         }
       ],
       "ci95": {
-        "high": 4.131616414589673,
-        "low": 2.58761859781227
+        "high": 3.907832709238368,
+        "low": 2.4973910285861276
       },
       "folds": [
         {
           "fold": 0,
           "held_out_cohort": "agbresa",
-          "mae": 4.494868813520528,
+          "mae": 3.6158797467000485,
           "n_test": 9,
-          "r2": -2.0488413323602797,
-          "rmse": 5.583522188006381
+          "r2": -0.9400537127668118,
+          "rmse": 4.453974349707776
         },
         {
           "fold": 1,
           "held_out_cohort": "maastricht_br7",
-          "mae": 0.5525660339074641,
+          "mae": 0.5819395012820716,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.5525660339074641
+          "rmse": 0.5819395012820716
         },
         {
           "fold": 2,
           "held_out_cohort": "maastricht_br14",
-          "mae": 1.0267176107254652,
+          "mae": 1.4172687595855973,
           "n_test": 7,
-          "r2": -0.9095228074516877,
-          "rmse": 1.2679423931720055
+          "r2": -2.521307799351952,
+          "rmse": 1.7218253275887851
         },
         {
           "fold": 3,
           "held_out_cohort": "wise2005",
-          "mae": 9.000490052833078,
+          "mae": 7.518055609526228,
           "n_test": 26,
-          "r2": -0.7614450804095776,
-          "rmse": 10.08719625956034
+          "r2": -0.2590745167559654,
+          "rmse": 8.528283604551973
         },
         {
           "fold": 4,
           "held_out_cohort": "birmingham_br5_nct04422665",
-          "mae": 2.008700564239453,
+          "mae": 2.329500734766269,
           "n_test": 8,
-          "r2": -2.2420031914619805,
-          "rmse": 2.275032302948527
+          "r2": -3.6782381324411784,
+          "rmse": 2.732889114607826
         },
         {
           "fold": 5,
           "held_out_cohort": "dlr_hdt5_crossover",
-          "mae": 3.846940084518808,
+          "mae": 2.994150573648582,
           "n_test": 6,
-          "r2": -7.304588503628585,
-          "rmse": 4.581188367821821
+          "r2": -4.034721895851468,
+          "rmse": 3.5670305884839326
         },
         {
           "fold": 6,
           "held_out_cohort": "mcgill_hdbr14",
-          "mae": 3.3035772482734997,
+          "mae": 2.6415330784264786,
           "n_test": 4,
-          "r2": -1.9449093494248726,
-          "rmse": 3.6383800326611317
+          "r2": -1.0531298278990375,
+          "rmse": 3.037947752328924
         },
         {
           "fold": 7,
           "held_out_cohort": "brace_br60",
-          "mae": 6.7709399924145295,
+          "mae": 7.032446580366625,
           "n_test": 18,
-          "r2": -0.10465269983484604,
-          "rmse": 9.987904544745946
+          "r2": -0.08658325050698346,
+          "rmse": 9.905878731863952
         },
         {
           "fold": 8,
           "held_out_cohort": "izola_br10",
-          "mae": 5.102404214356628,
+          "mae": 4.115380052483533,
           "n_test": 8,
-          "r2": -2.4376704584553677,
-          "rmse": 6.2511172928997345
+          "r2": -1.1318590504881478,
+          "rmse": 4.922715879114744
         },
         {
           "fold": 9,
           "held_out_cohort": "copenhagen_br5",
-          "mae": 2.6090774453190204,
+          "mae": 1.8488798298560167,
           "n_test": 12,
-          "r2": -0.13092915465258304,
-          "rmse": 3.1736674373320053
+          "r2": 0.437119943100014,
+          "rmse": 2.2389873852260207
         },
         {
           "fold": 10,
           "held_out_cohort": "medes_ltbr90",
-          "mae": 5.2524056125789835,
+          "mae": 5.012711388153138,
           "n_test": 86,
-          "r2": 0.2779056044620134,
-          "rmse": 6.67748905360708
+          "r2": 0.3036276729157108,
+          "rmse": 6.557479625254973
         },
         {
           "fold": 11,
           "held_out_cohort": "nasa_sprint_br70",
-          "mae": 5.632276453674005,
+          "mae": 4.918674518462934,
           "n_test": 3,
-          "r2": 0.3842067668517425,
-          "rmse": 5.673231481493367
+          "r2": 0.3438852917425923,
+          "rmse": 5.856025171895621
         },
         {
           "fold": 12,
           "held_out_cohort": "imbp_br21",
-          "mae": 4.180746184406033,
+          "mae": 3.2892781636666406,
           "n_test": 2,
-          "r2": -31.073135392756626,
-          "rmse": 4.2474861575319585
+          "r2": -19.234401489731887,
+          "rmse": 3.373699873725312
         },
         {
           "fold": 13,
           "held_out_cohort": "padova_ulls10",
-          "mae": 0.1795420788544062,
+          "mae": 1.4228890959075393,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.1795420788544062
+          "rmse": 1.4228890959075393
         },
         {
           "fold": 14,
           "held_out_cohort": "lunhab_br10",
-          "mae": 0.7507062222459417,
+          "mae": 0.9587552262550765,
           "n_test": 4,
-          "r2": -2.186575187947017,
-          "rmse": 0.8467463712872227
+          "r2": -4.0853848172063225,
+          "rmse": 1.0696782618485912
         },
         {
           "fold": 15,
           "held_out_cohort": "izola_br14",
-          "mae": 2.0192126983046825,
+          "mae": 1.7852553087848062,
           "n_test": 3,
-          "r2": -2.609884728944088,
-          "rmse": 2.3747509644628213
+          "r2": -2.040130061016998,
+          "rmse": 2.1793023516177272
         },
         {
           "fold": 16,
           "held_out_cohort": "liphardt_br21",
-          "mae": 7.259276777242354,
+          "mae": 7.826946057754138,
           "n_test": 20,
-          "r2": -2.50817019576282,
-          "rmse": 8.108190837145834
+          "r2": -2.9909060529793554,
+          "rmse": 8.648073793754758
         },
         {
           "fold": 17,
           "held_out_cohort": "nasa_br17wk",
-          "mae": 5.433841840708199,
+          "mae": 6.0859812164019855,
           "n_test": 5,
-          "r2": -0.12315799870833266,
-          "rmse": 7.749561758843789
+          "r2": 0.28769226127857095,
+          "rmse": 6.171497363892357
         },
         {
           "fold": 18,
           "held_out_cohort": "valdoltra_br35",
-          "mae": 2.6162301379231327,
+          "mae": 3.1992707864611756,
           "n_test": 3,
-          "r2": 0.04237451003449,
-          "rmse": 4.023976019684336
+          "r2": -0.3100615645062792,
+          "rmse": 4.706557705142966
         },
         {
           "fold": 19,
           "held_out_cohort": "wbv_hdt14",
-          "mae": 1.2697970366889169,
+          "mae": 0.6598580855228906,
           "n_test": 8,
-          "r2": -1.0137739916108117,
-          "rmse": 1.53003668754954
+          "r2": 0.3982372054079262,
+          "rmse": 0.8363906077385648
         },
         {
           "fold": 20,
           "held_out_cohort": "berlin_bbr1",
-          "mae": 5.233522446245029,
+          "mae": 3.463925178230771,
           "n_test": 52,
-          "r2": -0.9269455480479907,
-          "rmse": 6.726863760083637
+          "r2": 0.07510980969045844,
+          "rmse": 4.660397893942197
         },
         {
           "fold": 21,
           "held_out_cohort": "berlin_bbr2",
-          "mae": 4.799913484287455,
+          "mae": 3.4708051043663466,
           "n_test": 30,
-          "r2": 0.4532375729638083,
-          "rmse": 5.482670233228211
+          "r2": 0.6669080795451519,
+          "rmse": 4.279320783931998
         },
         {
           "fold": 22,
           "held_out_cohort": "planhab_br10",
-          "mae": 4.310771185350356,
+          "mae": 3.5737552446548273,
           "n_test": 4,
-          "r2": -10.72597299419735,
-          "rmse": 4.50724397081486
+          "r2": -7.371847935756353,
+          "rmse": 3.808441485528941
         },
         {
           "fold": 23,
           "held_out_cohort": "planhab_br21",
           "mae": 1.3999999999999995,
           "n_test": 2,
-          "r2": -0.23312898845779184,
-          "rmse": 1.554648776211936
+          "r2": -0.4832758193671951,
+          "rmse": 1.7050573614866158
         },
         {
           "fold": 24,
           "held_out_cohort": "cavanagh_br84",
-          "mae": 0.4968955617657054,
+          "mae": 3.084431773234812,
           "n_test": 2,
-          "r2": 0.9766853668208909,
-          "rmse": 0.5038812909014369
+          "r2": 0.07686912627859754,
+          "rmse": 3.1706300974453128
         },
         {
           "fold": 25,
           "held_out_cohort": "cook_ulls30",
-          "mae": 4.482192464235951,
+          "mae": 4.139153423372926,
           "n_test": 4,
-          "r2": -1.9984407990869308,
-          "rmse": 4.6423370454370625
+          "r2": -1.454169512706477,
+          "rmse": 4.199921829341328
         },
         {
           "fold": 26,
           "held_out_cohort": "drummond_br7",
-          "mae": 0.6774101888338091,
+          "mae": 1.6631333856982269,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.6774101888338091
+          "rmse": 1.6631333856982269
         },
         {
           "fold": 27,
           "held_out_cohort": "maastricht_br7_feeding",
-          "mae": 1.4946019468912373,
+          "mae": 1.1013995303642097,
           "n_test": 2,
-          "r2": -99.28155465115897,
-          "rmse": 1.5021101756033335
+          "r2": -53.91470779940006,
+          "rmse": 1.1115668785487007
         },
         {
           "fold": 28,
           "held_out_cohort": "krainski_hdbr35",
-          "mae": 2.215417440904747,
+          "mae": 1.8508055163321746,
           "n_test": 8,
-          "r2": 0.3825980994389637,
-          "rmse": 3.513977520022108
+          "r2": 0.6597997759451607,
+          "rmse": 2.6084486732724463
         },
         {
           "fold": 29,
           "held_out_cohort": "tanner_br5",
           "mae": 1.75,
           "n_test": 2,
-          "r2": -0.7579089778656256,
-          "rmse": 2.3202577970375358
+          "r2": -0.05354402906726996,
+          "rmse": 1.7962401256565097
         },
         {
           "fold": 30,
           "held_out_cohort": "di5_toulouse",
-          "mae": 0.9883516712860478,
+          "mae": 0.1736237240287264,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.9883516712860478
+          "rmse": 0.1736237240287264
         },
         {
           "fold": 31,
           "held_out_cohort": "nasa_utmb_c3",
-          "mae": 5.562586534272519,
+          "mae": 6.828287584854801,
           "n_test": 4,
-          "r2": -3.008898881171568,
-          "rmse": 6.420746662287024
+          "r2": -4.00462976144253,
+          "rmse": 7.173960165179231
         }
       ],
-      "mae": 3.3350618758377495,
-      "mae_row_weighted": 4.93751062642808,
+      "mae": 3.179811711848425,
+      "mae_row_weighted": 4.35257431669008,
       "model": "random_forest",
       "n_cohorts": 32,
       "n_rows": 346,
-      "r2_pooled": 0.18741162840363068,
-      "relative_improvement": -0.040517397136561266,
-      "rmse": 3.98906335485196,
+      "r2_pooled": 0.34000458598042327,
+      "relative_improvement": -0.007260386953163687,
+      "rmse": 3.7144940152998327,
       "subset": "A",
       "threshold": 0.15,
       "worst_fold": {
-        "cohort": "wise2005",
-        "mae": 9.000490052833078
+        "cohort": "liphardt_br21",
+        "mae": 7.826946057754138
       }
     },
     "ridge": {
-      "baseline_mae": 3.2051956891981153,
+      "baseline_mae": 3.1568914582920873,
       "beats_baseline": false,
       "chosen_parameters": [
         {
@@ -1135,722 +1135,722 @@
         }
       ],
       "ci95": {
-        "high": 4.3478596824448585,
-        "low": 2.8599318174828836
+        "high": 4.022881585309961,
+        "low": 2.5918108360140613
       },
       "folds": [
         {
           "fold": 0,
           "held_out_cohort": "agbresa",
-          "mae": 4.691923353615128,
+          "mae": 4.273893266284999,
           "n_test": 9,
-          "r2": -1.9050026549721557,
-          "rmse": 5.4502208574654185
+          "r2": -1.4101467059945505,
+          "rmse": 4.9643520715407
         },
         {
           "fold": 1,
           "held_out_cohort": "maastricht_br7",
-          "mae": 2.19135125065998,
+          "mae": 1.3611620934035455,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 2.19135125065998
+          "rmse": 1.3611620934035455
         },
         {
           "fold": 2,
           "held_out_cohort": "maastricht_br14",
-          "mae": 1.8998363755651064,
+          "mae": 1.8334152862947004,
           "n_test": 7,
-          "r2": -4.3430319963386435,
-          "rmse": 2.12095270848447
+          "r2": -3.5605451634440994,
+          "rmse": 1.9595009484965662
         },
         {
           "fold": 3,
           "held_out_cohort": "wise2005",
-          "mae": 9.259650898735895,
+          "mae": 8.641149984742482,
           "n_test": 26,
-          "r2": -0.8736748956939342,
-          "rmse": 10.403585391525182
+          "r2": -0.6597676691190086,
+          "rmse": 9.791733109123612
         },
         {
           "fold": 4,
           "held_out_cohort": "birmingham_br5_nct04422665",
-          "mae": 1.9143803420255554,
+          "mae": 1.5007349938864487,
           "n_test": 8,
-          "r2": -2.150861481247401,
-          "rmse": 2.2428255973332787
+          "r2": -1.094031004648508,
+          "rmse": 1.8284050088048822
         },
         {
           "fold": 5,
           "held_out_cohort": "dlr_hdt5_crossover",
-          "mae": 5.887020045747785,
+          "mae": 4.601578980500143,
           "n_test": 6,
-          "r2": -15.73422588167713,
-          "rmse": 6.503122034553257
+          "r2": -10.361988025583086,
+          "rmse": 5.358537249569142
         },
         {
           "fold": 6,
           "held_out_cohort": "mcgill_hdbr14",
-          "mae": 2.7907191021166504,
+          "mae": 2.439171944297267,
           "n_test": 4,
-          "r2": -1.1557199750480422,
-          "rmse": 3.112922203627519
+          "r2": -0.8641010723776168,
+          "rmse": 2.8947217371447374
         },
         {
           "fold": 7,
           "held_out_cohort": "brace_br60",
-          "mae": 6.747505661302124,
+          "mae": 7.422621808580118,
           "n_test": 18,
-          "r2": -0.08029851813904454,
-          "rmse": 9.87718968346313
+          "r2": -0.22228644048531243,
+          "rmse": 10.506256534512104
         },
         {
           "fold": 8,
           "held_out_cohort": "izola_br10",
-          "mae": 3.6418370150549233,
+          "mae": 3.4095522599266355,
           "n_test": 8,
-          "r2": -0.8436885260952225,
-          "rmse": 4.577931640220658
+          "r2": -0.7223232686824044,
+          "rmse": 4.424690127391095
         },
         {
           "fold": 9,
           "held_out_cohort": "copenhagen_br5",
-          "mae": 2.9363474728750805,
+          "mae": 2.8493696826834736,
           "n_test": 12,
-          "r2": -0.803093807451484,
-          "rmse": 4.007309415299717
+          "r2": -1.1514729496730025,
+          "rmse": 4.377353910842597
         },
         {
           "fold": 10,
           "held_out_cohort": "medes_ltbr90",
-          "mae": 5.339473922066388,
+          "mae": 5.042419453689446,
           "n_test": 86,
-          "r2": 0.2164692756586114,
-          "rmse": 6.955753983099379
+          "r2": 0.2952274159305581,
+          "rmse": 6.59691211477709
         },
         {
           "fold": 11,
           "held_out_cohort": "nasa_sprint_br70",
-          "mae": 5.244203717876901,
+          "mae": 5.632771362865998,
           "n_test": 3,
-          "r2": 0.24339114517530547,
-          "rmse": 6.288524509523793
+          "r2": 0.2925662606453936,
+          "rmse": 6.080732972993396
         },
         {
           "fold": 12,
           "held_out_cohort": "imbp_br21",
-          "mae": 2.430624728200198,
+          "mae": 2.936949983342677,
           "n_test": 2,
-          "r2": -10.502998345490285,
-          "rmse": 2.5437052835063825
+          "r2": -15.334533697167199,
+          "rmse": 3.0312002910821563
         },
         {
           "fold": 13,
           "held_out_cohort": "padova_ulls10",
-          "mae": 1.5478774860380327,
+          "mae": 1.0226963230295247,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 1.5478774860380327
+          "rmse": 1.0226963230295247
         },
         {
           "fold": 14,
           "held_out_cohort": "lunhab_br10",
-          "mae": 1.6945843696482306,
+          "mae": 1.4086504308943577,
           "n_test": 4,
-          "r2": -12.762738603804843,
-          "rmse": 1.7597204851498693
+          "r2": -8.819093495372707,
+          "rmse": 1.4863700873130017
         },
         {
           "fold": 15,
           "held_out_cohort": "izola_br14",
-          "mae": 1.359994649354058,
+          "mae": 1.4922311372443609,
           "n_test": 3,
-          "r2": -0.19128321843888818,
-          "rmse": 1.3642027403599661
+          "r2": -0.5696553440729308,
+          "rmse": 1.5659343727438266
         },
         {
           "fold": 16,
           "held_out_cohort": "liphardt_br21",
-          "mae": 7.447710424789979,
+          "mae": 6.563102929735796,
           "n_test": 20,
-          "r2": -2.6637030466473988,
-          "rmse": 8.285977837519697
+          "r2": -1.9573062022521457,
+          "rmse": 7.444435673681719
         },
         {
           "fold": 17,
           "held_out_cohort": "nasa_br17wk",
-          "mae": 6.262883270106305,
+          "mae": 4.956025884485247,
           "n_test": 5,
-          "r2": -0.3301764340775968,
-          "rmse": 8.433567809693756
+          "r2": -0.08159703767686621,
+          "rmse": 7.604829139658373
         },
         {
           "fold": 18,
           "held_out_cohort": "valdoltra_br35",
-          "mae": 2.553118805188003,
+          "mae": 3.2339960044752574,
           "n_test": 3,
-          "r2": 0.3204293963581102,
-          "rmse": 3.38980586894528
+          "r2": 0.12626986293018372,
+          "rmse": 3.8436708764652554
         },
         {
           "fold": 19,
           "held_out_cohort": "wbv_hdt14",
-          "mae": 2.4956838194366306,
+          "mae": 2.306832011729857,
           "n_test": 8,
-          "r2": -6.530222280458739,
-          "rmse": 2.9586962333151545
+          "r2": -5.544466912762042,
+          "rmse": 2.758249949893206
         },
         {
           "fold": 20,
           "held_out_cohort": "berlin_bbr1",
-          "mae": 5.051302199102606,
+          "mae": 4.112264718872418,
           "n_test": 52,
-          "r2": -0.6156505961532936,
-          "rmse": 6.159587561740894
+          "r2": -0.20331882760893927,
+          "rmse": 5.315795518400852
         },
         {
           "fold": 21,
           "held_out_cohort": "berlin_bbr2",
-          "mae": 4.139905882991415,
+          "mae": 3.717076362662047,
           "n_test": 30,
-          "r2": 0.5576798181468189,
-          "rmse": 4.931297133023631
+          "r2": 0.6266384752577314,
+          "rmse": 4.5306193397805945
         },
         {
           "fold": 22,
           "held_out_cohort": "planhab_br10",
-          "mae": 1.5540643658785962,
+          "mae": 1.9861892980807605,
           "n_test": 4,
-          "r2": -1.064654344602828,
-          "rmse": 1.8912994612235263
+          "r2": -2.277026220958466,
+          "rmse": 2.3827395845560932
         },
         {
           "fold": 23,
           "held_out_cohort": "planhab_br21",
           "mae": 1.3999999999999995,
           "n_test": 2,
-          "r2": -0.13691788625523138,
-          "rmse": 1.4927689228612215
+          "r2": -0.28174708221133504,
+          "rmse": 1.5849997732284427
         },
         {
           "fold": 24,
           "held_out_cohort": "cavanagh_br84",
-          "mae": 1.1458462225514974,
+          "mae": 1.1378832547221447,
           "n_test": 2,
-          "r2": 0.8791978262267628,
-          "rmse": 1.1469680345984161
+          "r2": 0.7953975432120806,
+          "rmse": 1.4926891017289712
         },
         {
           "fold": 25,
           "held_out_cohort": "cook_ulls30",
-          "mae": 6.227640757583593,
+          "mae": 6.909196860868153,
           "n_test": 4,
-          "r2": -4.782327327277745,
-          "rmse": 6.446741631615835
+          "r2": -6.023091637070537,
+          "rmse": 7.104820275098061
         },
         {
           "fold": 26,
           "held_out_cohort": "drummond_br7",
-          "mae": 0.9041868945958562,
+          "mae": 0.3568932732766701,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.9041868945958562
+          "rmse": 0.3568932732766701
         },
         {
           "fold": 27,
           "held_out_cohort": "maastricht_br7_feeding",
-          "mae": 2.0626946548149707,
+          "mae": 1.097243201312339,
           "n_test": 2,
-          "r2": -189.09818840010004,
-          "rmse": 2.0681414939510914
+          "r2": -53.50856190338445,
+          "rmse": 1.1074487088918161
         },
         {
           "fold": 28,
           "held_out_cohort": "krainski_hdbr35",
-          "mae": 1.8415567205176229,
+          "mae": 2.0932159229044047,
           "n_test": 8,
-          "r2": 0.707976182565833,
-          "rmse": 2.4167077499530927
-        },
-        {
-          "fold": 29,
-          "held_out_cohort": "tanner_br5",
-          "mae": 2.4283775818497846,
-          "n_test": 2,
-          "r2": -1.925556793479382,
-          "rmse": 2.993245342438639
-        },
-        {
-          "fold": 30,
-          "held_out_cohort": "di5_toulouse",
-          "mae": 2.730881196128764,
-          "n_test": 1,
-          "r2": NaN,
-          "rmse": 2.730881196128764
-        },
-        {
-          "fold": 31,
-          "held_out_cohort": "nasa_utmb_c3",
-          "mae": 6.033260770733637,
-          "n_test": 4,
-          "r2": -3.5396329261694426,
-          "rmse": 6.832558399141089
-        }
-      ],
-      "mae": 3.558013873660978,
-      "mae_row_weighted": 4.973262509762435,
-      "model": "ridge",
-      "n_cohorts": 32,
-      "n_rows": 346,
-      "r2_pooled": 0.18154262291902323,
-      "relative_improvement": -0.11007695587882557,
-      "rmse": 4.188425838782999,
-      "subset": "A",
-      "threshold": 0.15,
-      "worst_fold": {
-        "cohort": "wise2005",
-        "mae": 9.259650898735895
-      }
-    },
-    "svr": {
-      "baseline_mae": 3.2051956891981153,
-      "beats_baseline": false,
-      "chosen_parameters": [
-        {
-          "fold": 0,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 1,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 2,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 3,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 4,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 5,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 6,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 7,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 8,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 9,
-          "svr__C": 10.0,
-          "svr__gamma": 0.5
-        },
-        {
-          "fold": 10,
-          "svr__C": 1.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 11,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 12,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 13,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 14,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 15,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 16,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 17,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 18,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 19,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 20,
-          "svr__C": 1.0,
-          "svr__gamma": 0.5
-        },
-        {
-          "fold": 21,
-          "svr__C": 1.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 22,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 23,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 24,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 25,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 26,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 27,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 28,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 29,
-          "svr__C": 10.0,
-          "svr__gamma": 0.05
-        },
-        {
-          "fold": 30,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        },
-        {
-          "fold": 31,
-          "svr__C": 10.0,
-          "svr__gamma": 0.1
-        }
-      ],
-      "ci95": {
-        "high": 3.98150792929761,
-        "low": 2.4825271011003824
-      },
-      "folds": [
-        {
-          "fold": 0,
-          "held_out_cohort": "agbresa",
-          "mae": 5.667274875497548,
-          "n_test": 9,
-          "r2": -3.317064432055802,
-          "rmse": 6.644083775509001
-        },
-        {
-          "fold": 1,
-          "held_out_cohort": "maastricht_br7",
-          "mae": 0.7872955439871725,
-          "n_test": 1,
-          "r2": NaN,
-          "rmse": 0.7872955439871725
-        },
-        {
-          "fold": 2,
-          "held_out_cohort": "maastricht_br14",
-          "mae": 1.4700674131844056,
-          "n_test": 7,
-          "r2": -3.247378583731556,
-          "rmse": 1.8910263655480475
-        },
-        {
-          "fold": 3,
-          "held_out_cohort": "wise2005",
-          "mae": 9.41423043049099,
-          "n_test": 26,
-          "r2": -0.9121275917935565,
-          "rmse": 10.50979757564414
-        },
-        {
-          "fold": 4,
-          "held_out_cohort": "birmingham_br5_nct04422665",
-          "mae": 5.3506121676746625,
-          "n_test": 8,
-          "r2": -19.686083314216994,
-          "rmse": 5.746719284692737
-        },
-        {
-          "fold": 5,
-          "held_out_cohort": "dlr_hdt5_crossover",
-          "mae": 1.4405104505247557,
-          "n_test": 6,
-          "r2": -0.21014971522190384,
-          "rmse": 1.748793948905312
-        },
-        {
-          "fold": 6,
-          "held_out_cohort": "mcgill_hdbr14",
-          "mae": 2.671525914154934,
-          "n_test": 4,
-          "r2": -0.6946943480355918,
-          "rmse": 2.760055307158208
-        },
-        {
-          "fold": 7,
-          "held_out_cohort": "brace_br60",
-          "mae": 4.898228186205969,
-          "n_test": 18,
-          "r2": 0.27500142173427966,
-          "rmse": 8.091519431310799
-        },
-        {
-          "fold": 8,
-          "held_out_cohort": "izola_br10",
-          "mae": 3.479499769012177,
-          "n_test": 8,
-          "r2": -0.8388926964411001,
-          "rmse": 4.571973671722302
-        },
-        {
-          "fold": 9,
-          "held_out_cohort": "copenhagen_br5",
-          "mae": 3.547591368864161,
-          "n_test": 12,
-          "r2": -1.562605780172849,
-          "rmse": 4.777323122884616
-        },
-        {
-          "fold": 10,
-          "held_out_cohort": "medes_ltbr90",
-          "mae": 5.261236565082482,
-          "n_test": 86,
-          "r2": 0.2117987886444428,
-          "rmse": 6.9764541863278815
-        },
-        {
-          "fold": 11,
-          "held_out_cohort": "nasa_sprint_br70",
-          "mae": 5.322134850440813,
-          "n_test": 3,
-          "r2": 0.31787883258894245,
-          "rmse": 5.970955182471933
-        },
-        {
-          "fold": 12,
-          "held_out_cohort": "imbp_br21",
-          "mae": 1.8847541620144117,
-          "n_test": 2,
-          "r2": -6.315196891076706,
-          "rmse": 2.028496549474671
-        },
-        {
-          "fold": 13,
-          "held_out_cohort": "padova_ulls10",
-          "mae": 0.1886758521848213,
-          "n_test": 1,
-          "r2": NaN,
-          "rmse": 0.1886758521848213
-        },
-        {
-          "fold": 14,
-          "held_out_cohort": "lunhab_br10",
-          "mae": 0.5725691615957671,
-          "n_test": 4,
-          "r2": -1.4570464213799088,
-          "rmse": 0.7435290477247541
-        },
-        {
-          "fold": 15,
-          "held_out_cohort": "izola_br14",
-          "mae": 1.5000641408520092,
-          "n_test": 3,
-          "r2": -0.5983889392398882,
-          "rmse": 1.5802021138559332
-        },
-        {
-          "fold": 16,
-          "held_out_cohort": "liphardt_br21",
-          "mae": 7.7275212627858805,
-          "n_test": 20,
-          "r2": -2.903289966859532,
-          "rmse": 8.55261735668976
-        },
-        {
-          "fold": 17,
-          "held_out_cohort": "nasa_br17wk",
-          "mae": 4.578661472759539,
-          "n_test": 5,
-          "r2": 0.14832364660973352,
-          "rmse": 6.748294250128614
-        },
-        {
-          "fold": 18,
-          "held_out_cohort": "valdoltra_br35",
-          "mae": 2.6740503764774104,
-          "n_test": 3,
-          "r2": 0.45548853295318115,
-          "rmse": 3.034317698432474
-        },
-        {
-          "fold": 19,
-          "held_out_cohort": "wbv_hdt14",
-          "mae": 1.700830729898235,
-          "n_test": 8,
-          "r2": -3.457438758926621,
-          "rmse": 2.2763507105128147
-        },
-        {
-          "fold": 20,
-          "held_out_cohort": "berlin_bbr1",
-          "mae": 4.244594085473673,
-          "n_test": 52,
-          "r2": -0.35407805344040777,
-          "rmse": 5.638969691442991
-        },
-        {
-          "fold": 21,
-          "held_out_cohort": "berlin_bbr2",
-          "mae": 4.385866547831821,
-          "n_test": 30,
-          "r2": 0.46179264305479684,
-          "rmse": 5.439608062187388
-        },
-        {
-          "fold": 22,
-          "held_out_cohort": "planhab_br10",
-          "mae": 3.9657675041668665,
-          "n_test": 4,
-          "r2": -9.077813504823029,
-          "rmse": 4.178493974760033
-        },
-        {
-          "fold": 23,
-          "held_out_cohort": "planhab_br21",
-          "mae": 2.856189104868961,
-          "n_test": 2,
-          "r2": -4.162151123863349,
-          "rmse": 3.180851490210154
-        },
-        {
-          "fold": 24,
-          "held_out_cohort": "cavanagh_br84",
-          "mae": 1.6178189128309568,
-          "n_test": 2,
-          "r2": 0.7489639907077839,
-          "rmse": 1.6534152960439896
-        },
-        {
-          "fold": 25,
-          "held_out_cohort": "cook_ulls30",
-          "mae": 4.780032543104374,
-          "n_test": 4,
-          "r2": -2.486262268979688,
-          "rmse": 5.005747702221068
-        },
-        {
-          "fold": 26,
-          "held_out_cohort": "drummond_br7",
-          "mae": 1.2866841043625685,
-          "n_test": 1,
-          "r2": NaN,
-          "rmse": 1.2866841043625685
-        },
-        {
-          "fold": 27,
-          "held_out_cohort": "maastricht_br7_feeding",
-          "mae": 0.3458723250172987,
-          "n_test": 2,
-          "r2": -5.316785120572082,
-          "rmse": 0.37699822972113795
-        },
-        {
-          "fold": 28,
-          "held_out_cohort": "krainski_hdbr35",
-          "mae": 2.2716160729362964,
-          "n_test": 8,
-          "r2": 0.5812427258119313,
-          "rmse": 2.8939843613539753
+          "r2": 0.7062730364916618,
+          "rmse": 2.423744885537
         },
         {
           "fold": 29,
           "held_out_cohort": "tanner_br5",
           "mae": 1.75,
           "n_test": 2,
-          "r2": -0.003944853360378087,
-          "rmse": 1.7534483492296422
+          "r2": -0.8750508393558665,
+          "rmse": 2.3963186757039097
         },
         {
           "fold": 30,
           "held_out_cohort": "di5_toulouse",
-          "mae": 0.7300678728871497,
+          "mae": 1.7489441568136899,
           "n_test": 1,
           "r2": NaN,
-          "rmse": 0.7300678728871497
+          "rmse": 1.7489441568136899
         },
         {
           "fold": 31,
           "held_out_cohort": "nasa_utmb_c3",
-          "mae": 4.634645075867298,
+          "mae": 5.6624885341684905,
           "n_test": 4,
-          "r2": -1.5964227994832516,
-          "rmse": 5.167264477815458
+          "r2": -3.0140634443093592,
+          "rmse": 6.424881173966512
         }
       ],
-      "mae": 3.2189527763448567,
-      "mae_row_weighted": 4.75422699635803,
-      "model": "svr",
+      "mae": 3.2781162939304203,
+      "mae_row_weighted": 4.585938092338406,
+      "model": "ridge",
       "n_cohorts": 32,
       "n_rows": 346,
-      "r2_pooled": 0.21754527921199684,
-      "relative_improvement": -0.004292120819051514,
-      "rmse": 3.8416879558562984,
+      "r2_pooled": 0.2685817714020623,
+      "relative_improvement": -0.03840006450646768,
+      "rmse": 3.9303637206077857,
       "subset": "A",
       "threshold": 0.15,
       "worst_fold": {
         "cohort": "wise2005",
-        "mae": 9.41423043049099
+        "mae": 8.641149984742482
+      }
+    },
+    "svr": {
+      "baseline_mae": 3.1568914582920873,
+      "beats_baseline": false,
+      "chosen_parameters": [
+        {
+          "fold": 0,
+          "svr__C": 10.0,
+          "svr__gamma": 0.1
+        },
+        {
+          "fold": 1,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 2,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 3,
+          "svr__C": 100.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 4,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 5,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 6,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 7,
+          "svr__C": 100.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 8,
+          "svr__C": 10.0,
+          "svr__gamma": 0.1
+        },
+        {
+          "fold": 9,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 10,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 11,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 12,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 13,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 14,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 15,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 16,
+          "svr__C": 10.0,
+          "svr__gamma": 0.05
+        },
+        {
+          "fold": 17,
+          "svr__C": 100.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 18,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 19,
+          "svr__C": 10.0,
+          "svr__gamma": 0.1
+        },
+        {
+          "fold": 20,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 21,
+          "svr__C": 10.0,
+          "svr__gamma": 0.1
+        },
+        {
+          "fold": 22,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 23,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 24,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 25,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 26,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 27,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 28,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 29,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 30,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        },
+        {
+          "fold": 31,
+          "svr__C": 10.0,
+          "svr__gamma": 0.5
+        }
+      ],
+      "ci95": {
+        "high": 3.9194653851851715,
+        "low": 2.6679819308306087
+      },
+      "folds": [
+        {
+          "fold": 0,
+          "held_out_cohort": "agbresa",
+          "mae": 5.642129662192655,
+          "n_test": 9,
+          "r2": -2.9807319229479132,
+          "rmse": 6.380023822956449
+        },
+        {
+          "fold": 1,
+          "held_out_cohort": "maastricht_br7",
+          "mae": 2.6651133675676615,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 2.6651133675676615
+        },
+        {
+          "fold": 2,
+          "held_out_cohort": "maastricht_br14",
+          "mae": 1.8148883734391938,
+          "n_test": 7,
+          "r2": -4.551984836245719,
+          "rmse": 2.1620275972318552
+        },
+        {
+          "fold": 3,
+          "held_out_cohort": "wise2005",
+          "mae": 7.039313740285796,
+          "n_test": 26,
+          "r2": -0.178368934689346,
+          "rmse": 8.250429536731305
+        },
+        {
+          "fold": 4,
+          "held_out_cohort": "birmingham_br5_nct04422665",
+          "mae": 4.407247043084037,
+          "n_test": 8,
+          "r2": -12.302552983645466,
+          "rmse": 4.608380679731911
+        },
+        {
+          "fold": 5,
+          "held_out_cohort": "dlr_hdt5_crossover",
+          "mae": 3.807994478364075,
+          "n_test": 6,
+          "r2": -6.391053435226144,
+          "rmse": 4.321875593928121
+        },
+        {
+          "fold": 6,
+          "held_out_cohort": "mcgill_hdbr14",
+          "mae": 2.9382934074512983,
+          "n_test": 4,
+          "r2": -1.3989514928830427,
+          "rmse": 3.283846342817095
+        },
+        {
+          "fold": 7,
+          "held_out_cohort": "brace_br60",
+          "mae": 4.728632052919389,
+          "n_test": 18,
+          "r2": 0.08402957686921653,
+          "rmse": 9.094990068504616
+        },
+        {
+          "fold": 8,
+          "held_out_cohort": "izola_br10",
+          "mae": 3.9408018393005193,
+          "n_test": 8,
+          "r2": -1.2066089827960553,
+          "rmse": 5.00827557831549
+        },
+        {
+          "fold": 9,
+          "held_out_cohort": "copenhagen_br5",
+          "mae": 3.644464341233782,
+          "n_test": 12,
+          "r2": -1.6905691721884506,
+          "rmse": 4.895147661779398
+        },
+        {
+          "fold": 10,
+          "held_out_cohort": "medes_ltbr90",
+          "mae": 4.72511915998735,
+          "n_test": 86,
+          "r2": 0.4150611523644917,
+          "rmse": 6.009957906224738
+        },
+        {
+          "fold": 11,
+          "held_out_cohort": "nasa_sprint_br70",
+          "mae": 3.900468177912767,
+          "n_test": 3,
+          "r2": 0.6830114819181585,
+          "rmse": 4.070378670476408
+        },
+        {
+          "fold": 12,
+          "held_out_cohort": "imbp_br21",
+          "mae": 3.743052642696121,
+          "n_test": 2,
+          "r2": -24.90745437510118,
+          "rmse": 3.8174524340185845
+        },
+        {
+          "fold": 13,
+          "held_out_cohort": "padova_ulls10",
+          "mae": 0.22624271082674063,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 0.22624271082674063
+        },
+        {
+          "fold": 14,
+          "held_out_cohort": "lunhab_br10",
+          "mae": 0.3500000000000001,
+          "n_test": 4,
+          "r2": -0.0850608765147316,
+          "rmse": 0.49410393361702226
+        },
+        {
+          "fold": 15,
+          "held_out_cohort": "izola_br14",
+          "mae": 1.465424068737905,
+          "n_test": 3,
+          "r2": -0.47666938015309834,
+          "rmse": 1.5188435470943955
+        },
+        {
+          "fold": 16,
+          "held_out_cohort": "liphardt_br21",
+          "mae": 7.90302551077356,
+          "n_test": 20,
+          "r2": -3.058829164962728,
+          "rmse": 8.721356125539481
+        },
+        {
+          "fold": 17,
+          "held_out_cohort": "nasa_br17wk",
+          "mae": 4.00466625253248,
+          "n_test": 5,
+          "r2": 0.43294722916708517,
+          "rmse": 5.506408854920264
+        },
+        {
+          "fold": 18,
+          "held_out_cohort": "valdoltra_br35",
+          "mae": 3.940162326827257,
+          "n_test": 3,
+          "r2": 0.05640350669198657,
+          "rmse": 3.9943921015957344
+        },
+        {
+          "fold": 19,
+          "held_out_cohort": "wbv_hdt14",
+          "mae": 2.686507515429324,
+          "n_test": 8,
+          "r2": -6.246803351161904,
+          "rmse": 2.9024832291893974
+        },
+        {
+          "fold": 20,
+          "held_out_cohort": "berlin_bbr1",
+          "mae": 3.688921188271434,
+          "n_test": 52,
+          "r2": -0.16041367710737742,
+          "rmse": 5.220166198479841
+        },
+        {
+          "fold": 21,
+          "held_out_cohort": "berlin_bbr2",
+          "mae": 2.8718942975197748,
+          "n_test": 30,
+          "r2": 0.7960291262103861,
+          "rmse": 3.3487048564415023
+        },
+        {
+          "fold": 22,
+          "held_out_cohort": "planhab_br10",
+          "mae": 2.7590039689013457,
+          "n_test": 4,
+          "r2": -4.3937101878287885,
+          "rmse": 3.056894322742181
+        },
+        {
+          "fold": 23,
+          "held_out_cohort": "planhab_br21",
+          "mae": 1.3999999999999995,
+          "n_test": 2,
+          "r2": -0.44835628771703107,
+          "rmse": 1.68486744995723
+        },
+        {
+          "fold": 24,
+          "held_out_cohort": "cavanagh_br84",
+          "mae": 2.5540605472723032,
+          "n_test": 2,
+          "r2": 0.2126296703438897,
+          "rmse": 2.9282183815342466
+        },
+        {
+          "fold": 25,
+          "held_out_cohort": "cook_ulls30",
+          "mae": 2.108527078243404,
+          "n_test": 4,
+          "r2": -0.010784831380040272,
+          "rmse": 2.6953693579070084
+        },
+        {
+          "fold": 26,
+          "held_out_cohort": "drummond_br7",
+          "mae": 1.077878769918673,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 1.077878769918673
+        },
+        {
+          "fold": 27,
+          "held_out_cohort": "maastricht_br7_feeding",
+          "mae": 4.53364843960979,
+          "n_test": 2,
+          "r2": -913.5096966211678,
+          "rmse": 4.536129206049612
+        },
+        {
+          "fold": 28,
+          "held_out_cohort": "krainski_hdbr35",
+          "mae": 2.1902280215980543,
+          "n_test": 8,
+          "r2": 0.6302069098187503,
+          "rmse": 2.7195333797592913
+        },
+        {
+          "fold": 29,
+          "held_out_cohort": "tanner_br5",
+          "mae": 1.75,
+          "n_test": 2,
+          "r2": -0.0073125064919095095,
+          "rmse": 1.7563867885894247
+        },
+        {
+          "fold": 30,
+          "held_out_cohort": "di5_toulouse",
+          "mae": 0.5301799293566867,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 0.5301799293566867
+        },
+        {
+          "fold": 31,
+          "held_out_cohort": "nasa_utmb_c3",
+          "mae": 5.766244412179829,
+          "n_test": 4,
+          "r2": -2.8899900131751233,
+          "rmse": 6.324806260811507
+        }
+      ],
+      "mae": 3.2751291663885373,
+      "mae_row_weighted": 4.284661651072804,
+      "model": "svr",
+      "n_cohorts": 32,
+      "n_rows": 346,
+      "r2_pooled": 0.3632304758468602,
+      "relative_improvement": -0.03745384016478601,
+      "rmse": 3.8690895207691836,
+      "subset": "A",
+      "threshold": 0.15,
+      "worst_fold": {
+        "cohort": "liphardt_br21",
+        "mae": 7.90302551077356
       }
     }
   },
@@ -1858,7 +1858,7 @@
     "cohorts": 32,
     "dataset_sha256": "dd214c6aa33dee7ab62358bc56c1e6a72eb330085484022ba1ee2bad394395b9",
     "dataset_version": "1.1",
-    "git_commit": "c3c27e610cc5462afc79c794b008393bc2fd027d",
+    "git_commit": "123f34ada16f6c712efa1877c8af8bd9a3cc792f",
     "numpy": "2.4.6",
     "pandas": "2.2.3",
     "python": "3.13.0",
@@ -1867,6 +1867,7 @@
     "sklearn": "1.8.0",
     "studies": 41,
     "subset": "A",
+    "time_column": "timepoint_days",
     "weighted_by": "cohort"
   }
 }
