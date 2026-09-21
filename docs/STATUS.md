@@ -84,8 +84,10 @@ can be argued with and re-run without a new dataset version.
 
 ### The modelling subsets
 
-Unloading-phase, lower-limb rows only: **425 rows, 42 studies, 32 campaigns, 13 durations
-(5–119 days)**. After the one-tissue-one-row rule:
+Unloading-phase, lower-limb rows only: **425 rows, 42 studies, 32 campaigns, scans on 24
+distinct days (5–119)**. Since 21 September every tier measures unloading at the **day of the
+scan**, `timepoint_days`, not at the campaign's planned length (`DESIGN.md` §9.4). After the
+one-tissue-one-row rule:
 
 | Subset | Rows | Campaigns | Used for |
 |---|---|---|---|
@@ -100,27 +102,28 @@ by `n_analysed`, fitted by maximum likelihood, intervals cluster-robust on `coho
 
 | Duration form | AIC | What it estimates |
 |---|---|---|
-| **Logarithmic** | **2151.5** | −3.48 pp per e-fold of duration (95% CI −4.70 to −2.25), i.e. **−2.41 pp per doubling** (−3.26 to −1.56) |
-| Saturating exponential | 2152.3 | tau 90 days, eventual loss −19.9% (−24.8 to −15.0) |
-| Restricted cubic spline | 2152.2 | Shape check only |
+| Logarithmic | 2087.0 | −4.31 pp per e-fold of duration (95% CI −4.96 to −3.65), i.e. **−2.99 pp per doubling** (−3.44 to −2.53) |
+| **Saturating exponential** | **2085.9** | tau **60 days**, eventual loss **−17.3%** (−20.9 to −13.7) |
+| Restricted cubic spline | 2085.7 | Shape check only |
 
-**All three land within one AIC point of each other**, so the data do not distinguish between
-them. The declared rule (DESIGN.md §7.1) keeps the saturating form as the headline, and the
-spline shows no shape the parametric forms miss. Two things to say out loud when quoting it:
-the profiled tau stopped at the **top of the declared grid**, so the curve is still falling at
-the longest observation and the −19.9% asymptote is an extrapolation past 119 days rather than
-a plateau in the data; and the curve is drawn for one scenario — a control arm, the reference
-muscle family, the reference modality, not a composite.
+**The three forms land within 1.3 AIC points of each other**, so the data still do not
+distinguish between them. The declared rule (DESIGN.md §7.1) keeps the saturating form as the
+headline, and the spline shows no shape the parametric forms miss. Measured on the day of the
+scan, the fit is better by about 65 AIC points on the same rows (2152 against 2086 for the
+saturating form), and the time constant now lands at 60 days, inside the declared grid rather
+than at its edge. By day 119 the curve is 86% of the way to its eventual loss, so the −17.3% is
+an estimate at the edge of the data, not far beyond it. The curve is drawn for one scenario —
+a control arm, the reference muscle family, the reference modality, not a composite.
 
 The fitted curve at the reference scenario:
 
 | Day | 5 | 14 | 30 | 60 | 90 | 119 |
 |---|---|---|---|---|---|---|
-| Loss | −4.3% | −5.8% | −8.1% | −11.4% | −13.8% | −15.5% |
-| 95% CI | −7.9 to −0.7 | −9.3 to −2.2 | −11.7 to −4.5 | −15.2 to −7.6 | −17.8 to −9.8 | −19.7 to −11.3 |
+| Loss | −4.2% | −6.0% | −8.6% | −12.0% | −14.1% | −15.3% |
+| 95% CI | −7.3 to −1.0 | −9.1 to −2.9 | −11.8 to −5.5 | −15.3 to −8.8 | −17.5 to −10.7 | −18.8 to −11.9 |
 
 **Where the variance sits**, which is the number that explains the whole validation design:
-59% residual, **23% between muscles within a campaign**, 9% between campaigns, 9% between the
+54% residual, **30% between muscles within a campaign**, 11% between campaigns, 4% between the
 papers inside one.
 
 ### The muscle ranking, with intervals
@@ -132,18 +135,18 @@ the model's fitted change at 60 days for a control arm.
 
 | Family | Rows | Campaigns | At 60 days (95% CI) | vs knee extensors | p |
 |---|---|---|---|---|---|
-| Plantar flexors | 78 | 13 | **−15.2%** (−19.1 to −11.3) | −5.82 pp | 0.002 |
-| Dorsiflexors | 8 | 4 | −9.5% (−13.9 to −5.1) | −0.16 pp | 0.90 |
-| Knee extensors | 86 | 22 | −9.3% (−14.2 to −4.5) | reference | — |
-| Knee flexors | 54 | 7 | −9.3% (−12.7 to −5.9) | +0.08 pp | 0.95 |
-| Hip abductors | 6 | 1 | −9.0% (−11.4 to −6.6) | +0.34 pp | 0.83 |
-| Hip flexors | 13 | 4 | −6.1% (−10.5 to −1.7) | +3.25 pp | 0.07 |
-| Hip extensors | 8 | 3 | −5.6% (−10.6 to −0.5) | +3.77 pp | 0.04 |
-| Hip adductors | 39 | 4 | −4.7% (−8.5 to −0.9) | +4.65 pp | 0.002 |
-| Hip rotators | 12 | 1 | −1.1% (−4.2 to +2.0) | +8.24 pp | <0.001 |
+| Plantar flexors | 78 | 13 | **−15.8%** (−18.9 to −12.7) | −5.69 pp | 0.001 |
+| Dorsiflexors | 8 | 4 | −10.2% (−13.2 to −7.1) | −0.09 pp | 0.95 |
+| Knee extensors | 86 | 22 | −10.1% (−13.6 to −6.6) | reference | — |
+| Knee flexors | 54 | 7 | −9.8% (−12.1 to −7.6) | +0.28 pp | 0.83 |
+| Hip abductors | 6 | 1 | −9.1% (−11.2 to −6.9) | +1.01 pp | 0.44 |
+| Hip flexors | 13 | 4 | −6.8% (−9.9 to −3.6) | +3.33 pp | 0.06 |
+| Hip extensors | 8 | 3 | −6.1% (−10.1 to −2.0) | +4.03 pp | 0.02 |
+| Hip adductors | 39 | 4 | −5.4% (−7.9 to −2.9) | +4.70 pp | 0.001 |
+| Hip rotators | 12 | 1 | −1.9% (−4.0 to +0.2) | +8.22 pp | <0.001 |
 
 **The antigravity comparison is reported independently of the reference:** plantar flexors
-against dorsiflexors is **−5.66 pp** (95% CI −9.04 to −2.28, p = 0.002), computed from the
+against dorsiflexors is **−5.60 pp** (95% CI −9.13 to −2.07, p = 0.003), computed from the
 coefficient difference so that changing the reference cannot change it.
 
 This is claim 2 as a coefficient rather than an unadjusted mean: plantar flexors lose
@@ -152,7 +155,7 @@ ordering survives adjustment for duration, arm and modality. Two rows rest on a 
 campaign each — hip abductors and hip rotators — and the campaign column is there so nobody
 quotes them as if they did not.
 
-Countermeasure arms lose **3.34 pp less** than control arms (95% CI 1.52 to 5.15, p = 0.001),
+Countermeasure arms lose **3.73 pp less** than control arms (95% CI 1.54 to 5.93, p = 0.002),
 which is the first countermeasure effect the project has estimated rather than described.
 
 ### S6 — does the weighting scheme matter?
@@ -164,15 +167,15 @@ baseline, or nothing.
 
 | Analysis | Weights | Rows | Campaigns | Duration coefficient (95% CI) | LOCO MAE |
 |---|---|---|---|---|---|
-| Primary | `n_analysed` | 346 | 32 | −16.49 (−20.49 to −12.49) | 3.47 pp |
-| Restricted to rows with a change dispersion | `n_analysed` | 161 | 8 | −13.94 (−18.62 to −9.26) | 2.81 pp |
-| **S6** — the same rows | inverse variance | 161 | 8 | −11.57 (−14.18 to −8.97) | 2.88 pp |
+| Primary | `n_analysed` | 346 | 32 | −14.25 (−16.40 to −12.11) | 3.34 pp |
+| Restricted to rows with a change dispersion | `n_analysed` | 161 | 8 | −14.51 (−15.61 to −13.42) | 2.67 pp |
+| **S6** — the same rows | inverse variance | 161 | 8 | −13.60 (−16.69 to −10.50) | 2.82 pp |
 
-The middle row exists so the comparison is fair: the restriction alone moves the coefficient
-by 2.6 pp, and the weighting moves it another 2.4 pp. **The scheme is not neutral, and eight
-campaigns cannot adjudicate between the two** — the intervals overlap throughout. The sentence
-for the report is that inverse-variance weighting is unavailable as a primary scheme on this
-literature, not that it was tried and made no difference.
+The middle row exists so the comparison is fair. On the day of the scan the restriction moves
+the coefficient by 0.3 pp and the weighting by another 0.9 pp, with the intervals overlapping
+throughout: here the scheme barely matters. The sentence for the report is still that
+inverse-variance weighting is unavailable as a primary scheme on this literature - eight
+campaigns carry what it needs - not that it was tried and chosen against.
 
 ### The baseline — muscle loss against duration, nothing else
 
@@ -180,11 +183,11 @@ Leave-one-cohort-out, weighted by campaign.
 
 | Curve shape | Out-of-cohort MAE | 95% CI | Pooled R² |
 |---|---|---|---|
-| Linear in days | 3.62 pp | 2.89–4.39 | −0.08 |
-| **Logarithmic** | **3.21 pp** | 2.45–4.05 | 0.03 |
-| Saturating exponential | 3.32 pp | 2.54–4.14 | 0.06 |
+| Linear in days | 3.40 pp | 2.66–4.19 | 0.07 |
+| **Logarithmic** | **3.16 pp** | 2.44–3.93 | 0.14 |
+| Saturating exponential | 3.19 pp | 2.46–3.98 | 0.12 |
 
-Fitted saturating curve: time constant 10 days, eventual loss −9.3% averaged across all
+Fitted saturating curve: time constant 35 days, eventual loss −13.0% averaged across all
 muscles in subset A.
 
 ### The four comparative families
@@ -193,16 +196,16 @@ Hyperparameters tuned by a campaign-grouped search inside each training fold.
 
 | Model | Out-of-cohort MAE | 95% CI | vs baseline | Pooled R² |
 |---|---|---|---|---|
-| Duration-only curve | 3.21 pp | 2.45–4.05 | — | 0.03 |
-| Support vector regression | 3.22 pp | 2.48–3.98 | −0.4% | 0.22 |
-| Random forest | 3.34 pp | 2.59–4.13 | −4.1% | 0.19 |
-| Gradient boosting | 3.38 pp | 2.67–4.14 | −5.3% | 0.10 |
-| Ridge regression | 3.56 pp | 2.86–4.35 | −11.0% | 0.18 |
+| Duration-only curve | 3.16 pp | 2.44–3.93 | — | 0.14 |
+| Random forest | 3.18 pp | 2.50–3.91 | −0.7% | 0.34 |
+| Support vector regression | 3.28 pp | 2.67–3.92 | −3.7% | 0.36 |
+| Ridge regression | 3.28 pp | 2.59–4.02 | −3.8% | 0.27 |
+| Gradient boosting | 3.34 pp | 2.68–4.07 | −5.9% | 0.30 |
 
 **No family beats the curve.** `PLAN.md` §8 set the bar at a 15% relative improvement and
 pre-committed to reporting the outcome either way. This is rung B of the fallback ladder.
 
-Worst fold for every family: `wise2005` (MAE 9.0–9.4 pp) — 60 days, women only.
+Worst fold: `liphardt_br21` for three families (MAE 7.8–7.9 pp), `wise2005` for ridge (8.6 pp).
 
 ### Tier 3 — the TypeSafe forecast *(added 21 Sep, after the null result; not pre-registered)*
 
@@ -212,8 +215,9 @@ observations as fit 26,000 tokens, and gives a probability for every declared ra
 turns that into a point, a most probable range and scores. Names of papers, authors and
 campaigns are never sent. `DESIGN.md` §9.3 has the method and §9.3.1 the full reading.
 
-Both arms run on the **day of the scan**, and so do their baselines - see §8 for why that
-matters for tiers 1 and 2.
+Both arms run on the **day of the scan**, as tiers 1 and 2 now do too. The curve reads
+3.13 pp here and 3.16 pp in the tier-2 table because here its point is the mean of its forecast
+distribution, the same definition the model's point uses.
 
 | Arm | Model | MAE | 95% CI | CRPS | 80% range covers | Pooled R² |
 |---|---|---|---|---|---|---|
@@ -258,28 +262,34 @@ knee flexors −7.8%, dorsiflexors −7.5%, hip adductors −4.1%, hip rotators 
 
 ### Feature stability
 
-Across the 32 folds, only `duration` reaches the top three in more than two-thirds of them
-(69%). Nothing else is stable. Importance is therefore presented as indicative, with the
-stability table shown rather than a bar chart.
+Importance is SHAP on the random forest, the best-scoring family. Two features are stable
+across the 32 folds: `duration` reaches the top three in 91% of them and plantar flexors in
+88%. The third place moves between the countermeasure arm (59%) and `is_composite` (53%), so
+the `PLAN.md` §8 bar - the same top three in 80% of folds - is missed. The stability table is
+shown rather than a bar chart, and the top two can be stated.
 
 ## 4. What the numbers mean
 
-Three claims the evidence currently supports, in order of how well it supports them.
+Four claims the evidence currently supports, in order of how well it supports them.
 
-1. **Muscle loss follows a curved, not linear, path against unloading duration, at about
-   −2.4 pp per doubling of days** (95% CI −3.3 to −1.6). The straight line is the worst of the
-   baseline's three forms, and tier 1 now attaches an interval to the curve. What tier 1 also
-   shows is that the corpus cannot say *which* curve: log, saturating and spline sit within
-   one AIC point of each other.
+1. **Muscle loss follows a curved, not linear, path against days of bed rest, at about
+   −3.0 pp per doubling of days** (95% CI −3.4 to −2.5); at day 60 the curve for the reference
+   scenario sits at −12%. The straight line is the worst of the baseline's three
+   forms. What tier 1 also shows is that the corpus cannot say *which* curve: log, saturating
+   and spline sit within 1.3 AIC points of each other.
 2. **Which muscle you ask about matters more than anything else in the dataset.** Pooled R²
-   goes from 0.03 with duration alone to about 0.20 once muscle identity enters, and tier 1
+   goes from 0.14 with duration alone to 0.27–0.36 once muscle identity enters, and tier 1
    turns that into coefficients: plantar flexors −5.7 pp against the reference family
-   (p = 0.002), hip rotators +8.4 pp (p < 0.001), 23% of all variance sitting between muscles
+   (p = 0.001), hip rotators +8.2 pp (p < 0.001), 30% of all variance sitting between muscles
    within a campaign. Antigravity extensors lose roughly twice what flexors lose.
-3. **At 32 campaigns, flexible models add nothing to a simple curve.** They find the same
+3. **At 32 campaigns, tabular learners add nothing to a simple curve.** They find the same
    structure and do not convert it into lower error, because the residual is dominated by
-   between-campaign differences no feature in this dataset explains. That is a statement about
+   between-campaign differences no column in this dataset explains. That is a statement about
    the published literature, not about the algorithms.
+4. **A model that reads the other campaigns' data in context does add a little** (tier 3):
+   0.42 pp less error than the curve (95% CI 0.13 to 0.73), surviving the removal of anything
+   that identifies a study. It is below its declared bar, it was not pre-registered, and its
+   ranges are overconfident - so it is a finding to report, not the headline.
 
 ## 5. Decisions taken in this phase, and why
 
@@ -295,7 +305,8 @@ Three claims the evidence currently supports, in order of how well it supports t
 | SHAP only where it is exact | Tree ensembles get real SHAP values; SVR and ridge get permutation importance, and every output names which was used. A permutation plot must never be labelled SHAP |
 | Tier 1 written out and fitted by maximum likelihood, not by `statsmodels` | `MixedLM` carries two levels; the third and the cluster-robust sandwich would have been built on top of it anyway. Every random effect nests inside a campaign, so the covariance is block diagonal and the likelihood is a sum over 31 small blocks. It also keeps the primary result on numpy, pandas and scipy |
 | Maximum likelihood, not REML | The three duration forms do not share a design matrix, and restricted likelihoods cannot be compared across them. The price is a mild downward bias in the variance components at 31 campaigns; the alternative is an AIC table that means nothing |
-| The tau grid stays as declared, confirmed 19 September | It is a declared choice from P3, and re-declaring it after reading the answer is how a pre-registration becomes decoration. The result file flags the edge instead, and widening the grid is a decision to take deliberately |
+| The tau grid stays as declared, confirmed 19 September | It is a declared choice from P3, and re-declaring it after reading the answer is how a pre-registration becomes decoration. On the day of the scan (21 September) the profile turns over at 60 days, inside the grid, so the question no longer arises |
+| Unloading is measured at the day of the scan, decided 21 September | `duration_days` is the campaign's planned length. It placed 200 of 346 rows - every scan taken before bed rest ended - at the end of their campaign. The fix is a correction of the implementation, not a new analysis choice: `DESIGN.md` already named the timepoint as a within-campaign variable. It is declared as `features.time_column`, and the fit improves by about 65 AIC points |
 | The virtual environment lives outside the Drive folder | The mount refuses the symlinks `venv` needs (`Errno 5` on `lib64`). A venv also carries absolute paths and compiled binaries, so it would not travel between machines regardless. `requirements.txt` and `make venv` are what travel |
 
 ## 6. How to run it
@@ -344,7 +355,6 @@ this mount — that is Drive sync, not corruption; `git fsck` has come back clea
 
 | Gap | Consequence |
 |---|---|
-| **Tiers 1 and 2 use the campaign's planned length, not the day of the scan** | `duration_days` is the planned total; `timepoint_days` is when the scan was taken. 200 of the 346 rows in subset A were scanned before bed rest ended, about 120 of them more than a week early, and all of them enter tiers 1 and 2 at the full planned length. Refitting the baseline on the scan day moves pooled R² from 0.03 to 0.14, the loss at 90 days from −9.9% to −11.9% and the saturating time constant from 10 to 35 days. The headline curve probably moves too. Undecided; tier 3 already uses the scan day |
 | Tier 3's ranges are overconfident | Its 80% ranges hold the truth 62% (without history) and 38% (with) of the time. Quote its point forecasts, not its ranges, until a recalibration rule is declared and run |
 | Tier 3's gain has no tested mechanism | The ablations show what it does not need - anything identifying a study - and that it reads the reference values. Why that beats tier 2 is an interpretation (`DESIGN.md` §9.3.3), not a result |
 | **No figures exist** | F1–F5 in `PLAN.md` §9 are all outstanding, including the framework diagram (task 3.2), which is the slide carrying the whole AI contribution |
@@ -353,7 +363,6 @@ this mount — that is Drive sync, not corruption; `git fsck` has come back clea
 | `feat/ai-framework` is not merged into `main` | P3 and P4 are not formally closed |
 | The muscle ranking is not sex-stratified (S9) and carries no age term (S8) | Two questions the audience is likely to ask |
 | No extrapolation to 180 days | `PLAN.md` task 4.7, a backup slide. Tier 1 makes it computable, and §10 of `DESIGN.md` governs what may be said about it |
-| The tau profile stops at the top of its grid | The saturating asymptote is an extrapolation past 119 days, not a plateau. Either widen the grid deliberately or quote the curve only inside the observed range |
 | DGLRM author instructions still unknown | `PLAN.md` task 0.2, outstanding since kickoff |
 | **No `LICENSE` file** | The repository is public but not open source: without one, a reader has no right to use the code or the dataset. `docs/licensing.md` §5 |
 | **`data/search/fulltext_digests/` reproduces paper text verbatim** | 68 committed files of tables and sentences copied from papers; at least 30 come from closed, bronze or green-OA articles that grant no reuse right. Blocks making the repository public. `docs/licensing.md` §2 |

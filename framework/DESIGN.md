@@ -162,7 +162,7 @@ its own internal contrast, and those are where most of the interesting variation
 
 | Feature | Level | Encoding | Why it earns a slot |
 |---|---|---|---|
-| `duration_days` | study | Nonlinear, three candidate forms (§7) | The primary exposure. Every claim in the talk rests on it |
+| Days of unloading at the scan - `timepoint_days` since 21 September (§9.4) | row | Nonlinear, three candidate forms (§7) | The primary exposure. Every claim in the talk rests on it |
 | `muscle_family` | within-cohort | Categorical, from `config.yaml` | Claim 2 of the talk. Antigravity selectivity is the second-strongest finding in the corpus |
 | `arm_type` | within-cohort | Binary, `control` / `countermeasure` | 126 countermeasure rows. Binary because at this N a dose ordinal would be fitting noise (`PLAN.md` task 2.8) |
 | `is_composite` / `muscle_grain` | row | Binary | Composite measurements are systematically less extreme than their most affected component; without this the mixed granularity of §5 leaks into the muscle coefficients |
@@ -455,7 +455,7 @@ baseline. Tiers 1 and 2 use `duration_days`, the campaign's *planned* length. Fo
 than a week before - a day-14 scan in a 56-day campaign enters tiers 1 and 2 as 56 days. The
 tier-3 numbers are therefore compared with baselines refitted on the scan day, never with the
 §9.2 table. Whether tiers 1 and 2 should move to the scan day is recorded as an open question
-in `docs/STATUS.md`, not decided here.
+in `docs/STATUS.md`, not decided here. *Update, 21 September: they moved the same day - §9.4.*
 
 **Metrics**, each averaged within a held-out campaign and then across campaigns, with the
 campaign bootstrap of §8.3:
@@ -632,6 +632,42 @@ that match the target - same muscle, same kind of group, a nearby day - and weig
 tier 2's families were given the same kind of information as one-hot columns and a
 duration basis. That is an interpretation, not a test. The ablations establish what the gain
 does not need; they do not establish its mechanism.
+
+### 9.4 The time axis, corrected
+
+**Found and fixed on 2026-09-21.** Tiers 1 and 2 read `duration_days` as the exposure. The
+schema defines it as the campaign's *planned* total length; the day a muscle was scanned is
+`timepoint_days`. For 200 of the 346 rows in subset A the scan came before bed rest ended -
+for about 120 of them more than a week before - and every one of them entered the models at
+the full planned length: a day-14 scan of a 56-day campaign was fitted as 56 days of
+unloading. §6 already named the timepoint as a within-campaign variable; the code never used
+it. This is a correction of the implementation, not a new analysis choice, and it applies to
+every result from §9.1 onwards.
+
+The exposure is now declared once, as `features.time_column: timepoint_days`, and read through
+one function by the design matrix, the baseline, the fold loop and tier 1. Every result file
+records which axis it was fitted on. The §9.1 and §9.2 tables above are the first runs as they
+were, and are superseded by these:
+
+| Result | Planned length | Day of the scan |
+|---|---|---|
+| Tier 1 fit, saturating form, AIC on the same 346 rows | 2152.3 | **2085.9** |
+| Residual variance | 17.7 | **13.8** |
+| Per doubling of days, logarithmic form | −2.41 pp (−3.26 to −1.56) | **−2.99 pp** (−3.44 to −2.53) |
+| Saturating time constant | 90 days, at the edge of the grid | **60 days**, inside it |
+| Eventual loss, saturating form | −19.9% (−24.8 to −15.0) | **−17.3%** (−20.9 to −13.7) |
+| Share of variance between muscles within a campaign | 23% | **30%** |
+| Baseline, logarithmic, out-of-campaign MAE | 3.21 pp | **3.16 pp** |
+| Baseline pooled R² | 0.03 | **0.14** |
+| Best tier-2 family against the baseline | SVR, −0.4% | **Random forest, −0.7%** |
+| Tier-2 pooled R² | 0.10–0.22 | **0.27–0.36** |
+| Stable in the top three of importance (≥ 80% of folds) | duration only, at 69% | **duration (91%) and plantar flexors (88%)** |
+
+The fit is better by about 65 AIC points on identical rows, which is the plainest evidence
+that the scan day is the right exposure. What does not change is what matters for the talk:
+the duration forms remain indistinguishable, the muscle ranking keeps its order with plantar
+flexors worst and hip rotators least affected, and no tier-2 family beats the duration curve
+by the 15% `PLAN.md` §8 asks for. Tier 3 was already on the scan day and is unaffected.
 
 ---
 

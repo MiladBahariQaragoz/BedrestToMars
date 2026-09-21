@@ -31,23 +31,25 @@ Also still sitting in the project folder from the venv attempt: `rm -rf .venv .v
 Implemented on 19 September: `framework/tier1.py`, `framework/run_tier1.py`, 27 checks, and
 `results/tier1_curve.json` plus `results/tier1_muscle_ranking.csv`. It is fitted by maximum
 likelihood rather than through `statsmodels`, for the reasons in `STATUS.md` §5. The numbers
-it produced are in `STATUS.md` §3 and the headline is **−2.41 pp of muscle per doubling of
-unloading duration** (95% CI −3.26 to −1.56 against `dataset_v1.1`), with the muscle ranking
-now carrying intervals.
+it produced are in `STATUS.md` §3 and the headline is **−2.99 pp of muscle per doubling of
+days of bed rest** (95% CI −3.44 to −2.53 against `dataset_v1.1`), with the muscle ranking
+carrying intervals. That is the figure since 21 September, when every tier moved from the
+campaign's planned length to the day of the scan (`DESIGN.md` §9.4); before it, interim scans
+entered at the end of their campaign and the headline read −2.41 pp.
 
 All three of the decisions it raised have been taken:
 
-- **The tau grid stays as declared.** It ends at 90 days and the profile stops there, so the
-  saturating curve is still falling at the longest observation and its **−19.9% asymptote is
-  an extrapolation past 119 days**. Widening the grid after reading the result would have
-  been re-declaring a pre-registration, so it was not done. Quote the curve inside the
-  observed range, and if the report wants an asymptote, say what it is.
+- **The tau grid stays as declared.** Widening it after reading a result would have been
+  re-declaring a pre-registration. The question has since gone away: on the day of the scan
+  the profile turns over at 60 days, inside the grid, and the eventual loss is −17.3%
+  (−20.9 to −13.7), which the curve is 86% of the way to by day 119.
 - **The reference muscle family is knee extensors**, chosen for having 86 rows across 22
   campaigns rather than dorsiflexors' 8 across 4. The antigravity comparison is emitted
   separately as `key_contrasts` so that the choice of reference cannot change it.
 - **S6 is run.** Inverse-variance weighting needs a dispersion of the change, which only 161
   of 346 rows from 8 of 32 campaigns carry. `results/sensitivity.md` has the three-row table.
-  It is not neutral and cannot be adjudicated on 8 campaigns.
+  On the day of the scan it barely moves the coefficient, and 8 campaigns could not settle it
+  either way.
 
 ## 1b. Three things waiting on a decision, not on work
 
