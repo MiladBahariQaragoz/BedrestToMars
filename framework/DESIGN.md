@@ -403,6 +403,42 @@ computation, so its importance is permutation-based and every output says which 
 which under §11 means importance is presented as indicative and the stability table is shown
 instead of a tidy bar chart.
 
+### 9.2.1 A fifth family, post hoc: TabPFN
+
+**Added on 2026-09-19, after the tier-2 null result was known. It is not pre-registered.** The
+question the null result invites is whether *any* learner could do better at 32 campaigns,
+including one pretrained for small tables. TabPFN (Hollmann et al., *Nature* 2025,
+[doi:10.1038/s41586-024-08328-6](https://doi.org/10.1038/s41586-024-08328-6)) is the strongest
+available answer: a transformer pretrained on millions of synthetic tabular datasets that
+predicts in context, with no hyperparameters chosen against our campaigns.
+
+| Choice | Value |
+|---|---|
+| Declared in | `config.yaml` → `models.post_hoc_families`, `models.grids.tabpfn: {}`, `models.tabpfn_device: cpu` |
+| Version | `tabpfn==2.0.9` - later versions put the checkpoint behind an interactive licence login |
+| Tuning | None: an empty grid means fixed declared defaults, wrapped by `run_models.FixedSearch` |
+| Folds, scoring, baseline | Identical to §8 and §9: the same design matrix, leave-one-campaign-out folds, leakage assertions, campaign weighting and bootstrap, against the logarithmic duration curve |
+| Runner and results | `framework/run_tabpfn.py`, `make tabpfn`, `results/tabpfn_comparison.*` |
+| Environment | Separate: tabpfn 2.0.9 needs scikit-learn below 1.7 and the four families were fitted with 1.8. Run with scikit-learn 1.6.1, PyTorch 2.14 (CPU) |
+
+It is kept out of `make models` so that the four declared families' numbers do not move and one
+results file never mixes two environments.
+
+**As run on 2026-09-21** against `dataset_v1.1`, on the day of the scan:
+
+| Model | Out-of-cohort MAE | 95% CI | vs baseline | Pooled R² | Worst fold |
+|---|---|---|---|---|---|
+| Duration-only curve (log) | 3.16 pp | 2.44 – 3.93 | — | 0.14 | `wise2005` (9.3) |
+| Random forest | 3.18 pp | 2.50 – 3.91 | −0.7% | 0.34 | `liphardt_br21` (7.8) |
+| **TabPFN** | **3.22 pp** | 2.51 – 3.97 | −2.1% | **0.39** | `liphardt_br21` (7.6) |
+
+**TabPFN does not beat the curve by the 15% bar either.** It is second of the five families and
+has the highest pooled R² of any of them: the pretrained network finds the muscle structure the
+tuned families found and, like them, cannot turn it into lower error on a campaign it has not
+seen. The null result now rests on five families of very different kinds. A first run on
+2026-09-19, against `dataset_v1.0` and the planned-length axis (`feat/tabpfn`), scored 3.25 pp
+with a pooled R² of 0.03; it is superseded by the run above.
+
 ### 9.3 Tier 3 — a language model forecasting ranges
 
 **Added 2026-09-21, after the tier-2 null result was known. It is not pre-registered, and the

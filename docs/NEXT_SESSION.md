@@ -17,7 +17,7 @@ written was 18 September, so the internal schedule has 10 days of buffer left in
 cd ~/GoogleDrive/DGLRM
 git status --short                # if files show as modified but look identical, it is CRLF
 git checkout feat/jev-figures && git pull        # the tip of the stack (STATUS.md §7)
-PYTHON=~/.venvs/dglrm/bin/python make test       # expect 223 checks in 19 files, all passing
+PYTHON=~/.venvs/dglrm/bin/python make test       # expect 234 checks in 20 files, all passing
 ```
 
 If `make venv` has never run on this machine, run it first — the environment cannot live in
@@ -153,7 +153,7 @@ Everything in P5 and P6 is built on assumptions until that arrives.
 ## Quick reference
 
 ```bash
-PYTHON=~/.venvs/dglrm/bin/python make test       # 223 checks
+PYTHON=~/.venvs/dglrm/bin/python make test       # 234 checks
 PYTHON=~/.venvs/dglrm/bin/python make baseline   # results/baseline.json
 PYTHON=~/.venvs/dglrm/bin/python make models     # results/model_comparison.*  (~2.5 min)
 PYTHON=~/.venvs/dglrm/bin/python make tier1      # results/tier1_curve.json, results/tier1_muscle_ranking.csv
