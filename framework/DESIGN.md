@@ -633,6 +633,53 @@ tier 2's families were given the same kind of information as one-hot columns and
 duration basis. That is an interpretation, not a test. The ablations establish what the gain
 does not need; they do not establish its mechanism.
 
+### 9.3.4 Does it hold up? The validation battery
+
+**Declared on 2026-09-21, before the first validation answer.** `framework/run_validation.py`,
+`make validation`. Every run holds out one campaign at a time and shows the model only the
+other campaigns' data - and, on the history arm, the held-out campaign's scans from before the
+target day - exactly as §9.3 did. What changes between runs is one thing each.
+
+**On the history arm** (84 rows, 5 campaigns; reference: last scan plus the curve's step):
+
+| Run | What changes | What it tests |
+|---|---|---|
+| `generic` | No participants, protocol text or planned length | Whether the gain needs anything that identifies a study |
+| `scrambled_reference` | The other campaigns' values shuffled among their rows | Whether the model reads the other campaigns |
+| `no_reference` | No other campaigns at all - the earlier scans only | What the history alone is worth |
+| `scrambled_history` | The held-out campaign's earlier values shuffled among its earlier scans - never a value from the target day or later | Whether the model reads the earlier scans at all |
+
+**On both arms:** `reordered` shows the same reference rows in a different order, and
+`shifted_bins` moves every range edge by half a step. Neither changes what the model knows, so
+a result that moves under them depends on how the question was put. **The repeat check** sends
+the first 20 requests of the arm without history again, past the cache. **What the earlier
+scans buy** compares the history arm with the arm without history on the same 84 rows: a
+forecast of the change plus the last scan is a forecast of the level, with the same absolute
+error.
+
+**Reading rules, declared before any answer:**
+
+- `generic` keeps the history arm's gain if its paired gain over the reference has an interval
+  above zero and is at least half the full run's (0.19 pp or more).
+- The model **reads the earlier scans** if `scrambled_history` is worse than the full run with
+  an interval below zero; it **reads the other campaigns** if `scrambled_reference` or
+  `no_reference` is.
+- **The earlier scans help** if the history arm's paired gain over the arm without history,
+  on the same rows, has an interval above zero. The same comparison is made for the baselines,
+  so the model's gain from history can be set beside the gain any method gets from it.
+- A result is **robust to presentation** if, under both `reordered` and `shifted_bins`, its MAE
+  moves by less than 10% of the full run's and its paired gain over the reference keeps its
+  sign - with an interval above zero on the arm without history, the result §9.3.3 allows to be
+  quoted.
+- The model is **consistent** if all 20 repeated requests return the same probabilities. If
+  they do not, the spread is reported and every difference between runs is read against it.
+
+**Tier 3 is working rather than lucky** if the arm without history is robust to presentation
+and consistent, and the history arm reads what it is given. Short of that, the report states
+which of the three failed. With five campaigns, every interval on the history arm rests on a
+bootstrap over five values and is indicative, not decisive; that is said wherever one is
+quoted.
+
 ### 9.4 The time axis, corrected
 
 **Found and fixed on 2026-09-21.** Tiers 1 and 2 read `duration_days` as the exposure. The
