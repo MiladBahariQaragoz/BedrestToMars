@@ -88,6 +88,40 @@ def test_missing_optional_dependency_names_requirements() -> None:
     raise AssertionError("building an sklearn model without sklearn must raise")
 
 
+def test_tabpfn_is_declared_post_hoc_and_never_offered_to_the_main_comparison() -> None:
+    """TabPFN was added after the tier-2 null result: it has its own runner and results file,
+    so `make models` must produce exactly the four declared families whatever is installed."""
+    assert "tabpfn" in CONFIG["models"]["post_hoc_families"]
+    assert "tabpfn" not in CONFIG["models"]["families"]
+    assert "tabpfn" not in models.available(CONFIG)
+
+
+def test_tabpfn_missing_optional_dependency_names_the_install() -> None:
+    """The post-hoc family needs tabpfn and torch; a machine without them gets one sentence."""
+    if models.tabpfn_available():
+        return
+    try:
+        models.build("tabpfn", CONFIG)
+    except models.DependencyMissing as error:
+        assert "tabpfn==2.0.9" in str(error)
+        return
+    raise AssertionError("building tabpfn without the package must raise")
+
+
+def test_tabpfn_predicts_finite_values_on_a_synthetic_curve() -> None:
+    """A saturating curve with noise is the shape the real target has; smoke-test the family."""
+    if not models.tabpfn_available():
+        return
+    rng = np.random.default_rng(0)
+    days = rng.uniform(5.0, 119.0, 60)
+    truth = -20.0 * (1.0 - np.exp(-days / 28.0)) + rng.normal(0.0, 1.0, 60)
+    estimator = models.build("tabpfn", CONFIG)()
+    estimator.fit(days.reshape(-1, 1), truth)
+    predicted = estimator.predict(days.reshape(-1, 1))
+    assert np.isfinite(predicted).all()
+    assert np.mean(np.abs(predicted - truth)) < 3.0, "the family should follow a smooth curve"
+
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0

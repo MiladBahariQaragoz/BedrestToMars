@@ -7,7 +7,8 @@ well be that none of them does.
 
 Tier 2 needs scikit-learn. The core of the framework - loading, features, folds, the
 baseline, evaluation - deliberately needs only numpy and pandas, so a machine without the
-optional stack can still reproduce the primary result.
+optional stack can still reproduce the primary result. One post-hoc family goes further:
+`tabpfn` needs its own package and torch, and is run only by `run_tabpfn.py`.
 """
 
 from __future__ import annotations
@@ -24,6 +25,14 @@ class DependencyMissing(RuntimeError):
 def sklearn_available() -> bool:
     try:
         import sklearn  # noqa: F401
+    except ModuleNotFoundError:
+        return False
+    return True
+
+
+def tabpfn_available() -> bool:
+    try:
+        import tabpfn  # noqa: F401
     except ModuleNotFoundError:
         return False
     return True
@@ -134,6 +143,22 @@ def build(name: str, config: dict[str, Any]) -> Callable[[], Any]:
             "Install the optional stack with `pip install -r requirements.txt`; "
             "the baseline and every tier-1 result run without it."
         )
+
+    if name == "tabpfn":
+        # The pretrained tabular foundation model (Hollmann et al., Nature 2025), fitted
+        # in-context off its own pretraining rather than trained on our 32 campaigns - the
+        # small-data regime it was built for. Fixed declared defaults: there is no grid, so
+        # `run_models.build_search` wraps it without a search.
+        if not tabpfn_available():
+            raise DependencyMissing(
+                "tabpfn needs the tabpfn package and torch, which are not installed. Install "
+                "them in a separate environment with `pip install tabpfn==2.0.9` (see the "
+                "optional section of requirements.txt); every other result runs without it."
+            )
+        from tabpfn import TabPFNRegressor
+
+        device = str(config["models"].get("tabpfn_device", "cpu"))
+        return lambda: TabPFNRegressor(device=device, random_state=seed)
 
     from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
     from sklearn.linear_model import RidgeCV

@@ -68,6 +68,33 @@ def test_results_carry_their_provenance() -> None:
     assert result["n_cohorts"] == 32
 
 
+def test_fixed_search_duck_types_the_search_interface() -> None:
+    """A fixed-defaults family must be indistinguishable from a tuned one inside the fold loop."""
+    from sklearn.linear_model import LinearRegression
+
+    search = run_models.FixedSearch(LinearRegression())
+    design = np.arange(40, dtype=float).reshape(-1, 1)
+    target = -0.5 * design[:, 0]
+    fitted = search.fit(design, target, groups=np.array(["a"] * 20 + ["b"] * 20))
+    assert fitted is search
+    assert search.best_params_ == {}
+    assert np.allclose(search.predict(design), target)
+
+
+def test_every_post_hoc_family_declares_an_empty_grid() -> None:
+    """An empty grid is the contract for fixed declared defaults: nothing is tuned in-fold."""
+    grids = CONFIG["models"]["grids"]
+    for family in CONFIG["models"]["post_hoc_families"]:
+        assert grids.get(family) == {}, family
+
+
+def test_tabpfn_searches_nothing_because_nothing_is_declared() -> None:
+    if not models.tabpfn_available():
+        return
+    search = run_models.build_search("tabpfn", CONFIG)
+    assert isinstance(search, run_models.FixedSearch)
+
+
 def main() -> int:
     tests = [value for name, value in sorted(globals().items()) if name.startswith("test_")]
     failures = 0

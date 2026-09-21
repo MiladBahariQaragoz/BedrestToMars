@@ -85,6 +85,11 @@ models:
     - random_forest
     - svr
     - gradient_boosting
+  post_hoc_families:           # added 19 Sep, after the tier-2 null result: own runner
+    - tabpfn                   # (run_tabpfn.py), own results file, never part of `make models`.
+                               # A pretrained tabular foundation model fitted in-context on
+                               # fixed declared defaults (Hollmann et al., Nature 2025)
+  tabpfn_device: cpu           # 346 rows do not need a GPU, and CPU keeps the run reproducible
   tuning: nested               # nested | fixed - never tune against the outer fold
   inner_folds: 5               # grouped by cohort inside the training fold only
   grids:                       # small on purpose: 31 campaigns cannot support a large search
@@ -99,6 +104,7 @@ models:
     gradient_boosting:
       max_depth: [1, 2]
       learning_rate: [0.03, 0.1]
+    tabpfn: {}                 # empty by contract: fixed declared defaults, nothing to tune
 
 evaluate:
   metrics: [mae, rmse, r2]

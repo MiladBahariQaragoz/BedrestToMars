@@ -2,8 +2,9 @@
 # A number that cannot be regenerated cannot go on a slide (PLAN.md section 15).
 
 PYTHON ?= python3
+PYTHON_TABPFN ?= $(PYTHON)
 
-.PHONY: all test tier1 sensitivity baseline models forecast forecast-live ablation ablation-live validation validation-live figures venv clean help
+.PHONY: all test tier1 sensitivity baseline models tabpfn forecast forecast-live ablation ablation-live validation validation-live figures venv clean help
 
 help:
 	@echo "make test      - run every test in framework/tests"
@@ -11,6 +12,7 @@ help:
 	@echo "make sensitivity - run the declared sensitivity analyses, write results/sensitivity.md"
 	@echo "make baseline  - fit the duration-only baseline, write results/baseline.json"
 	@echo "make models    - fit the four comparative families, write results/model_comparison.*"
+	@echo "make tabpfn    - post hoc: fit TabPFN in its own environment (PYTHON_TABPFN), write results/tabpfn_comparison.*"
 	@echo "make forecast  - score the TypeSafe forecast from the answer cache, write results/forecast*"
 	@echo "make forecast-live - as forecast, asking TypeSafe for any uncached answer (needs TYPESAFE_API_KEY)"
 	@echo "make ablation  - score the tier-3 ablations and recognition probe from the cache"
@@ -53,6 +55,15 @@ models: results/model_comparison.csv
 results/model_comparison.csv: results/baseline.json framework/run_models.py \
                               framework/explain.py framework/models.py
 	$(PYTHON) framework/run_models.py
+
+# TabPFN is post hoc and needs its own environment: tabpfn 2.0.9 requires scikit-learn below
+# 1.7, while the four families were fitted with 1.8. Point PYTHON_TABPFN at that environment
+# (requirements.txt, optional section). It is not part of `make all`.
+tabpfn: results/tabpfn_comparison.csv
+
+results/tabpfn_comparison.csv: results/baseline.json framework/run_tabpfn.py \
+                               framework/run_models.py framework/models.py framework/config.yaml
+	$(PYTHON_TABPFN) framework/run_tabpfn.py
 
 # Tier 3 depends on a service outside the repository, so `make forecast` never calls it: every
 # answer is read from results/forecast_cache/, keyed by a hash of the exact request. Filling the

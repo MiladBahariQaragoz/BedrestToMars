@@ -31,13 +31,38 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 IMPROVEMENT_THRESHOLD = 0.15
 
 
+class FixedSearch:
+    """An estimator on fixed declared defaults, wearing the interface of a search.
+
+    `run_family` asks what it is given for `fit`, `predict` and `best_params_`. A family whose
+    settings are fixed by declaration rather than tuned in-fold - the prior-fitted network has
+    nothing to search - needs that interface without the search, so the fold loop and the
+    chosen-parameters record stay identical for every family.
+    """
+
+    def __init__(self, estimator: Any) -> None:
+        self.estimator = estimator
+        self.best_params_: dict[str, Any] = {}
+
+    def fit(self, design: np.ndarray, target: np.ndarray, groups: Any = None) -> "FixedSearch":
+        self.estimator.fit(design, target)
+        return self
+
+    def predict(self, design: np.ndarray) -> np.ndarray:
+        return self.estimator.predict(design)
+
+
 def build_search(family: str, config: dict[str, Any]):
     """An estimator wrapped in a grouped search over the declared grid.
 
     The search splits the *training* fold by campaign, so a hyperparameter is never chosen
     with help from the campaign it will be scored on, and never chosen with help from the
-    same participants appearing under another paper's name.
+    same participants appearing under another paper's name. A family declared with an empty
+    grid is fixed by declaration and gets no search at all.
     """
+    if config["models"]["grids"].get(family) == {}:
+        return FixedSearch(models.build(family, config)())
+
     from sklearn.model_selection import GridSearchCV, GroupKFold
 
     estimator = models.build(family, config)()
@@ -202,9 +227,8 @@ def run(config: dict[str, Any] | None = None, subset: str = "A") -> dict[str, An
     }
 
 
-def write(result: dict[str, Any], results_dir: Path) -> None:
-    """Write the comparison table for the report and the full record as JSON."""
-    results_dir.mkdir(parents=True, exist_ok=True)
+def table(result: dict[str, Any]) -> pd.DataFrame:
+    """The comparison as the report prints it: the baseline first, then each family by error."""
     rows = [
         {
             "model": entry["model"],
@@ -232,9 +256,13 @@ def write(result: dict[str, Any], results_dir: Path) -> None:
         "worst_fold_cohort": "",
         "worst_fold_mae_pp": "",
     }
-    pd.DataFrame([baseline_row, *rows]).to_csv(
-        results_dir / "model_comparison.csv", index=False
-    )
+    return pd.DataFrame([baseline_row, *rows])
+
+
+def write(result: dict[str, Any], results_dir: Path) -> None:
+    """Write the comparison table for the report and the full record as JSON."""
+    results_dir.mkdir(parents=True, exist_ok=True)
+    table(result).to_csv(results_dir / "model_comparison.csv", index=False)
     (results_dir / "model_comparison.json").write_text(
         json.dumps(result, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8"
     )
