@@ -587,12 +587,19 @@ Run on 2026-09-21: 1,280 new answers, with the full variant answered from the fi
 cache. `results/forecast_ablation.csv`, `results/forecast_ablation_campaigns.csv` and
 `results/forecast_recognition.csv`; `make ablation` rebuilds them.
 
+*Corrected on 2026-09-21.* The first version of this section quoted the live run's printout.
+Where two rows produced the same request, the client asked the model twice, received two
+slightly different answers, and cached one; the printout used both, the rebuild from the
+cache uses one. The numbers below are the rebuilt ones, the ones `make ablation` reproduces.
+The differences are in the second decimal and change no reading. The client now asks each
+distinct request once per batch, so the two can no longer disagree.
+
 | Variant | MAE | Paired gain over the curve (95% CI) | Change from the full run (95% CI) |
 |---|---|---|---|
 | Full | 2.71 pp | **+0.42** (+0.13 to +0.73) | — |
-| Generic | 2.83 pp | **+0.30** (+0.02 to +0.61) | −0.12 (−0.25 to +0.02) |
-| Scrambled reference | 4.37 pp | −1.24 (−1.94 to −0.58) | −1.66 (−2.31 to −1.06) |
-| No reference | 5.83 pp | −2.71 (−3.57 to −1.73) | −3.12 (−3.90 to −2.27) |
+| Generic | 2.82 pp | **+0.30** (+0.01 to +0.62) | −0.11 (−0.24 to +0.02) |
+| Scrambled reference | 4.37 pp | −1.25 (−1.94 to −0.59) | −1.66 (−2.32 to −1.07) |
+| No reference | 5.85 pp | −2.72 (−3.58 to −1.76) | −3.14 (−3.92 to −2.29) |
 | Duration curve | 3.13 pp | | |
 
 **The recognition probe.** The model puts a mean probability of 0.14 on the true campaign,
@@ -600,17 +607,17 @@ against 0.08 by chance, and names it first on 19% of rows. Three campaigns pass 
 recognition bar: NASA SPRINT and AGBRESA (named first on 67% of their rows) and VBR (50%). Of
 the three that carry most of the gain, only SPRINT is recognised; for BBR2-2 and MEDES LTBR the
 model's commonest answer is "none of these campaigns". Recognition and gain correlate at
-ρ = 0.38 (p = 0.25, 11 campaigns).
+ρ = 0.37 (p = 0.26, 11 campaigns).
 
 **Against the rules:**
 
 - `generic` **keeps the gain**: 0.30 pp, at least half of 0.42, with an interval above zero.
-  Its difference from the full run, −0.12 pp, has an interval that includes zero.
+  Its difference from the full run, −0.11 pp, has an interval that includes zero.
 - **Recognition is not a live explanation**: one of the three campaigns, not two, and a
   correlation below 0.5.
 - `scrambled_reference` **shows the model reads the reference data**: shuffle the values and
-  the gain becomes a loss of 1.24 pp.
-- `no_reference`: on its own knowledge the model is far worse than the curve, 5.83 pp against
+  the gain becomes a loss of 1.25 pp.
+- `no_reference`: on its own knowledge the model is far worse than the curve, 5.85 pp against
   3.13.
 
 That is the first row of the reading table. **Tier 3's point forecasts may be quoted as a

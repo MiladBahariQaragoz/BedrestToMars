@@ -239,13 +239,13 @@ campaigns, so ablations were declared (`DESIGN.md` §9.3.2) and run the same day
 | Variant | MAE | Paired gain over the curve |
 |---|---|---|
 | Full | 2.71 pp | +0.42 (0.13 to 0.73) |
-| Generic - no participants, protocol text or planned length | 2.83 pp | **+0.30 (0.02 to 0.61)** |
-| Reference values shuffled | 4.37 pp | −1.24 (−1.94 to −0.58) |
-| No reference data | 5.83 pp | −2.71 (−3.57 to −1.73) |
+| Generic - no participants, protocol text or planned length | 2.82 pp | **+0.30 (0.01 to 0.62)** |
+| Reference values shuffled | 4.37 pp | −1.25 (−1.94 to −0.59) |
+| No reference data | 5.85 pp | −2.72 (−3.58 to −1.76) |
 
 The gain survives without anything that identifies a study, disappears when the reference
 values are shuffled, and the model cannot name two of the three campaigns carrying it (only
-NASA SPRINT; ρ = 0.38 between recognition and gain). By the declared rules, **tier 3's point
+NASA SPRINT; ρ = 0.37 between recognition and gain). By the declared rules, **tier 3's point
 forecasts may be quoted as a result**, with the caveats above.
 
 **Does it hold up?** A validation battery was declared (`DESIGN.md` §9.3.4) and run the same
