@@ -138,5 +138,25 @@ forecast:                      # DESIGN.md section 9.3 - added 21 Sep, after the
       edges: [-14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
       reference_baseline: last_scan_plus_curve
   relative_improvement_bar: 0.15   # the PLAN.md section 8 bar, applied to each arm's reference
+  ablation:                    # DESIGN.md section 9.3.2 - declared before the first ablation answer
+    arm: without_history       # where the recognition concern sits
+    variants:
+      generic: the target described only by muscle, role, method, kind of group and day
+      scrambled_reference: the other campaigns' values shuffled among their rows
+      no_reference: no curve and no observations from other campaigns
+    recognition:               # which named campaign does the description we send point to?
+      none_label: none of these campaigns
+      campaigns:               # proper names only - a descriptive name would give the answer away
+        agbresa: AGBRESA
+        berlin_bbr1: Berlin BedRest Study (BBR1)
+        berlin_bbr2: 2nd Berlin BedRest Study (BBR2-2)
+        brace_br60: BRACE
+        lunhab_br10: LunHab
+        medes_ltbr90: MEDES Long Term Bed Rest (LTBR)
+        nasa_sprint_br70: NASA SPRINT
+        nasa_utmb_c3: NASA Flight Analog Project, UTMB Campaign 3
+        planhab_br21: PlanHab
+        wbv_hdt14: Vibration Bed Rest Study (VBR)
+        wise2005: WISE-2005
 
 seed: 20260918

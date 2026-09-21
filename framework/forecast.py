@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from dataclasses import dataclass
 from typing import Any, Sequence
 
@@ -37,6 +38,11 @@ import models
 LOG_FLOOR = 1e-6
 MISSING = {"", "NA", "na", "nan", "NaN", "None"}
 IDENTITY_COLUMNS = ("cohort_id", "campaign_name", "study_id", "first_author", "doi", "registry_id")
+VARIANTS = ("full", "generic", "no_reference")
+GENERIC_MEASUREMENT = (
+    "muscle", "muscle_family", "functional_role", "granularity", "made_up_of",
+    "imaging_method", "quantity",
+)
 
 BACKGROUND = (
     "These records come from bed-rest studies, the ground-based model of the muscle loss "
@@ -493,13 +499,20 @@ def build_state(
     token_budget: int | None = None,
     curve: models.DurationOnlyBaseline | None = None,
     train_transitions: pd.DataFrame | None = None,
+    variant: str = "full",
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Everything the model is told about one forecast, and how much of it fitted.
 
     `train` is the training campaigns' rows, `held_out` the rows of the target's own
     campaign. Only the `with_history` arm reads `held_out`, and only scans taken strictly
     before the target day.
+
+    `variant` is one of the ablations of `DESIGN.md` section 9.3.2. `generic` describes the
+    target only by what identifies no study - muscle, role, method, kind of group and day.
+    `no_reference` drops everything taken from the other campaigns.
     """
+    if variant not in VARIANTS:
+        raise ValueError(f"unknown variant {variant!r}; declared: {VARIANTS}")
     settings = config["forecast"]
     time = settings["time_column"]
     cohort = str(target["cohort_id"])
@@ -512,17 +525,36 @@ def build_state(
     planned = float(target["duration_days"])
     curve = curve or reference_curve(train, config)
 
-    state: dict[str, Any] = {
-        "background": BACKGROUND,
-        "participants": describe_participants(target),
-        "protocol": describe_protocol(target),
-        "measurement": describe_measurement(target, config),
-        "target": {
-            "day_of_bed_rest": _num(day),
-            "planned_total_days": _num(planned),
-            "days_before_bed_rest_ends": _num(max(planned - day, 0.0)),
-        },
-    }
+    if variant == "generic":
+        measurement = describe_measurement(target, config)
+        state: dict[str, Any] = {
+            "background": BACKGROUND,
+            "protocol": _drop_missing(
+                {
+                    "unloading": describe_protocol(target).get("unloading"),
+                    "group": "countermeasure"
+                    if target.get("arm_type") == "countermeasure"
+                    else "control, no countermeasure",
+                }
+            ),
+            "measurement": {
+                key: measurement[key] for key in GENERIC_MEASUREMENT if key in measurement
+            },
+            "target": {"day_of_bed_rest": _num(day)},
+        }
+    else:
+        state = {
+            "background": BACKGROUND,
+            "participants": describe_participants(target),
+            "protocol": describe_protocol(target),
+            "measurement": describe_measurement(target, config),
+            "target": {
+                "day_of_bed_rest": _num(day),
+                "planned_total_days": _num(planned),
+                "days_before_bed_rest_ends": _num(max(planned - day, 0.0)),
+            },
+        }
+    references = variant != "no_reference"
 
     curve_days = sorted({float(value) for value in settings["reference_curve_days"]} | {day})
     if arm == "with_history":
@@ -539,29 +571,31 @@ def build_state(
             "average_change_per_day_so_far": (
                 f"{previous_value / previous_day:+.2f} percentage points per day"
             ),
-            "further_change_the_typical_curve_expects": _pp(
-                curve_at(curve, day) - curve_at(curve, previous_day)
-            ),
         }
+        if references:
+            state["this_measurement"]["further_change_the_typical_curve_expects"] = _pp(
+                curve_at(curve, day) - curve_at(curve, previous_day)
+            )
         earlier = held_out[held_out[time].astype(float) < day]
         earlier = _by_relevance(earlier, target, day, time)
         state["earlier_scans_in_this_campaign"] = [
             _observation(row, time) for _, row in earlier.iterrows()
         ]
 
-    state["typical_curve_other_campaigns"] = {
-        "what_it_is": (
-            "A duration-only curve fitted to every muscle and group in the other campaigns. "
-            "It ignores which muscle, which group and which method."
-        ),
-        "values": [
-            {"day": _num(curve_day), "change": _pct(curve_at(curve, curve_day))}
-            for curve_day in curve_days
-        ],
-    }
+    if references:
+        state["typical_curve_other_campaigns"] = {
+            "what_it_is": (
+                "A duration-only curve fitted to every muscle and group in the other "
+                "campaigns. It ignores which muscle, which group and which method."
+            ),
+            "values": [
+                {"day": _num(curve_day), "change": _pct(curve_at(curve, curve_day))}
+                for curve_day in curve_days
+            ],
+        }
 
     trimmable = ["observations_other_campaigns"]
-    if arm == "with_history":
+    if arm == "with_history" and references:
         transitions = train_transitions if train_transitions is not None else with_history(train, config)
         transitions = _by_relevance(transitions, target, day, time)
         state["scan_to_scan_changes_other_campaigns"] = [
@@ -573,11 +607,15 @@ def build_state(
             "observations_other_campaigns",
         ]
 
+    if arm == "with_history" and not references:
+        trimmable = ["earlier_scans_in_this_campaign"]
+
     observations = _by_relevance(train, target, day, time)
-    available = len(observations)
-    state["observations_other_campaigns"] = [
-        _observation(row, time) for _, row in observations.iterrows()
-    ]
+    available = len(observations) if references else 0
+    if references:
+        state["observations_other_campaigns"] = [
+            _observation(row, time) for _, row in observations.iterrows()
+        ]
 
     budget = token_budget or int(settings["state_token_budget"])
     chars_per_token = float(settings["chars_per_token"])
@@ -586,11 +624,71 @@ def build_state(
 
     info = {
         "estimated_tokens": int(math.ceil(len(json.dumps(state)) / chars_per_token)),
-        "observations_kept": kept["observations_other_campaigns"],
+        "observations_kept": kept.get("observations_other_campaigns", 0),
         "observations_available": available,
         "transitions_kept": kept.get("scan_to_scan_changes_other_campaigns", 0),
     }
     return state, info
+
+
+def scramble(train: pd.DataFrame, seed: int) -> pd.DataFrame:
+    """The training rows with their outcome shuffled among them, and nothing else changed.
+
+    The `scrambled_reference` ablation shows the model these rows in place of the real ones:
+    every description is intact, but no value belongs to its row any more.
+    """
+    shuffled = train.copy()
+    rng = np.random.default_rng(int(seed))
+    shuffled["pct_change"] = rng.permutation(train["pct_change"].to_numpy())
+    return shuffled
+
+
+# --- the recognition probe --------------------------------------------------------------
+
+
+def _slug(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+
+
+def recognition_state(target: pd.Series, config: dict[str, Any]) -> dict[str, Any]:
+    """The description of the target exactly as the full forecast sends it, and no more."""
+    planned = float(target["duration_days"])
+    day = float(target[config["forecast"]["time_column"]])
+    state = {
+        "participants": describe_participants(target),
+        "protocol": describe_protocol(target),
+        "measurement": describe_measurement(target, config),
+        "target": {
+            "day_of_bed_rest": _num(day),
+            "planned_total_days": _num(planned),
+            "days_before_bed_rest_ends": _num(max(planned - day, 0.0)),
+        },
+    }
+    _assert_no_identity(state, target)
+    return state
+
+
+def recognition_label(cohort: str, config: dict[str, Any]) -> str | None:
+    """The option naming this campaign, or None when the probe does not cover it."""
+    name = config["forecast"]["ablation"]["recognition"]["campaigns"].get(cohort)
+    return _slug(name) if name else None
+
+
+def recognition_question(config: dict[str, Any]) -> dict[str, Any]:
+    """One Choice question: which named campaign does this description come from?"""
+    settings = config["forecast"]["ablation"]["recognition"]
+    names = list(dict.fromkeys(settings["campaigns"].values()))
+    criteria = {_slug(name): name for name in names}
+    criteria[_slug(settings["none_label"])] = settings["none_label"]
+    return {
+        "type": "choice",
+        "instructions": (
+            "These participants, this protocol and this measurement come from one published "
+            "bed-rest campaign. Which campaign is it? Choose none of these campaigns if the "
+            "description fits none of them or you cannot tell."
+        ),
+        "criteria": criteria,
+    }
 
 
 # --- the question -----------------------------------------------------------------------

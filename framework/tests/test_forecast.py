@@ -249,6 +249,70 @@ def test_the_state_says_what_each_functional_role_means_and_gives_rates_their_un
     assert state["this_measurement"]["average_change_per_day_so_far"].endswith("per day")
 
 
+# --- ablation variants ------------------------------------------------------------------
+
+
+def _variant(cohort: str, variant: str) -> dict:
+    target, train, held_out = _fold(cohort, history=False)
+    state, _ = forecast.build_state(
+        target, train, held_out, "without_history", CONFIG, variant=variant
+    )
+    return state
+
+
+def test_the_generic_variant_withholds_participants_protocol_detail_and_planned_length() -> None:
+    state = _variant("wise2005", "generic")
+    assert "participants" not in state
+    assert set(state["protocol"]) <= {"unloading", "group"}
+    assert state["protocol"]["group"] in {"control, no countermeasure", "countermeasure"}
+    assert set(state["target"]) == {"day_of_bed_rest"}
+    assert state["measurement"]["muscle"]
+    assert "measurement_site" not in state["measurement"]
+
+
+def test_the_no_reference_variant_drops_every_block_from_other_campaigns() -> None:
+    state = _variant("wise2005", "no_reference")
+    assert "observations_other_campaigns" not in state
+    assert "typical_curve_other_campaigns" not in state
+    assert "participants" in state
+
+
+def test_an_unknown_variant_is_refused() -> None:
+    try:
+        _variant("wise2005", "anything")
+    except ValueError:
+        return
+    raise AssertionError("an undeclared variant was accepted")
+
+
+def test_scrambling_shuffles_the_values_and_nothing_else() -> None:
+    train = RESOLVED[RESOLVED["cohort_id"] != "wise2005"]
+    first = forecast.scramble(train, seed=7)
+    again = forecast.scramble(train, seed=7)
+    assert list(first["pct_change"]) == list(again["pct_change"])
+    assert sorted(first["pct_change"]) == sorted(train["pct_change"])
+    assert list(first["pct_change"]) != list(train["pct_change"])
+    rest = [column for column in train.columns if column != "pct_change"]
+    assert first[rest].equals(train[rest])
+
+
+def test_the_recognition_state_describes_the_target_without_naming_it() -> None:
+    target = RESOLVED[RESOLVED["cohort_id"] == "wise2005"].iloc[0]
+    state = forecast.recognition_state(target, CONFIG)
+    assert set(state) == {"participants", "protocol", "measurement", "target"}
+    text = json.dumps(state)
+    assert "WISE" not in text and "wise2005" not in text
+
+
+def test_the_recognition_question_offers_each_named_campaign_once_and_none() -> None:
+    settings = CONFIG["forecast"]["ablation"]["recognition"]
+    question = forecast.recognition_question(CONFIG)
+    names = set(settings["campaigns"].values())
+    assert question["type"] == "choice"
+    assert set(question["criteria"].values()) == names | {settings["none_label"]}
+    assert len(question["criteria"]) == len(names) + 1
+
+
 # --- the question -----------------------------------------------------------------------
 
 
