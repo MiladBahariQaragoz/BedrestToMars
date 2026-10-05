@@ -3,7 +3,7 @@
     python framework/build_data_report.py              # standalone file, opens in a browser
     python framework/build_data_report.py --fragment   # headless form, for publishing
 
-Reads the three tables in data/raw/, injects them into framework/report_template.html and
+Reads the four tables in data/raw/, injects them into framework/report_template.html and
 writes docs/data_report.html. The report is regenerated rather than maintained, so it can
 never drift from the CSVs it describes - same contract as extraction_report.py.
 
@@ -35,6 +35,7 @@ TABLES = {
     "main": REPO_ROOT / "data" / "raw" / "extraction_qaragoz.csv",
     "partial": REPO_ROOT / "data" / "raw" / "extraction_partial.csv",
     "figures": REPO_ROOT / "data" / "raw" / "extraction_figures.csv",
+    "nasa": REPO_ROOT / "data" / "raw" / "extraction_nasa.csv",
 }
 
 # The columns the charts and the row browser need. The full 61 stay in the CSVs; shipping

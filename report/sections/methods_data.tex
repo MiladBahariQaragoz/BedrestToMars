@@ -1,0 +1,316 @@
+\section{Methods I: building the dataset}
+\label{sec:methods-data}
+
+\subsection{Design principles}
+
+Three principles governed every step, and they explain several choices that would otherwise look unusual.
+
+\begin{enumerate}
+  \item \textbf{Declare before answering.} The extraction schema was frozen before extraction started; the
+        framework design, the success thresholds, the sensitivity analyses and every reading rule for the
+        post-hoc analyses were committed to the repository before the first result they govern was produced. Where
+        a rule was added after a result was known, the report says so.
+  \item \textbf{The campaign is the unit.} Two papers that report the same participants are one observation of
+        the underlying physiology, not two. Every validation in the project holds out whole campaigns, and every
+        interval is computed by resampling campaigns.
+  \item \textbf{Nothing is typed twice.} The dataset is frozen under a version tag and a SHA-256 hash; the
+        framework refuses to run against a file that does not match; every number and figure is regenerated from
+        that file by one command (\cref{sec:reproducibility}).
+\end{enumerate}
+
+The work was carried out by two leads in parallel tracks that met at a frozen interface: the scientific lead ran
+the search, screening and physiological interpretation; the AI framework lead designed the schema, the framework
+and the models. The phases and their dates are summarised in \cref{tab:phases}.
+
+\begin{table}[htbp]
+\centering
+\caption{Project phases. The written report and the presentation slides are phase P5.}
+\label{tab:phases}
+\small
+\begin{tabularx}{\linewidth}{@{}l l Y@{}}
+\toprule
+Phase & Dates (2026) & Content and outcome \\
+\midrule
+P0 Kickoff & 4 Sep & Repository, branch model, frozen extraction schema, decisions on the pre-search corpus \\
+P1 Literature & 4--11 Sep & Search of four databases, title/abstract and full-text screening, extraction, campaign map \\
+P2 Integration & 12--14 Sep & Source verification, reconciliation, quality control; \code{dataset\_v1.0} frozen (14 Sep) \\
+P3 Design & 15--18 Sep & Framework design document, configuration, modules, leakage guard, baseline \\
+P4 Modelling & 16--21 Sep & Tier 2 (18 Sep); tier 1 and \code{dataset\_v1.1} (19 Sep); time-axis correction, tier 3 with ablations and validation, figures (21 Sep) \\
+P5 Report and slides & 22--28 Sep & This document; the presentation deck \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Literature search}
+\label{sec:search}
+
+Four sources were searched on 4 September 2026: PubMed, Scopus, Web of Science Core Collection and the NASA
+Technical Reports Server (NTRS). Each query combined two concept blocks, both required: \emph{A}, the unloading
+model (bed rest, head-down tilt, dry immersion, limb suspension, simulated microgravity, disuse and their
+variants), and \emph{B}, the muscle outcome (atrophy, muscle volume, mass, size, cross-sectional area, lean mass,
+thickness, and the names of the principal lower-limb muscles). Imaging-modality and countermeasure blocks were
+deliberately left out of the first pass so as not to lose papers whose abstracts omit them. Rodent studies were
+excluded in the query where the syntax allowed. Every search was limited to publications from 2013 onwards; older
+work enters the dataset only through the pre-search corpus (\cref{sec:corpus}). The NTRS search used five short
+keyword queries, because a technical memorandum is not expected to be indexed by the journal databases. The
+queries are reproduced verbatim in \cref{app:search}.
+
+Embase, Cochrane CENTRAL, Europe PMC full-text search, trial registries, citation chasing and hand-searching were
+not run. Embase was unavailable for lack of institutional access; its absence is a known limitation because it
+indexes conference abstracts the other databases do not.
+
+\paragraph{Known-item test} Before a query is trusted, it should return the papers already known to be relevant.
+Because of the 2013 date limit, only two of the ten known modelling papers fell inside the search window; both were
+retrieved by all three journal databases. The test with the date limit removed was not run.
+
+\subsection{Eligibility criteria}
+
+The criteria in \cref{tab:eligibility} were written before screening began. Two judgement calls were settled in
+advance: total limb volume by anthropometry or plethysmography is not a muscle outcome, because fluid shifts
+confound it; and cast immobilisation and step reduction are not unloading models for this dataset, because their
+mechanical and postural picture differs from bed rest.
+
+\begin{table}[htbp]
+\centering
+\caption{Eligibility criteria. A study was included when every row held.}
+\label{tab:eligibility}
+\small
+\begin{tabularx}{\linewidth}{@{}l Y@{}}
+\toprule
+Axis & Requirement \\
+\midrule
+Population & Humans, adults ($\geq$18 years), any sex, healthy or without a disease that itself causes muscle wasting \\
+Exposure & A ground-based unloading model with a stated duration: horizontal or head-down bed rest, dry immersion,
+           unilateral lower-limb suspension. Spaceflight eligible but flagged separately \\
+Duration & At least 5 days of continuous unloading \\
+Outcome & At least one lower-limb muscle-tissue measure at baseline and at one or more later time points: volume,
+          cross-sectional area, thickness, or lean or muscle mass, by MRI, CT, DXA, pQCT or ultrasound \\
+Reporting & Enough to compute a percentage change per arm: baseline and follow-up values, or a printed change \\
+Type & Primary study; reviews were mined for references and never extracted \\
+Language & English or German; other languages recorded rather than silently dropped \\
+\midrule
+Exclusion codes & \code{not\_human}, \code{not\_unloading\_model}, \code{duration\_too\_short},
+  \code{no\_muscle\_outcome}, \code{upper\_limb\_only}, \code{no\_baseline\_or\_followup},
+  \code{disease\_causes\_wasting}, \code{review\_or\_editorial}, \code{duplicate\_report}, \code{no\_full\_text},
+  \code{language} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Screening}
+
+Records from the four exports were merged and de-duplicated on DOI and normalised title
+(\file{framework/merge\_search\_exports.py}); duplicates were marked rather than deleted. Title and abstract
+screening ran in two stages: a deterministic triage against the criteria (\file{framework/triage\_screening.py}),
+which sorted records into exclusions with a reason, a priority set and a \emph{maybe} set, followed by a human
+reading of the priority set and the top of the \emph{maybe} set. Full texts were retrieved preferentially as
+machine-readable XML from Europe PMC, which preserves tables, and otherwise as PDF. The remainder of the
+\emph{maybe} set was not screened in the time available; those records are reported as unscreened, not as
+excluded.
+
+\subsection{The pre-search corpus}
+\label{sec:corpus}
+
+Fifteen documents were held by the team before the search began. Each was read in full and classified with a
+written reason: nine were modelling studies, one a methods paper that re-analyses a cohort already extracted, four
+were vascular studies retained only as context, and one---a study of boys with Duchenne muscular dystrophy---was
+excluded because the disease itself causes wasting. The nine modelling studies are the dataset's only source of
+data published before 2013 and include its longest unloading duration, 119 days~\citep{leblanc1992}. They are a
+convenience corpus, not a search result, and are counted on their own line in the flow diagram.
+
+\subsection{Extraction schema}
+\label{sec:schema}
+
+The schema (\file{data/schema.md}) defines one row as \emph{one comparison against baseline}: one study, one arm,
+one muscle, one measurement occasion, carrying the baseline value, the follow-up value and the percentage change.
+There are no baseline-only rows. The 61 columns fall into groups for study identity and provenance, unloading
+design, arm and participants, what was measured, values, and quality control; muscles are named from a controlled
+vocabulary that can be extended only by a change to the schema. Ten rules accompany the schema; the ones that
+carry the analysis are:
+
+\begin{itemize}
+  \item \textbf{Never impute silently}: a missing value is recorded as missing, and that is itself a fact about
+        the literature.
+  \item \textbf{Sign convention}: \code{pct\_change} is negative for atrophy, everywhere.
+  \item \textbf{Recompute every percentage} where both values are printed, and compare it with the printed change.
+  \item \textbf{Composites are not sums}: \code{triceps\_surae} is not the sum of soleus and gastrocnemius, and a
+        composite and its components must never enter a model together unresolved.
+  \item \textbf{One \code{cohort\_id} per campaign}, not per paper.
+  \item \textbf{Recovery is a different question}: a recovery row never enters a duration--response model without
+        an explicit flag.
+  \item \textbf{\code{n\_analysed}, not \code{n\_arm}, is the weight}, because dropouts are routine.
+  \item \textbf{Every row is traceable in under a minute} through \code{source\_file} and \code{page\_ref}.
+  \item \textbf{Digitised figures are labelled} as such (\code{data\_source = figure\_digitized}).
+\end{itemize}
+
+Twelve validation checks run as a script (\file{framework/validate\_extraction.py}) so that a malformed table fails
+before it is committed. The schema is summarised in \cref{app:schema}.
+
+\paragraph{Two estimators in one column} Where a paper prints the mean of the participants' individual percentage
+changes and it differs from the value recomputed from the group means by more than rounding, the printed value is
+kept (\code{pct\_of\_individual\_means}); otherwise the recomputed value is kept
+(\code{pct\_recomputed\_from\_group\_means}). The two are different estimators when the change correlates with
+baseline size, and every row records which it carries.
+
+\subsection{Source verification and reconciliation}
+\label{sec:verification}
+
+On 4 September 2026 the scientific lead re-extracted every provenance record then present from the original
+papers, with AI assistance, and compared the result with the extraction tables. The check was staged: three
+studies (26 rows) to test the method, then 113 rows (all 14 figure-derived rows and 99 table-derived rows), then
+all 580 records. The outcome is summarised in \cref{tab:verification}.
+
+\begin{table}[htbp]
+\centering
+\caption{Source verification of the extraction (4 September 2026).}
+\label{tab:verification}
+\small
+\begin{tabular}{@{}lr@{}}
+\toprule
+Measure & Result \\
+\midrule
+Provenance records checked & 580 (537 main, 29 partial, 14 figure) \\
+Recovered from the source & 580 (575 high confidence, 5 medium) \\
+Agree without correction & 556 \\
+Flagged & 24 rows, plus 3 duplicated observations \\
+Unresolved numeric conflicts & 0 \\
+Percent-change gap: median / mean / maximum & 0 / 0.012 / 1.04\pp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The flagged rows were resolved on 14 September and each resolution is logged in \file{data/reconciliation\_log.md}.
+Eight rows had been coded as MRI but measured lumbar multifidus by ultrasound and were corrected. Sixteen rows
+printed a whole-number percentage that differed from the recomputed value; because a whole number disagrees with a
+precise value only once the gap exceeds its own rounding, the printed value was kept where the gap exceeded
+0.5\pp{} (five rows) and the recomputed value otherwise. Duplicated observations were flagged and counted once, and
+two corrections were made to the campaign map.
+
+This check is \emph{AI-assisted independent source verification}. It is not a human double extraction, and because
+the assistant had seen some rows earlier it is not fully blinded; accordingly, \code{double\_extracted} remains
+\code{FALSE} on every row. The 165 rows from the pre-search corpus were added after the check and have not been
+verified by a second person.
+
+\subsection{The campaign map}
+\label{sec:cohort-map}
+
+\file{data/cohorts.csv} assigns every study to the campaign that produced its participants, using trial registry
+identifiers where they exist and the text of the papers otherwise. Each assignment carries a note and a
+\code{verified} flag. Examples of the dependence it captures: the 90-day Long-Term Bed Rest study at MEDES is
+reported by four papers in the dataset~\citep{alkner2004,belavy2017,trappe2023,rittweger2013}; the WISE-2005
+women's campaign by five~\citep{trappe2007,rogers2025,trappe2023,holt2015,holt2016}; and the McGill 14-day
+campaign in older adults by three that share one registry
+identifier~\citep{dulac2024,hajjboutros2023,lagace2026}. The map also separates campaigns that an author-based
+grouping would merge: the two Berlin bed-rest studies, BBR1 (56 days, horizontal) and BBR2-2 (60 days, head-down),
+are distinct campaigns with distinct participants~\citep{belavy2009,miokovic2012}. The resulting 36 campaigns are
+listed in \cref{app:campaigns}.
+
+\subsection{Open NASA data}
+\label{sec:nasa}
+
+On 19 September 2026, seven campaign folders of derived, individual-participant bed-rest data were downloaded from
+the NASA Life Sciences Portal (NLSP) as open US government data, with every file's identifier and SHA-256 recorded
+in a manifest (\file{framework/fetch\_nasa\_nlsp.py}). Only one folder was pooled into the dataset. Four of the
+seven belong to campaigns the dataset already holds as literature rows---three to the 70-day NASA SPRINT campaign and
+one to WISE-2005---and pooling them would have counted the same participants twice. Two carried no phase labels, so
+a baseline would have had to be guessed. The seventh, whole-body DXA from the NASA Flight Analog Project's UTMB
+Campaign~3~\citep{nlsp2026}, was pooled for the three blocks whose own scan dates confirm a 90-day, 6$^\circ$
+head-down bed rest (13 participants). Leg lean mass was aggregated to five cohort-level rows
+(\file{framework/extract\_nasa.py}): four occasions during bed rest and one in recovery. These are the only rows
+in the dataset computed from individual measurements rather than read from a publication. Three of the four
+in-bed-rest occasions (days 30, 45 and 58) rest on a single participant and are weighted accordingly
+(\code{n\_analysed = 1}).
+
+\subsection{Build, quality control and freeze}
+\label{sec:freeze}
+
+\file{framework/build\_dataset.py} stacks the four extraction tables (main, partial, figure-derived and NASA) with a
+\code{source\_table} column in front of the 61 schema columns, leaves out ten rows that are second copies of an
+observation another row already carries, and checks the result across tables: unique \code{row\_id}, known
+campaigns, \code{pct\_change} within range, and the minimum viable dataset declared in the plan (60 rows, 8
+campaigns, 4 muscle groups, 4 durations). Nothing else is filtered: recovery, spaceflight, dry immersion, DXA,
+partial and figure-derived rows are all in the file, each marked by its own column, so that the modelling subset
+is chosen in the configuration rather than built into the data.
+
+Version 1.0 was frozen and tagged on 14 September 2026 (737 rows, 51 studies, 35 campaigns). Version 1.1, frozen
+on 19 September, added the five NASA rows and one campaign, and is the version every result in this report was
+fitted against. The build reproduces each version byte for byte from its tables and refuses to overwrite a frozen
+file; the loader verifies the SHA-256 on every run. The one schema change v1.1 required---a \code{repository}
+value for \code{data\_source}, so that a row computed from an open archive can say so---is recorded in the
+reconciliation log. \draftnote{this schema change carries one lead's signature; the frozen schema requires both.}
+
+\subsection{The modelling subset}
+\label{sec:subset}
+
+The modelling subset is defined by three predicates declared in \file{framework/config.yaml} and applied in order:
+
+\begin{enumerate}
+  \item \textbf{During unloading only} (\code{phase = bed\_rest}). Recovery rows answer a different question and
+        are reserved for a reconditioning sensitivity analysis.
+  \item \textbf{Lower-limb muscles only.} Multifidus, lumbar erector spinae, quadratus lumborum, psoas and
+        iliopsoas are dropped: trunk muscles unload differently and would answer another question inside the same
+        coefficient.
+  \item \textbf{One tissue per measurement occasion.} A measurement occasion is a campaign, arm, scan day,
+        modality and outcome. Where a paper reports both a composite (for example the quadriceps) and components
+        that cover it (its four heads), the components are kept and the composite dropped, because a model given
+        both fits the same tissue twice. Where no components are present the composite is kept and flagged.
+        Whole-segment measurements (whole thigh, whole calf, whole lower limb) are never decomposed or suppressed.
+\end{enumerate}
+
+After predicates 1 and 2 the subset holds 425 rows from 42 studies and 32 campaigns, 299 from control arms and 126
+from countermeasure arms, with 13 planned durations and scans on 24 distinct days between day 5 and day 119. Of
+these rows, 369 are MRI (314 MRI volume), 29 DXA, 15 CT and 12 ultrasound. Both a composite and its components were
+present on 20 of the 93 measurement occasions.
+
+\paragraph{Two subsets, for two claims} Seven campaigns report only whole-segment measurements, and six of them
+sit between 5 and 21 days, which is where the duration curve bends most. Excluding whole-segment rows would cost a
+fifth of the campaigns and the short-duration evidence with them. Subset A, used for the duration--response and for
+every tier-2 and tier-3 comparison, therefore keeps them as a \code{whole\_limb} level of the muscle family (346
+rows, 32 campaigns); subset B, used for the muscle ranking, keeps named muscles only (304 rows, 25 campaigns).
+\Cref{tab:subsets} in \cref{sec:results-data} walks the dataset down to both.
+
+\paragraph{The sample size is 32, not 346} The largest campaign, MEDES LTBR, contributes 86 rows to subset A and
+the two Berlin campaigns another 82 between them. Every design decision in the framework follows from treating
+the number of independent campaigns as the effective sample size.
+
+\subsection{Target and exposure}
+\label{sec:target}
+
+\paragraph{Target} The target is \code{pct\_change}, the percentage change in muscle size from the same arm's
+baseline, negative for loss. In subset A it ranges from $-30.0\%$ to $+24.3\%$ (mean $-8.0\%$, median $-6.8\%$);
+the positive values are real, coming from countermeasure arms and small muscles under compensatory loading. No
+transformation is applied, so that coefficients read directly in percentage points. The dispersion reported with
+each value is heterogeneous: of the 425 lower-limb unloading rows, 290 carry a standard deviation, 88 a standard
+error, 6 a 95\% confidence interval, 2 an interquartile range and 39 nothing; and most papers report the spread
+of the baseline rather than of the change.
+
+\paragraph{Exposure: the day of the scan} The exposure is the number of days of unloading at the time of the scan
+(\code{timepoint\_days}), not the campaign's planned length (\code{duration\_days}). The first runs of tiers 1 and
+2 used the planned length, which placed 200 of the 346 rows in subset A---every scan taken before bed rest ended,
+120 of them more than a week before---at the end of their campaign, so that a day-14 scan in a 56-day campaign
+entered the model as 56 days. The error was found and corrected on 21 September 2026; it is a correction of the
+implementation, since the design already named the scan day as a within-campaign variable, not a new analysis
+choice. The exposure is now declared once in the configuration and read through one function by every tier. The
+effect of the correction is reported in \cref{sec:results-correction}.
+
+\subsection{Muscle classification}
+\label{sec:muscle-map}
+
+The schema's \code{muscle\_function\_class} was empty in every extracted row, and \code{composite\_of} was populated
+on only 50 of the 189 composite rows in the modelling subset. Both are therefore supplied by a reviewable table,
+\file{data/muscle\_map.csv}, joined at load time rather than written into the frozen dataset, so that an assignment
+can be argued with and re-run without a new dataset version. It gives each of the 51 muscles a family (plantar
+flexors, dorsiflexors, evertors, knee extensors, knee flexors, hip extensors, flexors, abductors, adductors and
+rotators, trunk extensors, whole segment), a functional class, its components where it is a composite, a
+fibre-type profile and a written rationale; the loader refuses to run if the dataset names a muscle the table does
+not cover. The full table is in \cref{app:musclemap}.
+
+Function was assigned by mechanical role first and fibre-type composition second~\citep{johnson1973}: 19 muscles
+are antigravity extensors, 8 flexors and 24 of mixed function. Three judgement calls are flagged for review.
+Rectus femoris is \emph{mixed}, not an antigravity extensor, because it extends the knee but flexes the hip and
+loses less than the monoarticular vasti. Tibialis anterior is a \emph{flexor} despite being slow-fibre dominant,
+because it lifts the foot rather than carrying body weight; it is the cleanest test in the corpus of role against
+fibre type. And the deep posterior compartment---flexor digitorum longus, flexor hallucis longus and tibialis
+posterior---sits with the antigravity extensors, because what these muscles do at the ankle is plantar flexion.
+\draftnote{the classification awaits the scientific lead's physiological sign-off, which the plan makes a blocking
+condition for quoting coefficients by class.}

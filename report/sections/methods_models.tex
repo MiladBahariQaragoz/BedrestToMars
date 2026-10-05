@@ -1,0 +1,402 @@
+\section{Methods II: the modelling framework}
+\label{sec:methods-models}
+
+\subsection{Overview}
+
+The framework answers one question: \emph{given how long a person has been unloaded and which muscle is asked
+about, how much of that muscle is gone, and how much of the answer depends on anything else?} Two consequences
+follow from the wording. The prediction concerns a group, not a person, because the literature reports group
+means; and the framework is judged on whether it estimates the duration--muscle relationship honestly, not on how
+tightly a flexible model can be made to fit. \Cref{fig:framework} shows the chain from the search to the three
+tiers, and \cref{tab:tiers} their roles.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=5mm and 5mm]
+  \node[box=4.4cm] (search) {\textbf{Literature search}\\ 5,731 records, four sources};
+  \node[box=4.4cm, right=of search] (extract) {\textbf{Screening and extraction}\\ frozen schema, verification};
+  \node[box=4.4cm, right=of extract] (dataset) {\textbf{Frozen dataset v1.1}\\ 742 rows, 36 campaigns};
+  \node[box=4.4cm, above=4mm of extract] (corpus) {Pre-search corpus (9 studies)\\ NASA open data (1 campaign)};
+  \node[box=14.4cm, below=7mm of extract] (subset) {\textbf{Modelling subset}: during unloading, lower limb, one tissue per occasion\\
+     subset A: 346 rows, 32 campaigns \quad$\cdot$\quad subset B: 304 rows, 25 campaigns \quad$\cdot$\quad exposure: day of the scan};
+  \node[keybox=14.4cm, below=5mm of subset] (loco) {\textbf{Leave-one-campaign-out}: 32 folds; no campaign on both sides of a fold, asserted in code;
+     intervals by resampling campaigns};
+  \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south west, anchor=north west] (t1) {\textbf{Tier 1}\\ three-level meta-regression\\ \scriptsize coefficients with cluster-robust CIs};
+  \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south, anchor=north] (t2) {\textbf{Tier 2}\\ four ML families vs.\ duration curve\\ \scriptsize + TabPFN post hoc; out-of-campaign error, SHAP};
+  \node[keybox=4.4cm, minimum height=1.35cm, below=7mm of loco.south east, anchor=north east] (t3) {\textbf{Tier 3}\\ Jev probabilistic forecast\\ \scriptsize post hoc; ablations, validation};
+  \draw[flow] (search) -- (extract);
+  \draw[flow] (extract) -- (dataset);
+  \draw[flow] (corpus.east) -| (dataset.north);
+  \draw[flow] (dataset.south) -- (dataset.south |- subset.north);
+  \draw[flow] (subset) -- (loco);
+  \draw[flow] (loco.south -| t1.north) -- (t1.north);
+  \draw[flow] (loco.south) -- (t2.north);
+  \draw[flow] (loco.south -| t3.north) -- (t3.north);
+\end{tikzpicture}
+\caption[The framework]{The framework. The dataset is frozen before any model is fitted; all three tiers read the
+same modelling subset, and tiers 2 and 3 are scored out of campaign against the same duration curve. Tier 1 uses
+cluster-robust inference on the campaign rather than cross-validation, because it estimates rather than predicts.}
+\label{fig:framework}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{The three tiers.}
+\label{tab:tiers}
+\small
+\begin{tabularx}{\linewidth}{@{}l Y Y Y@{}}
+\toprule
+& Tier 1 --- estimation & Tier 2 --- comparison & Tier 3 --- probabilistic forecast \\
+\midrule
+Question & What is the duration--response, and which muscles deviate from it? & Does a flexible learner find
+  structure the curve misses? & Can a model that reads each campaign's description, and the other campaigns' data,
+  do better? \\
+Method & Three-level meta-regression, nonlinear in the scan day & Ridge, random forest, SVR, gradient boosting;
+  TabPFN added post hoc &
+  Language model returning a probability for each range of outcome \\
+Validation & Cluster-robust inference on the campaign & Leave-one-campaign-out, nested tuning & Leave-one-campaign-out,
+  ablations, recognition probe, validation battery \\
+Reports & Coefficients, curve and ranking with 95\% CIs & Out-of-campaign MAE, RMSE, pooled $R^2$ & MAE, CRPS, log
+  score, coverage of the most probable ranges \\
+Status & Primary result; declared in advance & Declared in advance; allowed to fail & Added after the tier-2 null
+  result; not pre-registered \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Features}
+\label{sec:features}
+
+The covariate budget is set by the number of campaigns, not the number of rows. At roughly ten independent studies
+per study-level covariate~\citep{higgins2011}, 32 campaigns permit about three study-level terms. Variables that
+vary \emph{within} a campaign---muscle, arm, scan day---are far cheaper, because each campaign contributes its own
+internal contrast. The implemented feature set is:
+
+\begin{itemize}
+  \item \textbf{Days of unloading at the scan}, entered through a nonlinear basis (\cref{sec:duration-forms});
+  \item \textbf{Muscle family}, categorical: nine named families plus \code{whole\_limb} in subset A;
+  \item \textbf{Arm type}, binary (control or countermeasure). A dose ordinal or a countermeasure category would be
+        fitting noise at this sample size: the 126 countermeasure rows are spread across nine named modalities,
+        four of them with fewer than ten rows;
+  \item \textbf{Modality and outcome}, collapsed to six levels (MRI volume, MRI CSA, CT CSA, DXA lean mass,
+        ultrasound CSA, ultrasound thickness), because DXA lean mass and MRI volume do not measure the same thing;
+  \item \textbf{Composite}, binary, so that the mixed granularity left by the resolution rule is visible to the model.
+\end{itemize}
+
+Age, sex, population, countermeasure modality, measurement site, tilt angle, nutrition control, body mass and the
+quality markers are recorded but not modelled: each is sparse, nearly constant, or almost perfectly confounded with
+the campaign (for example, 347 of the 425 rows come from men-only groups). They are reserved for stratified
+sensitivity analyses. Provenance columns and \code{cohort\_id} are never modelled; the campaign is the grouping
+variable, and the code asserts that it never appears as an input. The design document also lists the
+percentage-change estimator (\cref{sec:schema}) as a covariate; it is not in the implemented design matrix, and its
+effect is to be examined by sensitivity analysis S7 instead. \draftnote{decide whether to add the estimator flag to
+the model or to amend the design document.}
+
+\subsection{Tier 1: the three-level meta-regression}
+\label{sec:tier1}
+
+\paragraph{Model} For row $i$ measuring muscle $m$ in study $s$ of campaign $c$,
+\begin{equation}
+  y_{i} = f(t_{i}) + \mathbf{x}_{i}^{\top}\bm{\beta} + u_{c} + v_{s(c)} + w_{m(c)} + \varepsilon_{i},
+  \qquad
+  \varepsilon_{i} \sim \mathcal{N}\!\left(0, \sigma^2_{\varepsilon}/\omega_{i}\right),
+  \label{eq:tier1}
+\end{equation}
+where $y_i$ is the percentage change, $t_i$ the day of the scan, $f$ one of the duration forms below,
+$\mathbf{x}_i$ the categorical and binary features, and $u_c \sim \mathcal{N}(0,\sigma^2_c)$,
+$v_{s(c)} \sim \mathcal{N}(0,\sigma^2_s)$ and $w_{m(c)} \sim \mathcal{N}(0,\sigma^2_m)$ random intercepts for the
+campaign, the study within the campaign and the muscle within the campaign. The last term is what makes the mixed
+granularity legitimate: repeated measurements of the same muscle in the same campaign are correlated, and the model
+is told so. The weights $\omega_i$ are the number of participants analysed, normalised to mean one, with missing
+values set to the median. This is the standard structure for pooled aggregate data with several effect sizes per
+study~\citep{assink2016,harrer2021}, and it does not need the within-study covariances between muscles.
+
+\paragraph{Estimation} Because every random effect is nested inside a campaign, the marginal covariance is block
+diagonal, with one block per campaign:
+\begin{equation}
+  \mathbf{V}_c = \sigma^2_{\varepsilon}\,\mathbf{W}_c^{-1} + \sigma^2_c\,\mathbf{J}_c + \sigma^2_s\,\mathbf{S}_c + \sigma^2_m\,\mathbf{M}_c ,
+\end{equation}
+where $\mathbf{W}_c$ is the diagonal matrix of weights, $\mathbf{J}_c$ a matrix of ones, and $\mathbf{S}_c$ and
+$\mathbf{M}_c$ indicate pairs of rows from the same study and of the same muscle. The fixed effects are profiled out
+by generalised least squares at each evaluation, and the four variances are found by maximising the marginal
+likelihood on the log scale (L-BFGS-B). Maximum likelihood rather than REML is used because the duration forms do
+not share a design matrix and restricted likelihoods cannot be compared across them; the price is a mild downward
+bias in the variance components at 32 campaigns. The model was implemented directly in NumPy and SciPy rather than
+through a mixed-model library, which carries two levels natively but not the third or the sandwich below.
+
+\paragraph{Inference} Confidence intervals and tests use a cluster-robust sandwich estimator clustered on the
+campaign~\citep{liang1986,cameron2015}, on top of the random-effects structure:
+\begin{equation}
+  \widehat{\operatorname{Cov}}(\hat{\bm\beta}) = \kappa\, \mathbf{A}^{-1}
+  \Big( \textstyle\sum_{c} \mathbf{X}_c^{\top}\mathbf{V}_c^{-1}\mathbf{r}_c\,\mathbf{r}_c^{\top}\mathbf{V}_c^{-1}\mathbf{X}_c \Big)
+  \mathbf{A}^{-1},
+  \qquad
+  \mathbf{A} = \textstyle\sum_{c}\mathbf{X}_c^{\top}\mathbf{V}_c^{-1}\mathbf{X}_c ,
+\end{equation}
+with the small-sample factor $\kappa = \tfrac{G}{G-1}\cdot\tfrac{N-1}{N-p}$ for $G$ campaigns, $N$ rows and $p$
+fixed effects. Intervals use a $t$ distribution with $G-1$ degrees of freedom---31 in subset A---never the number
+of rows. The random effects model the correlation; the sandwich protects the inference if that model is
+misspecified, which at 32 clusters it may be.
+
+\paragraph{Duration forms and the headline rule}
+\label{sec:duration-forms}
+Three forms of $f$ are fitted and reported side by side:
+\begin{itemize}
+  \item \textbf{logarithmic}, $f(t) = b\ln t$, the form used in a published synthesis~\citep{marusic2021}, so that the
+        two curves can be compared;
+  \item \textbf{saturating exponential}, $f(t) = A(1 - e^{-t/\tau})$, whose two parameters are what a
+        countermeasure planner wants: how fast the muscle gives up ($\tau$) and how much it will eventually lose
+        ($A$, read at the reference scenario). $\tau$ is profiled over the declared grid
+        $\{7, 10, 14, 21, 28, 35, 45, 60, 90\}$ days by maximum likelihood and counted as one extra parameter;
+  \item \textbf{restricted cubic spline} with three knots at the 10th, 50th and 90th percentiles of the scan day
+        (10, 28 and 89 days)~\citep{harrell2015,crippa2019}, as a shape check.
+\end{itemize}
+The rule, declared before fitting, was: the saturating form is the headline unless another parametric form beats it
+by more than 4 AIC points; the spline is never the headline, and serves to show whether the parametric forms miss a
+shape in the data.
+
+\paragraph{Reference levels and contrasts} Every contrast is read against a reference level and inherits its
+uncertainty, so the reference muscle family was chosen rather than inherited: knee extensors, with 86 rows across 22
+campaigns in subset B, against the alphabetical default of dorsiflexors with 8 rows from 4 campaigns. The
+antigravity comparison---plantar flexors against dorsiflexors---is computed as a separate contrast from the
+coefficient difference, so that the choice of reference cannot change it. The modality reference is the
+alphabetical first level, CT cross-sectional area. The curve is drawn for one scenario: a control arm, the
+reference muscle family and modality, not a composite. Other scenarios shift the curve by their coefficients; they
+do not reshape it.
+
+\paragraph{Fits} The model is fitted twice with the same specification: on subset A for the duration--response and
+on subset B for the muscle ranking, which is reported as the fitted change at day 60 for a control arm.
+
+\subsection{The duration-only baseline}
+\label{sec:baseline}
+
+The baseline is the simplest honest answer to ``how much muscle is gone after $t$ days'': percentage change as a
+function of the scan day and nothing else, in linear, logarithmic and saturating form, fitted by weighted least
+squares (weights $\omega_i$) inside the same leave-one-campaign-out loop as everything else, with $\tau$ chosen from
+the same grid within each training fold. The best-scoring form is the reference against which tier 2 is judged.
+
+\subsection{Tier 2: the comparative machine-learning families}
+\label{sec:tier2}
+
+Four families were fitted on subset A, as promised in the accepted abstract: ridge regression (penalised linear
+regression)~\citep{hoerl1970}, random forest~\citep{breiman2001}, support vector regression with a radial-basis
+kernel~\citep{smola2004} and gradient boosting~\citep{friedman2001}, all through scikit-learn~\citep{pedregosa2011}.
+The input is the feature set of \cref{sec:features} with the duration entered as the saturating basis at a fixed
+$\tau$ of 21 days; the flexible families can reshape it.
+
+\paragraph{Validation} The fold unit is the campaign: 32 folds, each training on 31 campaigns and predicting one it
+has never seen. A random or paper-level split would place the same participants on both sides of the fold
+boundary and measure memorisation. The leakage guard is an assertion, not a convention: for every fold the code
+asserts that the training and test campaign sets are disjoint and that the campaign identifier is absent from the
+design matrix, and a test deliberately feeds it a random split to confirm that it fails.
+
+\paragraph{Nested tuning} Hyperparameters were chosen inside each training fold by a grid search with five inner
+folds grouped by campaign, scored by mean absolute error, so that the outer fold sees none of the choice. The grids
+were small on purpose: ridge penalty $\alpha \in \{0.1, 1, 10, 100\}$ on standardised inputs; random forest (500
+trees) minimum leaf size $\in \{2, 4, 8\}$ and feature fraction $\in \{0.5, 1\}$; SVR $C \in \{1, 10, 100\}$ and
+$\gamma \in \{0.05, 0.1, 0.5\}$ on standardised inputs; gradient boosting (300 trees) depth $\in \{1, 2\}$ and
+learning rate $\in \{0.03, 0.1\}$. The tier-2 families were fitted unweighted.
+
+\paragraph{Metrics} Mean absolute error (MAE) and root mean squared error are computed within each held-out
+campaign and averaged with one vote per campaign, so that the largest campaign cannot dominate. The 95\% interval is
+a percentile bootstrap over the 32 campaign-level errors (2,000 replicates, seed 20260918). $R^2$ is computed once
+over all pooled out-of-fold predictions rather than averaged over folds: most campaigns ran a single duration, so a
+duration-only model predicts one value across a held-out fold and scores below that fold's own mean by construction,
+whatever the quality of the curve. The first baseline run returned about $-8.5$ per fold and $+0.06$ pooled from
+identical predictions.
+
+\paragraph{A fifth family, post hoc: TabPFN} On 19 September, after the null result of the four families was
+known, a fifth was added: TabPFN~\citep{hollmann2025}, a transformer pretrained on millions of synthetic tabular
+datasets that predicts in context, conditioning on the training rows it is given rather than fitting weights to
+them. It is the neural network built for exactly this regime---tables of a few hundred rows---and, having no
+hyperparameters to tune, it cannot be tuned against the outer fold. It was run with fixed declared defaults (version
+2.0.9, on CPU, seed 20260918) on the same design matrix, the same 32 folds and leakage assertions and the same
+campaign-weighted scoring, against the same logarithmic duration curve. Because tabpfn 2.0.9 requires scikit-learn
+below 1.7 while the four families were fitted with 1.8, it runs in a separate environment (scikit-learn 1.6.1,
+PyTorch 2.14) through its own runner, \file{framework/run\_tabpfn.py}, and writes its own results file; the four
+families' results are untouched. Like tier~3, it is reported as post hoc. An earlier run of the same family, on
+\code{dataset\_v1.0} and the campaigns' planned lengths, is superseded.
+
+\paragraph{Importance} SHAP values~\citep{lundberg2017} were computed exactly (tree explainer) for the best-scoring
+family, recomputed inside every fold, and summarised as the share of folds in which each feature reaches the top
+three. Stability is reported first and magnitude second; nothing about importance is read causally.
+
+\subsection{Tier 3: a probabilistic language-model forecast}
+\label{sec:tier3}
+
+\begin{keybox}{Status of tier 3}
+Tier 3 was added on 21 September 2026, after the tier-2 null result was known. It is not pre-registered. What could
+still be done was to declare the method and every bar before the first answer was requested, and to commit that
+declaration to the repository first; the same was done for the ablations and for the validation battery, each
+before its own first answer.
+\end{keybox}
+
+The question tier 2 leaves open is whether something that reads the \emph{description} of a campaign---who the
+participants were, what they did, which muscle, which scanner---can extract what the coded columns of tier 2 could not.
+Tier 3 uses TypeSafe's \Jev{} (\code{jev-1.13.0}, pinned)~\citep{typesafe2026}, a model built to return a
+calibrated probability for each option of a fixed set given a described state. It is never asked for a number. For
+each row it is asked one question---\emph{which of these ranges will the measurement fall in?}---and every numeric
+quantity is computed in code from the probabilities it returns.
+
+\paragraph{Two arms}
+\begin{itemize}
+  \item \textbf{Without history} (346 rows, 32 campaigns): the model sees nothing of the held-out campaign, as the
+        tier-2 families do, and forecasts the percentage change from baseline over 2\pp{} ranges from $-30$ to
+        $+4$, open at both ends. Reference: the logarithmic duration curve fitted to the training campaigns.
+  \item \textbf{With history} (84 rows, 5 campaigns): the model also sees the held-out campaign's scans strictly
+        before the target day and forecasts the change since the previous scan, over 1\pp{} ranges from $-14$ to
+        $+4$. References: no further change (\emph{last scan}) and the curve's step from the last scan's day to the
+        target day (\emph{last scan plus curve step}). One campaign, BBR1, carries 39 of the 84 rows.
+\end{itemize}
+
+\paragraph{What the model is shown} A short background paragraph; the participants, protocol, countermeasure and
+measurement of the target row in words; the target day and its distance from the planned end; the duration curve
+fitted to the training campaigns; and as many of the training campaigns' observations as fit a budget of 26,000
+tokens, most relevant first (same muscle, then same family, then same kind of group, then nearest day). The budget
+was set from a measured rate of 2.3 characters per token so that state and question fit the model's 32,000-token
+limit.
+
+\paragraph{What it is never shown, by assertion} Any row of the held-out campaign in the reference tables; any
+scan of the held-out campaign on or after the target day; the target's own outcome; and anything that names a
+paper, an author, a campaign or a registry. The last rule also keeps the model from recognising a published study by
+name and recalling its number. The assertions run on every request.
+
+\paragraph{Baselines as distributions} Each baseline's forecast distribution is its point prediction plus the
+residuals it made on the training campaigns, binned into the same ranges. The model and the baselines are therefore
+scored on identical footing for every metric.
+
+\paragraph{Scores} The point forecast is the probability-weighted mean of the ranges' representative values (the
+midpoint, or half a step beyond an open end). The continuous ranked probability score (CRPS) is computed as the
+ranked probability score~\citep{epstein1969} multiplied by the range width, so that it reads in percentage points
+and reduces to the absolute error for a forecast with no spread~\citep{gneiting2007}. The log score is minus the
+log of the probability given to the range holding the truth, floored at $10^{-6}$. The \emph{most probable range}
+at level $\alpha$ is the shortest run of adjacent ranges whose probability reaches $\alpha$; its coverage and width
+are reported at 50\% and 80\%. Every metric is averaged within a held-out campaign and then across campaigns. The
+comparison statistic is the \emph{paired gain}: the reference's campaign MAE minus the model's, averaged over
+campaigns, with a campaign bootstrap interval.
+
+\paragraph{Bars, declared before the first answer}
+\begin{itemize}
+  \item MAE: at least 15\% relative improvement over the arm's reference; otherwise report a null result.
+  \item CRPS: at least 15\% relative improvement, reported alongside the MAE and never instead of it.
+  \item Coverage of the 80\% range between 70\% and 90\%; otherwise the ranges may not be called 80\% ranges.
+  \item Leakage assertions hold for every request, and \code{make forecast} rebuilds every number from the committed
+        answer cache without calling the service. Both blocking.
+\end{itemize}
+
+\paragraph{What tier 3 cannot rule out} \Jev{} was pretrained on text that may include some of these papers.
+Withholding every name is the strongest guard available, but a model that has read a paper could still recognise it
+from a description plus a set of numbers. The ablations below were designed for that concern.
+
+\subsubsection{Ablations and the recognition probe}
+\label{sec:ablation-methods}
+
+Three ablations on the arm without history each change one thing about what the model is shown, and are scored
+exactly as the first run was, against the same duration curve:
+\emph{generic}, in which the target is described only by muscle, role, imaging method, kind of group and day---no
+participants, protocol text, planned length or measurement site, roughly the information tier 2 had;
+\emph{scrambled reference}, in which the other campaigns' values are shuffled among their rows; and
+\emph{no reference}, with no curve and no other campaigns' observations.
+
+The \emph{recognition probe} shows the model the target's full description, exactly as the forecast sends it, and
+asks which of the 11 campaigns in subset A that have a proper name it comes from (AGBRESA, BBR1, BBR2-2, BRACE,
+LunHab, MEDES LTBR, NASA SPRINT, UTMB Campaign 3, PlanHab, VBR, WISE-2005), or none of them. Chance is one in
+twelve.
+
+The reading rules were declared before any answer: a campaign is \emph{recognised} if the model's top choice is its
+true name on at least half of its rows; recognition is a \emph{live explanation} of the gain if two or more of the
+three campaigns carrying most of the gain (NASA SPRINT, BBR2-2, MEDES LTBR) are recognised, or if the Spearman
+correlation between a campaign's mean probability on its true name and its gain is 0.5 or more; the generic variant
+\emph{keeps the gain} if its paired gain has an interval above zero and is at least half the full run's (0.21\pp);
+and the scrambled variant \emph{shows that the model reads the reference data} if its paired-gain interval reaches or
+falls below zero. If the generic variant keeps the gain and recognition is not live, the point forecasts may be
+quoted as a result.
+
+\subsubsection{The validation battery}
+\label{sec:validation-methods}
+
+A second set of runs, also declared before its first answer and also leave-one-campaign-out, asks whether the result
+depends on how the question was put and whether the history arm reads what it is given. On both arms,
+\emph{reordered} shows the same reference rows in a different order and \emph{shifted ranges} moves every range edge
+by half a step; neither changes what the model knows. On the history arm, the three ablations are repeated and a
+fourth, \emph{scrambled history}, shuffles the held-out campaign's earlier values among its earlier scans. A
+\emph{repeat check} sends the first 20 requests of the arm without history again, past the cache. A result is
+\emph{robust to presentation} if under both presentation checks its MAE moves by less than 10\% and its paired gain
+keeps its sign (with an interval above zero on the arm without history); the model is \emph{consistent} if all 20
+repeats return identical probabilities; and the model \emph{reads the earlier scans} if scrambling them worsens the
+error with an interval below zero. Tier 3 is called working rather than lucky if the arm without history is robust
+and consistent and the history arm reads what it is given.
+
+\subsection{Success criteria declared before modelling}
+\label{sec:criteria}
+
+The thresholds in \cref{tab:criteria} were agreed in the project plan before any model was fitted. The first three
+were deliberately allowed to fail; the last three were blocking. They are assessed in \cref{sec:results-criteria}.
+
+\begin{table}[htbp]
+\centering
+\caption{Success criteria for tiers 1 and 2, declared before modelling (project plan, section 8).}
+\label{tab:criteria}
+\small
+\begin{tabularx}{\linewidth}{@{}L{4.6cm} L{3.6cm} Y@{}}
+\toprule
+Criterion & Target & If missed \\
+\midrule
+Out-of-campaign MAE & $\leq$ 4\pp & Report honestly; the dataset and framework remain the contribution \\
+Best model vs.\ duration-only baseline & $\geq$ 15\% relative MAE improvement & Report the null result \\
+SHAP top-3 stability & Same top three in $\geq$ 80\% of folds & Present importance as indicative only \\
+Leakage audit & No campaign split across folds; no preprocessing outside a fold & Blocking \\
+Reproducibility & One command regenerates every number and figure & Blocking \\
+Physiological sign-off & Scientific lead signs off the fitted relationships & Blocking \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Sensitivity analyses}
+\label{sec:sensitivity-methods}
+
+Eleven sensitivity analyses were declared, each the same pipeline with one change (\cref{tab:sensitivity}). S1, S2
+and S4 were pre-registered as analyses that must be shown whatever they say. At the time of writing only S6 has been
+run (\cref{sec:results-s6}).
+
+\begin{table}[htbp]
+\centering
+\caption{Declared sensitivity analyses and their status on 21 September 2026. $\star$ = must be shown in the report.}
+\label{tab:sensitivity}
+\small
+\begin{tabularx}{\linewidth}{@{}l Y Y l@{}}
+\toprule
+& Change & What it tests & Status \\
+\midrule
+S1$^\star$ & Composite-first instead of component-first resolution & Whether the ranking is an artefact of granularity & Not run \\
+S2$^\star$ & Drop the MEDES 90-day campaign & Whether one campaign carries the duration--response & Not run \\
+S3 & Drop the two Berlin campaigns & The same for the other dominant group & Not run \\
+S4$^\star$ & MRI volume only & Whether mixing modalities changed the answer & Not run \\
+S5 & Exclude figure-derived and low-confidence rows & Whether digitisation is load-bearing & Not run \\
+S6 & Inverse-variance weights & Whether the weighting scheme matters & \textbf{Run} \\
+S7 & Each percentage estimator alone & Whether the two estimators agree & Not run \\
+S8 & Add mean age as a study-level covariate & Whether the older cohorts shift anything & Not run \\
+S9 & Sex-stratified, if the folds survive it & A question that will be asked & Not run \\
+S10 & Recovery rows with a phase term & Whether reconditioning can be modelled & Not run \\
+S11 & Rows with a stated measurement site, then by position & Whether slice position moves the estimate & Not run \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Software and reproducibility}
+\label{sec:reproducibility}
+
+The framework is a set of single-purpose Python modules (\file{framework/}) driven by one configuration file,
+\file{framework/config.yaml}, which holds every subset predicate, feature list, duration form, model grid,
+bootstrap setting and the random seed; no module contains a number that is not in the configuration. The core---
+loading, features, folds, baseline, evaluation and tier 1---needs only NumPy, pandas, SciPy and PyYAML, so that the
+primary result does not depend on the optional stack that produced the null result. The results reported here were
+produced with Python 3.13.0, NumPy 2.4.6, pandas 2.2.3, SciPy 1.17.0 and scikit-learn 1.8.0, and each results file
+records the dataset version, its hash and the commit it came from.
+
+\code{make all} regenerates every result from the frozen dataset. Tier 3 is rebuilt from the model's answers
+committed in \file{results/forecast\_cache/} (430 answers for the first run, 1,280 for the ablations and 1,195 for
+the validation battery), never by calling the service again. The test suite holds 234 checks in 20 files, including
+the deliberately failing leakage test. The post-hoc TabPFN family is rebuilt by \code{make tabpfn} in its own
+environment and is not part of \code{make all}. The figures and tables of this report are regenerated from the
+results files by \file{report/make\_figures.py}.

@@ -1,0 +1,175 @@
+# Every choice the framework makes is declared here rather than written into code.
+# A results file is only comparable with another if both name the same config.
+
+dataset:
+  path: data/dataset_v1.1.csv
+  sha256_path: data/dataset_v1.1.sha256
+  version: "1.1"
+  verify_sha256: true          # refuse to run against an edited dataset
+
+maps:
+  muscle: data/muscle_map.csv
+  measurement_site: data/measurement_site_map.csv
+
+subset:
+  phase: bed_rest              # predicate 1 - recovery rows answer a different question
+  drop_muscles:                # predicate 2 - trunk and hip-flexor muscles are not lower limb
+    - multifidus
+    - lumbar_erector_spinae
+    - quadratus_lumborum
+    - psoas
+    - iliopsoas
+  resolution: component_first  # predicate 3 - see DESIGN.md section 5
+  whole_segment_muscles:
+    - whole_lower_limb
+    - whole_thigh
+    - whole_calf
+
+subsets:
+  A:                           # duration-response, all campaigns
+    include_whole_segment: true
+  B:                           # muscle ranking, named muscles only
+    include_whole_segment: false
+
+features:
+  time_column: timepoint_days  # days of unloading at the scan; duration_days is the planned
+                               # length, which put interim scans at the end (DESIGN.md 9.4)
+  duration_form: saturating    # log | saturating | spline - DESIGN.md section 7.1
+  spline_knots_pct: [10, 50, 90]
+  saturating_tau_grid: [7, 10, 14, 21, 28, 35, 45, 60, 90]
+  categorical:
+    - muscle_family
+    - arm_type
+    - modality_outcome
+  binary:
+    - is_composite
+  never_model:                 # provenance, not signal - DESIGN.md section 6.3
+    - row_id
+    - study_id
+    - doi
+    - source_file
+    - page_ref
+    - extractor
+    - extraction_date
+    - notes
+    - campaign_name
+    - registry_id
+    - cohort_id
+
+target:
+  column: pct_change
+  weight_column: n_analysed
+  valid_range: [-60, 40]       # anything outside is an extraction error, not a finding
+
+cv:
+  scheme: leave_one_cohort_out
+  group_column: cohort_id
+  assert_no_leakage: true
+
+tier1:                         # DESIGN.md section 7 - the primary model
+  forms: [log, saturating, spline]
+  headline_form: saturating    # a diagnostic spline is never the headline, however well it fits
+  aic_margin: 4.0              # another form takes the headline only by beating it this far
+  ci_level: 0.95
+  curve_days: [5, 119, 1]      # start, stop, step - never past the longest observation
+  ranking_days: 60             # the duration the muscle ranking is reported at
+  reference_levels:            # which level each contrast is read against, chosen not inherited
+    muscle_family: knee_extensors    # 86 rows across 22 campaigns - the tightest anchor there is
+  key_contrasts:               # reported whichever level the intercept absorbs
+    - [plantar_flexors, dorsiflexors]
+
+models:
+  baseline: duration_only
+  families:
+    - ridge
+    - random_forest
+    - svr
+    - gradient_boosting
+  post_hoc_families:           # added 19 Sep, after the tier-2 null result: own runner
+    - tabpfn                   # (run_tabpfn.py), own results file, never part of `make models`.
+                               # A pretrained tabular foundation model fitted in-context on
+                               # fixed declared defaults (Hollmann et al., Nature 2025)
+  tabpfn_device: cpu           # 346 rows do not need a GPU, and CPU keeps the run reproducible
+  tuning: nested               # nested | fixed - never tune against the outer fold
+  inner_folds: 5               # grouped by cohort inside the training fold only
+  grids:                       # small on purpose: 31 campaigns cannot support a large search
+    ridge:
+      alpha: [0.1, 1.0, 10.0, 100.0]
+    random_forest:
+      min_samples_leaf: [2, 4, 8]
+      max_features: [0.5, 1.0]
+    svr:
+      C: [1.0, 10.0, 100.0]
+      gamma: [0.05, 0.1, 0.5]
+    gradient_boosting:
+      max_depth: [1, 2]
+      learning_rate: [0.03, 0.1]
+    tabpfn: {}                 # empty by contract: fixed declared defaults, nothing to tune
+
+evaluate:
+  metrics: [mae, rmse, r2]
+  weight_by: cohort            # cohort | row - a slide number is never row-weighted
+  bootstrap:
+    replicates: 2000
+    unit: cohort
+
+explain:
+  method: shap                 # falls back to permutation importance when shap is absent
+  stability_top_k: 3
+
+forecast:                      # DESIGN.md section 9.3 - added 21 Sep, after the tier-2 null result
+  model: jev-1.13.0            # pinned, never jev-latest: a result names the model that made it
+  endpoint: https://api.typesafe.ai/v1/systemone
+  api_key_env: TYPESAFE_API_KEY
+  cache_dir: results/forecast_cache
+  time_column: timepoint_days  # the day of the scan, not the campaign's planned length
+  concurrency: 8
+  state_token_budget: 26000    # the model takes 32k tokens for the state plus the longest question
+  chars_per_token: 2.3         # measured 21 Sep: two full states came back at 2.3 characters per token
+  interval_levels: [0.5, 0.8]
+  reference_curve_days: [5, 14, 30, 60, 90, 119]
+  series:                      # one measurement followed over time within one group
+    - cohort_id
+    - arm_id
+    - muscle
+    - measurement_site
+    - modality
+    - outcome_type
+    - laterality
+  arms:
+    without_history:           # nothing of the held-out campaign is shown - comparable with tier 2
+      target: level            # percent change from the pre-bed-rest baseline
+      edges: [-30, -28, -26, -24, -22, -20, -18, -16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4]
+      reference_baseline: duration_curve
+    with_history:              # the same measurement's earlier scans are shown
+      target: change           # change since the previous scan, in percentage points
+      edges: [-14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
+      reference_baseline: last_scan_plus_curve
+  relative_improvement_bar: 0.15   # the PLAN.md section 8 bar, applied to each arm's reference
+  ablation:                    # DESIGN.md section 9.3.2 - declared before the first ablation answer
+    arm: without_history       # where the recognition concern sits
+    variants:
+      generic: the target described only by muscle, role, method, kind of group and day
+      scrambled_reference: the other campaigns' values shuffled among their rows
+      no_reference: no curve and no observations from other campaigns
+    recognition:               # which named campaign does the description we send point to?
+      none_label: none of these campaigns
+      campaigns:               # proper names only - a descriptive name would give the answer away
+        agbresa: AGBRESA
+        berlin_bbr1: Berlin BedRest Study (BBR1)
+        berlin_bbr2: 2nd Berlin BedRest Study (BBR2-2)
+        brace_br60: BRACE
+        lunhab_br10: LunHab
+        medes_ltbr90: MEDES Long Term Bed Rest (LTBR)
+        nasa_sprint_br70: NASA SPRINT
+        nasa_utmb_c3: NASA Flight Analog Project, UTMB Campaign 3
+        planhab_br21: PlanHab
+        wbv_hdt14: Vibration Bed Rest Study (VBR)
+        wise2005: WISE-2005
+  validation:                  # DESIGN.md section 9.3.4 - declared before the first validation answer
+    runs:                      # every run is leave-one-campaign-out, scored against the arm's reference
+      with_history: [full, generic, scrambled_reference, no_reference, scrambled_history, reordered, shifted_bins]
+      without_history: [full, reordered, shifted_bins]
+    repeats: 20                # identical requests sent again past the cache: does the model answer the same?
+
+seed: 20260918

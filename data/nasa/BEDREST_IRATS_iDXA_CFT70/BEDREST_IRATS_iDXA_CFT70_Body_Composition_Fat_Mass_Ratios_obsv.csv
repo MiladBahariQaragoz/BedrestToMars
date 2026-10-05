@@ -1,0 +1,1141 @@
+﻿ID,Subject,Group,Ratio Type,Test,Fat Mass
+1,5210,CONTROL,Trunk/Total,Pre,0.44
+2,5210,CONTROL,Trunk/Total,Test 1,0.46
+3,5210,CONTROL,Trunk/Total,Test 2,0.44
+4,5210,CONTROL,Trunk/Total,Test 3,0.45
+5,5210,CONTROL,Trunk/Total,Test 4,0.44
+6,5210,CONTROL,Trunk/Total,Post,0.48
+7,9682,EXERCISE,Trunk/Total,Pre,0.57
+8,9682,EXERCISE,Trunk/Total,Test 1,0.56
+9,9682,EXERCISE,Trunk/Total,Test 2,0.57
+10,9682,EXERCISE,Trunk/Total,Test 3,0.56
+11,9682,EXERCISE,Trunk/Total,Test 4,0.60
+12,9682,EXERCISE,Trunk/Total,Post,0.59
+13,7036,EXERCISE,Trunk/Total,Pre,0.54
+14,7036,EXERCISE,Trunk/Total,Test 1,0.55
+15,7036,EXERCISE,Trunk/Total,Test 2,0.56
+16,7036,EXERCISE,Trunk/Total,Test 3,0.54
+17,7036,EXERCISE,Trunk/Total,Test 4,0.56
+18,7036,EXERCISE,Trunk/Total,Post,0.57
+19,6791,CONTROL,Trunk/Total,Pre,0.40
+20,6791,CONTROL,Trunk/Total,Test 1,0.42
+21,6791,CONTROL,Trunk/Total,Test 2,0.43
+22,6791,CONTROL,Trunk/Total,Test 3,0.47
+23,6791,CONTROL,Trunk/Total,Test 4,0.45
+24,6791,CONTROL,Trunk/Total,Post,0.47
+25,5803,CONTROL,Trunk/Total,Pre,0.49
+26,5803,CONTROL,Trunk/Total,Test 1,NA
+27,5803,CONTROL,Trunk/Total,Test 2,NA
+28,5803,CONTROL,Trunk/Total,Test 3,NA
+29,5803,CONTROL,Trunk/Total,Test 4,NA
+30,5803,CONTROL,Trunk/Total,Post,0.50
+31,6319,CONTROL,Trunk/Total,Pre,0.57
+32,6319,CONTROL,Trunk/Total,Test 1,NA
+33,6319,CONTROL,Trunk/Total,Test 2,NA
+34,6319,CONTROL,Trunk/Total,Test 3,NA
+35,6319,CONTROL,Trunk/Total,Test 4,NA
+36,6319,CONTROL,Trunk/Total,Post,0.57
+37,7326,EXERCISE,Trunk/Total,Pre,0.47
+38,7326,EXERCISE,Trunk/Total,Test 1,0.47
+39,7326,EXERCISE,Trunk/Total,Test 2,0.48
+40,7326,EXERCISE,Trunk/Total,Test 3,0.46
+41,7326,EXERCISE,Trunk/Total,Test 4,0.47
+42,7326,EXERCISE,Trunk/Total,Post,0.46
+43,9713,EXERCISE,Trunk/Total,Pre,0.43
+44,9713,EXERCISE,Trunk/Total,Test 1,0.42
+45,9713,EXERCISE,Trunk/Total,Test 2,0.41
+46,9713,EXERCISE,Trunk/Total,Test 3,0.43
+47,9713,EXERCISE,Trunk/Total,Test 4,0.43
+48,9713,EXERCISE,Trunk/Total,Post,0.46
+49,7350,EXERCISE,Trunk/Total,Pre,0.38
+50,7350,EXERCISE,Trunk/Total,Test 1,0.39
+51,7350,EXERCISE,Trunk/Total,Test 2,0.37
+52,7350,EXERCISE,Trunk/Total,Test 3,0.38
+53,7350,EXERCISE,Trunk/Total,Test 4,0.38
+54,7350,EXERCISE,Trunk/Total,Post,0.40
+55,7152,EXERCISE,Trunk/Total,Pre,0.48
+56,7152,EXERCISE,Trunk/Total,Test 1,0.50
+57,7152,EXERCISE,Trunk/Total,Test 2,0.50
+58,7152,EXERCISE,Trunk/Total,Test 3,0.47
+59,7152,EXERCISE,Trunk/Total,Test 4,0.47
+60,7152,EXERCISE,Trunk/Total,Post,0.47
+61,5159,EXERCISE,Trunk/Total,Pre,0.35
+62,5159,EXERCISE,Trunk/Total,Test 1,0.36
+63,5159,EXERCISE,Trunk/Total,Test 2,0.35
+64,5159,EXERCISE,Trunk/Total,Test 3,0.00
+65,5159,EXERCISE,Trunk/Total,Test 4,0.00
+66,5159,EXERCISE,Trunk/Total,Post,0.35
+67,7574,CONTROL,Trunk/Total,Pre,0.51
+68,7574,CONTROL,Trunk/Total,Test 1,0.52
+69,7574,CONTROL,Trunk/Total,Test 2,0.53
+70,7574,CONTROL,Trunk/Total,Test 3,0.51
+71,7574,CONTROL,Trunk/Total,Test 4,0.52
+72,7574,CONTROL,Trunk/Total,Post,0.51
+73,6877,EXERCISE,Trunk/Total,Pre,0.39
+74,6877,EXERCISE,Trunk/Total,Test 1,0.41
+75,6877,EXERCISE,Trunk/Total,Test 2,0.39
+76,6877,EXERCISE,Trunk/Total,Test 3,0.45
+77,6877,EXERCISE,Trunk/Total,Test 4,0.43
+78,6877,EXERCISE,Trunk/Total,Post,0.40
+79,9667,EXERCISE,Trunk/Total,Pre,0.42
+80,9667,EXERCISE,Trunk/Total,Test 1,0.44
+81,9667,EXERCISE,Trunk/Total,Test 2,0.43
+82,9667,EXERCISE,Trunk/Total,Test 3,0.46
+83,9667,EXERCISE,Trunk/Total,Test 4,0.43
+84,9667,EXERCISE,Trunk/Total,Post,0.44
+85,6546,CONTROL,Trunk/Total,Pre,0.57
+86,6546,CONTROL,Trunk/Total,Test 1,0.57
+87,6546,CONTROL,Trunk/Total,Test 2,0.57
+88,6546,CONTROL,Trunk/Total,Test 3,0.56
+89,6546,CONTROL,Trunk/Total,Test 4,0.56
+90,6546,CONTROL,Trunk/Total,Post,0.55
+91,5188,EXERCISE,Trunk/Total,Pre,0.38
+92,5188,EXERCISE,Trunk/Total,Test 1,0.37
+93,5188,EXERCISE,Trunk/Total,Test 2,0.35
+94,5188,EXERCISE,Trunk/Total,Test 3,0.41
+95,5188,EXERCISE,Trunk/Total,Test 4,0.37
+96,5188,EXERCISE,Trunk/Total,Post,0.34
+97,8936,CONTROL,Trunk/Total,Pre,0.48
+98,8936,CONTROL,Trunk/Total,Test 1,0.47
+99,8936,CONTROL,Trunk/Total,Test 2,0.46
+100,8936,CONTROL,Trunk/Total,Test 3,0.47
+101,8936,CONTROL,Trunk/Total,Test 4,0.48
+102,8936,CONTROL,Trunk/Total,Post,0.48
+103,8072,EXERCISE,Trunk/Total,Pre,0.41
+104,8072,EXERCISE,Trunk/Total,Test 1,0.43
+105,8072,EXERCISE,Trunk/Total,Test 2,0.42
+106,8072,EXERCISE,Trunk/Total,Test 3,0.41
+107,8072,EXERCISE,Trunk/Total,Test 4,0.42
+108,8072,EXERCISE,Trunk/Total,Post,0.45
+109,5160,EXERCISE,Trunk/Total,Pre,0.52
+110,5160,EXERCISE,Trunk/Total,Test 1,0.52
+111,5160,EXERCISE,Trunk/Total,Test 2,0.52
+112,5160,EXERCISE,Trunk/Total,Test 3,0.52
+113,5160,EXERCISE,Trunk/Total,Test 4,0.53
+114,5160,EXERCISE,Trunk/Total,Post,0.53
+115,5297,CONTROL,Trunk/Total,Pre,0.60
+116,5297,CONTROL,Trunk/Total,Test 1,0.60
+117,5297,CONTROL,Trunk/Total,Test 2,0.59
+118,5297,CONTROL,Trunk/Total,Test 3,0.61
+119,5297,CONTROL,Trunk/Total,Test 4,0.60
+120,5297,CONTROL,Trunk/Total,Post,0.61
+121,6403,EXERCISE,Trunk/Total,Pre,0.53
+122,6403,EXERCISE,Trunk/Total,Test 1,0.53
+123,6403,EXERCISE,Trunk/Total,Test 2,0.53
+124,6403,EXERCISE,Trunk/Total,Test 3,0.52
+125,6403,EXERCISE,Trunk/Total,Test 4,0.55
+126,6403,EXERCISE,Trunk/Total,Post,0.54
+127,6947,CONTROL,Trunk/Total,Pre,0.55
+128,6947,CONTROL,Trunk/Total,Test 1,0.55
+129,6947,CONTROL,Trunk/Total,Test 2,0.55
+130,6947,CONTROL,Trunk/Total,Test 3,0.55
+131,6947,CONTROL,Trunk/Total,Test 4,0.54
+132,6947,CONTROL,Trunk/Total,Post,0.57
+133,5627,EXERCISE,Trunk/Total,Pre,0.58
+134,5627,EXERCISE,Trunk/Total,Test 1,0.60
+135,5627,EXERCISE,Trunk/Total,Test 2,0.60
+136,5627,EXERCISE,Trunk/Total,Test 3,0.61
+137,5627,EXERCISE,Trunk/Total,Test 4,0.60
+138,5627,EXERCISE,Trunk/Total,Post,0.60
+139,8010,EXERCISE,Trunk/Total,Pre,0.54
+140,8010,EXERCISE,Trunk/Total,Test 1,0.54
+141,8010,EXERCISE,Trunk/Total,Test 2,0.54
+142,8010,EXERCISE,Trunk/Total,Test 3,0.54
+143,8010,EXERCISE,Trunk/Total,Test 4,0.55
+144,8010,EXERCISE,Trunk/Total,Post,0.55
+145,7707,EXERCISE,Trunk/Total,Pre,0.48
+146,7707,EXERCISE,Trunk/Total,Test 1,0.49
+147,7707,EXERCISE,Trunk/Total,Test 2,0.49
+148,7707,EXERCISE,Trunk/Total,Test 3,0.49
+149,7707,EXERCISE,Trunk/Total,Test 4,0.48
+150,7707,EXERCISE,Trunk/Total,Post,0.49
+151,6213,CONTROL,Trunk/Total,Pre,0.52
+152,6213,CONTROL,Trunk/Total,Test 1,0.52
+153,6213,CONTROL,Trunk/Total,Test 2,0.54
+154,6213,CONTROL,Trunk/Total,Test 3,0.53
+155,6213,CONTROL,Trunk/Total,Test 4,0.54
+156,6213,CONTROL,Trunk/Total,Post,0.54
+157,7750,CONTROL,Trunk/Total,Pre,0.45
+158,7750,CONTROL,Trunk/Total,Test 1,0.46
+159,7750,CONTROL,Trunk/Total,Test 2,0.48
+160,7750,CONTROL,Trunk/Total,Test 3,0.47
+161,7750,CONTROL,Trunk/Total,Test 4,0.47
+162,7750,CONTROL,Trunk/Total,Post,0.46
+163,6611,EXERCISE,Trunk/Total,Pre,0.39
+164,6611,EXERCISE,Trunk/Total,Test 1,0.40
+165,6611,EXERCISE,Trunk/Total,Test 2,0.41
+166,6611,EXERCISE,Trunk/Total,Test 3,0.42
+167,6611,EXERCISE,Trunk/Total,Test 4,0.42
+168,6611,EXERCISE,Trunk/Total,Post,0.41
+169,9793,FLY,Trunk/Total,Pre,0.54
+170,9793,FLY,Trunk/Total,Test 1,0.54
+171,9793,FLY,Trunk/Total,Test 2,0.55
+172,9793,FLY,Trunk/Total,Test 3,0.55
+173,9793,FLY,Trunk/Total,Test 4,0.54
+174,9793,FLY,Trunk/Total,Post,0.54
+175,8837,EXERCISE,Trunk/Total,Pre,0.54
+176,8837,EXERCISE,Trunk/Total,Test 1,0.55
+177,8837,EXERCISE,Trunk/Total,Test 2,0.54
+178,8837,EXERCISE,Trunk/Total,Test 3,0.56
+179,8837,EXERCISE,Trunk/Total,Test 4,0.56
+180,8837,EXERCISE,Trunk/Total,Post,0.55
+181,8713,EXERCISE,Trunk/Total,Pre,0.51
+182,8713,EXERCISE,Trunk/Total,Test 1,0.50
+183,8713,EXERCISE,Trunk/Total,Test 2,0.52
+184,8713,EXERCISE,Trunk/Total,Test 3,0.53
+185,8713,EXERCISE,Trunk/Total,Test 4,0.52
+186,8713,EXERCISE,Trunk/Total,Post,0.53
+187,7548,FLY,Trunk/Total,Pre,0.57
+188,7548,FLY,Trunk/Total,Test 1,0.56
+189,7548,FLY,Trunk/Total,Test 2,0.57
+190,7548,FLY,Trunk/Total,Test 3,0.56
+191,7548,FLY,Trunk/Total,Test 4,0.56
+192,7548,FLY,Trunk/Total,Post,0.56
+193,8177,FLY,Trunk/Total,Pre,0.45
+194,8177,FLY,Trunk/Total,Test 1,0.45
+195,8177,FLY,Trunk/Total,Test 2,0.45
+196,8177,FLY,Trunk/Total,Test 3,0.44
+197,8177,FLY,Trunk/Total,Test 4,0.46
+198,8177,FLY,Trunk/Total,Post,0.46
+199,9023,FLY,Trunk/Total,Pre,0.47
+200,9023,FLY,Trunk/Total,Test 1,0.48
+201,9023,FLY,Trunk/Total,Test 2,0.49
+202,9023,FLY,Trunk/Total,Test 3,0.48
+203,9023,FLY,Trunk/Total,Test 4,0.49
+204,9023,FLY,Trunk/Total,Post,0.49
+205,5673,FLY,Trunk/Total,Pre,0.48
+206,5673,FLY,Trunk/Total,Test 1,0.50
+207,5673,FLY,Trunk/Total,Test 2,0.49
+208,5673,FLY,Trunk/Total,Test 3,0.50
+209,5673,FLY,Trunk/Total,Test 4,0.49
+210,5673,FLY,Trunk/Total,Post,0.51
+211,6187,FLY,Trunk/Total,Pre,0.49
+212,6187,FLY,Trunk/Total,Test 1,0.44
+213,6187,FLY,Trunk/Total,Test 2,0.46
+214,6187,FLY,Trunk/Total,Test 3,0.46
+215,6187,FLY,Trunk/Total,Test 4,0.46
+216,6187,FLY,Trunk/Total,Post,0.45
+217,6464,FLY,Trunk/Total,Pre,0.38
+218,6464,FLY,Trunk/Total,Test 1,0.36
+219,6464,FLY,Trunk/Total,Test 2,0.40
+220,6464,FLY,Trunk/Total,Test 3,0.41
+221,6464,FLY,Trunk/Total,Test 4,0.40
+222,6464,FLY,Trunk/Total,Post,0.39
+223,8179,FLY,Trunk/Total,Pre,0.51
+224,8179,FLY,Trunk/Total,Test 1,0.50
+225,8179,FLY,Trunk/Total,Test 2,0.51
+226,8179,FLY,Trunk/Total,Test 3,0.51
+227,8179,FLY,Trunk/Total,Test 4,0.50
+228,8179,FLY,Trunk/Total,Post,0.50
+229,5210,CONTROL,Legs/Total,Pre,0.42
+230,5210,CONTROL,Legs/Total,Test 1,0.40
+231,5210,CONTROL,Legs/Total,Test 2,0.42
+232,5210,CONTROL,Legs/Total,Test 3,0.41
+233,5210,CONTROL,Legs/Total,Test 4,0.41
+234,5210,CONTROL,Legs/Total,Post,0.38
+235,9682,EXERCISE,Legs/Total,Pre,0.33
+236,9682,EXERCISE,Legs/Total,Test 1,0.33
+237,9682,EXERCISE,Legs/Total,Test 2,0.32
+238,9682,EXERCISE,Legs/Total,Test 3,0.33
+239,9682,EXERCISE,Legs/Total,Test 4,0.28
+240,9682,EXERCISE,Legs/Total,Post,0.29
+241,7036,EXERCISE,Legs/Total,Pre,0.34
+242,7036,EXERCISE,Legs/Total,Test 1,0.33
+243,7036,EXERCISE,Legs/Total,Test 2,0.32
+244,7036,EXERCISE,Legs/Total,Test 3,0.33
+245,7036,EXERCISE,Legs/Total,Test 4,0.31
+246,7036,EXERCISE,Legs/Total,Post,0.30
+247,6791,CONTROL,Legs/Total,Pre,0.42
+248,6791,CONTROL,Legs/Total,Test 1,0.40
+249,6791,CONTROL,Legs/Total,Test 2,0.40
+250,6791,CONTROL,Legs/Total,Test 3,0.38
+251,6791,CONTROL,Legs/Total,Test 4,0.39
+252,6791,CONTROL,Legs/Total,Post,0.38
+253,5803,CONTROL,Legs/Total,Pre,0.37
+254,5803,CONTROL,Legs/Total,Test 1,NA
+255,5803,CONTROL,Legs/Total,Test 2,NA
+256,5803,CONTROL,Legs/Total,Test 3,NA
+257,5803,CONTROL,Legs/Total,Test 4,NA
+258,5803,CONTROL,Legs/Total,Post,0.36
+259,6319,CONTROL,Legs/Total,Pre,0.31
+260,6319,CONTROL,Legs/Total,Test 1,NA
+261,6319,CONTROL,Legs/Total,Test 2,NA
+262,6319,CONTROL,Legs/Total,Test 3,NA
+263,6319,CONTROL,Legs/Total,Test 4,NA
+264,6319,CONTROL,Legs/Total,Post,0.31
+265,7326,EXERCISE,Legs/Total,Pre,0.38
+266,7326,EXERCISE,Legs/Total,Test 1,0.38
+267,7326,EXERCISE,Legs/Total,Test 2,0.37
+268,7326,EXERCISE,Legs/Total,Test 3,0.38
+269,7326,EXERCISE,Legs/Total,Test 4,0.38
+270,7326,EXERCISE,Legs/Total,Post,0.38
+271,9713,EXERCISE,Legs/Total,Pre,0.40
+272,9713,EXERCISE,Legs/Total,Test 1,0.39
+273,9713,EXERCISE,Legs/Total,Test 2,0.40
+274,9713,EXERCISE,Legs/Total,Test 3,0.39
+275,9713,EXERCISE,Legs/Total,Test 4,0.39
+276,9713,EXERCISE,Legs/Total,Post,0.37
+277,7350,EXERCISE,Legs/Total,Pre,0.45
+278,7350,EXERCISE,Legs/Total,Test 1,0.44
+279,7350,EXERCISE,Legs/Total,Test 2,0.45
+280,7350,EXERCISE,Legs/Total,Test 3,0.45
+281,7350,EXERCISE,Legs/Total,Test 4,0.43
+282,7350,EXERCISE,Legs/Total,Post,0.43
+283,7152,EXERCISE,Legs/Total,Pre,0.36
+284,7152,EXERCISE,Legs/Total,Test 1,0.34
+285,7152,EXERCISE,Legs/Total,Test 2,0.35
+286,7152,EXERCISE,Legs/Total,Test 3,0.38
+287,7152,EXERCISE,Legs/Total,Test 4,0.38
+288,7152,EXERCISE,Legs/Total,Post,0.38
+289,5159,EXERCISE,Legs/Total,Pre,0.45
+290,5159,EXERCISE,Legs/Total,Test 1,0.45
+291,5159,EXERCISE,Legs/Total,Test 2,0.45
+292,5159,EXERCISE,Legs/Total,Test 3,0.00
+293,5159,EXERCISE,Legs/Total,Test 4,0.00
+294,5159,EXERCISE,Legs/Total,Post,0.45
+295,7574,CONTROL,Legs/Total,Pre,0.34
+296,7574,CONTROL,Legs/Total,Test 1,0.33
+297,7574,CONTROL,Legs/Total,Test 2,0.34
+298,7574,CONTROL,Legs/Total,Test 3,0.34
+299,7574,CONTROL,Legs/Total,Test 4,0.35
+300,7574,CONTROL,Legs/Total,Post,0.35
+301,6877,EXERCISE,Legs/Total,Pre,0.42
+302,6877,EXERCISE,Legs/Total,Test 1,0.42
+303,6877,EXERCISE,Legs/Total,Test 2,0.43
+304,6877,EXERCISE,Legs/Total,Test 3,0.39
+305,6877,EXERCISE,Legs/Total,Test 4,0.41
+306,6877,EXERCISE,Legs/Total,Post,0.43
+307,9667,EXERCISE,Legs/Total,Pre,0.40
+308,9667,EXERCISE,Legs/Total,Test 1,0.38
+309,9667,EXERCISE,Legs/Total,Test 2,0.38
+310,9667,EXERCISE,Legs/Total,Test 3,0.38
+311,9667,EXERCISE,Legs/Total,Test 4,0.40
+312,9667,EXERCISE,Legs/Total,Post,0.38
+313,6546,CONTROL,Legs/Total,Pre,0.29
+314,6546,CONTROL,Legs/Total,Test 1,0.30
+315,6546,CONTROL,Legs/Total,Test 2,0.30
+316,6546,CONTROL,Legs/Total,Test 3,0.31
+317,6546,CONTROL,Legs/Total,Test 4,0.31
+318,6546,CONTROL,Legs/Total,Post,0.31
+319,5188,EXERCISE,Legs/Total,Pre,0.44
+320,5188,EXERCISE,Legs/Total,Test 1,0.45
+321,5188,EXERCISE,Legs/Total,Test 2,0.44
+322,5188,EXERCISE,Legs/Total,Test 3,0.40
+323,5188,EXERCISE,Legs/Total,Test 4,0.45
+324,5188,EXERCISE,Legs/Total,Post,0.46
+325,8936,CONTROL,Legs/Total,Pre,0.38
+326,8936,CONTROL,Legs/Total,Test 1,0.38
+327,8936,CONTROL,Legs/Total,Test 2,0.39
+328,8936,CONTROL,Legs/Total,Test 3,0.39
+329,8936,CONTROL,Legs/Total,Test 4,0.39
+330,8936,CONTROL,Legs/Total,Post,0.38
+331,8072,EXERCISE,Legs/Total,Pre,0.42
+332,8072,EXERCISE,Legs/Total,Test 1,0.41
+333,8072,EXERCISE,Legs/Total,Test 2,0.41
+334,8072,EXERCISE,Legs/Total,Test 3,0.44
+335,8072,EXERCISE,Legs/Total,Test 4,0.41
+336,8072,EXERCISE,Legs/Total,Post,0.39
+337,5160,EXERCISE,Legs/Total,Pre,0.35
+338,5160,EXERCISE,Legs/Total,Test 1,0.35
+339,5160,EXERCISE,Legs/Total,Test 2,0.35
+340,5160,EXERCISE,Legs/Total,Test 3,0.35
+341,5160,EXERCISE,Legs/Total,Test 4,0.35
+342,5160,EXERCISE,Legs/Total,Post,0.35
+343,5297,CONTROL,Legs/Total,Pre,0.28
+344,5297,CONTROL,Legs/Total,Test 1,0.28
+345,5297,CONTROL,Legs/Total,Test 2,0.29
+346,5297,CONTROL,Legs/Total,Test 3,0.28
+347,5297,CONTROL,Legs/Total,Test 4,0.28
+348,5297,CONTROL,Legs/Total,Post,0.28
+349,6403,EXERCISE,Legs/Total,Pre,0.32
+350,6403,EXERCISE,Legs/Total,Test 1,0.32
+351,6403,EXERCISE,Legs/Total,Test 2,0.32
+352,6403,EXERCISE,Legs/Total,Test 3,0.34
+353,6403,EXERCISE,Legs/Total,Test 4,0.31
+354,6403,EXERCISE,Legs/Total,Post,0.31
+355,6947,CONTROL,Legs/Total,Pre,0.29
+356,6947,CONTROL,Legs/Total,Test 1,0.29
+357,6947,CONTROL,Legs/Total,Test 2,0.30
+358,6947,CONTROL,Legs/Total,Test 3,0.29
+359,6947,CONTROL,Legs/Total,Test 4,0.30
+360,6947,CONTROL,Legs/Total,Post,0.29
+361,5627,EXERCISE,Legs/Total,Pre,0.28
+362,5627,EXERCISE,Legs/Total,Test 1,0.27
+363,5627,EXERCISE,Legs/Total,Test 2,0.27
+364,5627,EXERCISE,Legs/Total,Test 3,0.26
+365,5627,EXERCISE,Legs/Total,Test 4,0.27
+366,5627,EXERCISE,Legs/Total,Post,0.26
+367,8010,EXERCISE,Legs/Total,Pre,0.33
+368,8010,EXERCISE,Legs/Total,Test 1,0.30
+369,8010,EXERCISE,Legs/Total,Test 2,0.33
+370,8010,EXERCISE,Legs/Total,Test 3,0.32
+371,8010,EXERCISE,Legs/Total,Test 4,0.32
+372,8010,EXERCISE,Legs/Total,Post,0.32
+373,7707,EXERCISE,Legs/Total,Pre,0.39
+374,7707,EXERCISE,Legs/Total,Test 1,0.38
+375,7707,EXERCISE,Legs/Total,Test 2,0.38
+376,7707,EXERCISE,Legs/Total,Test 3,0.38
+377,7707,EXERCISE,Legs/Total,Test 4,0.39
+378,7707,EXERCISE,Legs/Total,Post,0.37
+379,6213,CONTROL,Legs/Total,Pre,0.34
+380,6213,CONTROL,Legs/Total,Test 1,0.33
+381,6213,CONTROL,Legs/Total,Test 2,0.32
+382,6213,CONTROL,Legs/Total,Test 3,0.33
+383,6213,CONTROL,Legs/Total,Test 4,0.33
+384,6213,CONTROL,Legs/Total,Post,0.33
+385,7750,CONTROL,Legs/Total,Pre,0.40
+386,7750,CONTROL,Legs/Total,Test 1,0.39
+387,7750,CONTROL,Legs/Total,Test 2,0.38
+388,7750,CONTROL,Legs/Total,Test 3,0.39
+389,7750,CONTROL,Legs/Total,Test 4,0.38
+390,7750,CONTROL,Legs/Total,Post,0.39
+391,6611,EXERCISE,Legs/Total,Pre,0.38
+392,6611,EXERCISE,Legs/Total,Test 1,0.36
+393,6611,EXERCISE,Legs/Total,Test 2,0.36
+394,6611,EXERCISE,Legs/Total,Test 3,0.35
+395,6611,EXERCISE,Legs/Total,Test 4,0.35
+396,6611,EXERCISE,Legs/Total,Post,0.34
+397,9793,FLY,Legs/Total,Pre,0.32
+398,9793,FLY,Legs/Total,Test 1,0.33
+399,9793,FLY,Legs/Total,Test 2,0.32
+400,9793,FLY,Legs/Total,Test 3,0.32
+401,9793,FLY,Legs/Total,Test 4,0.32
+402,9793,FLY,Legs/Total,Post,0.33
+403,8837,EXERCISE,Legs/Total,Pre,0.32
+404,8837,EXERCISE,Legs/Total,Test 1,0.32
+405,8837,EXERCISE,Legs/Total,Test 2,0.33
+406,8837,EXERCISE,Legs/Total,Test 3,0.31
+407,8837,EXERCISE,Legs/Total,Test 4,0.31
+408,8837,EXERCISE,Legs/Total,Post,0.33
+409,8713,EXERCISE,Legs/Total,Pre,0.31
+410,8713,EXERCISE,Legs/Total,Test 1,0.32
+411,8713,EXERCISE,Legs/Total,Test 2,0.30
+412,8713,EXERCISE,Legs/Total,Test 3,0.30
+413,8713,EXERCISE,Legs/Total,Test 4,0.30
+414,8713,EXERCISE,Legs/Total,Post,0.30
+415,7548,FLY,Legs/Total,Pre,0.30
+416,7548,FLY,Legs/Total,Test 1,0.31
+417,7548,FLY,Legs/Total,Test 2,0.30
+418,7548,FLY,Legs/Total,Test 3,0.32
+419,7548,FLY,Legs/Total,Test 4,0.31
+420,7548,FLY,Legs/Total,Post,0.31
+421,8177,FLY,Legs/Total,Pre,0.37
+422,8177,FLY,Legs/Total,Test 1,0.37
+423,8177,FLY,Legs/Total,Test 2,0.37
+424,8177,FLY,Legs/Total,Test 3,0.38
+425,8177,FLY,Legs/Total,Test 4,0.36
+426,8177,FLY,Legs/Total,Post,0.36
+427,9023,FLY,Legs/Total,Pre,0.40
+428,9023,FLY,Legs/Total,Test 1,0.39
+429,9023,FLY,Legs/Total,Test 2,0.38
+430,9023,FLY,Legs/Total,Test 3,0.39
+431,9023,FLY,Legs/Total,Test 4,0.39
+432,9023,FLY,Legs/Total,Post,0.38
+433,5673,FLY,Legs/Total,Pre,0.37
+434,5673,FLY,Legs/Total,Test 1,0.36
+435,5673,FLY,Legs/Total,Test 2,0.36
+436,5673,FLY,Legs/Total,Test 3,0.36
+437,5673,FLY,Legs/Total,Test 4,0.37
+438,5673,FLY,Legs/Total,Post,0.36
+439,6187,FLY,Legs/Total,Pre,0.33
+440,6187,FLY,Legs/Total,Test 1,0.36
+441,6187,FLY,Legs/Total,Test 2,0.34
+442,6187,FLY,Legs/Total,Test 3,0.35
+443,6187,FLY,Legs/Total,Test 4,0.35
+444,6187,FLY,Legs/Total,Post,0.35
+445,6464,FLY,Legs/Total,Pre,0.38
+446,6464,FLY,Legs/Total,Test 1,0.39
+447,6464,FLY,Legs/Total,Test 2,0.36
+448,6464,FLY,Legs/Total,Test 3,0.35
+449,6464,FLY,Legs/Total,Test 4,0.36
+450,6464,FLY,Legs/Total,Post,0.36
+451,8179,FLY,Legs/Total,Pre,0.36
+452,8179,FLY,Legs/Total,Test 1,0.37
+453,8179,FLY,Legs/Total,Test 2,0.36
+454,8179,FLY,Legs/Total,Test 3,0.37
+455,8179,FLY,Legs/Total,Test 4,0.37
+456,8179,FLY,Legs/Total,Post,0.37
+457,5210,CONTROL,Extremities/Trunk,Pre,1.19
+458,5210,CONTROL,Extremities/Trunk,Test 1,1.12
+459,5210,CONTROL,Extremities/Trunk,Test 2,1.19
+460,5210,CONTROL,Extremities/Trunk,Test 3,1.16
+461,5210,CONTROL,Extremities/Trunk,Test 4,1.18
+462,5210,CONTROL,Extremities/Trunk,Post,1.02
+463,9682,EXERCISE,Extremities/Trunk,Pre,0.70
+464,9682,EXERCISE,Extremities/Trunk,Test 1,0.72
+465,9682,EXERCISE,Extremities/Trunk,Test 2,0.69
+466,9682,EXERCISE,Extremities/Trunk,Test 3,0.71
+467,9682,EXERCISE,Extremities/Trunk,Test 4,0.60
+468,9682,EXERCISE,Extremities/Trunk,Post,0.62
+469,7036,EXERCISE,Extremities/Trunk,Pre,0.78
+470,7036,EXERCISE,Extremities/Trunk,Test 1,0.73
+471,7036,EXERCISE,Extremities/Trunk,Test 2,0.71
+472,7036,EXERCISE,Extremities/Trunk,Test 3,0.75
+473,7036,EXERCISE,Extremities/Trunk,Test 4,0.71
+474,7036,EXERCISE,Extremities/Trunk,Post,0.68
+475,6791,CONTROL,Extremities/Trunk,Pre,1.33
+476,6791,CONTROL,Extremities/Trunk,Test 1,1.21
+477,6791,CONTROL,Extremities/Trunk,Test 2,1.15
+478,6791,CONTROL,Extremities/Trunk,Test 3,1.00
+479,6791,CONTROL,Extremities/Trunk,Test 4,1.10
+480,6791,CONTROL,Extremities/Trunk,Post,1.01
+481,5803,CONTROL,Extremities/Trunk,Pre,0.93
+482,5803,CONTROL,Extremities/Trunk,Test 1,NA
+483,5803,CONTROL,Extremities/Trunk,Test 2,NA
+484,5803,CONTROL,Extremities/Trunk,Test 3,NA
+485,5803,CONTROL,Extremities/Trunk,Test 4,NA
+486,5803,CONTROL,Extremities/Trunk,Post,0.90
+487,6319,CONTROL,Extremities/Trunk,Pre,0.69
+488,6319,CONTROL,Extremities/Trunk,Test 1,NA
+489,6319,CONTROL,Extremities/Trunk,Test 2,NA
+490,6319,CONTROL,Extremities/Trunk,Test 3,NA
+491,6319,CONTROL,Extremities/Trunk,Test 4,NA
+492,6319,CONTROL,Extremities/Trunk,Post,0.71
+493,7326,EXERCISE,Extremities/Trunk,Pre,1.03
+494,7326,EXERCISE,Extremities/Trunk,Test 1,1.03
+495,7326,EXERCISE,Extremities/Trunk,Test 2,1.01
+496,7326,EXERCISE,Extremities/Trunk,Test 3,1.07
+497,7326,EXERCISE,Extremities/Trunk,Test 4,1.05
+498,7326,EXERCISE,Extremities/Trunk,Post,1.07
+499,9713,EXERCISE,Extremities/Trunk,Pre,1.16
+500,9713,EXERCISE,Extremities/Trunk,Test 1,1.20
+501,9713,EXERCISE,Extremities/Trunk,Test 2,1.25
+502,9713,EXERCISE,Extremities/Trunk,Test 3,1.14
+503,9713,EXERCISE,Extremities/Trunk,Test 4,1.17
+504,9713,EXERCISE,Extremities/Trunk,Post,1.02
+505,7350,EXERCISE,Extremities/Trunk,Pre,1.48
+506,7350,EXERCISE,Extremities/Trunk,Test 1,1.39
+507,7350,EXERCISE,Extremities/Trunk,Test 2,1.57
+508,7350,EXERCISE,Extremities/Trunk,Test 3,1.45
+509,7350,EXERCISE,Extremities/Trunk,Test 4,1.50
+510,7350,EXERCISE,Extremities/Trunk,Post,1.36
+511,7152,EXERCISE,Extremities/Trunk,Pre,0.98
+512,7152,EXERCISE,Extremities/Trunk,Test 1,0.92
+513,7152,EXERCISE,Extremities/Trunk,Test 2,0.93
+514,7152,EXERCISE,Extremities/Trunk,Test 3,1.03
+515,7152,EXERCISE,Extremities/Trunk,Test 4,1.01
+516,7152,EXERCISE,Extremities/Trunk,Post,1.04
+517,5159,EXERCISE,Extremities/Trunk,Pre,1.58
+518,5159,EXERCISE,Extremities/Trunk,Test 1,1.50
+519,5159,EXERCISE,Extremities/Trunk,Test 2,1.58
+520,5159,EXERCISE,Extremities/Trunk,Test 3,0.00
+521,5159,EXERCISE,Extremities/Trunk,Test 4,0.00
+522,5159,EXERCISE,Extremities/Trunk,Post,1.59
+523,7574,CONTROL,Extremities/Trunk,Pre,0.86
+524,7574,CONTROL,Extremities/Trunk,Test 1,0.82
+525,7574,CONTROL,Extremities/Trunk,Test 2,0.82
+526,7574,CONTROL,Extremities/Trunk,Test 3,0.86
+527,7574,CONTROL,Extremities/Trunk,Test 4,0.84
+528,7574,CONTROL,Extremities/Trunk,Post,0.88
+529,6877,EXERCISE,Extremities/Trunk,Pre,1.37
+530,6877,EXERCISE,Extremities/Trunk,Test 1,1.29
+531,6877,EXERCISE,Extremities/Trunk,Test 2,1.40
+532,6877,EXERCISE,Extremities/Trunk,Test 3,1.07
+533,6877,EXERCISE,Extremities/Trunk,Test 4,1.19
+534,6877,EXERCISE,Extremities/Trunk,Post,1.34
+535,9667,EXERCISE,Extremities/Trunk,Pre,1.21
+536,9667,EXERCISE,Extremities/Trunk,Test 1,1.11
+537,9667,EXERCISE,Extremities/Trunk,Test 2,1.14
+538,9667,EXERCISE,Extremities/Trunk,Test 3,1.04
+539,9667,EXERCISE,Extremities/Trunk,Test 4,1.18
+540,9667,EXERCISE,Extremities/Trunk,Post,1.12
+541,6546,CONTROL,Extremities/Trunk,Pre,0.69
+542,6546,CONTROL,Extremities/Trunk,Test 1,0.70
+543,6546,CONTROL,Extremities/Trunk,Test 2,0.69
+544,6546,CONTROL,Extremities/Trunk,Test 3,0.73
+545,6546,CONTROL,Extremities/Trunk,Test 4,0.73
+546,6546,CONTROL,Extremities/Trunk,Post,0.74
+547,5188,EXERCISE,Extremities/Trunk,Pre,1.42
+548,5188,EXERCISE,Extremities/Trunk,Test 1,1.50
+549,5188,EXERCISE,Extremities/Trunk,Test 2,1.59
+550,5188,EXERCISE,Extremities/Trunk,Test 3,1.20
+551,5188,EXERCISE,Extremities/Trunk,Test 4,1.47
+552,5188,EXERCISE,Extremities/Trunk,Post,1.69
+553,8936,CONTROL,Extremities/Trunk,Pre,1.00
+554,8936,CONTROL,Extremities/Trunk,Test 1,1.01
+555,8936,CONTROL,Extremities/Trunk,Test 2,1.07
+556,8936,CONTROL,Extremities/Trunk,Test 3,1.03
+557,8936,CONTROL,Extremities/Trunk,Test 4,0.99
+558,8936,CONTROL,Extremities/Trunk,Post,0.98
+559,8072,EXERCISE,Extremities/Trunk,Pre,1.22
+560,8072,EXERCISE,Extremities/Trunk,Test 1,1.15
+561,8072,EXERCISE,Extremities/Trunk,Test 2,1.19
+562,8072,EXERCISE,Extremities/Trunk,Test 3,1.24
+563,8072,EXERCISE,Extremities/Trunk,Test 4,1.19
+564,8072,EXERCISE,Extremities/Trunk,Post,1.04
+565,5160,EXERCISE,Extremities/Trunk,Pre,0.86
+566,5160,EXERCISE,Extremities/Trunk,Test 1,0.84
+567,5160,EXERCISE,Extremities/Trunk,Test 2,0.86
+568,5160,EXERCISE,Extremities/Trunk,Test 3,0.84
+569,5160,EXERCISE,Extremities/Trunk,Test 4,0.84
+570,5160,EXERCISE,Extremities/Trunk,Post,0.82
+571,5297,CONTROL,Extremities/Trunk,Pre,0.60
+572,5297,CONTROL,Extremities/Trunk,Test 1,0.60
+573,5297,CONTROL,Extremities/Trunk,Test 2,0.63
+574,5297,CONTROL,Extremities/Trunk,Test 3,0.58
+575,5297,CONTROL,Extremities/Trunk,Test 4,0.59
+576,5297,CONTROL,Extremities/Trunk,Post,0.58
+577,6403,EXERCISE,Extremities/Trunk,Pre,0.80
+578,6403,EXERCISE,Extremities/Trunk,Test 1,0.79
+579,6403,EXERCISE,Extremities/Trunk,Test 2,0.81
+580,6403,EXERCISE,Extremities/Trunk,Test 3,0.84
+581,6403,EXERCISE,Extremities/Trunk,Test 4,0.74
+582,6403,EXERCISE,Extremities/Trunk,Post,0.75
+583,6947,CONTROL,Extremities/Trunk,Pre,0.73
+584,6947,CONTROL,Extremities/Trunk,Test 1,0.71
+585,6947,CONTROL,Extremities/Trunk,Test 2,0.73
+586,6947,CONTROL,Extremities/Trunk,Test 3,0.73
+587,6947,CONTROL,Extremities/Trunk,Test 4,0.76
+588,6947,CONTROL,Extremities/Trunk,Post,0.67
+589,5627,EXERCISE,Extremities/Trunk,Pre,0.64
+590,5627,EXERCISE,Extremities/Trunk,Test 1,0.61
+591,5627,EXERCISE,Extremities/Trunk,Test 2,0.61
+592,5627,EXERCISE,Extremities/Trunk,Test 3,0.58
+593,5627,EXERCISE,Extremities/Trunk,Test 4,0.61
+594,5627,EXERCISE,Extremities/Trunk,Post,0.59
+595,8010,EXERCISE,Extremities/Trunk,Pre,0.78
+596,8010,EXERCISE,Extremities/Trunk,Test 1,0.77
+597,8010,EXERCISE,Extremities/Trunk,Test 2,0.78
+598,8010,EXERCISE,Extremities/Trunk,Test 3,0.77
+599,8010,EXERCISE,Extremities/Trunk,Test 4,0.75
+600,8010,EXERCISE,Extremities/Trunk,Post,0.75
+601,7707,EXERCISE,Extremities/Trunk,Pre,1.01
+602,7707,EXERCISE,Extremities/Trunk,Test 1,0.96
+603,7707,EXERCISE,Extremities/Trunk,Test 2,0.97
+604,7707,EXERCISE,Extremities/Trunk,Test 3,0.97
+605,7707,EXERCISE,Extremities/Trunk,Test 4,1.01
+606,7707,EXERCISE,Extremities/Trunk,Post,0.95
+607,6213,CONTROL,Extremities/Trunk,Pre,0.84
+608,6213,CONTROL,Extremities/Trunk,Test 1,0.84
+609,6213,CONTROL,Extremities/Trunk,Test 2,0.76
+610,6213,CONTROL,Extremities/Trunk,Test 3,0.80
+611,6213,CONTROL,Extremities/Trunk,Test 4,0.76
+612,6213,CONTROL,Extremities/Trunk,Post,0.77
+613,7750,CONTROL,Extremities/Trunk,Pre,1.11
+614,7750,CONTROL,Extremities/Trunk,Test 1,1.07
+615,7750,CONTROL,Extremities/Trunk,Test 2,1.00
+616,7750,CONTROL,Extremities/Trunk,Test 3,1.03
+617,7750,CONTROL,Extremities/Trunk,Test 4,1.01
+618,7750,CONTROL,Extremities/Trunk,Post,1.08
+619,6611,EXERCISE,Extremities/Trunk,Pre,1.21
+620,6611,EXERCISE,Extremities/Trunk,Test 1,1.17
+621,6611,EXERCISE,Extremities/Trunk,Test 2,1.06
+622,6611,EXERCISE,Extremities/Trunk,Test 3,1.05
+623,6611,EXERCISE,Extremities/Trunk,Test 4,1.02
+624,6611,EXERCISE,Extremities/Trunk,Post,1.05
+625,9793,FLY,Extremities/Trunk,Pre,0.77
+626,9793,FLY,Extremities/Trunk,Test 1,0.76
+627,9793,FLY,Extremities/Trunk,Test 2,0.73
+628,9793,FLY,Extremities/Trunk,Test 3,0.73
+629,9793,FLY,Extremities/Trunk,Test 4,0.75
+630,9793,FLY,Extremities/Trunk,Post,0.76
+631,8837,EXERCISE,Extremities/Trunk,Pre,0.75
+632,8837,EXERCISE,Extremities/Trunk,Test 1,0.74
+633,8837,EXERCISE,Extremities/Trunk,Test 2,0.75
+634,8837,EXERCISE,Extremities/Trunk,Test 3,0.70
+635,8837,EXERCISE,Extremities/Trunk,Test 4,0.69
+636,8837,EXERCISE,Extremities/Trunk,Post,0.74
+637,8713,EXERCISE,Extremities/Trunk,Pre,0.78
+638,8713,EXERCISE,Extremities/Trunk,Test 1,0.82
+639,8713,EXERCISE,Extremities/Trunk,Test 2,0.74
+640,8713,EXERCISE,Extremities/Trunk,Test 3,0.72
+641,8713,EXERCISE,Extremities/Trunk,Test 4,0.73
+642,8713,EXERCISE,Extremities/Trunk,Post,0.72
+643,7548,FLY,Extremities/Trunk,Pre,0.67
+644,7548,FLY,Extremities/Trunk,Test 1,0.70
+645,7548,FLY,Extremities/Trunk,Test 2,0.67
+646,7548,FLY,Extremities/Trunk,Test 3,0.71
+647,7548,FLY,Extremities/Trunk,Test 4,0.68
+648,7548,FLY,Extremities/Trunk,Post,0.71
+649,8177,FLY,Extremities/Trunk,Pre,1.03
+650,8177,FLY,Extremities/Trunk,Test 1,1.03
+651,8177,FLY,Extremities/Trunk,Test 2,1.04
+652,8177,FLY,Extremities/Trunk,Test 3,1.07
+653,8177,FLY,Extremities/Trunk,Test 4,1.01
+654,8177,FLY,Extremities/Trunk,Post,0.97
+655,9023,FLY,Extremities/Trunk,Pre,1.01
+656,9023,FLY,Extremities/Trunk,Test 1,0.98
+657,9023,FLY,Extremities/Trunk,Test 2,0.94
+658,9023,FLY,Extremities/Trunk,Test 3,0.97
+659,9023,FLY,Extremities/Trunk,Test 4,0.97
+660,9023,FLY,Extremities/Trunk,Post,0.94
+661,5673,FLY,Extremities/Trunk,Pre,0.97
+662,5673,FLY,Extremities/Trunk,Test 1,0.90
+663,5673,FLY,Extremities/Trunk,Test 2,0.94
+664,5673,FLY,Extremities/Trunk,Test 3,0.89
+665,5673,FLY,Extremities/Trunk,Test 4,0.94
+666,5673,FLY,Extremities/Trunk,Post,0.88
+667,6187,FLY,Extremities/Trunk,Pre,0.86
+668,6187,FLY,Extremities/Trunk,Test 1,1.02
+669,6187,FLY,Extremities/Trunk,Test 2,0.94
+670,6187,FLY,Extremities/Trunk,Test 3,0.95
+671,6187,FLY,Extremities/Trunk,Test 4,0.95
+672,6187,FLY,Extremities/Trunk,Post,1.00
+673,6464,FLY,Extremities/Trunk,Pre,1.27
+674,6464,FLY,Extremities/Trunk,Test 1,1.33
+675,6464,FLY,Extremities/Trunk,Test 2,1.13
+676,6464,FLY,Extremities/Trunk,Test 3,1.09
+677,6464,FLY,Extremities/Trunk,Test 4,1.14
+678,6464,FLY,Extremities/Trunk,Post,1.17
+679,8179,FLY,Extremities/Trunk,Pre,0.89
+680,8179,FLY,Extremities/Trunk,Test 1,0.92
+681,8179,FLY,Extremities/Trunk,Test 2,0.87
+682,8179,FLY,Extremities/Trunk,Test 3,0.88
+683,8179,FLY,Extremities/Trunk,Test 4,0.93
+684,8179,FLY,Extremities/Trunk,Post,0.93
+685,5210,CONTROL,Android/Gynoid,Pre,0.86
+686,5210,CONTROL,Android/Gynoid,Test 1,0.89
+687,5210,CONTROL,Android/Gynoid,Test 2,0.87
+688,5210,CONTROL,Android/Gynoid,Test 3,0.88
+689,5210,CONTROL,Android/Gynoid,Test 4,0.85
+690,5210,CONTROL,Android/Gynoid,Post,0.82
+691,9682,EXERCISE,Android/Gynoid,Pre,1.20
+692,9682,EXERCISE,Android/Gynoid,Test 1,1.20
+693,9682,EXERCISE,Android/Gynoid,Test 2,1.20
+694,9682,EXERCISE,Android/Gynoid,Test 3,1.16
+695,9682,EXERCISE,Android/Gynoid,Test 4,1.09
+696,9682,EXERCISE,Android/Gynoid,Post,1.14
+697,7036,EXERCISE,Android/Gynoid,Pre,1.11
+698,7036,EXERCISE,Android/Gynoid,Test 1,1.18
+699,7036,EXERCISE,Android/Gynoid,Test 2,1.20
+700,7036,EXERCISE,Android/Gynoid,Test 3,1.18
+701,7036,EXERCISE,Android/Gynoid,Test 4,1.22
+702,7036,EXERCISE,Android/Gynoid,Post,1.13
+703,6791,CONTROL,Android/Gynoid,Pre,0.64
+704,6791,CONTROL,Android/Gynoid,Test 1,0.73
+705,6791,CONTROL,Android/Gynoid,Test 2,0.79
+706,6791,CONTROL,Android/Gynoid,Test 3,0.77
+707,6791,CONTROL,Android/Gynoid,Test 4,0.78
+708,6791,CONTROL,Android/Gynoid,Post,0.89
+709,5803,CONTROL,Android/Gynoid,Pre,0.97
+710,5803,CONTROL,Android/Gynoid,Test 1,NA
+711,5803,CONTROL,Android/Gynoid,Test 2,NA
+712,5803,CONTROL,Android/Gynoid,Test 3,NA
+713,5803,CONTROL,Android/Gynoid,Test 4,NA
+714,5803,CONTROL,Android/Gynoid,Post,0.89
+715,6319,CONTROL,Android/Gynoid,Pre,1.24
+716,6319,CONTROL,Android/Gynoid,Test 1,NA
+717,6319,CONTROL,Android/Gynoid,Test 2,NA
+718,6319,CONTROL,Android/Gynoid,Test 3,NA
+719,6319,CONTROL,Android/Gynoid,Test 4,NA
+720,6319,CONTROL,Android/Gynoid,Post,1.19
+721,7326,EXERCISE,Android/Gynoid,Pre,0.95
+722,7326,EXERCISE,Android/Gynoid,Test 1,1.00
+723,7326,EXERCISE,Android/Gynoid,Test 2,1.03
+724,7326,EXERCISE,Android/Gynoid,Test 3,1.02
+725,7326,EXERCISE,Android/Gynoid,Test 4,1.05
+726,7326,EXERCISE,Android/Gynoid,Post,0.99
+727,9713,EXERCISE,Android/Gynoid,Pre,0.87
+728,9713,EXERCISE,Android/Gynoid,Test 1,0.76
+729,9713,EXERCISE,Android/Gynoid,Test 2,0.79
+730,9713,EXERCISE,Android/Gynoid,Test 3,0.84
+731,9713,EXERCISE,Android/Gynoid,Test 4,0.83
+732,9713,EXERCISE,Android/Gynoid,Post,0.78
+733,7350,EXERCISE,Android/Gynoid,Pre,0.59
+734,7350,EXERCISE,Android/Gynoid,Test 1,0.65
+735,7350,EXERCISE,Android/Gynoid,Test 2,0.59
+736,7350,EXERCISE,Android/Gynoid,Test 3,0.66
+737,7350,EXERCISE,Android/Gynoid,Test 4,0.62
+738,7350,EXERCISE,Android/Gynoid,Post,0.60
+739,7152,EXERCISE,Android/Gynoid,Pre,0.82
+740,7152,EXERCISE,Android/Gynoid,Test 1,0.85
+741,7152,EXERCISE,Android/Gynoid,Test 2,0.87
+742,7152,EXERCISE,Android/Gynoid,Test 3,0.88
+743,7152,EXERCISE,Android/Gynoid,Test 4,0.87
+744,7152,EXERCISE,Android/Gynoid,Post,0.83
+745,5159,EXERCISE,Android/Gynoid,Pre,0.58
+746,5159,EXERCISE,Android/Gynoid,Test 1,0.81
+747,5159,EXERCISE,Android/Gynoid,Test 2,0.60
+748,5159,EXERCISE,Android/Gynoid,Test 3,0.00
+749,5159,EXERCISE,Android/Gynoid,Test 4,0.00
+750,5159,EXERCISE,Android/Gynoid,Post,0.65
+751,7574,CONTROL,Android/Gynoid,Pre,1.04
+752,7574,CONTROL,Android/Gynoid,Test 1,1.07
+753,7574,CONTROL,Android/Gynoid,Test 2,1.05
+754,7574,CONTROL,Android/Gynoid,Test 3,1.01
+755,7574,CONTROL,Android/Gynoid,Test 4,0.99
+756,7574,CONTROL,Android/Gynoid,Post,0.98
+757,6877,EXERCISE,Android/Gynoid,Pre,0.83
+758,6877,EXERCISE,Android/Gynoid,Test 1,0.84
+759,6877,EXERCISE,Android/Gynoid,Test 2,0.82
+760,6877,EXERCISE,Android/Gynoid,Test 3,0.97
+761,6877,EXERCISE,Android/Gynoid,Test 4,0.83
+762,6877,EXERCISE,Android/Gynoid,Post,0.84
+763,9667,EXERCISE,Android/Gynoid,Pre,0.88
+764,9667,EXERCISE,Android/Gynoid,Test 1,0.99
+765,9667,EXERCISE,Android/Gynoid,Test 2,0.97
+766,9667,EXERCISE,Android/Gynoid,Test 3,1.03
+767,9667,EXERCISE,Android/Gynoid,Test 4,0.93
+768,9667,EXERCISE,Android/Gynoid,Post,0.92
+769,6546,CONTROL,Android/Gynoid,Pre,1.16
+770,6546,CONTROL,Android/Gynoid,Test 1,1.27
+771,6546,CONTROL,Android/Gynoid,Test 2,1.23
+772,6546,CONTROL,Android/Gynoid,Test 3,1.25
+773,6546,CONTROL,Android/Gynoid,Test 4,1.18
+774,6546,CONTROL,Android/Gynoid,Post,1.18
+775,5188,EXERCISE,Android/Gynoid,Pre,0.85
+776,5188,EXERCISE,Android/Gynoid,Test 1,0.76
+777,5188,EXERCISE,Android/Gynoid,Test 2,0.77
+778,5188,EXERCISE,Android/Gynoid,Test 3,0.83
+779,5188,EXERCISE,Android/Gynoid,Test 4,0.74
+780,5188,EXERCISE,Android/Gynoid,Post,0.68
+781,8936,CONTROL,Android/Gynoid,Pre,0.94
+782,8936,CONTROL,Android/Gynoid,Test 1,0.84
+783,8936,CONTROL,Android/Gynoid,Test 2,0.86
+784,8936,CONTROL,Android/Gynoid,Test 3,0.92
+785,8936,CONTROL,Android/Gynoid,Test 4,0.89
+786,8936,CONTROL,Android/Gynoid,Post,0.80
+787,8072,EXERCISE,Android/Gynoid,Pre,0.62
+788,8072,EXERCISE,Android/Gynoid,Test 1,0.64
+789,8072,EXERCISE,Android/Gynoid,Test 2,0.64
+790,8072,EXERCISE,Android/Gynoid,Test 3,0.63
+791,8072,EXERCISE,Android/Gynoid,Test 4,0.67
+792,8072,EXERCISE,Android/Gynoid,Post,0.72
+793,5160,EXERCISE,Android/Gynoid,Pre,1.05
+794,5160,EXERCISE,Android/Gynoid,Test 1,1.09
+795,5160,EXERCISE,Android/Gynoid,Test 2,1.14
+796,5160,EXERCISE,Android/Gynoid,Test 3,1.17
+797,5160,EXERCISE,Android/Gynoid,Test 4,1.17
+798,5160,EXERCISE,Android/Gynoid,Post,1.18
+799,5297,CONTROL,Android/Gynoid,Pre,1.47
+800,5297,CONTROL,Android/Gynoid,Test 1,1.43
+801,5297,CONTROL,Android/Gynoid,Test 2,1.41
+802,5297,CONTROL,Android/Gynoid,Test 3,1.38
+803,5297,CONTROL,Android/Gynoid,Test 4,1.35
+804,5297,CONTROL,Android/Gynoid,Post,1.36
+805,6403,EXERCISE,Android/Gynoid,Pre,1.01
+806,6403,EXERCISE,Android/Gynoid,Test 1,0.92
+807,6403,EXERCISE,Android/Gynoid,Test 2,0.97
+808,6403,EXERCISE,Android/Gynoid,Test 3,0.90
+809,6403,EXERCISE,Android/Gynoid,Test 4,0.91
+810,6403,EXERCISE,Android/Gynoid,Post,0.95
+811,6947,CONTROL,Android/Gynoid,Pre,1.17
+812,6947,CONTROL,Android/Gynoid,Test 1,1.19
+813,6947,CONTROL,Android/Gynoid,Test 2,1.26
+814,6947,CONTROL,Android/Gynoid,Test 3,1.18
+815,6947,CONTROL,Android/Gynoid,Test 4,1.13
+816,6947,CONTROL,Android/Gynoid,Post,1.18
+817,5627,EXERCISE,Android/Gynoid,Pre,1.26
+818,5627,EXERCISE,Android/Gynoid,Test 1,1.29
+819,5627,EXERCISE,Android/Gynoid,Test 2,1.31
+820,5627,EXERCISE,Android/Gynoid,Test 3,1.39
+821,5627,EXERCISE,Android/Gynoid,Test 4,1.34
+822,5627,EXERCISE,Android/Gynoid,Post,1.33
+823,8010,EXERCISE,Android/Gynoid,Pre,1.06
+824,8010,EXERCISE,Android/Gynoid,Test 1,1.09
+825,8010,EXERCISE,Android/Gynoid,Test 2,1.10
+826,8010,EXERCISE,Android/Gynoid,Test 3,1.08
+827,8010,EXERCISE,Android/Gynoid,Test 4,1.05
+828,8010,EXERCISE,Android/Gynoid,Post,1.08
+829,7707,EXERCISE,Android/Gynoid,Pre,0.80
+830,7707,EXERCISE,Android/Gynoid,Test 1,0.86
+831,7707,EXERCISE,Android/Gynoid,Test 2,0.80
+832,7707,EXERCISE,Android/Gynoid,Test 3,0.83
+833,7707,EXERCISE,Android/Gynoid,Test 4,0.76
+834,7707,EXERCISE,Android/Gynoid,Post,0.82
+835,6213,CONTROL,Android/Gynoid,Pre,0.89
+836,6213,CONTROL,Android/Gynoid,Test 1,0.91
+837,6213,CONTROL,Android/Gynoid,Test 2,0.92
+838,6213,CONTROL,Android/Gynoid,Test 3,0.93
+839,6213,CONTROL,Android/Gynoid,Test 4,0.86
+840,6213,CONTROL,Android/Gynoid,Post,0.90
+841,7750,CONTROL,Android/Gynoid,Pre,0.81
+842,7750,CONTROL,Android/Gynoid,Test 1,0.79
+843,7750,CONTROL,Android/Gynoid,Test 2,0.86
+844,7750,CONTROL,Android/Gynoid,Test 3,0.76
+845,7750,CONTROL,Android/Gynoid,Test 4,0.79
+846,7750,CONTROL,Android/Gynoid,Post,0.81
+847,6611,EXERCISE,Android/Gynoid,Pre,0.68
+848,6611,EXERCISE,Android/Gynoid,Test 1,0.76
+849,6611,EXERCISE,Android/Gynoid,Test 2,0.69
+850,6611,EXERCISE,Android/Gynoid,Test 3,0.70
+851,6611,EXERCISE,Android/Gynoid,Test 4,0.83
+852,6611,EXERCISE,Android/Gynoid,Post,0.72
+853,9793,FLY,Android/Gynoid,Pre,1.07
+854,9793,FLY,Android/Gynoid,Test 1,1.04
+855,9793,FLY,Android/Gynoid,Test 2,1.10
+856,9793,FLY,Android/Gynoid,Test 3,1.09
+857,9793,FLY,Android/Gynoid,Test 4,1.06
+858,9793,FLY,Android/Gynoid,Post,1.03
+859,8837,EXERCISE,Android/Gynoid,Pre,0.97
+860,8837,EXERCISE,Android/Gynoid,Test 1,1.01
+861,8837,EXERCISE,Android/Gynoid,Test 2,1.00
+862,8837,EXERCISE,Android/Gynoid,Test 3,1.06
+863,8837,EXERCISE,Android/Gynoid,Test 4,1.03
+864,8837,EXERCISE,Android/Gynoid,Post,1.02
+865,8713,EXERCISE,Android/Gynoid,Pre,0.98
+866,8713,EXERCISE,Android/Gynoid,Test 1,1.04
+867,8713,EXERCISE,Android/Gynoid,Test 2,1.01
+868,8713,EXERCISE,Android/Gynoid,Test 3,1.03
+869,8713,EXERCISE,Android/Gynoid,Test 4,0.97
+870,8713,EXERCISE,Android/Gynoid,Post,1.01
+871,7548,FLY,Android/Gynoid,Pre,1.25
+872,7548,FLY,Android/Gynoid,Test 1,1.20
+873,7548,FLY,Android/Gynoid,Test 2,1.24
+874,7548,FLY,Android/Gynoid,Test 3,1.15
+875,7548,FLY,Android/Gynoid,Test 4,1.16
+876,7548,FLY,Android/Gynoid,Post,1.22
+877,8177,FLY,Android/Gynoid,Pre,0.69
+878,8177,FLY,Android/Gynoid,Test 1,0.67
+879,8177,FLY,Android/Gynoid,Test 2,0.73
+880,8177,FLY,Android/Gynoid,Test 3,0.72
+881,8177,FLY,Android/Gynoid,Test 4,0.68
+882,8177,FLY,Android/Gynoid,Post,0.66
+883,9023,FLY,Android/Gynoid,Pre,0.92
+884,9023,FLY,Android/Gynoid,Test 1,0.94
+885,9023,FLY,Android/Gynoid,Test 2,0.93
+886,9023,FLY,Android/Gynoid,Test 3,0.95
+887,9023,FLY,Android/Gynoid,Test 4,0.96
+888,9023,FLY,Android/Gynoid,Post,0.98
+889,5673,FLY,Android/Gynoid,Pre,0.93
+890,5673,FLY,Android/Gynoid,Test 1,0.93
+891,5673,FLY,Android/Gynoid,Test 2,0.89
+892,5673,FLY,Android/Gynoid,Test 3,0.94
+893,5673,FLY,Android/Gynoid,Test 4,0.94
+894,5673,FLY,Android/Gynoid,Post,0.93
+895,6187,FLY,Android/Gynoid,Pre,1.18
+896,6187,FLY,Android/Gynoid,Test 1,0.98
+897,6187,FLY,Android/Gynoid,Test 2,1.04
+898,6187,FLY,Android/Gynoid,Test 3,1.00
+899,6187,FLY,Android/Gynoid,Test 4,1.03
+900,6187,FLY,Android/Gynoid,Post,1.03
+901,6464,FLY,Android/Gynoid,Pre,0.58
+902,6464,FLY,Android/Gynoid,Test 1,0.62
+903,6464,FLY,Android/Gynoid,Test 2,0.67
+904,6464,FLY,Android/Gynoid,Test 3,0.60
+905,6464,FLY,Android/Gynoid,Test 4,0.65
+906,6464,FLY,Android/Gynoid,Post,0.64
+907,8179,FLY,Android/Gynoid,Pre,0.91
+908,8179,FLY,Android/Gynoid,Test 1,0.90
+909,8179,FLY,Android/Gynoid,Test 2,0.90
+910,8179,FLY,Android/Gynoid,Test 3,0.88
+911,8179,FLY,Android/Gynoid,Test 4,0.86
+912,8179,FLY,Android/Gynoid,Post,0.86
+913,5210,CONTROL,BMI,Pre,23.43
+914,5210,CONTROL,BMI,Test 1,23.43
+915,5210,CONTROL,BMI,Test 2,23.43
+916,5210,CONTROL,BMI,Test 3,23.43
+917,5210,CONTROL,BMI,Test 4,23.43
+918,5210,CONTROL,BMI,Post,23.43
+919,9682,EXERCISE,BMI,Pre,26.28
+920,9682,EXERCISE,BMI,Test 1,26.28
+921,9682,EXERCISE,BMI,Test 2,26.28
+922,9682,EXERCISE,BMI,Test 3,26.28
+923,9682,EXERCISE,BMI,Test 4,26.28
+924,9682,EXERCISE,BMI,Post,26.28
+925,7036,EXERCISE,BMI,Pre,24.83
+926,7036,EXERCISE,BMI,Test 1,24.83
+927,7036,EXERCISE,BMI,Test 2,24.83
+928,7036,EXERCISE,BMI,Test 3,24.83
+929,7036,EXERCISE,BMI,Test 4,24.83
+930,7036,EXERCISE,BMI,Post,24.83
+931,6791,CONTROL,BMI,Pre,25.09
+932,6791,CONTROL,BMI,Test 1,25.09
+933,6791,CONTROL,BMI,Test 2,24.95
+934,6791,CONTROL,BMI,Test 3,24.95
+935,6791,CONTROL,BMI,Test 4,25.09
+936,6791,CONTROL,BMI,Post,24.95
+937,5803,CONTROL,BMI,Pre,25.29
+938,5803,CONTROL,BMI,Test 1,NA
+939,5803,CONTROL,BMI,Test 2,NA
+940,5803,CONTROL,BMI,Test 3,NA
+941,5803,CONTROL,BMI,Test 4,NA
+942,5803,CONTROL,BMI,Post,25.29
+943,6319,CONTROL,BMI,Pre,28.45
+944,6319,CONTROL,BMI,Test 1,NA
+945,6319,CONTROL,BMI,Test 2,NA
+946,6319,CONTROL,BMI,Test 3,NA
+947,6319,CONTROL,BMI,Test 4,NA
+948,6319,CONTROL,BMI,Post,28.45
+949,7326,EXERCISE,BMI,Pre,27.96
+950,7326,EXERCISE,BMI,Test 1,27.96
+951,7326,EXERCISE,BMI,Test 2,27.96
+952,7326,EXERCISE,BMI,Test 3,27.96
+953,7326,EXERCISE,BMI,Test 4,27.96
+954,7326,EXERCISE,BMI,Post,27.96
+955,9713,EXERCISE,BMI,Pre,22.73
+956,9713,EXERCISE,BMI,Test 1,22.73
+957,9713,EXERCISE,BMI,Test 2,22.73
+958,9713,EXERCISE,BMI,Test 3,22.73
+959,9713,EXERCISE,BMI,Test 4,22.73
+960,9713,EXERCISE,BMI,Post,22.73
+961,7350,EXERCISE,BMI,Pre,22.63
+962,7350,EXERCISE,BMI,Test 1,22.63
+963,7350,EXERCISE,BMI,Test 2,22.63
+964,7350,EXERCISE,BMI,Test 3,22.63
+965,7350,EXERCISE,BMI,Test 4,22.63
+966,7350,EXERCISE,BMI,Post,22.63
+967,7152,EXERCISE,BMI,Pre,24.36
+968,7152,EXERCISE,BMI,Test 1,24.36
+969,7152,EXERCISE,BMI,Test 2,24.36
+970,7152,EXERCISE,BMI,Test 3,24.36
+971,7152,EXERCISE,BMI,Test 4,24.36
+972,7152,EXERCISE,BMI,Post,24.36
+973,5159,EXERCISE,BMI,Pre,22.64
+974,5159,EXERCISE,BMI,Test 1,22.64
+975,5159,EXERCISE,BMI,Test 2,22.64
+976,5159,EXERCISE,BMI,Test 3,0.00
+977,5159,EXERCISE,BMI,Test 4,0.00
+978,5159,EXERCISE,BMI,Post,22.64
+979,7574,CONTROL,BMI,Pre,23.25
+980,7574,CONTROL,BMI,Test 1,23.25
+981,7574,CONTROL,BMI,Test 2,23.25
+982,7574,CONTROL,BMI,Test 3,23.25
+983,7574,CONTROL,BMI,Test 4,23.25
+984,7574,CONTROL,BMI,Post,23.25
+985,6877,EXERCISE,BMI,Pre,21.16
+986,6877,EXERCISE,BMI,Test 1,21.16
+987,6877,EXERCISE,BMI,Test 2,21.16
+988,6877,EXERCISE,BMI,Test 3,21.16
+989,6877,EXERCISE,BMI,Test 4,21.16
+990,6877,EXERCISE,BMI,Post,21.16
+991,9667,EXERCISE,BMI,Pre,19.86
+992,9667,EXERCISE,BMI,Test 1,19.86
+993,9667,EXERCISE,BMI,Test 2,19.86
+994,9667,EXERCISE,BMI,Test 3,19.86
+995,9667,EXERCISE,BMI,Test 4,19.86
+996,9667,EXERCISE,BMI,Post,19.86
+997,6546,CONTROL,BMI,Pre,27.12
+998,6546,CONTROL,BMI,Test 1,27.12
+999,6546,CONTROL,BMI,Test 2,27.12
+1000,6546,CONTROL,BMI,Test 3,27.12
+1001,6546,CONTROL,BMI,Test 4,27.12
+1002,6546,CONTROL,BMI,Post,27.12
+1003,5188,EXERCISE,BMI,Pre,21.73
+1004,5188,EXERCISE,BMI,Test 1,21.73
+1005,5188,EXERCISE,BMI,Test 2,21.73
+1006,5188,EXERCISE,BMI,Test 3,21.73
+1007,5188,EXERCISE,BMI,Test 4,21.73
+1008,5188,EXERCISE,BMI,Post,0.00
+1009,8936,CONTROL,BMI,Pre,27.68
+1010,8936,CONTROL,BMI,Test 1,27.68
+1011,8936,CONTROL,BMI,Test 2,27.68
+1012,8936,CONTROL,BMI,Test 3,27.68
+1013,8936,CONTROL,BMI,Test 4,27.68
+1014,8936,CONTROL,BMI,Post,0.00
+1015,8072,EXERCISE,BMI,Pre,19.72
+1016,8072,EXERCISE,BMI,Test 1,19.72
+1017,8072,EXERCISE,BMI,Test 2,19.72
+1018,8072,EXERCISE,BMI,Test 3,19.72
+1019,8072,EXERCISE,BMI,Test 4,19.72
+1020,8072,EXERCISE,BMI,Post,0.00
+1021,5160,EXERCISE,BMI,Pre,29.77
+1022,5160,EXERCISE,BMI,Test 1,29.77
+1023,5160,EXERCISE,BMI,Test 2,29.77
+1024,5160,EXERCISE,BMI,Test 3,29.77
+1025,5160,EXERCISE,BMI,Test 4,29.77
+1026,5160,EXERCISE,BMI,Post,0.00
+1027,5297,CONTROL,BMI,Pre,26.76
+1028,5297,CONTROL,BMI,Test 1,26.76
+1029,5297,CONTROL,BMI,Test 2,26.76
+1030,5297,CONTROL,BMI,Test 3,26.76
+1031,5297,CONTROL,BMI,Test 4,26.76
+1032,5297,CONTROL,BMI,Post,0.00
+1033,6403,EXERCISE,BMI,Pre,26.16
+1034,6403,EXERCISE,BMI,Test 1,26.16
+1035,6403,EXERCISE,BMI,Test 2,26.16
+1036,6403,EXERCISE,BMI,Test 3,26.16
+1037,6403,EXERCISE,BMI,Test 4,26.16
+1038,6403,EXERCISE,BMI,Post,0.00
+1039,6947,CONTROL,BMI,Pre,24.88
+1040,6947,CONTROL,BMI,Test 1,24.88
+1041,6947,CONTROL,BMI,Test 2,24.88
+1042,6947,CONTROL,BMI,Test 3,24.88
+1043,6947,CONTROL,BMI,Test 4,24.88
+1044,6947,CONTROL,BMI,Post,0.00
+1045,5627,EXERCISE,BMI,Pre,27.14
+1046,5627,EXERCISE,BMI,Test 1,27.14
+1047,5627,EXERCISE,BMI,Test 2,27.14
+1048,5627,EXERCISE,BMI,Test 3,27.14
+1049,5627,EXERCISE,BMI,Test 4,27.14
+1050,5627,EXERCISE,BMI,Post,0.00
+1051,8010,EXERCISE,BMI,Pre,26.13
+1052,8010,EXERCISE,BMI,Test 1,26.13
+1053,8010,EXERCISE,BMI,Test 2,26.13
+1054,8010,EXERCISE,BMI,Test 3,26.13
+1055,8010,EXERCISE,BMI,Test 4,26.13
+1056,8010,EXERCISE,BMI,Post,0.00
+1057,7707,EXERCISE,BMI,Pre,24.75
+1058,7707,EXERCISE,BMI,Test 1,24.75
+1059,7707,EXERCISE,BMI,Test 2,24.75
+1060,7707,EXERCISE,BMI,Test 3,24.75
+1061,7707,EXERCISE,BMI,Test 4,24.75
+1062,7707,EXERCISE,BMI,Post,0.00
+1063,6213,CONTROL,BMI,Pre,25.37
+1064,6213,CONTROL,BMI,Test 1,25.37
+1065,6213,CONTROL,BMI,Test 2,25.37
+1066,6213,CONTROL,BMI,Test 3,25.37
+1067,6213,CONTROL,BMI,Test 4,25.37
+1068,6213,CONTROL,BMI,Post,0.00
+1069,7750,CONTROL,BMI,Pre,22.66
+1070,7750,CONTROL,BMI,Test 1,22.66
+1071,7750,CONTROL,BMI,Test 2,22.66
+1072,7750,CONTROL,BMI,Test 3,22.66
+1073,7750,CONTROL,BMI,Test 4,22.66
+1074,7750,CONTROL,BMI,Post,0.00
+1075,6611,EXERCISE,BMI,Pre,18.83
+1076,6611,EXERCISE,BMI,Test 1,18.83
+1077,6611,EXERCISE,BMI,Test 2,18.83
+1078,6611,EXERCISE,BMI,Test 3,18.83
+1079,6611,EXERCISE,BMI,Test 4,18.83
+1080,6611,EXERCISE,BMI,Post,0.00
+1081,9793,FLY,BMI,Pre,22.48
+1082,9793,FLY,BMI,Test 1,22.48
+1083,9793,FLY,BMI,Test 2,22.48
+1084,9793,FLY,BMI,Test 3,22.48
+1085,9793,FLY,BMI,Test 4,22.48
+1086,9793,FLY,BMI,Post,0.00
+1087,8837,EXERCISE,BMI,Pre,23.64
+1088,8837,EXERCISE,BMI,Test 1,23.64
+1089,8837,EXERCISE,BMI,Test 2,23.64
+1090,8837,EXERCISE,BMI,Test 3,23.64
+1091,8837,EXERCISE,BMI,Test 4,23.64
+1092,8837,EXERCISE,BMI,Post,0.00
+1093,8713,EXERCISE,BMI,Pre,22.26
+1094,8713,EXERCISE,BMI,Test 1,22.26
+1095,8713,EXERCISE,BMI,Test 2,22.26
+1096,8713,EXERCISE,BMI,Test 3,22.26
+1097,8713,EXERCISE,BMI,Test 4,22.26
+1098,8713,EXERCISE,BMI,Post,0.00
+1099,7548,FLY,BMI,Pre,22.65
+1100,7548,FLY,BMI,Test 1,22.65
+1101,7548,FLY,BMI,Test 2,22.65
+1102,7548,FLY,BMI,Test 3,22.65
+1103,7548,FLY,BMI,Test 4,22.65
+1104,7548,FLY,BMI,Post,0.00
+1105,8177,FLY,BMI,Pre,23.54
+1106,8177,FLY,BMI,Test 1,23.54
+1107,8177,FLY,BMI,Test 2,23.54
+1108,8177,FLY,BMI,Test 3,23.54
+1109,8177,FLY,BMI,Test 4,23.54
+1110,8177,FLY,BMI,Post,0.00
+1111,9023,FLY,BMI,Pre,30.29
+1112,9023,FLY,BMI,Test 1,30.29
+1113,9023,FLY,BMI,Test 2,30.29
+1114,9023,FLY,BMI,Test 3,30.29
+1115,9023,FLY,BMI,Test 4,30.29
+1116,9023,FLY,BMI,Post,0.00
+1117,5673,FLY,BMI,Pre,24.53
+1118,5673,FLY,BMI,Test 1,24.53
+1119,5673,FLY,BMI,Test 2,24.53
+1120,5673,FLY,BMI,Test 3,24.53
+1121,5673,FLY,BMI,Test 4,24.53
+1122,5673,FLY,BMI,Post,0.00
+1123,6187,FLY,BMI,Pre,22.62
+1124,6187,FLY,BMI,Test 1,22.62
+1125,6187,FLY,BMI,Test 2,22.62
+1126,6187,FLY,BMI,Test 3,22.62
+1127,6187,FLY,BMI,Test 4,22.62
+1128,6187,FLY,BMI,Post,0.00
+1129,6464,FLY,BMI,Pre,20.87
+1130,6464,FLY,BMI,Test 1,20.87
+1131,6464,FLY,BMI,Test 2,20.87
+1132,6464,FLY,BMI,Test 3,20.87
+1133,6464,FLY,BMI,Test 4,20.87
+1134,6464,FLY,BMI,Post,0.00
+1135,8179,FLY,BMI,Pre,26.16
+1136,8179,FLY,BMI,Test 1,26.16
+1137,8179,FLY,BMI,Test 2,26.16
+1138,8179,FLY,BMI,Test 3,26.16
+1139,8179,FLY,BMI,Test 4,26.16
+1140,8179,FLY,BMI,Post,0.00

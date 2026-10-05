@@ -1,0 +1,410 @@
+{
+  "baseline": {
+    "form": "log",
+    "mae": 3.156891458292087
+  },
+  "models": {
+    "tabpfn": {
+      "baseline_mae": 3.156891458292087,
+      "beats_baseline": false,
+      "chosen_parameters": [
+        {
+          "fold": 0
+        },
+        {
+          "fold": 1
+        },
+        {
+          "fold": 2
+        },
+        {
+          "fold": 3
+        },
+        {
+          "fold": 4
+        },
+        {
+          "fold": 5
+        },
+        {
+          "fold": 6
+        },
+        {
+          "fold": 7
+        },
+        {
+          "fold": 8
+        },
+        {
+          "fold": 9
+        },
+        {
+          "fold": 10
+        },
+        {
+          "fold": 11
+        },
+        {
+          "fold": 12
+        },
+        {
+          "fold": 13
+        },
+        {
+          "fold": 14
+        },
+        {
+          "fold": 15
+        },
+        {
+          "fold": 16
+        },
+        {
+          "fold": 17
+        },
+        {
+          "fold": 18
+        },
+        {
+          "fold": 19
+        },
+        {
+          "fold": 20
+        },
+        {
+          "fold": 21
+        },
+        {
+          "fold": 22
+        },
+        {
+          "fold": 23
+        },
+        {
+          "fold": 24
+        },
+        {
+          "fold": 25
+        },
+        {
+          "fold": 26
+        },
+        {
+          "fold": 27
+        },
+        {
+          "fold": 28
+        },
+        {
+          "fold": 29
+        },
+        {
+          "fold": 30
+        },
+        {
+          "fold": 31
+        }
+      ],
+      "ci95": {
+        "high": 3.973088353733806,
+        "low": 2.5146891754878884
+      },
+      "folds": [
+        {
+          "fold": 0,
+          "held_out_cohort": "agbresa",
+          "mae": 3.9357363171047632,
+          "n_test": 9,
+          "r2": -1.2525444134899573,
+          "rmse": 4.799295776423345
+        },
+        {
+          "fold": 1,
+          "held_out_cohort": "maastricht_br7",
+          "mae": 1.2025011062622069,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 1.2025011062622069
+        },
+        {
+          "fold": 2,
+          "held_out_cohort": "maastricht_br14",
+          "mae": 1.5386914907182967,
+          "n_test": 7,
+          "r2": -3.2940571804158196,
+          "rmse": 1.901389140643779
+        },
+        {
+          "fold": 3,
+          "held_out_cohort": "wise2005",
+          "mae": 7.343598818412194,
+          "n_test": 26,
+          "r2": -0.2487466239775531,
+          "rmse": 8.493233825785504
+        },
+        {
+          "fold": 4,
+          "held_out_cohort": "birmingham_br5_nct04422665",
+          "mae": 1.4610724860429762,
+          "n_test": 8,
+          "r2": -1.225180054022927,
+          "rmse": 1.8847919911497972
+        },
+        {
+          "fold": 5,
+          "held_out_cohort": "dlr_hdt5_crossover",
+          "mae": 1.3677784013748167,
+          "n_test": 6,
+          "r2": -0.04659587099712059,
+          "rmse": 1.6263297216590689
+        },
+        {
+          "fold": 6,
+          "held_out_cohort": "mcgill_hdbr14",
+          "mae": 2.3788877582550048,
+          "n_test": 4,
+          "r2": -0.6766253512037348,
+          "rmse": 2.745301886398556
+        },
+        {
+          "fold": 7,
+          "held_out_cohort": "brace_br60",
+          "mae": 6.735809605916341,
+          "n_test": 18,
+          "r2": -0.011276287748608782,
+          "rmse": 9.55644612944338
+        },
+        {
+          "fold": 8,
+          "held_out_cohort": "izola_br10",
+          "mae": 4.193526396751404,
+          "n_test": 8,
+          "r2": -1.9139859586608958,
+          "rmse": 5.755317064425265
+        },
+        {
+          "fold": 9,
+          "held_out_cohort": "copenhagen_br5",
+          "mae": 1.8567257595062256,
+          "n_test": 12,
+          "r2": 0.2475426971134379,
+          "rmse": 2.588717422794314
+        },
+        {
+          "fold": 10,
+          "held_out_cohort": "medes_ltbr90",
+          "mae": 4.383610544870066,
+          "n_test": 86,
+          "r2": 0.45396616083121055,
+          "rmse": 5.806654374353742
+        },
+        {
+          "fold": 11,
+          "held_out_cohort": "nasa_sprint_br70",
+          "mae": 5.3580812581380215,
+          "n_test": 3,
+          "r2": 0.23197100403644155,
+          "rmse": 6.335805788811645
+        },
+        {
+          "fold": 12,
+          "held_out_cohort": "imbp_br21",
+          "mae": 2.406005859375,
+          "n_test": 2,
+          "r2": -10.291314125061035,
+          "rmse": 2.520191301339411
+        },
+        {
+          "fold": 13,
+          "held_out_cohort": "padova_ulls10",
+          "mae": 0.9875516891479492,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 0.9875516891479492
+        },
+        {
+          "fold": 14,
+          "held_out_cohort": "lunhab_br10",
+          "mae": 0.5012670516967774,
+          "n_test": 4,
+          "r2": -0.18231139127747142,
+          "rmse": 0.5157713282428863
+        },
+        {
+          "fold": 15,
+          "held_out_cohort": "izola_br14",
+          "mae": 1.6206908226013186,
+          "n_test": 3,
+          "r2": -1.1301503832732025,
+          "rmse": 1.824217165094272
+        },
+        {
+          "fold": 16,
+          "held_out_cohort": "liphardt_br21",
+          "mae": 7.564235057830811,
+          "n_test": 20,
+          "r2": -2.7622233286065847,
+          "rmse": 8.39664748311816
+        },
+        {
+          "fold": 17,
+          "held_out_cohort": "nasa_br17wk",
+          "mae": 4.647627487182617,
+          "n_test": 5,
+          "r2": 0.5800985098284639,
+          "rmse": 4.73838586863376
+        },
+        {
+          "fold": 18,
+          "held_out_cohort": "valdoltra_br35",
+          "mae": 5.034116744995117,
+          "n_test": 3,
+          "r2": -0.7731138844048275,
+          "rmse": 5.475526062283643
+        },
+        {
+          "fold": 19,
+          "held_out_cohort": "wbv_hdt14",
+          "mae": 1.6370956301689148,
+          "n_test": 8,
+          "r2": -2.5500967133460315,
+          "rmse": 2.0314988135031635
+        },
+        {
+          "fold": 20,
+          "held_out_cohort": "berlin_bbr1",
+          "mae": 3.475336431539976,
+          "n_test": 52,
+          "r2": 0.06434185371314771,
+          "rmse": 4.687448532650596
+        },
+        {
+          "fold": 21,
+          "held_out_cohort": "berlin_bbr2",
+          "mae": 3.239536544164022,
+          "n_test": 30,
+          "r2": 0.7105111010504246,
+          "rmse": 3.9894107263049023
+        },
+        {
+          "fold": 22,
+          "held_out_cohort": "planhab_br10",
+          "mae": 4.2217127799987795,
+          "n_test": 4,
+          "r2": -10.287364384880242,
+          "rmse": 4.422144140211287
+        },
+        {
+          "fold": 23,
+          "held_out_cohort": "planhab_br21",
+          "mae": 1.3999999999999995,
+          "n_test": 2,
+          "r2": -0.011335303695775512,
+          "rmse": 1.4079123535375768
+        },
+        {
+          "fold": 24,
+          "held_out_cohort": "cavanagh_br84",
+          "mae": 3.860857486724853,
+          "n_test": 2,
+          "r2": -0.5683254647426461,
+          "rmse": 4.132682459498603
+        },
+        {
+          "fold": 25,
+          "held_out_cohort": "cook_ulls30",
+          "mae": 6.781169414520264,
+          "n_test": 4,
+          "r2": -5.545734808745898,
+          "rmse": 6.859115754808425
+        },
+        {
+          "fold": 26,
+          "held_out_cohort": "drummond_br7",
+          "mae": 1.1084637641906738,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 1.1084637641906738
+        },
+        {
+          "fold": 27,
+          "held_out_cohort": "maastricht_br7_feeding",
+          "mae": 1.6125820159912108,
+          "n_test": 2,
+          "r2": -115.57425592436789,
+          "rmse": 1.6195433795666845
+        },
+        {
+          "fold": 28,
+          "held_out_cohort": "krainski_hdbr35",
+          "mae": 1.7277933955192566,
+          "n_test": 8,
+          "r2": 0.7397129230055086,
+          "rmse": 2.2816094187853073
+        },
+        {
+          "fold": 29,
+          "held_out_cohort": "tanner_br5",
+          "mae": 1.75,
+          "n_test": 2,
+          "r2": -0.01356200099609417,
+          "rmse": 1.7618267871872473
+        },
+        {
+          "fold": 30,
+          "held_out_cohort": "di5_toulouse",
+          "mae": 0.5182512283325194,
+          "n_test": 1,
+          "r2": NaN,
+          "rmse": 0.5182512283325194
+        },
+        {
+          "fold": 31,
+          "held_out_cohort": "nasa_utmb_c3",
+          "mae": 7.249409003257751,
+          "n_test": 4,
+          "r2": -4.841803464402884,
+          "rmse": 7.750798645323489
+        }
+      ],
+      "mae": 3.2218663234559415,
+      "mae_row_weighted": 4.152817738442063,
+      "model": "tabpfn",
+      "n_cohorts": 32,
+      "n_rows": 346,
+      "r2_pooled": 0.3900443934847412,
+      "relative_improvement": -0.020581912942615636,
+      "rmse": 3.7413994103097243,
+      "subset": "A",
+      "threshold": 0.15,
+      "worst_fold": {
+        "cohort": "liphardt_br21",
+        "mae": 7.564235057830811
+      }
+    }
+  },
+  "provenance": {
+    "cohorts": 32,
+    "dataset_sha256": "dd214c6aa33dee7ab62358bc56c1e6a72eb330085484022ba1ee2bad394395b9",
+    "dataset_version": "1.1",
+    "device": "cpu",
+    "git_commit": "bccb69d13cd184a7c2dcc58e20de2334b75b8f00",
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "python": "3.13.0",
+    "rows": 346,
+    "seed": 20260918,
+    "sklearn": "1.6.1",
+    "studies": 41,
+    "subset": "A",
+    "tabpfn": "2.0.9",
+    "time_column": "timepoint_days",
+    "torch": "2.14.0+cpu",
+    "weighted_by": "cohort"
+  },
+  "status": {
+    "added": "2026-09-19",
+    "note": "added after the tier-2 null result; fixed declared defaults, no tuning",
+    "post_hoc": true
+  }
+}

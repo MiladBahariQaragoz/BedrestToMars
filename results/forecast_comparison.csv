@@ -1,0 +1,6 @@
+arm,model,rows,folds,mae_pp,mae_ci95_low,mae_ci95_high,crps_pp,log_score,coverage_50,width_50_pp,coverage_80,width_80_pp,r2_pooled,is_reference,worst_fold_cohort,worst_fold_mae_pp
+without_history,jev,346,32,2.71,2.12,3.326,2.049,2.841,0.387,2.83,0.62,5.43,0.434,False,wise2005,7.761
+without_history,duration_curve,346,32,3.126,2.371,3.916,2.49,2.292,0.623,7.97,0.902,15.45,0.136,True,wise2005,9.258
+with_history,jev,84,5,2.845,2.191,3.5,2.209,4.877,0.221,1.31,0.382,2.83,0.187,False,nasa_utmb_c3,3.623
+with_history,last_scan,84,5,3.66,2.907,4.42,2.444,4.687,0.564,4.2,0.686,9.0,-0.224,False,nasa_utmb_c3,5.01
+with_history,last_scan_plus_curve,84,5,3.214,2.581,3.87,2.161,3.905,0.498,4.93,0.771,8.8,0.019,True,wise2005,4.184

@@ -1,0 +1,271 @@
+﻿ID,Group,Statistic,ROI,Test,iDXA BMD (g/cm2)
+1,Ctrl,Mean,L1,Pre,1.10
+2,Ctrl,Mean,L1,Test 1,1.10
+3,Ctrl,Mean,L1,Test 2,1.09
+4,Ctrl,Mean,L1,Test 3,1.09
+5,Ctrl,Mean,L1,Test 4,1.09
+6,Ctrl,Mean,L1,Post,1.09
+7,Ctrl,SD,L1,Pre,0.09
+8,Ctrl,SD,L1,Test 1,0.46
+9,Ctrl,SD,L1,Test 2,0.45
+10,Ctrl,SD,L1,Test 3,0.45
+11,Ctrl,SD,L1,Test 4,0.45
+12,Ctrl,SD,L1,Post,0.09
+13,Ctrl,SEM,L1,Pre,0.03
+14,Ctrl,SEM,L1,Test 1,0.14
+15,Ctrl,SEM,L1,Test 2,0.14
+16,Ctrl,SEM,L1,Test 3,0.14
+17,Ctrl,SEM,L1,Test 4,0.14
+18,Ctrl,SEM,L1,Post,0.03
+19,Exer,Mean,L1,Pre,1.13
+20,Exer,Mean,L1,Test 1,1.12
+21,Exer,Mean,L1,Test 2,1.14
+22,Exer,Mean,L1,Test 3,1.09
+23,Exer,Mean,L1,Test 4,1.10
+24,Exer,Mean,L1,Post,1.14
+25,Exer,SD,L1,Pre,0.15
+26,Exer,SD,L1,Test 1,0.16
+27,Exer,SD,L1,Test 2,0.15
+28,Exer,SD,L1,Test 3,0.30
+29,Exer,SD,L1,Test 4,0.30
+30,Exer,SD,L1,Post,0.15
+31,Exer,SEM,L1,Pre,0.04
+32,Exer,SEM,L1,Test 1,0.04
+33,Exer,SEM,L1,Test 2,0.03
+34,Exer,SEM,L1,Test 3,0.07
+35,Exer,SEM,L1,Test 4,0.07
+36,Exer,SEM,L1,Post,0.03
+37,FLY,Mean,L1,Pre,1.20
+38,FLY,Mean,L1,Test 1,1.19
+39,FLY,Mean,L1,Test 2,1.20
+40,FLY,Mean,L1,Test 3,1.21
+41,FLY,Mean,L1,Test 4,1.22
+42,FLY,Mean,L1,Post,1.22
+43,FLY,SD,L1,Pre,0.17
+44,FLY,SD,L1,Test 1,0.15
+45,FLY,SD,L1,Test 2,0.15
+46,FLY,SD,L1,Test 3,0.17
+47,FLY,SD,L1,Test 4,0.17
+48,FLY,SD,L1,Post,0.17
+49,FLY,SEM,L1,Pre,0.06
+50,FLY,SEM,L1,Test 1,0.05
+51,FLY,SEM,L1,Test 2,0.05
+52,FLY,SEM,L1,Test 3,0.06
+53,FLY,SEM,L1,Test 4,0.06
+54,FLY,SEM,L1,Post,0.06
+55,Ctrl,Mean,L2,Pre,1.18
+56,Ctrl,Mean,L2,Test 1,1.18
+57,Ctrl,Mean,L2,Test 2,1.19
+58,Ctrl,Mean,L2,Test 3,1.21
+59,Ctrl,Mean,L2,Test 4,1.19
+60,Ctrl,Mean,L2,Post,1.20
+61,Ctrl,SD,L2,Pre,0.12
+62,Ctrl,SD,L2,Test 1,0.49
+63,Ctrl,SD,L2,Test 2,0.49
+64,Ctrl,SD,L2,Test 3,0.50
+65,Ctrl,SD,L2,Test 4,0.49
+66,Ctrl,SD,L2,Post,0.10
+67,Ctrl,SEM,L2,Pre,0.04
+68,Ctrl,SEM,L2,Test 1,0.15
+69,Ctrl,SEM,L2,Test 2,0.15
+70,Ctrl,SEM,L2,Test 3,0.15
+71,Ctrl,SEM,L2,Test 4,0.15
+72,Ctrl,SEM,L2,Post,0.03
+73,Exer,Mean,L2,Pre,1.26
+74,Exer,Mean,L2,Test 1,1.24
+75,Exer,Mean,L2,Test 2,1.24
+76,Exer,Mean,L2,Test 3,1.19
+77,Exer,Mean,L2,Test 4,1.19
+78,Exer,Mean,L2,Post,1.26
+79,Exer,SD,L2,Pre,0.15
+80,Exer,SD,L2,Test 1,0.16
+81,Exer,SD,L2,Test 2,0.16
+82,Exer,SD,L2,Test 3,0.32
+83,Exer,SD,L2,Test 4,0.32
+84,Exer,SD,L2,Post,0.16
+85,Exer,SEM,L2,Pre,0.04
+86,Exer,SEM,L2,Test 1,0.04
+87,Exer,SEM,L2,Test 2,0.04
+88,Exer,SEM,L2,Test 3,0.07
+89,Exer,SEM,L2,Test 4,0.07
+90,Exer,SEM,L2,Post,0.04
+91,FLY,Mean,L2,Pre,1.31
+92,FLY,Mean,L2,Test 1,1.31
+93,FLY,Mean,L2,Test 2,1.30
+94,FLY,Mean,L2,Test 3,1.31
+95,FLY,Mean,L2,Test 4,1.31
+96,FLY,Mean,L2,Post,1.32
+97,FLY,SD,L2,Pre,0.18
+98,FLY,SD,L2,Test 1,0.19
+99,FLY,SD,L2,Test 2,0.18
+100,FLY,SD,L2,Test 3,0.18
+101,FLY,SD,L2,Test 4,0.20
+102,FLY,SD,L2,Post,0.19
+103,FLY,SEM,L2,Pre,0.07
+104,FLY,SEM,L2,Test 1,0.07
+105,FLY,SEM,L2,Test 2,0.06
+106,FLY,SEM,L2,Test 3,0.06
+107,FLY,SEM,L2,Test 4,0.07
+108,FLY,SEM,L2,Post,0.07
+109,Ctrl,Mean,L3,Pre,1.22
+110,Ctrl,Mean,L3,Test 1,1.23
+111,Ctrl,Mean,L3,Test 2,1.21
+112,Ctrl,Mean,L3,Test 3,1.22
+113,Ctrl,Mean,L3,Test 4,1.21
+114,Ctrl,Mean,L3,Post,1.20
+115,Ctrl,SD,L3,Pre,0.11
+116,Ctrl,SD,L3,Test 1,0.50
+117,Ctrl,SD,L3,Test 2,0.50
+118,Ctrl,SD,L3,Test 3,0.50
+119,Ctrl,SD,L3,Test 4,0.50
+120,Ctrl,SD,L3,Post,0.08
+121,Ctrl,SEM,L3,Pre,0.03
+122,Ctrl,SEM,L3,Test 1,0.15
+123,Ctrl,SEM,L3,Test 2,0.15
+124,Ctrl,SEM,L3,Test 3,0.15
+125,Ctrl,SEM,L3,Test 4,0.15
+126,Ctrl,SEM,L3,Post,0.02
+127,Exer,Mean,L3,Pre,1.30
+128,Exer,Mean,L3,Test 1,1.28
+129,Exer,Mean,L3,Test 2,1.28
+130,Exer,Mean,L3,Test 3,1.23
+131,Exer,Mean,L3,Test 4,1.23
+132,Exer,Mean,L3,Post,1.30
+133,Exer,SD,L3,Pre,0.14
+134,Exer,SD,L3,Test 1,0.16
+135,Exer,SD,L3,Test 2,0.15
+136,Exer,SD,L3,Test 3,0.34
+137,Exer,SD,L3,Test 4,0.34
+138,Exer,SD,L3,Post,0.15
+139,Exer,SEM,L3,Pre,0.03
+140,Exer,SEM,L3,Test 1,0.04
+141,Exer,SEM,L3,Test 2,0.03
+142,Exer,SEM,L3,Test 3,0.08
+143,Exer,SEM,L3,Test 4,0.08
+144,Exer,SEM,L3,Post,0.04
+145,FLY,Mean,L3,Pre,1.36
+146,FLY,Mean,L3,Test 1,1.35
+147,FLY,Mean,L3,Test 2,1.35
+148,FLY,Mean,L3,Test 3,1.36
+149,FLY,Mean,L3,Test 4,1.38
+150,FLY,Mean,L3,Post,1.37
+151,FLY,SD,L3,Pre,0.21
+152,FLY,SD,L3,Test 1,0.22
+153,FLY,SD,L3,Test 2,0.22
+154,FLY,SD,L3,Test 3,0.22
+155,FLY,SD,L3,Test 4,0.20
+156,FLY,SD,L3,Post,0.21
+157,FLY,SEM,L3,Pre,0.07
+158,FLY,SEM,L3,Test 1,0.08
+159,FLY,SEM,L3,Test 2,0.08
+160,FLY,SEM,L3,Test 3,0.08
+161,FLY,SEM,L3,Test 4,0.07
+162,FLY,SEM,L3,Post,0.07
+163,Ctrl,Mean,L4,Pre,1.22
+164,Ctrl,Mean,L4,Test 1,1.21
+165,Ctrl,Mean,L4,Test 2,1.19
+166,Ctrl,Mean,L4,Test 3,1.19
+167,Ctrl,Mean,L4,Test 4,1.19
+168,Ctrl,Mean,L4,Post,1.20
+169,Ctrl,SD,L4,Pre,0.13
+170,Ctrl,SD,L4,Test 1,0.50
+171,Ctrl,SD,L4,Test 2,0.50
+172,Ctrl,SD,L4,Test 3,0.49
+173,Ctrl,SD,L4,Test 4,0.49
+174,Ctrl,SD,L4,Post,0.11
+175,Ctrl,SEM,L4,Pre,0.04
+176,Ctrl,SEM,L4,Test 1,0.15
+177,Ctrl,SEM,L4,Test 2,0.15
+178,Ctrl,SEM,L4,Test 3,0.15
+179,Ctrl,SEM,L4,Test 4,0.15
+180,Ctrl,SEM,L4,Post,0.03
+181,Exer,Mean,L4,Pre,1.26
+182,Exer,Mean,L4,Test 1,1.24
+183,Exer,Mean,L4,Test 2,1.24
+184,Exer,Mean,L4,Test 3,1.19
+185,Exer,Mean,L4,Test 4,1.20
+186,Exer,Mean,L4,Post,1.25
+187,Exer,SD,L4,Pre,0.15
+188,Exer,SD,L4,Test 1,0.16
+189,Exer,SD,L4,Test 2,0.15
+190,Exer,SD,L4,Test 3,0.32
+191,Exer,SD,L4,Test 4,0.33
+192,Exer,SD,L4,Post,0.15
+193,Exer,SEM,L4,Pre,0.03
+194,Exer,SEM,L4,Test 1,0.04
+195,Exer,SEM,L4,Test 2,0.03
+196,Exer,SEM,L4,Test 3,0.07
+197,Exer,SEM,L4,Test 4,0.08
+198,Exer,SEM,L4,Post,0.03
+199,FLY,Mean,L4,Pre,1.36
+200,FLY,Mean,L4,Test 1,1.34
+201,FLY,Mean,L4,Test 2,1.34
+202,FLY,Mean,L4,Test 3,1.35
+203,FLY,Mean,L4,Test 4,1.35
+204,FLY,Mean,L4,Post,1.35
+205,FLY,SD,L4,Pre,0.24
+206,FLY,SD,L4,Test 1,0.21
+207,FLY,SD,L4,Test 2,0.21
+208,FLY,SD,L4,Test 3,0.21
+209,FLY,SD,L4,Test 4,0.21
+210,FLY,SD,L4,Post,0.20
+211,FLY,SEM,L4,Pre,0.09
+212,FLY,SEM,L4,Test 1,0.08
+213,FLY,SEM,L4,Test 2,0.08
+214,FLY,SEM,L4,Test 3,0.07
+215,FLY,SEM,L4,Test 4,0.08
+216,FLY,SEM,L4,Post,0.07
+217,Ctrl,Mean,L1-4,Pre,1.18
+218,Ctrl,Mean,L1-4,Test 1,1.18
+219,Ctrl,Mean,L1-4,Test 2,1.18
+220,Ctrl,Mean,L1-4,Test 3,1.18
+221,Ctrl,Mean,L1-4,Test 4,1.17
+222,Ctrl,Mean,L1-4,Post,1.17
+223,Ctrl,SD,L1-4,Pre,0.11
+224,Ctrl,SD,L1-4,Test 1,0.49
+225,Ctrl,SD,L1-4,Test 2,0.48
+226,Ctrl,SD,L1-4,Test 3,0.49
+227,Ctrl,SD,L1-4,Test 4,0.48
+228,Ctrl,SD,L1-4,Post,0.09
+229,Ctrl,SEM,L1-4,Pre,0.03
+230,Ctrl,SEM,L1-4,Test 1,0.15
+231,Ctrl,SEM,L1-4,Test 2,0.15
+232,Ctrl,SEM,L1-4,Test 3,0.15
+233,Ctrl,SEM,L1-4,Test 4,0.15
+234,Ctrl,SEM,L1-4,Post,0.03
+235,Exer,Mean,L1-4,Pre,1.24
+236,Exer,Mean,L1-4,Test 1,1.23
+237,Exer,Mean,L1-4,Test 2,1.23
+238,Exer,Mean,L1-4,Test 3,1.18
+239,Exer,Mean,L1-4,Test 4,1.18
+240,Exer,Mean,L1-4,Post,1.24
+241,Exer,SD,L1-4,Pre,0.14
+242,Exer,SD,L1-4,Test 1,0.15
+243,Exer,SD,L1-4,Test 2,0.15
+244,Exer,SD,L1-4,Test 3,0.32
+245,Exer,SD,L1-4,Test 4,0.32
+246,Exer,SD,L1-4,Post,0.15
+247,Exer,SEM,L1-4,Pre,0.03
+248,Exer,SEM,L1-4,Test 1,0.03
+249,Exer,SEM,L1-4,Test 2,0.03
+250,Exer,SEM,L1-4,Test 3,0.07
+251,Exer,SEM,L1-4,Test 4,0.07
+252,Exer,SEM,L1-4,Post,0.03
+253,FLY,Mean,L1-4,Pre,1.31
+254,FLY,Mean,L1-4,Test 1,1.30
+255,FLY,Mean,L1-4,Test 2,1.30
+256,FLY,Mean,L1-4,Test 3,1.31
+257,FLY,Mean,L1-4,Test 4,1.32
+258,FLY,Mean,L1-4,Post,1.32
+259,FLY,SD,L1-4,Pre,0.20
+260,FLY,SD,L1-4,Test 1,0.19
+261,FLY,SD,L1-4,Test 2,0.19
+262,FLY,SD,L1-4,Test 3,0.19
+263,FLY,SD,L1-4,Test 4,0.20
+264,FLY,SD,L1-4,Post,0.19
+265,FLY,SEM,L1-4,Pre,0.07
+266,FLY,SEM,L1-4,Test 1,0.07
+267,FLY,SEM,L1-4,Test 2,0.07
+268,FLY,SEM,L1-4,Test 3,0.07
+269,FLY,SEM,L1-4,Test 4,0.07
+270,FLY,SEM,L1-4,Post,0.07

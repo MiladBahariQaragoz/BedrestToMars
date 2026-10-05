@@ -1,0 +1,12 @@
+# LaTeX build products - main.pdf is the deliverable, everything else is regenerated
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz

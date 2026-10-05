@@ -157,7 +157,7 @@ the absolute values left `NA`.
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `data_source` | enum | yes | `table`, `text`, `figure_digitized`, `supplement`, `author_correspondence` |
+| `data_source` | enum | yes | `table`, `text`, `figure_digitized`, `supplement`, `author_correspondence`, `repository` |
 | `digitizer_tool` | string | conditional | Required when `data_source = figure_digitized`, e.g. `WebPlotDigitizer 4.7` |
 | `page_ref` | string | **yes** | Page plus table or figure number, e.g. `p. 3818, Fig. 2D`. Not optional, ever |
 | `extractor` | string | yes | Who typed the row |
@@ -166,6 +166,15 @@ the absolute values left `NA`.
 | `double_extracted` | bool | yes | `TRUE` once a second person has independently re-extracted the row |
 | `qc_flag` | string | no | Short code for anything odd: `unit_ambiguous`, `n_mismatch`, `overlaps_other_paper` |
 | `notes` | string | no | Free text. Longer than a sentence means it belongs in `reconciliation_log.md` |
+
+**`repository` is the one value that changes what else a row must carry.** It marks a row
+computed from an open data archive rather than read from a publication - the NASA NLSP
+bed-rest files in `data/nasa/` are the case it was added for (v1.1, 2026-09-19). Such a row
+has no author line and no DOI to name, because the archive publishes campaign files under an
+experiment UUID and nothing else, so `first_author` and `doi` may be `NA` on it and
+`validate_extraction.py` waives them. Nothing else is waived: `source_file` and `page_ref`
+still have to name the folder and the columns the number was computed from, which is what
+rule 9 asks for, and the script that computed it is named in `notes`.
 
 ---
 

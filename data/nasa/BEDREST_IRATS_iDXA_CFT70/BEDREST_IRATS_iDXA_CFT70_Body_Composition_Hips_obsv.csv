@@ -1,0 +1,913 @@
+﻿ID,Subject,Group,ROI,Unit,Test,Value
+1,5210,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.03
+2,5210,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.03
+3,5210,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.02
+4,5210,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.01
+5,5210,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.03
+6,5210,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.00
+7,9682,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.01
+8,9682,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.01
+9,9682,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.99
+10,9682,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.00
+11,9682,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.00
+12,9682,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.02
+13,7036,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.23
+14,7036,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.26
+15,7036,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.26
+16,7036,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.23
+17,7036,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.25
+18,7036,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.22
+19,6791,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.05
+20,6791,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.03
+21,6791,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.01
+22,6791,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.02
+23,6791,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.02
+24,6791,CONTROL,Femoral Left Neck,BMD g/cm²,Post,0.99
+25,5803,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.02
+26,5803,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,NA
+27,5803,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,NA
+28,5803,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,NA
+29,5803,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,NA
+30,5803,CONTROL,Femoral Left Neck,BMD g/cm²,Post,0.99
+31,6319,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.23
+32,6319,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,NA
+33,6319,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,NA
+34,6319,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,NA
+35,6319,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,NA
+36,6319,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.24
+37,7326,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.04
+38,7326,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.05
+39,7326,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.07
+40,7326,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.08
+41,7326,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.06
+42,7326,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.04
+43,9713,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,0.95
+44,9713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.96
+45,9713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.98
+46,9713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,0.95
+47,9713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.97
+48,9713,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.96
+49,7350,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.23
+50,7350,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.20
+51,7350,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.19
+52,7350,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.20
+53,7350,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.21
+54,7350,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.17
+55,7152,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.17
+56,7152,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.19
+57,7152,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.18
+58,7152,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.17
+59,7152,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.18
+60,7152,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.17
+61,5159,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.00
+62,5159,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.98
+63,5159,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.98
+64,5159,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,0.00
+65,5159,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.00
+66,5159,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.99
+67,7574,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.10
+68,7574,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.09
+69,7574,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.05
+70,7574,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.06
+71,7574,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.08
+72,7574,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.07
+73,6877,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.12
+74,6877,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.11
+75,6877,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.11
+76,6877,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.09
+77,6877,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.09
+78,6877,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.09
+79,9667,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,0.84
+80,9667,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.83
+81,9667,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.82
+82,9667,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,0.88
+83,9667,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.86
+84,9667,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.85
+85,6546,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.04
+86,6546,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.06
+87,6546,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.04
+88,6546,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.05
+89,6546,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.04
+90,6546,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.03
+91,5188,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,0.96
+92,5188,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.96
+93,5188,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.95
+94,5188,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,0.97
+95,5188,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.97
+96,5188,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.96
+97,8936,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,0.95
+98,8936,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,0.96
+99,8936,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.00
+100,8936,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,0.97
+101,8936,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,0.98
+102,8936,CONTROL,Femoral Left Neck,BMD g/cm²,Post,0.97
+103,8072,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,0.96
+104,8072,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.95
+105,8072,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.96
+106,8072,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,0.96
+107,8072,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.97
+108,8072,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.95
+109,5160,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.41
+110,5160,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.43
+111,5160,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.43
+112,5160,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.40
+113,5160,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.45
+114,5160,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.42
+115,5297,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.23
+116,5297,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.23
+117,5297,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.24
+118,5297,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.23
+119,5297,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.24
+120,5297,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.23
+121,6403,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,0.89
+122,6403,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.88
+123,6403,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.88
+124,6403,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,0.88
+125,6403,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.89
+126,6403,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.89
+127,6947,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.04
+128,6947,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.05
+129,6947,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.04
+130,6947,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.12
+131,6947,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.06
+132,6947,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.04
+133,5627,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.35
+134,5627,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.34
+135,5627,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.36
+136,5627,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.29
+137,5627,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.33
+138,5627,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.32
+139,8010,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,0.95
+140,8010,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,0.95
+141,8010,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,0.98
+142,8010,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.00
+143,8010,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,0.97
+144,8010,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,0.97
+145,7707,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.03
+146,7707,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.05
+147,7707,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.01
+148,7707,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.03
+149,7707,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.01
+150,7707,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.01
+151,6213,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,1.07
+152,6213,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,1.07
+153,6213,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,1.08
+154,6213,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,1.08
+155,6213,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,1.07
+156,6213,CONTROL,Femoral Left Neck,BMD g/cm²,Post,1.06
+157,7750,CONTROL,Femoral Left Neck,BMD g/cm²,Pre,0.86
+158,7750,CONTROL,Femoral Left Neck,BMD g/cm²,Test 1,0.89
+159,7750,CONTROL,Femoral Left Neck,BMD g/cm²,Test 2,0.85
+160,7750,CONTROL,Femoral Left Neck,BMD g/cm²,Test 3,0.83
+161,7750,CONTROL,Femoral Left Neck,BMD g/cm²,Test 4,0.85
+162,7750,CONTROL,Femoral Left Neck,BMD g/cm²,Post,0.84
+163,6611,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.05
+164,6611,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.07
+165,6611,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.07
+166,6611,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.06
+167,6611,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.08
+168,6611,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.09
+169,9793,FLY,Femoral Left Neck,BMD g/cm²,Pre,0.89
+170,9793,FLY,Femoral Left Neck,BMD g/cm²,Test 1,0.92
+171,9793,FLY,Femoral Left Neck,BMD g/cm²,Test 2,0.90
+172,9793,FLY,Femoral Left Neck,BMD g/cm²,Test 3,0.89
+173,9793,FLY,Femoral Left Neck,BMD g/cm²,Test 4,0.90
+174,9793,FLY,Femoral Left Neck,BMD g/cm²,Post,0.89
+175,8837,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.14
+176,8837,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.14
+177,8837,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.15
+178,8837,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.16
+179,8837,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.15
+180,8837,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.14
+181,8713,EXERCISE,Femoral Left Neck,BMD g/cm²,Pre,1.28
+182,8713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 1,1.29
+183,8713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 2,1.27
+184,8713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 3,1.25
+185,8713,EXERCISE,Femoral Left Neck,BMD g/cm²,Test 4,1.27
+186,8713,EXERCISE,Femoral Left Neck,BMD g/cm²,Post,1.25
+187,7548,FLY,Femoral Left Neck,BMD g/cm²,Pre,1.08
+188,7548,FLY,Femoral Left Neck,BMD g/cm²,Test 1,1.07
+189,7548,FLY,Femoral Left Neck,BMD g/cm²,Test 2,1.06
+190,7548,FLY,Femoral Left Neck,BMD g/cm²,Test 3,1.05
+191,7548,FLY,Femoral Left Neck,BMD g/cm²,Test 4,1.06
+192,7548,FLY,Femoral Left Neck,BMD g/cm²,Post,1.06
+193,8177,FLY,Femoral Left Neck,BMD g/cm²,Pre,1.23
+194,8177,FLY,Femoral Left Neck,BMD g/cm²,Test 1,1.25
+195,8177,FLY,Femoral Left Neck,BMD g/cm²,Test 2,1.23
+196,8177,FLY,Femoral Left Neck,BMD g/cm²,Test 3,1.21
+197,8177,FLY,Femoral Left Neck,BMD g/cm²,Test 4,1.22
+198,8177,FLY,Femoral Left Neck,BMD g/cm²,Post,1.24
+199,9023,FLY,Femoral Left Neck,BMD g/cm²,Pre,1.26
+200,9023,FLY,Femoral Left Neck,BMD g/cm²,Test 1,1.26
+201,9023,FLY,Femoral Left Neck,BMD g/cm²,Test 2,1.28
+202,9023,FLY,Femoral Left Neck,BMD g/cm²,Test 3,1.26
+203,9023,FLY,Femoral Left Neck,BMD g/cm²,Test 4,1.25
+204,9023,FLY,Femoral Left Neck,BMD g/cm²,Post,1.27
+205,5673,FLY,Femoral Left Neck,BMD g/cm²,Pre,1.24
+206,5673,FLY,Femoral Left Neck,BMD g/cm²,Test 1,1.31
+207,5673,FLY,Femoral Left Neck,BMD g/cm²,Test 2,1.27
+208,5673,FLY,Femoral Left Neck,BMD g/cm²,Test 3,1.26
+209,5673,FLY,Femoral Left Neck,BMD g/cm²,Test 4,1.21
+210,5673,FLY,Femoral Left Neck,BMD g/cm²,Post,1.29
+211,6187,FLY,Femoral Left Neck,BMD g/cm²,Pre,0.97
+212,6187,FLY,Femoral Left Neck,BMD g/cm²,Test 1,0.98
+213,6187,FLY,Femoral Left Neck,BMD g/cm²,Test 2,0.98
+214,6187,FLY,Femoral Left Neck,BMD g/cm²,Test 3,1.00
+215,6187,FLY,Femoral Left Neck,BMD g/cm²,Test 4,0.98
+216,6187,FLY,Femoral Left Neck,BMD g/cm²,Post,0.97
+217,6464,FLY,Femoral Left Neck,BMD g/cm²,Pre,0.89
+218,6464,FLY,Femoral Left Neck,BMD g/cm²,Test 1,0.89
+219,6464,FLY,Femoral Left Neck,BMD g/cm²,Test 2,0.89
+220,6464,FLY,Femoral Left Neck,BMD g/cm²,Test 3,0.85
+221,6464,FLY,Femoral Left Neck,BMD g/cm²,Test 4,0.84
+222,6464,FLY,Femoral Left Neck,BMD g/cm²,Post,0.87
+223,8179,FLY,Femoral Left Neck,BMD g/cm²,Pre,1.04
+224,8179,FLY,Femoral Left Neck,BMD g/cm²,Test 1,1.02
+225,8179,FLY,Femoral Left Neck,BMD g/cm²,Test 2,1.03
+226,8179,FLY,Femoral Left Neck,BMD g/cm²,Test 3,1.02
+227,8179,FLY,Femoral Left Neck,BMD g/cm²,Test 4,1.01
+228,8179,FLY,Femoral Left Neck,BMD g/cm²,Post,1.01
+229,5210,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.05
+230,5210,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,1.04
+231,5210,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,1.07
+232,5210,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,1.05
+233,5210,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,1.07
+234,5210,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.04
+235,9682,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.04
+236,9682,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.05
+237,9682,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.06
+238,9682,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.05
+239,9682,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.04
+240,9682,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.04
+241,7036,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.22
+242,7036,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.25
+243,7036,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.25
+244,7036,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.23
+245,7036,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.21
+246,7036,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.22
+247,6791,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.01
+248,6791,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,0.99
+249,6791,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,1.01
+250,6791,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,0.98
+251,6791,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,0.97
+252,6791,CONTROL,Femoral Right Neck,BMD g/cm²,Post,0.95
+253,5803,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.02
+254,5803,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,NA
+255,5803,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,NA
+256,5803,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,NA
+257,5803,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,NA
+258,5803,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.01
+259,6319,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.23
+260,6319,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,NA
+261,6319,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,NA
+262,6319,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,NA
+263,6319,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,NA
+264,6319,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.24
+265,7326,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.17
+266,7326,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.19
+267,7326,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.15
+268,7326,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.18
+269,7326,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.13
+270,7326,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.11
+271,9713,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.96
+272,9713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,0.96
+273,9713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.96
+274,9713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.96
+275,9713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.97
+276,9713,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.94
+277,7350,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.19
+278,7350,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.14
+279,7350,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.13
+280,7350,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.13
+281,7350,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.14
+282,7350,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.04
+283,7152,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.15
+284,7152,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.15
+285,7152,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.16
+286,7152,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.18
+287,7152,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.16
+288,7152,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.18
+289,5159,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.98
+290,5159,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.00
+291,5159,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.98
+292,5159,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.00
+293,5159,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.00
+294,5159,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.99
+295,7574,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.08
+296,7574,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,1.06
+297,7574,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,1.07
+298,7574,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,1.08
+299,7574,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,1.08
+300,7574,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.06
+301,6877,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.08
+302,6877,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.05
+303,6877,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.07
+304,6877,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.06
+305,6877,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.06
+306,6877,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.05
+307,9667,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.87
+308,9667,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,0.87
+309,9667,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.86
+310,9667,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.88
+311,9667,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.86
+312,9667,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.88
+313,6546,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,0.98
+314,6546,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,0.99
+315,6546,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,0.99
+316,6546,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,0.98
+317,6546,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,0.99
+318,6546,CONTROL,Femoral Right Neck,BMD g/cm²,Post,0.99
+319,5188,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.98
+320,5188,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,0.98
+321,5188,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.96
+322,5188,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.97
+323,5188,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.96
+324,5188,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.97
+325,8936,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,0.91
+326,8936,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,0.92
+327,8936,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,0.90
+328,8936,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,0.90
+329,8936,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,0.90
+330,8936,CONTROL,Femoral Right Neck,BMD g/cm²,Post,0.90
+331,8072,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.98
+332,8072,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,0.98
+333,8072,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.98
+334,8072,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.98
+335,8072,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.98
+336,8072,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.98
+337,5160,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.34
+338,5160,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.35
+339,5160,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.37
+340,5160,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.36
+341,5160,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.35
+342,5160,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.36
+343,5297,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.19
+344,5297,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,1.20
+345,5297,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,1.18
+346,5297,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,1.19
+347,5297,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,1.17
+348,5297,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.20
+349,6403,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.88
+350,6403,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,0.90
+351,6403,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.90
+352,6403,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.90
+353,6403,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.87
+354,6403,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.87
+355,6947,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.06
+356,6947,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,1.06
+357,6947,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,1.09
+358,6947,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,1.11
+359,6947,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,1.09
+360,6947,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.06
+361,5627,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.28
+362,5627,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.29
+363,5627,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.29
+364,5627,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.28
+365,5627,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.28
+366,5627,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.27
+367,8010,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,0.94
+368,8010,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,0.95
+369,8010,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,0.94
+370,8010,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,0.96
+371,8010,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,0.96
+372,8010,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,0.95
+373,7707,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.04
+374,7707,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.03
+375,7707,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.04
+376,7707,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.03
+377,7707,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.04
+378,7707,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.03
+379,6213,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,1.06
+380,6213,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,1.06
+381,6213,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,1.07
+382,6213,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,1.07
+383,6213,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,1.03
+384,6213,CONTROL,Femoral Right Neck,BMD g/cm²,Post,1.03
+385,7750,CONTROL,Femoral Right Neck,BMD g/cm²,Pre,0.87
+386,7750,CONTROL,Femoral Right Neck,BMD g/cm²,Test 1,0.90
+387,7750,CONTROL,Femoral Right Neck,BMD g/cm²,Test 2,0.89
+388,7750,CONTROL,Femoral Right Neck,BMD g/cm²,Test 3,0.88
+389,7750,CONTROL,Femoral Right Neck,BMD g/cm²,Test 4,0.91
+390,7750,CONTROL,Femoral Right Neck,BMD g/cm²,Post,0.89
+391,6611,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.07
+392,6611,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.08
+393,6611,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.11
+394,6611,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.08
+395,6611,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.09
+396,6611,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.10
+397,9793,FLY,Femoral Right Neck,BMD g/cm²,Pre,0.98
+398,9793,FLY,Femoral Right Neck,BMD g/cm²,Test 1,1.00
+399,9793,FLY,Femoral Right Neck,BMD g/cm²,Test 2,0.98
+400,9793,FLY,Femoral Right Neck,BMD g/cm²,Test 3,0.99
+401,9793,FLY,Femoral Right Neck,BMD g/cm²,Test 4,0.97
+402,9793,FLY,Femoral Right Neck,BMD g/cm²,Post,0.98
+403,8837,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.10
+404,8837,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.09
+405,8837,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.08
+406,8837,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.08
+407,8837,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.09
+408,8837,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.09
+409,8713,EXERCISE,Femoral Right Neck,BMD g/cm²,Pre,1.33
+410,8713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 1,1.35
+411,8713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 2,1.35
+412,8713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 3,1.32
+413,8713,EXERCISE,Femoral Right Neck,BMD g/cm²,Test 4,1.34
+414,8713,EXERCISE,Femoral Right Neck,BMD g/cm²,Post,1.32
+415,7548,FLY,Femoral Right Neck,BMD g/cm²,Pre,1.14
+416,7548,FLY,Femoral Right Neck,BMD g/cm²,Test 1,1.13
+417,7548,FLY,Femoral Right Neck,BMD g/cm²,Test 2,1.14
+418,7548,FLY,Femoral Right Neck,BMD g/cm²,Test 3,1.12
+419,7548,FLY,Femoral Right Neck,BMD g/cm²,Test 4,1.12
+420,7548,FLY,Femoral Right Neck,BMD g/cm²,Post,1.12
+421,8177,FLY,Femoral Right Neck,BMD g/cm²,Pre,1.25
+422,8177,FLY,Femoral Right Neck,BMD g/cm²,Test 1,1.28
+423,8177,FLY,Femoral Right Neck,BMD g/cm²,Test 2,1.27
+424,8177,FLY,Femoral Right Neck,BMD g/cm²,Test 3,1.27
+425,8177,FLY,Femoral Right Neck,BMD g/cm²,Test 4,1.27
+426,8177,FLY,Femoral Right Neck,BMD g/cm²,Post,1.27
+427,9023,FLY,Femoral Right Neck,BMD g/cm²,Pre,1.26
+428,9023,FLY,Femoral Right Neck,BMD g/cm²,Test 1,1.26
+429,9023,FLY,Femoral Right Neck,BMD g/cm²,Test 2,1.28
+430,9023,FLY,Femoral Right Neck,BMD g/cm²,Test 3,1.27
+431,9023,FLY,Femoral Right Neck,BMD g/cm²,Test 4,1.25
+432,9023,FLY,Femoral Right Neck,BMD g/cm²,Post,1.26
+433,5673,FLY,Femoral Right Neck,BMD g/cm²,Pre,1.32
+434,5673,FLY,Femoral Right Neck,BMD g/cm²,Test 1,1.40
+435,5673,FLY,Femoral Right Neck,BMD g/cm²,Test 2,1.38
+436,5673,FLY,Femoral Right Neck,BMD g/cm²,Test 3,1.36
+437,5673,FLY,Femoral Right Neck,BMD g/cm²,Test 4,1.33
+438,5673,FLY,Femoral Right Neck,BMD g/cm²,Post,1.34
+439,6187,FLY,Femoral Right Neck,BMD g/cm²,Pre,0.99
+440,6187,FLY,Femoral Right Neck,BMD g/cm²,Test 1,0.98
+441,6187,FLY,Femoral Right Neck,BMD g/cm²,Test 2,0.98
+442,6187,FLY,Femoral Right Neck,BMD g/cm²,Test 3,0.97
+443,6187,FLY,Femoral Right Neck,BMD g/cm²,Test 4,0.98
+444,6187,FLY,Femoral Right Neck,BMD g/cm²,Post,0.97
+445,6464,FLY,Femoral Right Neck,BMD g/cm²,Pre,0.90
+446,6464,FLY,Femoral Right Neck,BMD g/cm²,Test 1,0.92
+447,6464,FLY,Femoral Right Neck,BMD g/cm²,Test 2,0.90
+448,6464,FLY,Femoral Right Neck,BMD g/cm²,Test 3,0.90
+449,6464,FLY,Femoral Right Neck,BMD g/cm²,Test 4,0.90
+450,6464,FLY,Femoral Right Neck,BMD g/cm²,Post,0.89
+451,8179,FLY,Femoral Right Neck,BMD g/cm²,Pre,1.03
+452,8179,FLY,Femoral Right Neck,BMD g/cm²,Test 1,1.04
+453,8179,FLY,Femoral Right Neck,BMD g/cm²,Test 2,1.03
+454,8179,FLY,Femoral Right Neck,BMD g/cm²,Test 3,1.01
+455,8179,FLY,Femoral Right Neck,BMD g/cm²,Test 4,1.02
+456,8179,FLY,Femoral Right Neck,BMD g/cm²,Post,1.00
+457,5210,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.03
+458,5210,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.05
+459,5210,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.03
+460,5210,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.04
+461,5210,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.04
+462,5210,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.02
+463,9682,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.08
+464,9682,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.09
+465,9682,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.08
+466,9682,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.07
+467,9682,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.06
+468,9682,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.07
+469,7036,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.14
+470,7036,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.16
+471,7036,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.15
+472,7036,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.14
+473,7036,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.14
+474,7036,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.13
+475,6791,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.05
+476,6791,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.07
+477,6791,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.04
+478,6791,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.02
+479,6791,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.04
+480,6791,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.01
+481,5803,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.06
+482,5803,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,NA
+483,5803,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,NA
+484,5803,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,NA
+485,5803,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,NA
+486,5803,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.03
+487,6319,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.27
+488,6319,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,NA
+489,6319,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,NA
+490,6319,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,NA
+491,6319,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,NA
+492,6319,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.27
+493,7326,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.03
+494,7326,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.03
+495,7326,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.04
+496,7326,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.04
+497,7326,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.04
+498,7326,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.04
+499,9713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,0.99
+500,9713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,0.99
+501,9713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,0.98
+502,9713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,0.98
+503,9713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.00
+504,9713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,0.99
+505,7350,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.17
+506,7350,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.14
+507,7350,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.12
+508,7350,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.12
+509,7350,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.14
+510,7350,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.12
+511,7152,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.13
+512,7152,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.14
+513,7152,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.14
+514,7152,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.15
+515,7152,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.14
+516,7152,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.14
+517,5159,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.05
+518,5159,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.05
+519,5159,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.05
+520,5159,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,0.00
+521,5159,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,0.00
+522,5159,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.06
+523,7574,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.16
+524,7574,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.15
+525,7574,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.16
+526,7574,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.15
+527,7574,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.15
+528,7574,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.15
+529,6877,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.10
+530,6877,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.08
+531,6877,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.08
+532,6877,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.08
+533,6877,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.07
+534,6877,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.06
+535,9667,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,0.85
+536,9667,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,0.85
+537,9667,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,0.84
+538,9667,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,0.85
+539,9667,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,0.85
+540,9667,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,0.85
+541,6546,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.06
+542,6546,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.06
+543,6546,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.05
+544,6546,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.05
+545,6546,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.04
+546,6546,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.04
+547,5188,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.08
+548,5188,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.07
+549,5188,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.06
+550,5188,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.07
+551,5188,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.07
+552,5188,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.07
+553,8936,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,0.94
+554,8936,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,0.95
+555,8936,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,0.95
+556,8936,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,0.95
+557,8936,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,0.95
+558,8936,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,0.94
+559,8072,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,0.98
+560,8072,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,0.98
+561,8072,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,0.99
+562,8072,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.01
+563,8072,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.00
+564,8072,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,0.99
+565,5160,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.38
+566,5160,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.38
+567,5160,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.39
+568,5160,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.38
+569,5160,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.39
+570,5160,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.37
+571,5297,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.23
+572,5297,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.23
+573,5297,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.22
+574,5297,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.22
+575,5297,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.22
+576,5297,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.21
+577,6403,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,0.98
+578,6403,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,0.98
+579,6403,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,0.98
+580,6403,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,0.98
+581,6403,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,0.99
+582,6403,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,0.99
+583,6947,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.07
+584,6947,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.09
+585,6947,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.08
+586,6947,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.09
+587,6947,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.08
+588,6947,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.07
+589,5627,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.29
+590,5627,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.29
+591,5627,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.29
+592,5627,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.28
+593,5627,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.29
+594,5627,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.29
+595,8010,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.03
+596,8010,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.03
+597,8010,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.03
+598,8010,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.03
+599,8010,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.02
+600,8010,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.02
+601,7707,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.07
+602,7707,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.09
+603,7707,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.07
+604,7707,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.08
+605,7707,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.07
+606,7707,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.07
+607,6213,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,1.07
+608,6213,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,1.07
+609,6213,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,1.08
+610,6213,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,1.07
+611,6213,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,1.06
+612,6213,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,1.05
+613,7750,CONTROL,Femoral Left Total Hip,BMD g/cm²,Pre,0.82
+614,7750,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 1,0.85
+615,7750,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 2,0.85
+616,7750,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 3,0.84
+617,7750,CONTROL,Femoral Left Total Hip,BMD g/cm²,Test 4,0.84
+618,7750,CONTROL,Femoral Left Total Hip,BMD g/cm²,Post,0.84
+619,6611,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.08
+620,6611,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.10
+621,6611,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.09
+622,6611,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.11
+623,6611,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.10
+624,6611,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.11
+625,9793,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,0.97
+626,9793,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,0.99
+627,9793,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,0.97
+628,9793,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,0.97
+629,9793,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,0.96
+630,9793,FLY,Femoral Left Total Hip,BMD g/cm²,Post,0.95
+631,8837,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.10
+632,8837,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.10
+633,8837,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.11
+634,8837,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.12
+635,8837,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.11
+636,8837,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.11
+637,8713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Pre,1.18
+638,8713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 1,1.18
+639,8713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 2,1.18
+640,8713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 3,1.17
+641,8713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Test 4,1.17
+642,8713,EXERCISE,Femoral Left Total Hip,BMD g/cm²,Post,1.16
+643,7548,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,1.15
+644,7548,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,1.14
+645,7548,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,1.15
+646,7548,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,1.14
+647,7548,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,1.14
+648,7548,FLY,Femoral Left Total Hip,BMD g/cm²,Post,1.14
+649,8177,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,1.19
+650,8177,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,1.19
+651,8177,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,1.19
+652,8177,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,1.19
+653,8177,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,1.19
+654,8177,FLY,Femoral Left Total Hip,BMD g/cm²,Post,1.19
+655,9023,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,1.31
+656,9023,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,1.31
+657,9023,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,1.32
+658,9023,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,1.31
+659,9023,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,1.30
+660,9023,FLY,Femoral Left Total Hip,BMD g/cm²,Post,1.30
+661,5673,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,1.31
+662,5673,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,1.35
+663,5673,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,1.31
+664,5673,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,1.31
+665,5673,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,1.28
+666,5673,FLY,Femoral Left Total Hip,BMD g/cm²,Post,1.30
+667,6187,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,0.99
+668,6187,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,0.99
+669,6187,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,0.99
+670,6187,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,1.00
+671,6187,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,1.00
+672,6187,FLY,Femoral Left Total Hip,BMD g/cm²,Post,0.99
+673,6464,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,0.96
+674,6464,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,0.97
+675,6464,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,0.96
+676,6464,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,0.94
+677,6464,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,0.92
+678,6464,FLY,Femoral Left Total Hip,BMD g/cm²,Post,0.95
+679,8179,FLY,Femoral Left Total Hip,BMD g/cm²,Pre,0.90
+680,8179,FLY,Femoral Left Total Hip,BMD g/cm²,Test 1,0.90
+681,8179,FLY,Femoral Left Total Hip,BMD g/cm²,Test 2,0.90
+682,8179,FLY,Femoral Left Total Hip,BMD g/cm²,Test 3,0.88
+683,8179,FLY,Femoral Left Total Hip,BMD g/cm²,Test 4,0.88
+684,8179,FLY,Femoral Left Total Hip,BMD g/cm²,Post,0.88
+685,5210,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.04
+686,5210,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.03
+687,5210,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.05
+688,5210,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.04
+689,5210,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.05
+690,5210,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.04
+691,9682,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.11
+692,9682,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.13
+693,9682,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.13
+694,9682,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.12
+695,9682,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.11
+696,9682,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.10
+697,7036,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.11
+698,7036,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.14
+699,7036,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.14
+700,7036,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.11
+701,7036,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.11
+702,7036,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.12
+703,6791,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.07
+704,6791,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.07
+705,6791,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.04
+706,6791,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.03
+707,6791,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.01
+708,6791,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.01
+709,5803,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.07
+710,5803,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,NA
+711,5803,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,NA
+712,5803,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,NA
+713,5803,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,NA
+714,5803,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.03
+715,6319,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.25
+716,6319,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,NA
+717,6319,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,NA
+718,6319,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,NA
+719,6319,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,NA
+720,6319,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.23
+721,7326,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.09
+722,7326,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.11
+723,7326,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.09
+724,7326,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.10
+725,7326,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.08
+726,7326,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.09
+727,9713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,0.99
+728,9713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,0.99
+729,9713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,0.98
+730,9713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,0.99
+731,9713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,0.99
+732,9713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,0.98
+733,7350,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.11
+734,7350,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.10
+735,7350,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.09
+736,7350,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.07
+737,7350,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.11
+738,7350,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.08
+739,7152,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.18
+740,7152,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.20
+741,7152,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.21
+742,7152,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.21
+743,7152,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.20
+744,7152,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.20
+745,5159,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.07
+746,5159,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.08
+747,5159,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.08
+748,5159,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,0.00
+749,5159,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,0.00
+750,5159,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.08
+751,7574,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.14
+752,7574,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.14
+753,7574,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.13
+754,7574,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.13
+755,7574,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.15
+756,7574,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.13
+757,6877,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.07
+758,6877,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.05
+759,6877,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.06
+760,6877,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.06
+761,6877,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.05
+762,6877,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.05
+763,9667,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,0.87
+764,9667,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,0.88
+765,9667,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,0.87
+766,9667,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,0.87
+767,9667,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,0.86
+768,9667,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,0.87
+769,6546,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.00
+770,6546,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.01
+771,6546,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.01
+772,6546,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.01
+773,6546,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.00
+774,6546,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.01
+775,5188,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.02
+776,5188,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.03
+777,5188,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.02
+778,5188,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.04
+779,5188,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.03
+780,5188,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.04
+781,8936,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,0.93
+782,8936,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,0.93
+783,8936,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,0.92
+784,8936,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,0.91
+785,8936,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,0.92
+786,8936,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,0.91
+787,8072,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.00
+788,8072,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,0.99
+789,8072,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.00
+790,8072,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.00
+791,8072,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.01
+792,8072,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.01
+793,5160,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.35
+794,5160,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.36
+795,5160,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.36
+796,5160,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.36
+797,5160,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.36
+798,5160,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.35
+799,5297,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.20
+800,5297,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.20
+801,5297,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.20
+802,5297,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.19
+803,5297,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.20
+804,5297,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.20
+805,6403,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,0.93
+806,6403,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,0.95
+807,6403,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,0.95
+808,6403,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,0.95
+809,6403,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,0.92
+810,6403,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,0.92
+811,6947,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.04
+812,6947,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.05
+813,6947,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.05
+814,6947,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.05
+815,6947,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.04
+816,6947,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.03
+817,5627,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.26
+818,5627,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.27
+819,5627,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.26
+820,5627,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.25
+821,5627,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.25
+822,5627,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.24
+823,8010,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.02
+824,8010,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.04
+825,8010,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.04
+826,8010,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.05
+827,8010,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.04
+828,8010,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.04
+829,7707,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.07
+830,7707,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.08
+831,7707,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.09
+832,7707,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.08
+833,7707,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.08
+834,7707,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.08
+835,6213,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,1.10
+836,6213,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,1.08
+837,6213,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,1.09
+838,6213,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,1.08
+839,6213,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,1.07
+840,6213,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,1.05
+841,7750,CONTROL,Femoral Right Total Hip,BMD g/cm²,Pre,0.83
+842,7750,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 1,0.86
+843,7750,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 2,0.86
+844,7750,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 3,0.87
+845,7750,CONTROL,Femoral Right Total Hip,BMD g/cm²,Test 4,0.88
+846,7750,CONTROL,Femoral Right Total Hip,BMD g/cm²,Post,0.87
+847,6611,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.07
+848,6611,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.08
+849,6611,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.09
+850,6611,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.10
+851,6611,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.11
+852,6611,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.11
+853,9793,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,0.99
+854,9793,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,0.99
+855,9793,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,0.99
+856,9793,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,0.99
+857,9793,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,0.97
+858,9793,FLY,Femoral Right Total Hip,BMD g/cm²,Post,0.98
+859,8837,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.11
+860,8837,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.11
+861,8837,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.11
+862,8837,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.10
+863,8837,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.12
+864,8837,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.11
+865,8713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Pre,1.23
+866,8713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 1,1.22
+867,8713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 2,1.23
+868,8713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 3,1.21
+869,8713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Test 4,1.21
+870,8713,EXERCISE,Femoral Right Total Hip,BMD g/cm²,Post,1.21
+871,7548,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,1.22
+872,7548,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,1.21
+873,7548,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,1.20
+874,7548,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,1.22
+875,7548,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,1.20
+876,7548,FLY,Femoral Right Total Hip,BMD g/cm²,Post,1.21
+877,8177,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,1.25
+878,8177,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,1.25
+879,8177,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,1.25
+880,8177,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,1.25
+881,8177,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,1.25
+882,8177,FLY,Femoral Right Total Hip,BMD g/cm²,Post,1.26
+883,9023,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,1.30
+884,9023,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,1.29
+885,9023,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,1.29
+886,9023,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,1.29
+887,9023,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,1.29
+888,9023,FLY,Femoral Right Total Hip,BMD g/cm²,Post,1.30
+889,5673,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,1.37
+890,5673,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,1.39
+891,5673,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,1.38
+892,5673,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,1.38
+893,5673,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,1.35
+894,5673,FLY,Femoral Right Total Hip,BMD g/cm²,Post,1.36
+895,6187,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,1.03
+896,6187,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,1.06
+897,6187,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,1.04
+898,6187,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,1.05
+899,6187,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,1.04
+900,6187,FLY,Femoral Right Total Hip,BMD g/cm²,Post,1.05
+901,6464,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,0.95
+902,6464,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,0.96
+903,6464,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,0.96
+904,6464,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,0.95
+905,6464,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,0.95
+906,6464,FLY,Femoral Right Total Hip,BMD g/cm²,Post,0.96
+907,8179,FLY,Femoral Right Total Hip,BMD g/cm²,Pre,0.90
+908,8179,FLY,Femoral Right Total Hip,BMD g/cm²,Test 1,0.91
+909,8179,FLY,Femoral Right Total Hip,BMD g/cm²,Test 2,0.90
+910,8179,FLY,Femoral Right Total Hip,BMD g/cm²,Test 3,0.88
+911,8179,FLY,Femoral Right Total Hip,BMD g/cm²,Test 4,0.89
+912,8179,FLY,Femoral Right Total Hip,BMD g/cm²,Post,0.88

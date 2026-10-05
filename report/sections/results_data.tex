@@ -1,0 +1,161 @@
+\section{Results I: the corpus and the dataset}
+\label{sec:results-data}
+
+\subsection{Search and screening}
+
+The four searches returned 5,731 records, of which 2,141 were duplicates (\cref{fig:prisma}). Of the 3,590 unique
+records, 2,493 were excluded on title and abstract, most often because the study did not use an unloading model
+(1,048) or reported no muscle outcome (830); 481 of the latter were real unloading campaigns that reported only gait,
+motor-unit or cardiovascular outcomes, and were kept as leads for the campaign map. Seventy-four records were
+included at title and abstract; 70 full texts were retrieved (30 as machine-readable XML, 40 as PDF) and four were
+not, two because they were paywalled and two because they exist only as conference abstracts. One of the latter still
+contributes: its abstract prints a complete result, which was extracted with low confidence~\citep{dirks2016}. The
+search contributed 42 studies, 572 rows and 29 campaigns to the dataset; 19 included studies publish their muscle
+results only as charts without a baseline value and could not be extracted.
+
+A further 1,023 records---the remainder of the \emph{maybe} set and 80 priority records that need a full text
+before a decision can be made---were not screened in the time available. They are not exclusions and are not
+reported as such. \draftnote{the full-text stage of the PRISMA table (\file{docs/literature-review/prisma\_counts.md})
+still reads ``pending'' for the number of studies included, and its count of 11 full-text exclusions carries
+reasons for only 5. The diagram shows the counts as recorded; they should be reconciled with the final extraction
+before the report is circulated.}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=4.5mm and 6mm, every node/.style={font=\sffamily\scriptsize}]
+  % main column
+  % the side column is stacked first, and each main-column box is aligned with its side boxes
+  \node[box=6.0cm] (id) {\textbf{Records identified} (n = 5,731)\\ PubMed 1,412 \textperiodcentered{} Scopus 1,757\\ Web of Science 1,876 \textperiodcentered{} NASA NTRS 686};
+  \node[sidebox=6.6cm, right=8mm of id] (dup) {Duplicates removed (n = 2,141)};
+  \node[sidebox=6.6cm, below=6mm of dup] (exc1) {\textbf{Excluded} (n = 2,493): not an unloading model 1,048; no muscle
+     outcome 830; review or editorial 346; not human 252; disease causes wasting 12; duration too short 5};
+  \node[sidebox=6.6cm, below=2mm of exc1] (unscr) {\textbf{Not yet screened} (n = 1,023): rest of the \emph{maybe} set
+     and 80 priority records awaiting a full text};
+  \node[sidebox=6.6cm, below=6mm of unscr] (notret) {\textbf{Not retrieved} (n = 4): 2 paywalled, 2 conference abstracts only};
+  \node[sidebox=6.6cm, below=5mm of notret] (exc2) {\textbf{Excluded at full text} (n = 11; reasons recorded for 5:
+     no muscle outcome 2, no full text 3)\\[1pt] \textbf{Included but not extractable} (n = 19): figure-only, no baseline};
+  \node[sidebox=6.6cm, below=6mm of exc2] (other) {\textbf{Other sources}\\ Pre-search corpus: 15 documents $\rightarrow$
+     9 studies \textperiodcentered{} 165 rows \textperiodcentered{} 9 campaigns (6 not found by the search)\\
+     NASA NLSP open data: 7 campaign folders $\rightarrow$ 1 campaign \textperiodcentered{} 5 rows};
+  \coordinate (scrlevel) at ($(exc1.north)!0.5!(unscr.south)$);
+  \node[box=6.0cm] (scr) at (id |- scrlevel) {\textbf{Records screened} on title and abstract\\ (n = 3,590)};
+  \node[box=6.0cm] (ft) at (id |- notret) {\textbf{Full texts sought} (n = 74)};
+  \node[box=6.0cm] (ass) at (id |- exc2) {\textbf{Full texts assessed} (n = 64)};
+  \node[keybox=6.0cm] (inc) at (id |- other) {\textbf{Studies from the search contributing rows}\\ 42 studies \textperiodcentered{} 572 rows \textperiodcentered{} 29 campaigns};
+  \node[keybox=13.4cm, below=8mm of inc.south west, anchor=north west] (ds) {\textbf{Frozen dataset v1.1}: 52 studies \textperiodcentered{} 742 rows \textperiodcentered{} 36 independent campaigns};
+  \node[keybox=13.4cm, below=5mm of ds] (sub) {\textbf{Modelling subset A}: 41 studies \textperiodcentered{} 346 rows \textperiodcentered{} 32 campaigns\\
+     subset B: 31 studies \textperiodcentered{} 304 rows \textperiodcentered{} 25 campaigns};
+  % arrows
+  \draw[flow] (id) -- (scr);
+  \draw[flow] (scr) -- node[right, font=\sffamily\scriptsize, text=inktwo] {74 included} (ft);
+  \draw[flow] (ft) -- (ass);
+  \draw[flow] (ass) -- (inc);
+  \draw[flow] (id.east) -- (dup.west);
+  \draw[flow] (scr.east) -- ++(4mm,0) |- (exc1.west);
+  \draw[flow] (scr.east) -- ++(4mm,0) |- (unscr.west);
+  \draw[flow] (ft.east) -- (notret.west);
+  \draw[flow] (ass.east) -- (exc2.west);
+  \draw[flow] (inc.south) -- (inc.south |- ds.north);
+  \draw[flow] (other.south) -- (other.south |- ds.north);
+  \draw[flow] (ds) -- (sub);
+  % stage labels
+  \node[stage] at ($(id.west)+(-3mm,0)$) {Identification};
+  \node[stage] at ($(scr.west)+(-3mm,-5mm)$) {Screening};
+  \node[stage] at ($(ft.west)!0.5!(ass.west)+(-3mm,0)$) {Full text};
+  \node[stage] at ($(inc.west)!0.5!(sub.west)+(-3mm,0)$) {Included};
+\end{tikzpicture}
+\caption[Flow of records from search to modelling subset]{Flow of records from the search to the modelling
+subset, in the style of PRISMA 2020~\citep{page2021}. The search was limited to publications from 2013 onwards;
+older work enters only through the pre-search corpus. Six of the nine corpus campaigns were not found by the search,
+because their papers predate the date limit.}
+\label{fig:prisma}
+\end{figure}
+
+\subsection{The dataset}
+
+The frozen dataset (\cref{tab:dataset}) holds 742 comparisons against baseline from 52 studies published between
+1992 and 2026 and 36 independent campaigns. Most rows are MRI volumes of named muscles in young men during
+head-down tilt bed rest, but every other design, modality and population in the corpus is represented and marked.
+The dataset is strongly clustered: 15 campaigns contribute five rows or fewer, while the MEDES 90-day campaign
+contributes 299 rows (40\%) to the full file. \Cref{fig:campaigns} shows the 32 campaigns of the modelling subset,
+their planned lengths and the days on which they scanned; \cref{app:campaigns} lists all 36.
+
+\begin{table}[htbp]
+\centering
+\caption[Characteristics of the frozen dataset]{Characteristics of \code{dataset\_v1.1}. Counts are rows unless stated.}
+\label{tab:dataset}
+\small
+\begin{tabularx}{\linewidth}{@{}L{4.4cm} Y@{}}
+\toprule
+Characteristic & Value \\
+\midrule
+\inputtable{generated/tab_dataset.tex}
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Origin of the rows} 572 rows (42 studies, 29 campaigns) come from the systematic search, 165 (9 studies,
+9 campaigns) from the pre-search corpus and 5 (one campaign) from the NASA archive. Every literature row names its
+DOI, source file and page, table or figure; the NASA rows name their folder and the two columns they were computed
+from.
+
+\paragraph{Quality markers} 674 rows carry high extraction confidence, 49 medium and 19 low; the 19 low-confidence
+rows are the ones read off figures. 25 partial rows lack a group size or a dispersion. 547 rows do not state which
+leg was imaged. No row has been double-extracted by a second person (\cref{sec:verification}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_campaigns}
+\caption[The 32 campaigns of the modelling subset]{The 32 campaigns of the modelling subset, ordered by planned
+length. Each bar runs to the campaign's planned length of unloading; each dot is a scan day, with area proportional to
+the number of rows measured that day; the number is the campaign's rows in subset A. Most campaigns scanned only at
+the end; the long campaigns that scanned repeatedly carry most of the within-campaign information about time.}
+\label{fig:campaigns}
+\end{figure}
+
+\subsection{The modelling subsets}
+
+\Cref{tab:subsets} walks the dataset down to the two modelling subsets. Restricting to rows measured during
+unloading removes 264 recovery rows, and the spaceflight and recovery-only campaigns with them; restricting to the
+lower limb removes 53 trunk-muscle rows; and the one-tissue-one-row rule removes 79 composite rows whose components
+were reported on the same occasion. Of the 346 rows in subset A, 246 are from control arms (30 campaigns) and 100
+from countermeasure arms; 42 are whole-segment measurements; 251 are MRI volumes. Subset B removes the whole-segment
+rows and with them seven campaigns that report nothing else.
+
+\begin{table}[htbp]
+\centering
+\caption[From the frozen dataset to the modelling subsets]{From the frozen dataset to the modelling subsets. The
+predicates are declared in \file{framework/config.yaml} and applied in this order.}
+\label{tab:subsets}
+\small
+\begin{tabularx}{\linewidth}{@{}Y rrr@{}}
+\toprule
+Step & Rows & Studies & Campaigns \\
+\midrule
+\inputtable{generated/tab_subsets.tex}
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{A first look at the data}
+
+Before any model, the unadjusted control-arm means already show the pattern the models go on to quantify
+(\cref{tab:classmeans}): antigravity extensors lose about twice as much as flexors. By family, the plantar flexors
+lose most ($-14.7\%$), followed by the evertors ($-12.2\%$), knee extensors ($-8.6\%$), knee flexors ($-7.8\%$),
+dorsiflexors ($-7.5\%$), hip adductors ($-4.1\%$) and hip rotators ($-1.3\%$). These means ignore duration, arm,
+modality and campaign, and are shown only as a sanity check on the muscle classification.
+
+\begin{table}[htbp]
+\centering
+\caption[Unadjusted control-arm means by functional class]{Unadjusted mean percentage change of control-arm rows
+by functional class (lower-limb rows during unloading, before the one-tissue-one-row rule).}
+\label{tab:classmeans}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Functional class & Rows & Mean change (\%) \\
+\midrule
+\inputtable{generated/tab_class_means.tex}
+\bottomrule
+\end{tabular}
+\end{table}

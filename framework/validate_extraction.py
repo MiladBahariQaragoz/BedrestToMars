@@ -39,7 +39,8 @@ ENUMS = {
     "unit_si": {"cm3", "cm2", "kg", "mm", "pct_only"},
     "variance_of": {"baseline", "followup", "change"},
     "variance_type": {"SD", "SE", "CI95", "IQR"},
-    "data_source": {"table", "text", "figure_digitized", "supplement", "author_correspondence"},
+    "data_source": {"table", "text", "figure_digitized", "supplement", "author_correspondence",
+                    "repository"},
     "extraction_confidence": {"high", "medium", "low"},
     "double_extracted": {"TRUE", "FALSE"},
     "is_composite": {"TRUE", "FALSE"},
@@ -72,6 +73,12 @@ REQUIRED_PARTIAL = (
     "outcome_type", "modality", "pct_change", "data_source", "page_ref", "extractor",
     "extraction_date", "extraction_confidence", "double_extracted", "qc_flag",
 )
+
+# An open data repository has no author line and no DOI to name - the NASA NLSP archive
+# publishes campaign files under an experiment UUID and nothing else. Those two fields are
+# therefore waived for `data_source = repository` rows, which are traced through
+# `source_file` and `page_ref` instead; both stay required for every row.
+REPOSITORY_WAIVES = ("doi", "first_author")
 
 REQUIRED_ALWAYS = (
     "study_id", "cohort_id", "first_author", "year", "doi", "source_file", "design",
@@ -147,7 +154,10 @@ def validate(path: Path, partial: bool = False) -> list:
     for line_number, row in enumerate(rows, start=2):  # line 1 is the header
         where = f"line {line_number}"
 
+        waived = REPOSITORY_WAIVES if row["data_source"].strip() == "repository" else ()
         for field in required:
+            if field in waived:
+                continue
             if is_missing(row[field]):
                 errors.append(f"{where}: required field '{field}' is empty")
 

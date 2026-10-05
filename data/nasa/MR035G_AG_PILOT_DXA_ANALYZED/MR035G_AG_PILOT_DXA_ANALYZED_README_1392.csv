@@ -1,0 +1,3 @@
+The Hologic DXA scanner at UTMB had the X-ray tube replaced on 6/9/06 due to a malfunction.  
+From this time until the scanner was recalibrated (8/10/06) the daily QA phantom averaged a BMD value about 1.1% below the calibrated value of the phantom.   
+For all scans in this time period the BMDs were corrected by a factor 1.0120 the BMCs by a factor 1.0107 and the areas by a factor 0.9987.

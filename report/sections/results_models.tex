@@ -1,0 +1,488 @@
+\section{Results II: the three tiers}
+\label{sec:results-models}
+
+All results in this section are fitted on \code{dataset\_v1.1} with unloading measured at the day of the scan.
+
+\subsection{Tier 1: the duration--response}
+\label{sec:results-tier1}
+
+\paragraph{The shape of the curve} The three duration forms fit the 346 rows of subset A almost equally well
+(\cref{tab:forms}): the logarithmic, saturating and spline forms lie within 1.3 AIC points of one another, far
+inside the 4-point margin the headline rule required for another form to displace the saturating one. The data
+therefore establish that loss accumulates along a curved path, but not \emph{which} curve. The spline shows no shape
+the parametric forms miss ($\Delta\mathrm{AIC} = -0.2$). By the declared rule the saturating form is the headline.
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 1: the three duration forms]{Tier 1, subset A (346 rows, 32 campaigns): the three duration forms.
+$\Delta$AIC is relative to the headline saturating form; $k$ counts fixed effects, the four variance components
+and, for the saturating form, $\tau$. Intervals are 95\% cluster-robust ($t_{31}$).}
+\label{tab:forms}
+\small
+\begin{tabularx}{\linewidth}{@{}L{3.6cm} r r r Y@{}}
+\toprule
+Form & AIC & $\Delta$AIC & $k$ & Duration term \\
+\midrule
+\inputtable{generated/tab_tier1_forms.tex}
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{How fast and how far} Under the logarithmic form, muscle size falls by 2.99\pp{} for every doubling of
+days (95\% CI 2.53 to 3.44). Under the saturating form, the time constant is 60 days---the profile likelihood turns
+over inside the declared grid---and the eventual loss is $-17.3\%$ ($-20.9$ to $-13.7$) for the reference scenario.
+By day 119, the longest observation, the curve has covered 86\% of the way to that plateau, so the plateau is an
+estimate at the edge of the data rather than far beyond it. \Cref{fig:duration} shows the curve with the
+control-arm observations, and \cref{tab:curve} its values at selected days.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_duration}
+\caption[Duration--response: control-arm observations and the tier-1 curve]{Duration--response. Points are the
+246 control-arm rows of subset A (30 campaigns), placed at the day of the scan and coloured by functional class. The
+line is the tier-1 saturating curve for the reference scenario (a control arm, knee extensors, CT cross-sectional
+area, not a composite) with its 95\% cluster-robust band. The scatter around the curve is dominated by which muscle
+was measured: antigravity extensors lie mostly below it, flexors and mixed muscles above.}
+\label{fig:duration}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 1: the fitted curve at selected days]{The tier-1 saturating curve at selected days for the reference
+scenario, with 95\% cluster-robust confidence intervals.}
+\label{tab:curve}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l cccccc@{}}
+\toprule
+\inputtable{generated/tab_curve.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Where the variance sits} \Cref{tab:variance} decomposes the variance. In subset A, 54\% is residual,
+30\% lies \emph{between muscles within a campaign}, 11\% between campaigns and 4\% between papers reporting the same
+campaign. The 30\% is the quantitative case for the second claim of the project: once duration is accounted for,
+which muscle is measured matters more than which campaign measured it.
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 1: variance components]{Tier 1 variance components (squared percentage points) and their share of
+the total.}
+\label{tab:variance}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Model & Campaign & Study within campaign & Muscle within campaign & Residual \\
+\midrule
+\inputtable{generated/tab_variance.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Other terms} In subset A, countermeasure arms lose 3.43\pp{} less than control arms (95\% CI 1.68 to
+5.18, $p < 0.001$). Relative to CT cross-sectional area, DXA lean mass shows 4.75\pp{} less loss (0.05 to 9.45,
+$p = 0.048$) and ultrasound thickness 5.95\pp{} less (0.61 to 11.29, $p = 0.030$), while MRI volume differs by only
+0.49\pp{} ($p = 0.72$); a curve drawn for MRI volume, the dominant measurement, would therefore sit about half a
+percentage point above the reference curve. The composite flag and the whole-segment family carry no detectable
+effect. All coefficients are listed in \cref{app:fixed}.
+
+\subsection{Tier 1: muscle-specific vulnerability}
+\label{sec:results-ranking}
+
+The ranking model, fitted on the 304 named-muscle rows of subset B (25 campaigns), orders the muscle families by
+their fitted change at day 60 for a control arm (\cref{tab:ranking,fig:ranking}). The plantar flexors lose most,
+$-15.8\%$ ($-18.9$ to $-12.7$), significantly more than the knee extensors ($-5.69$\pp, $p = 0.001$). The knee
+extensors, knee flexors and dorsiflexors form a middle group near $-10\%$; the hip adductors, extensors and rotators
+lose significantly less than the knee extensors, the hip rotators least of all ($-1.9\%$).
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 1: muscle-family ranking at day 60]{Tier 1 muscle-family ranking, subset B (304 rows, 25 campaigns):
+fitted change at day 60 for a control arm, and contrast with the reference family (knee extensors). Intervals are
+95\% cluster-robust ($t_{24}$). Hip abductors and hip rotators each rest on a single campaign.}
+\label{tab:ranking}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l r r c c r@{}}
+\toprule
+Family & Rows & Campaigns & \makecell{Change at day 60,\\ \% (95\% CI)} & \makecell{vs.\ knee extensors,\\ pp (95\% CI)} & $p$ \\
+\midrule
+\inputtable{generated/tab_ranking.tex}
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_ranking}
+\caption[Muscle-family ranking at day 60]{Muscle-family ranking at day 60 for a control arm, with 95\%
+cluster-robust intervals, from the tier-1 ranking model on subset B. The dashed line marks the reference family.
+Rows and campaigns are shown for each family because two families rest on a single campaign.}
+\label{fig:ranking}
+\end{figure}
+
+\paragraph{The antigravity contrast} Because every contrast in \cref{tab:ranking} inherits the uncertainty of the
+reference, the comparison that carries the physiological claim is reported on its own: plantar flexors against
+dorsiflexors, the antagonist pair at the ankle, is $-5.60$\pp{} (95\% CI $-9.13$ to $-2.07$, $p = 0.003$), computed
+from the coefficient difference so that no choice of reference can change it. The ordering survives adjustment for
+duration, arm and modality.
+
+\paragraph{Countermeasures} In the ranking model, countermeasure arms lose 3.73\pp{} less than control arms (95\% CI
+1.54 to 5.93, $p = 0.002$). This is the first countermeasure effect the project has estimated rather than described;
+it pools every countermeasure type and says nothing about which works best.
+
+\subsection{Sensitivity analysis S6: does the weighting matter?}
+\label{sec:results-s6}
+
+The primary analysis weights rows by the number of participants analysed. The classical alternative, inverse-variance
+weighting, needs a dispersion \emph{of the change}, which only 161 of the 346 rows in subset A, from 8 of the 32
+campaigns, carry; most papers print the spread of the baseline or nothing. \Cref{tab:s6} compares the two schemes on
+the same rows. The restriction to rows with a change dispersion moves the duration coefficient by 0.3\pp{} and the
+weighting scheme by another 0.9\pp, with overlapping intervals throughout: on this literature the scheme barely
+matters. The finding that belongs in the methods is the other one: inverse-variance weighting is unavailable as a
+primary scheme, because only eight campaigns carry what it needs.
+
+\begin{table}[htbp]
+\centering
+\caption[Sensitivity analysis S6]{Sensitivity analysis S6. The duration coefficient is the saturating term of the
+tier-1 model; the error is out-of-campaign and campaign-weighted. From \file{results/sensitivity.md}.}
+\label{tab:s6}
+\small
+\begin{tabularx}{\linewidth}{@{}Y l r r c r@{}}
+\toprule
+Analysis & Weights & Rows & Campaigns & Duration coefficient (95\% CI) & MAE (pp) \\
+\midrule
+Primary: every row & participants & 346 & 32 & $-14.25$ ($-16.40$ to $-12.11$) & 3.34 \\
+Rows with a dispersion of the change & participants & 161 & 8 & $-14.51$ ($-15.61$ to $-13.42$) & 2.67 \\
+S6: the same rows & inverse variance & 161 & 8 & $-13.60$ ($-16.69$ to $-10.50$) & 2.82 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{The duration-only baseline}
+\label{sec:results-baseline}
+
+Fitted inside the leave-one-campaign-out loop, the logarithmic curve is the best of the three baseline forms, with
+an out-of-campaign MAE of 3.16\pp{} (95\% CI 2.44 to 3.93); the saturating form follows closely (3.19\pp) and the
+straight line is worst (3.40\pp), which is the evidence that the relationship is curved rather than assumed to be
+(\cref{tab:models}). All three forms already meet the 4\pp{} target before any model family is fitted. Their pooled
+$R^2$ is low (0.07 to 0.14): duration alone predicts the average loss at a given day, but explains little of the
+row-to-row variation, because that variation is mostly which muscle was measured. Averaged over all muscles in
+subset A, the fitted saturating baseline has a time constant of 35 days and an eventual loss of $-13.0\%$; the
+whole-segment and composite rows pull that average towards the less affected tissue, which is why the tier-1 model
+with muscle terms, not the baseline, answers the question for a particular muscle.
+
+\subsection{Tier 2: the comparative machine-learning families}
+\label{sec:results-tier2}
+
+\begin{keybox}{Tier 2 is a null result}
+No family beats the duration-only curve (\cref{tab:models,fig:models}). The best, a random forest, scores 3.18\pp{}
+against the curve's 3.16\pp{}; the others are between 3.7\% and 5.9\% worse. The plan set the bar at a 15\% relative
+improvement and pre-committed to reporting the outcome either way. This is rung~B of the project's fallback ladder.
+A pretrained tabular neural network, TabPFN, added afterwards as a fifth family, does not beat the curve either
+(3.22\pp, 2.1\% worse).
+\end{keybox}
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 2: out-of-campaign error of the baseline and the four families]{Out-of-campaign error of the
+duration-only baseline in its three forms and of the four tier-2 families, subset A, 32 leave-one-campaign-out
+folds. MAE and RMSE are campaign-weighted; the interval is a campaign bootstrap; ``vs.\ baseline'' is the relative
+MAE change against the logarithmic curve (negative = worse); $R^2$ is pooled over out-of-fold predictions. The last
+column names the campaign with the largest error and that error. TabPFN was added after the four families' result
+was known and was run in its own environment (\cref{sec:tier2}).}
+\label{tab:models}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l c c c c c l@{}}
+\toprule
+Model & \makecell{MAE\\ (pp)} & 95\% CI & RMSE & \makecell{vs.\\ baseline} & $R^2$ & Worst campaign (MAE) \\
+\midrule
+\inputtable{generated/tab_models.tex}
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_models}
+\caption[Tier 2 against the duration curve]{Tier 2 against the duration curve. (a)~Out-of-campaign MAE with 95\%
+campaign-bootstrap intervals; the dashed line is the logarithmic curve. (b)~Pooled out-of-fold $R^2$. Blue: the
+four declared families; orange: TabPFN, added post hoc. The flexible families explain two to three times more
+variance than the curve, yet do not convert it into lower error.}
+\label{fig:models}
+\end{figure}
+
+The informative part is panel~b of \cref{fig:models}. Pooled $R^2$ rises from 0.14 for the curve to 0.27--0.36
+once muscle identity enters: the flexible families do find real structure, but they do not convert it into a lower
+absolute error, because the residual is dominated by between-campaign differences that no column in the dataset
+explains. The worst folds show where: a 21-day campaign with site-resolved thigh measurements (HDBR-21, Liphardt;
+7.8--7.9\pp) for three families, and WISE-2005, 60 days of bed rest in women only, for ridge regression (8.6\pp).
+
+\paragraph{The pretrained network} TabPFN, the post-hoc fifth family, scores 3.22\pp{} (95\% CI 2.51 to 3.97), 2.1\%
+worse than the curve and second of the five families behind the random forest. Its pooled $R^2$ of 0.39 is the highest
+of any tier-2 model: a network pretrained on millions of synthetic tables, conditioning on the training campaigns in
+context, finds the muscle structure as the tuned families do, and like them does not turn it into lower error in a
+campaign it has not seen. Its worst campaigns are the same ones: HDBR-21 (Liphardt; 7.56\pp) and WISE-2005 (7.34\pp).
+An earlier run of the same family, on \code{dataset\_v1.0} and the campaigns' planned lengths, had scored 3.25\pp{} with
+a pooled $R^2$ of 0.03, behaving like a duration-only curve; on the day of the scan it behaves like the other families.
+Either way the conclusion is the same, and it now rests on five families of very different kinds, from penalised
+regression to a pretrained transformer.
+
+\paragraph{Importance} SHAP values on the random forest identify two stable features (\cref{tab:importance}): the
+duration term reaches the top three in 29 of 32 folds (91\%) and the plantar-flexor indicator in 28 (88\%). The third
+place alternates between the countermeasure arm (59\%) and the composite flag (53\%), so the declared criterion---the
+same top three in 80\% of folds---is missed. The flexible models lean on exactly the two variables the tier-1 model
+estimates with intervals, which is the consistency the importance analysis was meant to check; it is not evidence of
+cause.
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 2: stability of feature importance]{Stability of SHAP importance for the random forest across the 32
+folds: how often each feature reaches the top three, and its mean absolute SHAP value. Features never in the top three
+are omitted.}
+\label{tab:importance}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Feature & Folds in top three & Share & Mean $|$SHAP$|$ \\
+\midrule
+\inputtable{generated/tab_importance.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Tier 3: the probabilistic forecast}
+\label{sec:results-tier3}
+
+The first run sent 430 requests, the largest of 26,390 input tokens. \Cref{tab:forecast} reports both arms against
+their references on identical metrics.
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 3: forecast accuracy and calibration]{Tier 3 against its references. MAE and CRPS in percentage
+points, campaign-weighted, with a campaign-bootstrap interval for the MAE; the log score is per row (lower is better);
+coverage and mean width (pp) of the most probable 50\% and 80\% ranges. $^\dagger$ the arm's reference.}
+\label{tab:forecast}
+\small
+\begin{tabularx}{\linewidth}{@{}Y c c c c c c c@{}}
+\toprule
+Model & MAE & 95\% CI & CRPS & Log score & 50\% range & 80\% range & $R^2$ \\
+\midrule
+\inputtable{generated/tab_forecast.tex}
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Without history} \Jev's error is 2.71\pp{} against the curve's 3.13\pp.\footnote{The curve scores
+3.13\pp{} here and 3.16\pp{} in \cref{tab:models} because here its point is the mean of its forecast distribution, the
+same definition used for the model's point.} Paired by campaign, the model's error is lower by 0.42\pp{} (95\% CI
+0.13 to 0.73), and it is closer in 20 of the 32 campaigns (\cref{fig:jevcampaigns}). This is the first advantage over
+the duration curve in the project whose paired interval excludes zero, and the pooled $R^2$ of 0.43 is about three
+times the curve's (\cref{fig:jevscatter}). Against the declared bars, however, the MAE improvement is 13.3\%, short
+of the 15\% required; the CRPS improvement, 17.7\%, meets its bar; and the 80\% ranges contain the truth only 62\% of
+the time, so they may not be called 80\% ranges. The log score says the same from the other side: it is worse than
+the curve's (2.84 against 2.29) despite the better CRPS, because when the model is wrong it has placed almost no
+probability where the truth landed.
+
+\paragraph{With history} Forecasting the change since the previous scan on 84 rows from five campaigns, \Jev{}
+reaches 2.84\pp{} against 3.21\pp{} for the last scan plus the curve's step, a paired gain of 0.37\pp{} (0.03 to
+0.75) in four of the five campaigns. The MAE improvement (11.5\%) misses its bar, the CRPS is 2.2\% worse than the
+reference, and the ranges are badly overconfident: 2.8\pp{} wide, they contain the truth 38\% of the time. With five
+campaigns, every interval on this arm rests on a bootstrap over five values and is indicative only.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_jev_campaigns}
+\caption[Tier 3: gain by held-out campaign]{Tier 3 without history: the duration curve's campaign MAE minus \Jev's,
+for each held-out campaign (positive = \Jev{} closer). The number beside each bar is the campaign's rows. More than
+half of the total gain comes from three long, multi-muscle MRI campaigns---NASA SPRINT, Berlin BBR2-2 and MEDES
+LTBR---which are also among the most published campaigns in the field.}
+\label{fig:jevcampaigns}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_jev_scatter}
+\caption[Tier 3: forecast against observed value]{Forecast against observed change for all 346 rows of subset A,
+each forecast made with its campaign held out. (a)~The duration curve predicts nearly one value per scan day. (b)~\Jev{}
+follows the between-muscle spread, which is where its gain comes from; both regress towards the mean at the extremes.
+Dashed line: identity.}
+\label{fig:jevscatter}
+\end{figure}
+
+\subsection{Tier 3: is the gain signal or recognition?}
+\label{sec:results-ablation}
+
+Because more than half of the gain came from three much-published campaigns, the ablations and the recognition probe
+were declared and run (1,280 new answers). \Cref{tab:ablation} and panel~a of \cref{fig:jevchecks} report them.
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 3: ablations]{Tier 3 ablations on the arm without history (346 rows, 32 campaigns). The paired gain is
+over the duration curve; the change is relative to the full run (negative = worse). Intervals are campaign bootstraps.}
+\label{tab:ablation}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l c c c c c c@{}}
+\toprule
+Variant & MAE & CRPS & \makecell{80\%\\ cover} & \makecell{Paired gain,\\ pp (95\% CI)} & \makecell{Change vs.\ full,\\ pp (95\% CI)} & Closer \\
+\midrule
+\inputtable{generated/tab_ablation.tex}
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\paragraph{Against the reading rules}
+\begin{itemize}
+  \item \textbf{The generic variant keeps the gain}: 0.30\pp{} (0.01 to 0.62), at least half of the full run's 0.42\pp{}
+        with an interval above zero; its difference from the full run, $-0.11$\pp, has an interval that includes zero.
+        The gain does not need anything that identifies a study.
+  \item \textbf{The model reads the reference data}: with the other campaigns' values shuffled, the gain becomes a loss
+        of 1.25\pp; without any reference data the model is far worse than the curve (5.85 against 3.13\pp).
+  \item \textbf{Recognition is not a live explanation} (\cref{fig:recognition}). The model places a mean probability
+        of 0.14 on the true campaign, against 0.08 by chance, and names it first on 19\% of rows. Three campaigns pass
+        the recognition bar---NASA SPRINT and AGBRESA (named first on 67\% of their rows) and VBR (50\%)---but of the
+        three that carry most of the gain only SPRINT is recognised; for BBR2-2 and MEDES LTBR the model's commonest
+        answer is ``none of these''. Recognition and gain correlate at $\rho = 0.37$ ($p = 0.26$, 11 campaigns).
+\end{itemize}
+By the declared table this is the first case: \emph{tier 3's point forecasts may be quoted as a result}, with the
+caveats of \cref{sec:results-tier3}. The campaign-level errors point the same way. A model recalling published numbers
+should do best without reference data on the campaigns it can name; it does not, being worse than the curve on
+AGBRESA (6.13 against 2.95\pp) and VBR (5.73 against 0.95\pp). SPRINT is the exception (4.80 against 5.92\pp) and the
+one place recognition may contribute, but the generic variant, which gives the model nothing to recognise SPRINT by,
+still beats the curve there (3.79 against 5.92\pp). The one campaign no paper reports, UTMB Campaign~3, computed from
+NASA's raw archive, also favours the model (0.67\pp{} gain, four rows).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{fig_recognition}
+\caption[Tier 3: recognition probe]{Recognition probe, 11 campaigns with proper names. Horizontal: mean probability
+the model places on the true campaign name when shown the description the forecast uses; vertical: the campaign's
+paired gain over the curve. Marker area is proportional to rows. Two of the three campaigns carrying most of the gain
+(BBR2-2, MEDES LTBR) are not recognised.}
+\label{fig:recognition}
+\end{figure}
+
+\subsection{Tier 3: does it hold up?}
+\label{sec:results-validation}
+
+The validation battery added 1,195 answers and 20 repeats past the cache (\cref{tab:validation}, \cref{fig:jevchecks}).
+
+\begin{table}[htbp]
+\centering
+\caption[Tier 3: validation battery]{Tier 3 validation battery, leave-one-campaign-out throughout. MAE in pp for
+\Jev{} and for the arm's reference; paired gain over the reference and change from the full run with 95\%
+campaign-bootstrap intervals. On the history arm each interval rests on five campaigns.}
+\label{tab:validation}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l c c c c@{}}
+\toprule
+Run & \makecell{\Jev{}\\ MAE} & \makecell{Reference\\ MAE} & \makecell{Paired gain,\\ pp (95\% CI)} & \makecell{Change vs.\ full,\\ pp (95\% CI)} \\
+\midrule
+\inputtable{generated/tab_validation.tex}
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{fig_jev_checks}
+\caption[Tier 3: the gain under every check]{Paired MAE gain of \Jev{} over each arm's reference under every
+ablation and presentation check, with 95\% campaign-bootstrap intervals. Blue: interval above zero; orange: below
+zero; grey: spans zero. (a)~Without history the gain survives every change of presentation and the removal of
+identifying detail, and collapses when the reference data are shuffled or removed. (b)~With history the gain is
+unchanged when the campaign's own earlier scans are shuffled.}
+\label{fig:jevchecks}
+\end{figure}
+
+\paragraph{Against the reading rules}
+\begin{itemize}
+  \item \textbf{Robust to presentation: yes, on both arms.} Without history the MAE moves by 3\% under reordering and
+        1\% under shifted ranges, and the gain keeps an interval above zero under both (0.34 and 0.45\pp). On the
+        history arm both moves are 2\% and the gain keeps its sign.
+  \item \textbf{Consistent: no, by the letter of the rule.} None of the 20 repeated requests returned identical
+        probabilities. The probabilities moved by 0.034 on average (0.09 at most), the forecasts by 0.17\pp{} on
+        average (0.48 at most), the most likely range held in 18 of 20, and the error on the repeated rows went from
+        2.456 to 2.479\pp. Run-to-run variation is of the order of the differences between presentation runs and far
+        below the 0.42\pp{} gain.
+  \item \textbf{Reads the earlier scans: no.} Shuffling the held-out campaign's earlier values leaves the error where
+        it was ($+0.06$\pp, interval across zero).
+  \item \textbf{Reads the other campaigns on the history arm: not shown.} Both reference ablations are worse in their
+        point estimates, by 0.13 and 0.52\pp, but on five campaigns neither interval clears zero.
+  \item \textbf{The earlier scans help---strongly, but not through the model.} On the same 84 rows the model's error
+        falls from 5.83 to 2.84\pp{} when it forecasts the change since the last scan rather than the level (paired
+        2.98\pp, 1.54 to 5.51), and the baselines' from 7.27 to 3.21\pp{} (4.06\pp, 2.52 to 5.99). What the earlier
+        scans supply is the anchor, and the code supplies it by adding the forecast change to the last scan.
+\end{itemize}
+Of the three conditions for calling tier 3 working rather than lucky, the one that carries the quoted number holds:
+the result without history survives both presentation checks and its run-to-run variation is far smaller than the
+gain. The other two fail and are reported as failing. The tier-3 number is therefore quoted from the arm without
+history, with the note that repeated runs differ slightly; nothing is claimed about the model using a campaign's
+earlier scans.
+
+\subsection{The effect of correcting the time axis}
+\label{sec:results-correction}
+
+\Cref{tab:correction} records what changed when tiers 1 and 2 moved from the campaign's planned length to the day of
+the scan (\cref{sec:target}). The fit improved by about 65 AIC points on identical rows, the plainest evidence that
+the scan day is the right exposure; the time constant moved from the edge of the declared grid to its interior; and
+the share of variance between muscles rose. What matters for the conclusions did not change: the duration forms remain
+indistinguishable, the ranking keeps its order, and no tier-2 family beats the curve. Tier 3 was fitted on the scan
+day from the start.
+
+\begin{table}[htbp]
+\centering
+\caption[The time-axis correction]{Results fitted on the campaign's planned length (first runs, superseded) and on the
+day of the scan (reported). Values for the planned length are as recorded in \file{framework/DESIGN.md}, section 9.4.}
+\label{tab:correction}
+\small
+\begin{tabularx}{\linewidth}{@{}Y c c@{}}
+\toprule
+Result & Planned length & Day of the scan \\
+\midrule
+Tier 1, saturating form, AIC on the same 346 rows & 2152.3 & \textbf{2085.9} \\
+Residual variance & 17.7 & \textbf{13.8} \\
+Loss per doubling of days, logarithmic form (pp) & $-2.41$ ($-3.26$ to $-1.56$) & \textbf{$-$2.99} ($-3.44$ to $-2.53$) \\
+Saturating time constant & 90 days, at the edge of the grid & \textbf{60 days}, inside it \\
+Eventual loss, saturating form (\%) & $-19.9$ ($-24.8$ to $-15.0$) & \textbf{$-$17.3} ($-20.9$ to $-13.7$) \\
+Share of variance between muscles within a campaign & 23\% & \textbf{30\%} \\
+Baseline (logarithmic), out-of-campaign MAE & 3.21\pp & \textbf{3.16\pp} \\
+Baseline pooled $R^2$ & 0.03 & \textbf{0.14} \\
+Best tier-2 family against the baseline & SVR, $-0.4\%$ & \textbf{Random forest, $-$0.7\%} \\
+Tier-2 pooled $R^2$ & 0.10--0.22 & \textbf{0.27--0.36} \\
+Features stable in the top three ($\geq$80\% of folds) & duration only, at 69\% & \textbf{duration (91\%), plantar flexors (88\%)} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Assessment against the declared criteria}
+\label{sec:results-criteria}
+
+\Cref{tab:assessment} sets every criterion declared before modelling, and every bar declared for tier 3, against
+its outcome. Of the six criteria for tiers 1 and 2, the three that were allowed to fail split one met and two missed;
+of the three blocking criteria, two are met and the physiological sign-off is outstanding.
+
+\begin{table}[H]
+\centering
+\caption[Assessment against the declared criteria]{Assessment against the criteria of \cref{tab:criteria} and the
+tier-3 bars.}
+\label{tab:assessment}
+\small
+\begin{tabularx}{\linewidth}{@{}L{4.8cm} L{2.2cm} Y@{}}
+\toprule
+Criterion & Outcome & Evidence \\
+\midrule
+Out-of-campaign MAE $\leq$ 4\pp & Met & Every baseline form and every family, 3.16--3.40\pp \\
+Best model $\geq$ 15\% better than baseline & Not met & Best family $-0.7\%$; null result reported \\
+\quad TabPFN, post hoc, against the same bar & Not met & $-2.1\%$; pooled $R^2$ 0.39 \\
+SHAP top-3 stability $\geq$ 80\% & Not met & Top two stable (91\%, 88\%); third place 59\% \\
+Leakage audit & Met & Disjointness asserted in every fold; the assertion is tested against a bad split \\
+Reproducibility & Met & One command rebuilds every result; 234 tests pass; tier 3 rebuilt from its cache \\
+Physiological sign-off & \textbf{Outstanding} & Muscle classification and fitted relationships await the scientific lead \\
+\addlinespace
+Tier 3, MAE $\geq$ 15\% better & Not met & 13.3\% without history, 11.5\% with \\
+Tier 3, CRPS $\geq$ 15\% better & Met without history & 17.7\%; with history 2.2\% worse \\
+Tier 3, 80\% coverage in 70--90\% & Not met & 62\% and 38\%: ranges overconfident \\
+Tier 3, leakage and reproducibility & Met & Assertions on every request; cache rebuild without API calls \\
+\bottomrule
+\end{tabularx}
+\end{table}

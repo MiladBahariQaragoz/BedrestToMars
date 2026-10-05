@@ -1,0 +1,11 @@
+arm,variant,rows,folds,jev_mae_pp,jev_crps_pp,jev_coverage_80,reference,reference_mae_pp,relative_mae_improvement,paired_gain_pp,paired_gain_low,paired_gain_high,change_vs_full_pp,change_vs_full_low,change_vs_full_high
+with_history,full,84,5,2.845,2.209,0.382,last_scan_plus_curve,3.214,0.115,0.37,0.033,0.755,0.0,0.0,0.0
+with_history,generic,84,5,2.869,2.25,0.387,last_scan_plus_curve,3.214,0.107,0.345,0.1,0.589,-0.025,-0.235,0.138
+with_history,scrambled_reference,84,5,2.975,2.213,0.705,last_scan_plus_curve,3.214,0.074,0.239,-0.222,0.766,-0.131,-0.434,0.099
+with_history,no_reference,84,5,3.369,2.45,0.545,last_scan_plus_curve,3.214,-0.048,-0.155,-1.478,0.941,-0.525,-1.572,0.484
+with_history,scrambled_history,84,5,2.78,2.204,0.413,last_scan_plus_curve,3.214,0.135,0.434,0.084,0.783,0.064,-0.144,0.285
+with_history,reordered,84,5,2.777,2.173,0.466,last_scan_plus_curve,3.214,0.136,0.437,0.066,0.899,0.067,-0.059,0.172
+with_history,shifted_bins,84,5,2.897,2.405,0.358,last_scan_plus_curve,3.208,0.097,0.311,0.035,0.583,-0.052,-0.267,0.103
+without_history,full,346,32,2.71,2.049,0.62,duration_curve,3.126,0.133,0.416,0.126,0.733,0.0,0.0,0.0
+without_history,reordered,346,32,2.788,2.134,0.619,duration_curve,3.126,0.108,0.338,0.074,0.619,-0.078,-0.203,0.046
+without_history,shifted_bins,346,32,2.682,2.112,0.613,duration_curve,3.129,0.143,0.447,0.148,0.781,0.028,-0.025,0.093

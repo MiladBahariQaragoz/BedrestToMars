@@ -1,0 +1,23 @@
+# Core - the loader, the features, the cross-validation, the baseline and tier 1 need
+# only these. Tier 1 is the primary result, so it deliberately does not depend on the
+# optional stack below: scipy supplies the optimiser and the t distribution, nothing more.
+numpy>=2.0
+pandas>=2.2
+PyYAML>=6.0
+scipy>=1.13
+
+# Tier 2 - the four comparative model families and the interpretation (P4).
+scikit-learn>=1.5
+shap>=0.45
+
+# Figures.
+matplotlib>=3.8
+
+# Optional, post hoc - TabPFN, the pretrained tabular foundation model (Hollmann et al.,
+# Nature 2025), run by framework/run_tabpfn.py only. Install it in a SEPARATE environment:
+# tabpfn 2.0.9 needs scikit-learn below 1.7, and the tier-2 results were fitted with 1.8.
+# Pin 2.0.9: later versions put the checkpoint behind a one-time browser licence login that
+# cannot be completed non-interactively. Pulls torch (a ~200 MB CPU wheel).
+#   python -m venv ~/.venvs/dglrm-tabpfn
+#   ~/.venvs/dglrm-tabpfn/bin/pip install "tabpfn==2.0.9" numpy pandas PyYAML scipy
+#   PYTHON_TABPFN=~/.venvs/dglrm-tabpfn/bin/python make tabpfn

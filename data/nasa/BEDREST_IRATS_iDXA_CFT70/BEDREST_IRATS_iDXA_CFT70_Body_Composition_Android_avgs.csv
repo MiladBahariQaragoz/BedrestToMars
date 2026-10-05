@@ -1,0 +1,271 @@
+﻿ID,Group,Statistic,Component,Unit,Test,Value
+1,Ctrl,Mean,Tissue,g,Pre,5601.08
+2,Ctrl,Mean,Tissue,g,Test 1,5374.78
+3,Ctrl,Mean,Tissue,g,Test 2,5387.71
+4,Ctrl,Mean,Tissue,g,Test 3,5391.44
+5,Ctrl,Mean,Tissue,g,Test 4,5436.14
+6,Ctrl,Mean,Tissue,g,Post,5601.48
+7,Ctrl,SD,Tissue,g,Pre,850.2
+8,Ctrl,SD,Tissue,g,Test 1,2298.45
+9,Ctrl,SD,Tissue,g,Test 2,2291.89
+10,Ctrl,SD,Tissue,g,Test 3,2289.62
+11,Ctrl,SD,Tissue,g,Test 4,2311.57
+12,Ctrl,SD,Tissue,g,Post,906.93
+13,Ctrl,SEM,Tissue,g,Pre,256.34
+14,Ctrl,SEM,Tissue,g,Test 1,693.01
+15,Ctrl,SEM,Tissue,g,Test 2,691.03
+16,Ctrl,SEM,Tissue,g,Test 3,690.35
+17,Ctrl,SEM,Tissue,g,Test 4,696.96
+18,Ctrl,SEM,Tissue,g,Post,273.45
+19,Exer,Mean,Tissue,g,Pre,5246.68
+20,Exer,Mean,Tissue,g,Test 1,5108.56
+21,Exer,Mean,Tissue,g,Test 2,5121.38
+22,Exer,Mean,Tissue,g,Test 3,4915.59
+23,Exer,Mean,Tissue,g,Test 4,4871.73
+24,Exer,Mean,Tissue,g,Post,5184.35
+25,Exer,SD,Tissue,g,Pre,855.34
+26,Exer,SD,Tissue,g,Test 1,823.02
+27,Exer,SD,Tissue,g,Test 2,802.21
+28,Exer,SD,Tissue,g,Test 3,1420.07
+29,Exer,SD,Tissue,g,Test 4,1417.25
+30,Exer,SD,Tissue,g,Post,799.66
+31,Exer,SEM,Tissue,g,Pre,196.23
+32,Exer,SEM,Tissue,g,Test 1,188.81
+33,Exer,SEM,Tissue,g,Test 2,184.04
+34,Exer,SEM,Tissue,g,Test 3,325.79
+35,Exer,SEM,Tissue,g,Test 4,325.14
+36,Exer,SEM,Tissue,g,Post,183.45
+37,FLY,Mean,Tissue,g,Pre,5138.94
+38,FLY,Mean,Tissue,g,Test 1,5022.27
+39,FLY,Mean,Tissue,g,Test 2,5070.58
+40,FLY,Mean,Tissue,g,Test 3,5015.54
+41,FLY,Mean,Tissue,g,Test 4,5031.92
+42,FLY,Mean,Tissue,g,Post,4995.43
+43,FLY,SD,Tissue,g,Pre,1114.51
+44,FLY,SD,Tissue,g,Test 1,1081.63
+45,FLY,SD,Tissue,g,Test 2,1075.21
+46,FLY,SD,Tissue,g,Test 3,1094.58
+47,FLY,SD,Tissue,g,Test 4,1019
+48,FLY,SD,Tissue,g,Post,1084.2
+49,FLY,SEM,Tissue,g,Pre,394.04
+50,FLY,SEM,Tissue,g,Test 1,382.42
+51,FLY,SEM,Tissue,g,Test 2,380.14
+52,FLY,SEM,Tissue,g,Test 3,386.99
+53,FLY,SEM,Tissue,g,Test 4,360.27
+54,FLY,SEM,Tissue,g,Post,383.32
+55,Ctrl,Mean,Fat,g,Pre,1864.57
+56,Ctrl,Mean,Fat,g,Test 1,1766.88
+57,Ctrl,Mean,Fat,g,Test 2,1800.51
+58,Ctrl,Mean,Fat,g,Test 3,1819.56
+59,Ctrl,Mean,Fat,g,Test 4,1869.78
+60,Ctrl,Mean,Fat,g,Post,2052.08
+61,Ctrl,SD,Fat,g,Pre,776.11
+62,Ctrl,SD,Fat,g,Test 1,883.06
+63,Ctrl,SD,Fat,g,Test 2,858.34
+64,Ctrl,SD,Fat,g,Test 3,859.27
+65,Ctrl,SD,Fat,g,Test 4,863.48
+66,Ctrl,SD,Fat,g,Post,680.31
+67,Ctrl,SEM,Fat,g,Pre,234
+68,Ctrl,SEM,Fat,g,Test 1,266.25
+69,Ctrl,SEM,Fat,g,Test 2,258.8
+70,Ctrl,SEM,Fat,g,Test 3,259.08
+71,Ctrl,SEM,Fat,g,Test 4,260.35
+72,Ctrl,SEM,Fat,g,Post,205.12
+73,Exer,Mean,Fat,g,Pre,1408.93
+74,Exer,Mean,Fat,g,Test 1,1375.82
+75,Exer,Mean,Fat,g,Test 2,1391.97
+76,Exer,Mean,Fat,g,Test 3,1402.99
+77,Exer,Mean,Fat,g,Test 4,1386.86
+78,Exer,Mean,Fat,g,Post,1438.86
+79,Exer,SD,Fat,g,Pre,729.06
+80,Exer,SD,Fat,g,Test 1,708.4
+81,Exer,SD,Fat,g,Test 2,759.24
+82,Exer,SD,Fat,g,Test 3,791.97
+83,Exer,SD,Fat,g,Test 4,790.07
+84,Exer,SD,Fat,g,Post,767.12
+85,Exer,SEM,Fat,g,Pre,167.26
+86,Exer,SEM,Fat,g,Test 1,162.52
+87,Exer,SEM,Fat,g,Test 2,174.18
+88,Exer,SEM,Fat,g,Test 3,181.69
+89,Exer,SEM,Fat,g,Test 4,181.26
+90,Exer,SEM,Fat,g,Post,175.99
+91,FLY,Mean,Fat,g,Pre,1257.28
+92,FLY,Mean,Fat,g,Test 1,1188.25
+93,FLY,Mean,Fat,g,Test 2,1219.68
+94,FLY,Mean,Fat,g,Test 3,1216.5
+95,FLY,Mean,Fat,g,Test 4,1200.98
+96,FLY,Mean,Fat,g,Post,1207.73
+97,FLY,SD,Fat,g,Pre,657.28
+98,FLY,SD,Fat,g,Test 1,652.83
+99,FLY,SD,Fat,g,Test 2,663.39
+100,FLY,SD,Fat,g,Test 3,684.45
+101,FLY,SD,Fat,g,Test 4,658.14
+102,FLY,SD,Fat,g,Post,689.85
+103,FLY,SEM,Fat,g,Pre,232.38
+104,FLY,SEM,Fat,g,Test 1,230.81
+105,FLY,SEM,Fat,g,Test 2,234.54
+106,FLY,SEM,Fat,g,Test 3,241.99
+107,FLY,SEM,Fat,g,Test 4,232.69
+108,FLY,SEM,Fat,g,Post,243.9
+109,Ctrl,Mean,Lean,g,Pre,3736.51
+110,Ctrl,Mean,Lean,g,Test 1,3607.9
+111,Ctrl,Mean,Lean,g,Test 2,3587.2
+112,Ctrl,Mean,Lean,g,Test 3,3571.89
+113,Ctrl,Mean,Lean,g,Test 4,3566.36
+114,Ctrl,Mean,Lean,g,Post,3549.4
+115,Ctrl,SD,Lean,g,Pre,526.23
+116,Ctrl,SD,Lean,g,Test 1,1548.54
+117,Ctrl,SD,Lean,g,Test 2,1549.11
+118,Ctrl,SD,Lean,g,Test 3,1530.75
+119,Ctrl,SD,Lean,g,Test 4,1531.16
+120,Ctrl,SD,Lean,g,Post,602.41
+121,Ctrl,SEM,Lean,g,Pre,158.67
+122,Ctrl,SEM,Lean,g,Test 1,466.9
+123,Ctrl,SEM,Lean,g,Test 2,467.07
+124,Ctrl,SEM,Lean,g,Test 3,461.54
+125,Ctrl,SEM,Lean,g,Test 4,461.66
+126,Ctrl,SEM,Lean,g,Post,181.63
+127,Exer,Mean,Lean,g,Pre,3837.76
+128,Exer,Mean,Lean,g,Test 1,3732.74
+129,Exer,Mean,Lean,g,Test 2,3729.41
+130,Exer,Mean,Lean,g,Test 3,3512.6
+131,Exer,Mean,Lean,g,Test 4,3484.86
+132,Exer,Mean,Lean,g,Post,3745.5
+133,Exer,SD,Lean,g,Pre,441.51
+134,Exer,SD,Lean,g,Test 1,421.43
+135,Exer,SD,Lean,g,Test 2,435.65
+136,Exer,SD,Lean,g,Test 3,964.44
+137,Exer,SD,Lean,g,Test 4,944.01
+138,Exer,SD,Lean,g,Post,404.03
+139,Exer,SEM,Lean,g,Pre,101.29
+140,Exer,SEM,Lean,g,Test 1,96.68
+141,Exer,SEM,Lean,g,Test 2,99.94
+142,Exer,SEM,Lean,g,Test 3,221.26
+143,Exer,SEM,Lean,g,Test 4,216.57
+144,Exer,SEM,Lean,g,Post,92.69
+145,FLY,Mean,Lean,g,Pre,3881.65
+146,FLY,Mean,Lean,g,Test 1,3834.02
+147,FLY,Mean,Lean,g,Test 2,3850.91
+148,FLY,Mean,Lean,g,Test 3,3799.04
+149,FLY,Mean,Lean,g,Test 4,3830.94
+150,FLY,Mean,Lean,g,Post,3787.69
+151,FLY,SD,Lean,g,Pre,558.03
+152,FLY,SD,Lean,g,Test 1,534.23
+153,FLY,SD,Lean,g,Test 2,543.11
+154,FLY,SD,Lean,g,Test 3,520.54
+155,FLY,SD,Lean,g,Test 4,464.49
+156,FLY,SD,Lean,g,Post,524.03
+157,FLY,SEM,Lean,g,Pre,197.3
+158,FLY,SEM,Lean,g,Test 1,188.88
+159,FLY,SEM,Lean,g,Test 2,192.02
+160,FLY,SEM,Lean,g,Test 3,184.04
+161,FLY,SEM,Lean,g,Test 4,164.22
+162,FLY,SEM,Lean,g,Post,185.27
+163,Ctrl,Mean,Total,kg,Pre,5.65
+164,Ctrl,Mean,Total,kg,Test 1,5.42
+165,Ctrl,Mean,Total,kg,Test 2,5.44
+166,Ctrl,Mean,Total,kg,Test 3,5.44
+167,Ctrl,Mean,Total,kg,Test 4,5.49
+168,Ctrl,Mean,Total,kg,Post,5.65
+169,Ctrl,SD,Total,kg,Pre,0.85
+170,Ctrl,SD,Total,kg,Test 1,2.32
+171,Ctrl,SD,Total,kg,Test 2,2.31
+172,Ctrl,SD,Total,kg,Test 3,2.31
+173,Ctrl,SD,Total,kg,Test 4,2.33
+174,Ctrl,SD,Total,kg,Post,0.91
+175,Ctrl,SEM,Total,kg,Pre,0.26
+176,Ctrl,SEM,Total,kg,Test 1,0.7
+177,Ctrl,SEM,Total,kg,Test 2,0.7
+178,Ctrl,SEM,Total,kg,Test 3,0.7
+179,Ctrl,SEM,Total,kg,Test 4,0.7
+180,Ctrl,SEM,Total,kg,Post,0.27
+181,Exer,Mean,Total,kg,Pre,5.3
+182,Exer,Mean,Total,kg,Test 1,5.16
+183,Exer,Mean,Total,kg,Test 2,5.18
+184,Exer,Mean,Total,kg,Test 3,4.97
+185,Exer,Mean,Total,kg,Test 4,4.93
+186,Exer,Mean,Total,kg,Post,5.24
+187,Exer,SD,Total,kg,Pre,0.86
+188,Exer,SD,Total,kg,Test 1,0.83
+189,Exer,SD,Total,kg,Test 2,0.81
+190,Exer,SD,Total,kg,Test 3,1.43
+191,Exer,SD,Total,kg,Test 4,1.43
+192,Exer,SD,Total,kg,Post,0.8
+193,Exer,SEM,Total,kg,Pre,0.2
+194,Exer,SEM,Total,kg,Test 1,0.19
+195,Exer,SEM,Total,kg,Test 2,0.18
+196,Exer,SEM,Total,kg,Test 3,0.33
+197,Exer,SEM,Total,kg,Test 4,0.33
+198,Exer,SEM,Total,kg,Post,0.18
+199,FLY,Mean,Total,kg,Pre,5.2
+200,FLY,Mean,Total,kg,Test 1,5.08
+201,FLY,Mean,Total,kg,Test 2,5.13
+202,FLY,Mean,Total,kg,Test 3,5.07
+203,FLY,Mean,Total,kg,Test 4,5.09
+204,FLY,Mean,Total,kg,Post,5.05
+205,FLY,SD,Total,kg,Pre,1.12
+206,FLY,SD,Total,kg,Test 1,1.09
+207,FLY,SD,Total,kg,Test 2,1.08
+208,FLY,SD,Total,kg,Test 3,1.1
+209,FLY,SD,Total,kg,Test 4,1.03
+210,FLY,SD,Total,kg,Post,1.09
+211,FLY,SEM,Total,kg,Pre,0.4
+212,FLY,SEM,Total,kg,Test 1,0.39
+213,FLY,SEM,Total,kg,Test 2,0.38
+214,FLY,SEM,Total,kg,Test 3,0.39
+215,FLY,SEM,Total,kg,Test 4,0.36
+216,FLY,SEM,Total,kg,Post,0.39
+217,Ctrl,Mean,Tissue,%,Pre,32.56
+218,Ctrl,Mean,Tissue,%,Test 1,32.51
+219,Ctrl,Mean,Tissue,%,Test 2,33.27
+220,Ctrl,Mean,Tissue,%,Test 3,33.61
+221,Ctrl,Mean,Tissue,%,Test 4,34.3
+222,Ctrl,Mean,Tissue,%,Post,36.23
+223,Ctrl,SD,Tissue,%,Pre,9.76
+224,Ctrl,SD,Tissue,%,Test 1,14.98
+225,Ctrl,SD,Tissue,%,Test 2,15
+226,Ctrl,SD,Tissue,%,Test 3,14.87
+227,Ctrl,SD,Tissue,%,Test 4,14.85
+228,Ctrl,SD,Tissue,%,Post,7.45
+229,Ctrl,SEM,Tissue,%,Pre,2.94
+230,Ctrl,SEM,Tissue,%,Test 1,4.52
+231,Ctrl,SEM,Tissue,%,Test 2,4.52
+232,Ctrl,SEM,Tissue,%,Test 3,4.48
+233,Ctrl,SEM,Tissue,%,Test 4,4.48
+234,Ctrl,SEM,Tissue,%,Post,2.25
+235,Exer,Mean,Tissue,%,Pre,25.59
+236,Exer,Mean,Tissue,%,Test 1,25.67
+237,Exer,Mean,Tissue,%,Test 2,25.84
+238,Exer,Mean,Tissue,%,Test 3,25.98
+239,Exer,Mean,Tissue,%,Test 4,25.81
+240,Exer,Mean,Tissue,%,Post,26.41
+241,Exer,SD,Tissue,%,Pre,10.56
+242,Exer,SD,Tissue,%,Test 1,10.57
+243,Exer,SD,Tissue,%,Test 2,11.64
+244,Exer,SD,Tissue,%,Test 3,12.47
+245,Exer,SD,Tissue,%,Test 4,12.32
+246,Exer,SD,Tissue,%,Post,11.51
+247,Exer,SEM,Tissue,%,Pre,2.42
+248,Exer,SEM,Tissue,%,Test 1,2.43
+249,Exer,SEM,Tissue,%,Test 2,2.67
+250,Exer,SEM,Tissue,%,Test 3,2.86
+251,Exer,SEM,Tissue,%,Test 4,2.83
+252,Exer,SEM,Tissue,%,Post,2.64
+253,FLY,Mean,Tissue,%,Pre,22.98
+254,FLY,Mean,Tissue,%,Test 1,22.12
+255,FLY,Mean,Tissue,%,Test 2,22.57
+256,FLY,Mean,Tissue,%,Test 3,22.63
+257,FLY,Mean,Tissue,%,Test 4,22.36
+258,FLY,Mean,Tissue,%,Post,22.53
+259,FLY,SD,Tissue,%,Pre,9.62
+260,FLY,SD,Tissue,%,Test 1,9.93
+261,FLY,SD,Tissue,%,Test 2,9.97
+262,FLY,SD,Tissue,%,Test 3,10.32
+263,FLY,SD,Tissue,%,Test 4,9.87
+264,FLY,SD,Tissue,%,Post,10.56
+265,FLY,SEM,Tissue,%,Pre,3.4
+266,FLY,SEM,Tissue,%,Test 1,3.51
+267,FLY,SEM,Tissue,%,Test 2,3.53
+268,FLY,SEM,Tissue,%,Test 3,3.65
+269,FLY,SEM,Tissue,%,Test 4,3.49
+270,FLY,SEM,Tissue,%,Post,3.73

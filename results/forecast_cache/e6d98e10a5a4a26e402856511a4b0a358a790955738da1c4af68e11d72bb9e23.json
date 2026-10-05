@@ -1,0 +1,30 @@
+{
+ "answers": {
+  "campaign": {
+   "choice": "agbresa",
+   "confidence": 0.16,
+   "probabilities": {
+    "2nd_berlin_bedrest_study_bbr2_2": 0.04,
+    "agbresa": 0.23,
+    "berlin_bedrest_study_bbr1": 0.06,
+    "brace": 0.03,
+    "lunhab": 0.06,
+    "medes_long_term_bed_rest_ltbr": 0.22,
+    "nasa_flight_analog_project_utmb_campaign_3": 0.06,
+    "nasa_sprint": 0.03,
+    "none_of_these_campaigns": 0.15,
+    "planhab": 0.08,
+    "vibration_bed_rest_study_vbr": 0.0,
+    "wise_2005": 0.04
+   },
+   "type": "choice"
+  }
+ },
+ "key": "e6d98e10a5a4a26e402856511a4b0a358a790955738da1c4af68e11d72bb9e23",
+ "model": "jev-1.13.0",
+ "model_requested": "jev-1.13.0",
+ "usage": {
+  "input_tokens": 880,
+  "output_tokens": 171
+ }
+}
