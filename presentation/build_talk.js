@@ -27,7 +27,7 @@ const MONO = "Courier New";
 (async () => {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_WIDE"; // 13.33 x 7.5
-  pres.title = "From Bed Rest to Mars: modelling and evaluation";
+  pres.title = "From Bed Rest to Mars: Development of a Literature-Derived Machine Learning Framework for Predicting Lower-Limb Muscle Atrophy in Spaceflight Analogues";
   pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
   const C = pres.SchemeColor;
 
@@ -128,10 +128,12 @@ const MONO = "Courier New";
   // ---------- Title (Intro) ----------
   {
     const s = add(undefined, "Title");
-    text(s, "From Bed Rest to Mars", { x: 0.9, y: 2.2, w: 11.5, h: 1.0, fontFace: THEME.headFontFace, fontSize: 44, bold: true, color: C.text2 });
-    text(s, "Forecasting lower-limb muscle loss during unloading", { x: 0.9, y: 3.2, w: 11.5, h: 0.6, fontSize: 24, color: C.text1 });
-    text(s, "[Authors]  |  [Affiliation]", { x: 0.9, y: 4.3, w: 11.5, h: 0.4, fontSize: 16, color: C.accent3 });
-    text(s, "DGLRM 2026", { x: 0.9, y: 4.75, w: 11.5, h: 0.4, fontSize: 16, color: C.accent3 });
+    text(s, [
+      { text: "From Bed Rest to Mars:", options: { fontSize: 44, breakLine: true } },
+      { text: "Development of a Literature-Derived Machine Learning Framework for Predicting Lower-Limb Muscle Atrophy in Spaceflight Analogues", options: { fontSize: 28 } },
+    ], { x: 0.9, y: 1.5, w: 11.5, h: 2.9, fontFace: THEME.headFontFace, bold: true, color: C.text2, valign: "bottom", paraSpaceAfter: 8 });
+    text(s, "[Authors]  |  [Affiliation]", { x: 0.9, y: 4.75, w: 11.5, h: 0.4, fontSize: 16, color: C.accent3 });
+    text(s, "DGLRM 2026", { x: 0.9, y: 5.2, w: 11.5, h: 0.4, fontSize: 16, color: C.accent3 });
     s.addNotes("Intro (co-author). Placeholder: fill in authors, affiliation and the opening sentence.");
   }
 
