@@ -575,7 +575,7 @@ const MONO = "Courier New";
     box(s, { x: 5.8, y, w: 3.4, h }, "Model box");
     text(s, [
       { text: "Model", options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
-      ...bullets(["Duration curve: uses the number of days only (the baseline)", "4 standard ML models", "TabPFN (pretrained network)", "LLM prediction"], 15),
+      ...bullets(["Duration curve: uses the number of days only (the baseline)", "4 standard ML models", "TabPFN (pretrained network)", "LLM classifier: returns a probability per range"], 15),
     ], { x: 6.0, y: y + 0.15, w: 3.05, h: h - 0.3 });
     arrow(s, 9.25, y + h / 2, 0.5, "Arrow model to output");
     box(s, { x: 9.8, y, w: 2.93, h }, "Output box");
@@ -619,7 +619,7 @@ const MONO = "Courier New";
   // ---------- Slide 3: LLM system view ----------
   {
     const s = add(4);
-    s.addText("LLM prediction: input and output", { placeholder: "title" });
+    s.addText("LLM-based probabilistic classifier: input and output", { placeholder: "title" });
 
     // left: the request
     const lx = 0.6, ly = 1.35, lw = 5.3, lh = 4.55;
@@ -644,9 +644,12 @@ const MONO = "Courier New";
     arrow(s, 6.0, 3.7, 0.5, "Arrow request to LLM");
     box(s, { x: 6.55, y: 3.05, w: 1.35, h: 1.3, fill: { color: C.background2 } }, "LLM box");
     text(s, [{ text: "LLM", options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
-      { text: "fixed version", options: { fontSize: 12, color: C.accent3 } }],
+      { text: "classifier", options: { bold: true, fontSize: 14, color: C.text2, breakLine: true } },
+      { text: "fixed version", options: { fontSize: 11, color: C.accent3 } }],
       { x: 6.55, y: 3.05, w: 1.35, h: 1.3, align: "center", valign: "middle" });
     arrow(s, 7.95, 3.7, 0.5, "Arrow LLM to answer");
+    text(s, "Not a chat model: it is built for classification and returns only a probability for each listed option, never free text.", {
+      x: 6.0, y: 4.45, w: 2.45, h: 1.3, fontSize: 11, italic: true, align: "center", color: C.accent3 });
 
     // right: the answer, as returned for this row
     const idx = EX.reps.map((r, i) => i).filter((i) => EX.reps[i] >= -19 && EX.reps[i] <= 3);
@@ -680,7 +683,7 @@ const MONO = "Courier New";
     s.addNotes(
       "About a minute and a half.\n\n" +
       "The ML models only saw coded columns. Here we gave each measurement, written out in words, to a newly released language model built for probabilistic classification. " +
-      "You give it a described situation and a fixed list of options, and it returns a probability for each option.\n\n" +
+      "It is not a chat model that writes text: you give it a described situation and a fixed list of options, and it returns a probability for each option, nothing else.\n\n" +
       "On the left is a real request from our cache. It describes the volunteers, the protocol, the muscle and how it was scanned, and the day. " +
       "It also contains the duration curve fitted on the other 31 campaigns and as many rows from those campaigns as fit, most similar first. " +
       "The question asks which of 19 ranges the change will fall in.\n\n" +
@@ -814,7 +817,7 @@ const MONO = "Courier New";
     s.addNotes(
       "About thirty seconds.\n\n" +
       "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
-      "A language model that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
+      "An LLM-based probabilistic classifier that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
       "The limitations and next steps are on the slide; the main one is that 32 campaigns is a small sample.\n\n" +
       "Thank you."
     );
