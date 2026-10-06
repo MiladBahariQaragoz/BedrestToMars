@@ -373,15 +373,17 @@ const MONO = "Courier New";
 
     // bottom: studies per year, coloured by how long the unloading lasted
     const bands = [["5 to 14 days", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2, 0, 1, 2, 0, 2, 2, 1, 2, 3, 3]], ["15 to 30 days", [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1]], ["31 to 60 days", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 2, 1, 0, 1, 1, 1]], ["61 to 119 days", [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1]], ["180 days (spaceflight)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]]];
-    const years = Array.from({ length: 35 }, (_, i) => (i % 2 ? "\u200B".repeat(i) : String(1992 + i))); // label every second year
-    s.addChart(pres.charts.BAR, bands.map(([name, values]) => ({ name, labels: years, values })), {
+    // keep only years in which at least one study was published
+    const keep = bands[0][1].map((_, i) => i).filter((i) => bands.some(([, v]) => v[i] > 0));
+    const years = keep.map((i) => String(1992 + i));
+    s.addChart(pres.charts.BAR, bands.map(([name, values]) => ({ name, labels: years, values: keep.map((i) => values[i]) })), {
       x: 0.6, y: 3.35, w: 12.1, h: 3.4, barDir: "col", barGrouping: "stacked", barGapWidthPct: 35, layout: { x: 0.05, y: 0.15, w: 0.78, h: 0.72 },
       chartColors: ["C9D2DD", "8FA3BB", "56739A", HEX.dk2, HEX.accent1],
       catAxisLabelColor: HEX.accent3, valAxisLabelColor: HEX.accent3, catAxisLabelFontSize: 10, valAxisLabelFontSize: 10,
       catAxisLabelRotate: 0, catAxisLineColor: HEX.accent5, catGridLine: { style: "none" },
       valAxisMinVal: 0, valAxisMaxVal: 7, valAxisMajorUnit: 1, valAxisLineShow: false, valGridLine: { color: HEX.accent6, size: 0.75 },
       showValAxisTitle: true, valAxisTitle: "Studies", valAxisTitleFontSize: 11, valAxisTitleColor: HEX.accent3,
-      showTitle: true, title: "Studies published per year, by length of unloading", titleFontSize: 14, titleColor: HEX.dk2, titleBold: true,
+      showTitle: true, title: "Studies published per year, by length of unloading (years without studies omitted)", titleFontSize: 14, titleColor: HEX.dk2, titleBold: true,
       showLegend: true, legendPos: "r", legendFontSize: 11, legendColor: HEX.dk1,
     });
 
