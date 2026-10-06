@@ -17,10 +17,11 @@ const THEME = {
   headFontFace: "Cambria",
   bodyFontFace: "Calibri",
   colors: {
-    dk1: "1A1A1A", lt1: "FFFFFF", dk2: "1F3A5F", lt2: "F4F5F7",
-    accent1: "A23B2A", accent2: "1F3A5F", accent3: "6B7280",
-    accent4: "A7AEB8", accent5: "9AA3AE", accent6: "E5E7EB",
-    hlink: "1F3A5F", folHlink: "6B7280",
+    // Color Hunt palette #2C3639 #3F4E4F #A27B5C #DCD7C9, plus tints for lines, grids and panels
+    dk1: "2C3639", lt1: "FFFFFF", dk2: "2C3639", lt2: "F3F0E9",
+    accent1: "A27B5C", accent2: "3F4E4F", accent3: "6F7877",
+    accent4: "C4BEB0", accent5: "A9A598", accent6: "E8E4DA",
+    hlink: "3F4E4F", folHlink: "6F7877",
   },
 };
 const HEX = THEME.colors;
@@ -126,6 +127,8 @@ const MONO = "Courier New";
     ["Gradient boosting", 3.34, 0.30], ["Ridge", 3.28, 0.27], ["SVR", 3.28, 0.36],
     ["TabPFN", 3.22, 0.39], ["Random forest", 3.18, 0.34], ["Duration curve", 3.16, 0.14],
   ];
+  let nFig = 0, nTab = 0;
+  const FIG = (t) => `Figure ${++nFig}. ${t}`, TAB = (t) => `Table ${++nTab}. ${t}`;
   const color = (n, llm) => (n === "Duration curve" ? HEX.dk2 : n === "LLM prediction" ? HEX.accent1 : HEX.accent4);
 
   // ---------- Title (Intro) ----------
@@ -193,7 +196,7 @@ const MONO = "Courier New";
     // right panel: unloading and what it does to a muscle
     const px = 7.55, pw = 5.18;
     s.addShape(pres.shapes.RECTANGLE, { x: px, y: 1.35, w: pw, h: 5.35, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Illustration panel" });
-    text(s, "Unloading shrinks leg muscles", { x: px + 0.25, y: 1.5, w: pw - 0.5, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
+    text(s, FIG("Unloading shrinks leg muscles"), { x: px + 0.25, y: 1.5, w: pw - 0.5, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
     // bed tilted head-down (head at the right, lower end), person lying on it
     s.addShape(pres.shapes.RECTANGLE, { x: 8.0, y: 2.6, w: 4.3, h: 0.14, rotate: 6, fill: { color: C.accent3 }, line: { type: "none" }, objectName: "Bed" });
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 8.6, y: 2.29, w: 2.85, h: 0.36, rotate: 6, rectRadius: 0.15, fill: { color: C.text2 }, line: { type: "none" }, objectName: "Body" });
@@ -245,7 +248,7 @@ const MONO = "Courier New";
     // right: Moon mission vs Mars mission
     const gx = 7.1, gw = 5.63;
     s.addShape(pres.shapes.RECTANGLE, { x: gx, y: 1.3, w: gw, h: 3.85, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Mission panel" });
-    text(s, "Moon mission vs Mars mission", { x: gx + 0.2, y: 1.4, w: gw - 0.4, h: 0.3, fontSize: 14, bold: true, color: C.text2 });
+    text(s, FIG("Moon mission vs Mars mission"), { x: gx + 0.2, y: 1.4, w: gw - 0.4, h: 0.3, fontSize: 14, bold: true, color: C.text2 });
     // schematic: distances from Earth
     const ey = 2.3;
     const body = (cx, d, col, name, label) => {
@@ -311,6 +314,7 @@ const MONO = "Courier New";
     arrow(s, fx[0] + fw + 0.05, fy + fh / 2, fx[1] - fx[0] - fw - 0.1, "Arrow 1");
     text(s, "+", { x: fx[1] + fw, y: fy, w: fx[2] - fx[1] - fw, h: fh, fontSize: 24, bold: true, align: "center", valign: "middle", color: C.text2 });
     arrow(s, fx[2] + fw + 0.05, fy + fh / 2, fx[3] - fx[2] - fw - 0.1, "Arrow 3");
+    text(s, FIG("From bed-rest data to crew readiness"), { x: 0.6, y: fy + fh + 0.07, w: 6.0, h: 0.25, fontSize: 11, bold: true, color: C.text2 });
     text(s, "Dashed: future use, which needs validation with spaceflight data", { x: 6.9, y: fy + fh + 0.07, w: 5.8, h: 0.25, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
@@ -333,12 +337,13 @@ const MONO = "Courier New";
 
     // top: range in the abstract vs range in the final dataset, on one day scale
     const bx = 3.6, bw = 8.4, X = (d) => bx + d / 180 * bw;
+    text(s, FIG("Unloading range in the abstract and in the final dataset"), { x: 0.6, y: 1.22, w: 12.1, h: 0.32, fontSize: 14, bold: true, color: C.text2 });
     const ranges = [
       { lab: "Abstract", sub: "15 bed-rest studies", segs: [[14, 119, HEX.accent4]], note: "14 to 119 days" },
       { lab: "Final dataset", sub: "52 studies", segs: [[5, 119, HEX.dk2], [119, 180, HEX.accent1]], note: "5 to 180 days" },
     ];
     ranges.forEach((r, i) => {
-      const y = 1.35 + i * 0.72;
+      const y = 1.62 + i * 0.62;
       text(s, [
         { text: r.lab, options: { bold: true, fontSize: 15, breakLine: true, color: C.text2 } },
         { text: r.sub, options: { fontSize: 12, color: C.accent3 } },
@@ -369,9 +374,9 @@ const MONO = "Courier New";
     const years = keep.map((i) => String(1992 + i));
     // chart frame chosen so the plot area spans the same x range as the day scale above (bx to bx + bw)
     const cx = 3.0, cw = 9.4;
-    text(s, "Studies published per year, by length of unloading", { x: bx, y: 3.3, w: bw, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
+    text(s, FIG("Studies published per year, by length of unloading"), { x: bx, y: 3.3, w: bw, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
     text(s, "Years without studies omitted", { x: bx, y: 3.62, w: bw, h: 0.25, fontSize: 11, italic: true, color: C.accent3 });
-    const cols = ["C9D2DD", "8FA3BB", "56739A", HEX.dk2, HEX.accent1];
+    const cols = ["DCD7C9", "B3AD9E", "7D8A89", HEX.accent2, HEX.accent1];
     text(s, "Length of unloading", { x: 0.6, y: 4.2, w: 2.4, h: 0.3, fontSize: 13, bold: true, color: C.text2 });
     [...bands].reverse().forEach(([name], k) => {
       const ly = 4.6 + k * 0.36, ci = bands.length - 1 - k;
@@ -392,7 +397,7 @@ const MONO = "Courier New";
       "Part 1 (Niloufar), about forty-five seconds.\n\n" +
       "When we submitted the abstract, our dataset held 15 bed-rest studies, covering 14 to 119 days of unloading. " +
       "After submission we extended it. The final dataset has 52 studies, published from 1992 to 2026, and covers 5 to 180 days. " +
-      "The red part of the lower bar is not bed rest: the stretch beyond 119 days comes from spaceflight, where three studies measured crews after about 180 days.\n\n" +
+      "The brown part of the lower bar is not bed rest: the stretch beyond 119 days comes from spaceflight, where three studies measured crews after about 180 days.\n\n" +
       "The chart below shows how many of these studies were published each year, and the colours show how long the unloading lasted. " +
       "Most of the literature is recent: 37 of the 52 studies are from 2016 or later. Short studies of up to two weeks are the most common; long campaigns of two to four months are rarer."
     );
@@ -434,7 +439,7 @@ const MONO = "Courier New";
       text(s, t, { x: cx - 1.1, y: by + bh / 2 + 1.15, w: 2.2, h: 1.1, fontSize: 11, align: "center", color: C.accent3 });
     });
 
-    text(s, "Flow of records in the style of PRISMA 2020, the standard for reporting systematic reviews.", { x: 0.6, y: 6.35, w: 7, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
+    text(s, FIG("Flow of records, in the style of PRISMA 2020 (the standard for reporting systematic reviews)."), { x: 0.6, y: 6.35, w: 9, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
@@ -455,7 +460,7 @@ const MONO = "Courier New";
     const cell = (t, align = "left", bold = false) => ({ text: t, options: { align, bold } });
     const tOpts = { fontSize: 13, fontFace: THEME.bodyFontFace, color: HEX.dk1, valign: "middle", rowH: 0.4,
       border: [{ type: "none" }, { type: "none" }, { pt: 0.75, color: HEX.accent6 }, { type: "none" }], margin: [0.03, 0.1, 0.03, 0.1] };
-    text(s, "Final dataset at a glance", { x: 0.6, y: 1.45, w: 5.9, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    text(s, TAB("Final dataset at a glance"), { x: 0.6, y: 1.45, w: 5.9, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
       [hdr("Feature"), hdr("n", "right")],
       [cell("Muscles or muscle groups"), cell("51", "right", true)],
@@ -467,7 +472,7 @@ const MONO = "Courier New";
       { text: "one campaign gives rows for several muscles, groups and scan days." },
     ], { x: 0.6, y: 5.3, w: 12.1, h: 0.7, fontSize: 14 });
 
-    text(s, "Imaging method and size measure", { x: 7.0, y: 1.45, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    text(s, TAB("Imaging method and size measure"), { x: 7.0, y: 1.45, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
       [hdr("Method"), hdr("n", "right"), hdr("Size measure"), hdr("n", "right")],
       [cell("MRI"), cell("655", "right", true), cell("Volume"), cell("594", "right", true)],
@@ -494,14 +499,14 @@ const MONO = "Courier New";
     s.addText("Muscle atrophy by muscle group", { placeholder: "title" });
     // day-60 estimates per muscle group: report tab_ranking (modelling subset, control groups)
     const groups = [
-      ["hip-rotators", "Deep hip rotators", -1.9, "6B7280"],
-      ["hip-adductors", "Inner thigh (hip adductors)", -5.4, "17A2B8"],
-      ["hip-extensors", "Glutes (hip extensors)", -6.1, "8C564B"],
-      ["hip-flexors", "Hip flexors", -6.8, "2E8B57"],
-      ["hip-abductors", "Outer hip (hip abductors)", -9.1, "7B6BA8"],
-      ["knee-flexors", "Back thigh (knee flexors)", -9.8, "4C78A8"],
+      ["hip-rotators", "Deep hip rotators", -1.9, "A9A598"],
+      ["hip-adductors", "Inner thigh (hip adductors)", -5.4, "6E9C9A"],
+      ["hip-extensors", "Glutes (hip extensors)", -6.1, "B47F7B"],
+      ["hip-flexors", "Hip flexors", -6.8, "7F9160"],
+      ["hip-abductors", "Outer hip (hip abductors)", -9.1, "8D7CA0"],
+      ["knee-flexors", "Back thigh (knee flexors)", -9.8, "5A7A8C"],
       ["knee-extensors", "Front thigh (knee extensors)", -10.1, HEX.dk2],
-      ["dorsiflexors", "Shin (dorsiflexors)", -10.2, "D08C34"],
+      ["dorsiflexors", "Shin (dorsiflexors)", -10.2, "C9A040"],
       ["plantar-flexors", "Calf (plantar flexors)", -15.8, HEX.accent1],
     ];
     // common saturating time course from the report (tau = 60 days), scaled to each group's day-60 value
@@ -545,7 +550,7 @@ const MONO = "Courier New";
       text(s, (v60 + "").replace("-", "−") + "%", { x: 11.9, y, w: 0.82, h: lh, fontSize: 13, bold: true, align: "right", valign: "middle", color: col });
     });
 
-    text(s, "Lines: one shared time course (saturating, τ = 60 days) scaled to each group's estimate at day 60. Control groups, days 5 to 119.",
+    text(s, FIG("Change in muscle size by muscle group: one shared time course (τ = 60 days) scaled to each group's day-60 estimate; control groups, days 5 to 119."),
       { x: 0.6, y: 6.45, w: 12.1, h: 0.25, fontSize: 10.5, italic: true, color: C.accent3 });
 
     s.addNotes(
@@ -587,7 +592,7 @@ const MONO = "Courier New";
 
     // leave-one-campaign-out strip
     const sy = 4.75, n = 32, w = 0.27, g = 0.05, held = 13;
-    text(s, "Testing: hold out one campaign, train on the rest, repeat 32 times", { x: 0.6, y: 4.4, w: 8, h: 0.3, fontSize: 15, bold: true, color: C.text2 });
+    text(s, FIG("Testing: hold out one campaign, train on the rest, repeat 32 times"), { x: 0.6, y: 4.4, w: 10, h: 0.3, fontSize: 15, bold: true, color: C.text2 });
     for (let i = 0; i < n; i++) {
       s.addShape(pres.shapes.RECTANGLE, { x: 0.6 + i * (w + g), y: sy, w, h: 0.27,
         fill: { color: i === held ? C.accent1 : C.accent6 }, line: { color: i === held ? HEX.accent1 : HEX.accent5, width: 0.5 },
@@ -595,7 +600,7 @@ const MONO = "Courier New";
     }
     text(s, [
       { text: "Grey: 31 training campaigns.  ", options: {} },
-      { text: "Red: the held-out test campaign.", options: { color: C.accent1 } },
+      { text: "Brown: the held-out test campaign.", options: { color: C.accent1 } },
       { text: "  Each campaign is held out once.", options: {} },
     ], { x: 0.6, y: 5.15, w: 11, h: 0.3, fontSize: 14 });
     text(s, bullets([
@@ -665,7 +670,7 @@ const MONO = "Courier New";
       catAxisLabelFontSize: 10, valAxisLabelFontSize: 10, legendFontSize: 11,
       valGridLine: { color: HEX.accent6, size: 0.75 }, catGridLine: { style: "none" },
       catAxisLabelFrequency: 2, valAxisMinVal: 0, valAxisMaxVal: 0.7, valAxisMajorUnit: 0.1, valAxisLabelFormatCode: "0.0",
-      showTitle: true, title: "Answer: probability per range", titleFontSize: 13, titleColor: HEX.dk1, titleBold: true,
+      showTitle: true, title: FIG("Probability per range"), titleFontSize: 13, titleColor: HEX.dk1, titleBold: true,
       showLegend: true, legendPos: "b",
       showCatAxisTitle: true, catAxisTitle: "Change in muscle size (%, centre of each 2-point range)", catAxisTitleFontSize: 10, catAxisTitleColor: HEX.accent3,
       objectName: "Example answer chart",
@@ -701,11 +706,11 @@ const MONO = "Courier New";
     const rows = [...ml.slice(0, 5), ["Duration curve", 3.16, 0.14], ["LLM prediction", 2.71, 0.43]];
     const names = rows.map((r) => r[0]);
     s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: rows.map((r) => r[1]) }], {
-      x: 0.5, y: 1.3, w: 6.2, h: 3.75, ...axis, title: "Error on held-out campaign (pp, lower = better)",
+      x: 0.5, y: 1.3, w: 6.2, h: 3.75, ...axis, title: FIG("Error, pp (lower = better)"),
       chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 4, valAxisMajorUnit: 1, objectName: "MAE chart with LLM",
     });
     s.addChart(pres.charts.BAR, [{ name: "R2", labels: names, values: rows.map((r) => r[2]) }], {
-      x: 6.9, y: 1.3, w: 5.9, h: 3.75, ...axis, title: "Differences explained (R², higher = better)",
+      x: 6.9, y: 1.3, w: 5.9, h: 3.75, ...axis, title: FIG("R² (higher = better)"),
       chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 0.5, valAxisMajorUnit: 0.1,
       valAxisLabelFormatCode: "0.0", objectName: "R2 chart with LLM",
     });
@@ -868,7 +873,7 @@ const MONO = "Courier New";
     s.addText("BACKUP", { x: 10.7, y: 6.95, w: 1.3, h: 0.3, fontSize: 10, bold: true, color: C.accent3, align: "right", margin: 0, isTextBox: true });
     const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: HEX.lt1, fill: { color: HEX.dk2 }, align } });
     const c = (t, align = "left", bold = false) => ({ text: t, options: { align, bold } });
-    text(s, "Sources (searched 4 September 2026)", { x: 0.6, y: 1.3, w: 5.6, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    text(s, TAB("Sources (searched 4 September 2026)"), { x: 0.6, y: 1.3, w: 5.6, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
       [hdr("Source"), hdr("Records", "right")],
       [c("PubMed"), c("1,412", "right")],
@@ -887,7 +892,7 @@ const MONO = "Courier New";
     ], 13), { x: 0.6, y: 4.5, w: 5.6, h: 2.2 });
 
     // right: query structure and one string verbatim
-    text(s, "Query: two required blocks", { x: 6.6, y: 1.3, w: 6.1, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    text(s, FIG("Query: two required blocks"), { x: 6.6, y: 1.3, w: 6.1, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     const blocks = [
       ["Unloading model", "bed rest, head-down tilt, dry immersion, limb suspension, simulated microgravity, disuse"],
       ["Muscle outcome", "atrophy, muscle volume, mass, size, cross-sectional area, lean mass, thickness, main leg muscles"],
