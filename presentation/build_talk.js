@@ -175,11 +175,61 @@ const MONO = "Courier New";
   }
 
   // ---------- Co-author's half: placeholders ----------
-  placeholder(0, "Why forecast muscle loss?", [
-    "Unloaded muscles that hold the body up against gravity lose mass and strength",
-    "A transit to Mars takes about six months; the crew must stand, move and work on arrival",
-    "Countermeasures are planned before departure, so planners need to know how much of a given muscle is lost after a given number of days",
-  ]);
+  // ---------- Motivation (slide 3) ----------
+  {
+    const s = add(0);
+    s.addText("Motivation: can we predict muscle atrophy?", { placeholder: "title" });
+    text(s, [
+      { text: "What are we doing?", options: { bold: true, fontSize: 18, color: C.text2, breakLine: true, paraSpaceAfter: 4 } },
+      ...bullets([
+        "Lower-limb muscle atrophy is a major challenge in long-duration spaceflight",
+        "Research question: can the extent of muscle atrophy be predicted?",
+        "Aim: a literature-derived dataset and a machine-learning framework for this prediction",
+      ], 15).map((r, i, a) => (i === a.length - 1 ? { ...r, options: { ...r.options, breakLine: true } } : r)),
+      { text: "Why is this important?", options: { bold: true, fontSize: 18, color: C.text2, breakLine: true, paraSpaceBefore: 14, paraSpaceAfter: 4 } },
+      ...bullets([
+        "Prevention: identify risk early and leave time to intervene",
+        "Countermeasures: match exercise and nutrition to the predicted risk",
+        "Vulnerable muscles: show which muscles need closer monitoring",
+        "Function: less muscle loss helps preserve strength and power",
+        "Mission planning: estimate muscle loss on long missions with limited exercise equipment",
+      ], 15),
+    ], { x: 0.6, y: 1.35, w: 6.6, h: 5.35 });
+
+    // right panel: unloading and what it does to a muscle
+    const px = 7.55, pw = 5.18;
+    s.addShape(pres.shapes.RECTANGLE, { x: px, y: 1.35, w: pw, h: 5.35, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Illustration panel" });
+    text(s, "Ground analogue: 6° head-down bed rest", { x: px + 0.25, y: 1.5, w: pw - 0.5, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
+    // bed tilted head-down (head at the right, lower end), person lying on it
+    s.addShape(pres.shapes.RECTANGLE, { x: 8.0, y: 2.6, w: 4.3, h: 0.14, rotate: 6, fill: { color: C.accent3 }, line: { type: "none" }, objectName: "Bed" });
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 8.6, y: 2.29, w: 2.85, h: 0.36, rotate: 6, rectRadius: 0.15, fill: { color: C.text2 }, line: { type: "none" }, objectName: "Body" });
+    s.addShape(pres.shapes.OVAL, { x: 11.45, y: 2.37, w: 0.42, h: 0.42, fill: { color: C.text2 }, line: { type: "none" }, objectName: "Head" });
+    text(s, "Weeks to months in bed; legs carry no body weight", { x: px + 0.25, y: 3.05, w: pw - 0.5, h: 0.3, fontSize: 12, italic: true, color: C.accent3 });
+
+    // muscle cross-sections drawn to scale: area −15.8% (calf, control groups, day 60)
+    const d0 = 1.9, d1 = d0 * Math.sqrt(1 - 0.158), cy = 4.6, bone = 0.42;
+    const sec = (cx, d, name) => {
+      s.addShape(pres.shapes.OVAL, { x: cx - d / 2, y: cy - d / 2, w: d, h: d, fill: { color: C.accent1, transparency: 25 }, line: { color: HEX.accent1, width: 1 }, objectName: name });
+      s.addShape(pres.shapes.OVAL, { x: cx - bone / 2 - 0.2, y: cy - bone / 2 + 0.15, w: bone, h: bone, fill: { color: C.background1 }, line: { color: HEX.accent5, width: 1 }, objectName: name + " bone" });
+    };
+    sec(8.85, d0, "Muscle before");
+    s.addShape(pres.shapes.LINE, { x: 9.95, y: cy, w: 0.6, h: 0, line: { color: HEX.dk1, width: 1.25, endArrowType: "triangle" }, objectName: "Arrow" });
+    sec(11.55, d1, "Muscle after");
+    // dashed outline: original size, so the lost tissue is visible
+    s.addShape(pres.shapes.OVAL, { x: 11.55 - d0 / 2, y: cy - d0 / 2, w: d0, h: d0, fill: { type: "none" }, line: { color: HEX.dk1, width: 1, dashType: "dash" }, objectName: "Original outline" });
+    text(s, "Before bed rest", { x: 7.85, y: 5.65, w: 2.0, h: 0.3, fontSize: 13, align: "center", bold: true });
+    text(s, "Day 60: −16%", { x: 10.55, y: 5.65, w: 2.0, h: 0.3, fontSize: 13, align: "center", bold: true, color: C.accent1 });
+    text(s, "Calf cross-section to scale; dashed line = size before. Model estimate for control groups (plantar flexors, −15.8% at day 60).", { x: px + 0.25, y: 6.05, w: pw - 0.5, h: 0.5, fontSize: 11, italic: true, color: C.accent3 });
+
+    s.addNotes(
+      "Opening of part 1 (Niloufar), about forty-five seconds.\n\n" +
+      "Muscle atrophy, especially in the legs, is one of the main problems of long-duration spaceflight. " +
+      "Our question was whether the amount of atrophy can be predicted. To answer it, we built a dataset from the published literature and a machine-learning framework on top of it.\n\n" +
+      "Why it matters: a prediction lets crews and planners act early, match exercise and nutrition to the expected loss, focus monitoring on the muscles that lose most, protect strength and function, and plan long missions where exercise equipment is limited.\n\n" +
+      "On the right is the ground model we rely on: volunteers lie in bed tilted six degrees head-down for weeks to months. " +
+      "The circles show a calf cross-section drawn to scale: after 60 days of bed rest, control groups lose about 16 percent of calf muscle in our model."
+    );
+  }
   placeholder(0, "From bed rest to Mars: why use bed-rest data?", [
     "Spaceflight data on leg muscle size are scarce, and the groups measured are small",
     "Bed rest is the established ground model: healthy volunteers lie in bed, usually tilted 6° head-down so that body fluids shift towards the head as in orbit",
