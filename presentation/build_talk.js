@@ -239,46 +239,64 @@ const MONO = "Courier New";
     text(s, [
       head("Bed rest: the ground analogue"),
       ...last(bullets([
-        "Spaceflight data on muscle are scarce: 14 of 742 rows in our dataset",
-        "Head-down bed rest unloads the legs under controlled conditions, for set durations",
+        "Direct spaceflight data on muscle are scarce",
+        "Head-down bed rest is the established ground analogue: it unloads the legs under controlled conditions",
         "Not equivalent to spaceflight, but a sound basis to build and test prediction models",
       ], 14)),
       head("Mars: the long-term application", 10),
       ...bullets([
-        "Transit of about 6 months, far longer than a Moon mission",
-        "No early return in an emergency: after months in weightlessness, the crew must leave the spacecraft and work on the surface",
-        "Use on such a mission requires validation with spaceflight data",
+        "A Mars mission lasts years, not days: about 6 months of transit each way",
+        "No early return in an emergency: the crew depends on its own fitness",
+        "After months in weightlessness, the crew must leave the spacecraft and work on the surface",
       ], 14),
     ], { x: 0.6, y: 1.3, w: 6.1, h: 3.85 });
 
-    // right: time without gravity, drawn on one day scale
-    const gx = 7.1, gw = 5.63, bx = 9.4, bw = 3.05, perDay = bw / 200, x = (d) => bx + d * perDay;
-    s.addShape(pres.shapes.RECTANGLE, { x: gx, y: 1.3, w: gw, h: 3.85, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Duration panel" });
-    text(s, "Time without Earth's gravity (days)", { x: gx + 0.2, y: 1.4, w: gw - 0.4, h: 0.3, fontSize: 14, bold: true, color: C.text2 });
-    const rows = [
-      ["Bed-rest data", "our data: day 5 to 119", 5, 119, HEX.dk2],
-      ["Moon mission", "Apollo: up to 12 days", 0, 12, HEX.accent4],
-      ["ISS stay", "return within hours", 0, 180, HEX.accent4],
-      ["Mars transit", "no early return", 0, 180, HEX.accent1],
-    ];
-    rows.forEach(([lab, sub, d0, d1, col], i) => {
-      const y = 1.9 + i * 0.68;
-      text(s, [
-        { text: lab, options: { bold: true, fontSize: 13, breakLine: true } },
-        { text: sub, options: { fontSize: 10.5, italic: true, color: C.accent3 } },
-      ], { x: gx + 0.2, y, w: 1.85, h: 0.55 });
-      s.addShape(pres.shapes.RECTANGLE, { x: x(d0), y: y + 0.12, w: (d1 - d0) * perDay, h: 0.3, fill: { color: col }, line: { type: "none" }, objectName: lab + " bar" });
-      if (i === 0) {
-        s.addShape(pres.shapes.RECTANGLE, { x: x(119), y: y + 0.12, w: 61 * perDay, h: 0.3, fill: { type: "none" }, line: { color: HEX.dk2, width: 1, dashType: "dash" }, objectName: "Gap to 180 days" });
-        text(s, "not covered", { x: x(119), y: y + 0.12, w: 61 * perDay, h: 0.3, fontSize: 10, italic: true, align: "center", valign: "middle", color: C.text2 });
-      }
+    // right: Moon mission vs Mars mission
+    const gx = 7.1, gw = 5.63;
+    s.addShape(pres.shapes.RECTANGLE, { x: gx, y: 1.3, w: gw, h: 3.85, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Mission panel" });
+    text(s, "Moon mission vs Mars mission", { x: gx + 0.2, y: 1.4, w: gw - 0.4, h: 0.3, fontSize: 14, bold: true, color: C.text2 });
+    // schematic: distances from Earth
+    const ey = 2.3;
+    const body = (cx, d, col, name, label) => {
+      s.addShape(pres.shapes.OVAL, { x: cx - d / 2, y: ey - d / 2, w: d, h: d, fill: { color: col }, line: { type: "none" }, objectName: name });
+      text(s, label, { x: cx - 0.6, y: ey + 0.33, w: 1.2, h: 0.25, fontSize: 11, bold: true, align: "center" });
+    };
+    const dash = (x1, x2, lab, name) => {
+      s.addShape(pres.shapes.LINE, { x: x1, y: ey, w: x2 - x1, h: 0, line: { color: HEX.accent3, width: 1, dashType: "dash", endArrowType: "triangle" }, objectName: name });
+      text(s, lab, { x: x1, y: ey - 0.32, w: x2 - x1, h: 0.25, fontSize: 11, italic: true, align: "center", color: C.text2 });
+    };
+    body(7.6, 0.5, HEX.dk2, "Earth", "Earth");
+    body(8.75, 0.22, HEX.accent4, "Moon", "Moon");
+    body(12.2, 0.4, HEX.accent1, "Mars", "Mars");
+    dash(7.88, 8.62, "3 days", "Route to Moon");
+    dash(8.95, 11.98, "about 6 months, one way", "Route to Mars");
+
+    // timelines on one day scale (0 to 900 days)
+    const bx = 9.0, bw = 3.5, perDay = bw / 900, X = (d) => bx + d * perDay;
+    const rowY = [3.05, 3.8];
+    text(s, [
+      { text: "Moon mission", options: { bold: true, fontSize: 13, breakLine: true } },
+      { text: "about 12 days", options: { fontSize: 10.5, italic: true, color: C.accent3 } },
+    ], { x: gx + 0.2, y: rowY[0], w: 1.85, h: 0.55 });
+    s.addShape(pres.shapes.RECTANGLE, { x: X(0), y: rowY[0] + 0.1, w: 12 * perDay, h: 0.32, fill: { color: HEX.accent3 }, line: { type: "none" }, objectName: "Moon mission bar" });
+    text(s, "◄ the whole mission", { x: X(12) + 0.06, y: rowY[0] + 0.1, w: 2.0, h: 0.32, fontSize: 10.5, italic: true, valign: "middle", color: C.accent3 });
+    text(s, [
+      { text: "Mars mission", options: { bold: true, fontSize: 13, breakLine: true } },
+      { text: "about 2.5 years", options: { fontSize: 10.5, italic: true, color: C.accent3 } },
+    ], { x: gx + 0.2, y: rowY[1], w: 1.85, h: 0.55 });
+    [["to Mars", 0, 180, 0], ["on Mars, about 500 days", 180, 680, 45], ["home", 680, 860, 0]].forEach(([lab, d0, d1, tr], i) => {
+      s.addShape(pres.shapes.RECTANGLE, { x: X(d0), y: rowY[1] + 0.1, w: (d1 - d0) * perDay, h: 0.32, fill: { color: HEX.accent1, transparency: tr }, line: { color: HEX.lt1, width: 1 }, objectName: "Mars " + lab });
+      text(s, lab, { x: X(d0), y: rowY[1] + 0.1, w: (d1 - d0) * perDay, h: 0.32, fontSize: 10, bold: true, align: "center", valign: "middle", color: i === 1 ? C.text1 : C.background1 });
     });
-    // axis
-    const ay = 1.9 + 4 * 0.68 + 0.02;
-    s.addShape(pres.shapes.LINE, { x: bx, y: ay, w: bw, h: 0, line: { color: HEX.accent3, width: 0.75 }, objectName: "Day axis" });
-    [0, 60, 120, 180].forEach((d) => {
-      s.addShape(pres.shapes.LINE, { x: x(d), y: ay, w: 0, h: 0.06, line: { color: HEX.accent3, width: 0.75 }, objectName: "Tick " + d });
-      text(s, String(d), { x: x(d) - 0.3, y: ay + 0.07, w: 0.6, h: 0.22, fontSize: 10, align: "center", color: C.accent3 });
+    // arrival marker
+    s.addShape(pres.shapes.LINE, { x: X(180), y: rowY[1] + 0.45, w: 0, h: 0.2, line: { color: HEX.dk1, width: 1, beginArrowType: "triangle" }, objectName: "Arrival marker" });
+    text(s, "arrival: 6 months weightless, then surface work", { x: X(180) - 0.6, y: rowY[1] + 0.67, w: 4.1, h: 0.25, fontSize: 10.5, italic: true, align: "left", color: C.text2 });
+    // axis in years
+    const ay = 4.85;
+    s.addShape(pres.shapes.LINE, { x: bx, y: ay, w: bw, h: 0, line: { color: HEX.accent3, width: 0.75 }, objectName: "Time axis" });
+    [[0, "0"], [365, "1 year"], [730, "2 years"]].forEach(([d, l]) => {
+      s.addShape(pres.shapes.LINE, { x: X(d), y: ay, w: 0, h: 0.06, line: { color: HEX.accent3, width: 0.75 }, objectName: "Tick " + l });
+      text(s, l, { x: X(d) - 0.4, y: ay + 0.06, w: 0.8, h: 0.2, fontSize: 10, align: "center", color: C.accent3 });
     });
 
     // bottom: from prediction to readiness
@@ -305,12 +323,13 @@ const MONO = "Courier New";
 
     s.addNotes(
       "Part 1 (Niloufar), about forty-five seconds.\n\n" +
-      "Direct spaceflight data on muscle are scarce: in our dataset only 14 of 742 rows come from spaceflight. " +
-      "So we use head-down bed rest, the standard ground analogue: volunteers lie tilted six degrees head-down, and their legs carry no weight, under controlled conditions and for set durations. " +
+      "Direct spaceflight data on muscle are scarce, so we use head-down bed rest, the standard ground analogue: volunteers lie tilted six degrees head-down and their legs carry no weight, under controlled conditions. " +
       "Bed rest is not the same as spaceflight, but it is a sound starting point to build and test prediction models.\n\n" +
-      "Mars in our title stands for the long-term application. The chart puts the durations side by side. Our bed-rest data reach day 119. A Moon mission lasted up to 12 days. " +
-      "An ISS stay and a Mars transit both last about six months, but from the ISS a crew can return within hours, and on landing they go straight into medical care. " +
-      "A Mars crew cannot come back early in an emergency, and after months in weightlessness they must leave the spacecraft and work on the surface.\n\n" +
+      "Mars in our title stands for the long-term application. The panel compares the two missions on one time scale. " +
+      "A Moon mission lasted about twelve days, and the crew could be home in three. " +
+      "A Mars mission takes about two and a half years: six months to get there, about five hundred days on the surface, six months back. " +
+      "There is no early return in an emergency, and after six months in weightlessness the crew must leave the spacecraft and work on the surface. " +
+      "Mission figures: Apollo 17, and NASA's Mars Design Reference Architecture 5.0.\n\n" +
       "The bottom row is the idea: atrophy prediction, together with strength and power testing, could one day help keep the crew ready for work on arrival. " +
       "The dashed steps are future use, and applying the model on a real mission needs validation with spaceflight data first."
     );
