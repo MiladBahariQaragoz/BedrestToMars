@@ -793,37 +793,28 @@ const MONO = "Courier New";
   {
     const s = add(5);
     s.addText("Conclusions, limitations and further work", { placeholder: "title" });
-    const cols = [
-      ["Conclusions", [
-        "With 32 independent campaigns, no ML model predicts better than a curve based on days alone (best 3.18 vs 3.16 pp error).",
-        "An LLM that reads each campaign's description and the other campaigns' data cuts the error to 2.71 pp (curve 3.13 pp); the gain remains when everything identifying a campaign is hidden.",
-      ]],
-      ["Limitations", [
-        "Only 32 independent campaigns",
-        "No data beyond day 119",
-        "Mostly young men (347 of 425 measurements)",
-        "Group averages, not individual people",
-        "Bed rest imitates spaceflight but is not the same",
-      ]],
-      ["Further work", [
-        "Fix the LLM's overconfident ranges",
-        "Check results without the largest campaign, and with MRI scans only",
-        "Extend the prediction to a 180-day mission, with an uncertainty range",
-        "Link the muscles: predict one muscle's loss from another's, and weight them into an estimate of strength loss",
-      ]],
-    ];
-    cols.forEach(([h, items], i) => {
-      const x = 0.6 + i * 4.15;
-      text(s, [
-        { text: h, options: { bold: true, fontSize: 20, color: C.text2, breakLine: true, paraSpaceAfter: 8 } },
-        ...bullets(items, 18),
-      ], { x, y: 1.45, w: 3.8, h: 5.2 });
-    });
+    // upper half: conclusions and limitations side by side; lower half: further work
+    const head = (t) => ({ text: t, options: { bold: true, fontSize: 20, color: C.text2, breakLine: true, paraSpaceAfter: 8 } });
+    text(s, [head("Conclusions"), ...bullets([
+      "ML models do not beat a duration-only curve (3.18 vs 3.16 pp)",
+      "The LLM classifier lowers the error to 2.71 pp (curve 3.13 pp)",
+    ], 18)], { x: 0.6, y: 1.4, w: 5.8, h: 2.6 });
+    text(s, [head("Limitations"), ...bullets([
+      "32 independent campaigns, mostly young men",
+      "No bed-rest data beyond day 119",
+      "Group averages; bed rest is not spaceflight",
+    ], 18)], { x: 6.9, y: 1.4, w: 5.8, h: 2.6 });
+    s.addShape(pres.shapes.LINE, { x: 0.6, y: 4.2, w: 12.1, h: 0, line: { color: HEX.accent5, width: 0.75 }, objectName: "Divider" });
+    text(s, [head("Further work"), ...bullets([
+      "Link the muscles: predict one muscle's loss from another's, and weight them into an estimate of strength loss",
+      "A risk-assessment system based on a person's characteristics, such as age, sex and fitness",
+    ], 18)], { x: 0.6, y: 4.4, w: 12.1, h: 2.2 });
     s.addNotes(
       "About thirty seconds.\n\n" +
       "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
       "An LLM-based probabilistic classifier that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
-      "The limitations and next steps are on the slide; the main one is that 32 campaigns is a small sample.\n\n" +
+      "The main limitation is the small sample of 32 campaigns, mostly young men, with no bed-rest data beyond day 119.\n\n" +
+      "Next, we want to link the muscles, so that one muscle\'s loss predicts another\'s and a weighted sum estimates strength loss, and to build a risk-assessment system based on a person\'s characteristics.\n\n" +
       "Thank you."
     );
   }
