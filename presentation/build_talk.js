@@ -48,12 +48,12 @@ const MONO = "Courier New";
   pres.defineSlideMaster({ title: "Title", background: { color: C.background1 }, objects: [] });
 
   const SECTIONS = [
-    ["Motivation", "Why predict muscle loss; from bed rest to Mars"],
-    ["Data", "Range studied, search, dataset"],
-    ["Muscles", "Which muscles lose most"],
-    ["ML models", "Testing setup; ML vs the duration curve"],
-    ["LLM prediction", "Input and output, results, validity checks"],
-    ["Conclusions", "Findings, limitations, further work"],
+    ["Intro and motivation", "Why predict muscle loss; from bed rest to Mars"],
+    ["Literature research", "Range of studies; search and screening"],
+    ["Data extraction and database", "Dataset contents; loss per muscle group"],
+    ["ML framework", "Testing on unseen campaigns"],
+    ["Models and results", "Models used, results, LLM validity checks"],
+    ["Conclusion", "Findings, limitations, further work"],
   ];
   const PART = (i) => (i < 3 ? "Part 1" : "Part 2");
 
@@ -68,7 +68,7 @@ const MONO = "Courier New";
         line: { color: i === cur ? HEX.accent1 : i < cur ? HEX.dk2 : HEX.accent5, width: 0.75 },
         objectName: `Tracker ${i + 1} ${SECTIONS[i][0]}` });
     }
-    s.addText(`${cur + 1}  ${SECTIONS[cur][0]}`, { x: 7.3, y: 6.95, w: 2.4, h: 0.3, fontSize: 10, bold: true,
+    s.addText(`${cur + 1}  ${SECTIONS[cur][0]}`, { x: 6.2, y: 6.95, w: 3.5, h: 0.3, fontSize: 10, bold: true,
       color: C.accent1, align: "right", margin: 0, isTextBox: true });
   }
 
@@ -168,10 +168,10 @@ const MONO = "Courier New";
         line: { type: "none" }, objectName: `Agenda ${i + 1}` });
       text(s, String(i + 1), { x: xs[i] - d / 2, y: cy - d / 2, w: d, h: d, fontSize: 20, bold: true, color: C.background1, align: "center", valign: "middle" });
       text(s, [{ text: name, options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } }, { text: desc, options: { fontSize: 14 } }],
-        { x: xs[i] - 0.95, y: cy + 0.6, w: 1.9, h: 1.3, align: "center" });
+        { x: xs[i] - 0.98, y: cy + 0.6, w: 1.96, h: 1.6, align: "center" });
     });
-    text(s, "The marker in the bottom-right corner of each slide shows where we are.", { x: 0.6, y: 6.1, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
-    s.addNotes("Agenda. Part 1 (co-author): why this matters, why bed rest, the dataset, and which muscles lose most. Part 2: how we tested models, the LLM prediction, and conclusions.");
+    text(s, "The marker in the bottom-right corner of each slide shows where we are.", { x: 0.6, y: 6.3, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
+    s.addNotes("Agenda. Part 1 (Niloufar): why this matters and why bed rest, how we searched the literature, and what the dataset contains, including which muscles lose most. Part 2 (Milad): how we tested the models, the models and their results with the validity checks of the LLM, and the conclusion.");
   }
 
   // ---------- Co-author's half: placeholders ----------
@@ -180,21 +180,15 @@ const MONO = "Courier New";
     const s = add(0);
     s.addText("Motivation: can we predict muscle atrophy?", { placeholder: "title" });
     text(s, [
-      { text: "What are we doing?", options: { bold: true, fontSize: 18, color: C.text2, breakLine: true, paraSpaceAfter: 4 } },
-      ...bullets([
-        "Lower-limb muscle atrophy is a major challenge in long-duration spaceflight",
-        "Research question: can the extent of muscle atrophy be predicted?",
-        "Aim: a literature-derived dataset and a machine-learning framework for this prediction",
-      ], 15).map((r, i, a) => (i === a.length - 1 ? { ...r, options: { ...r.options, breakLine: true } } : r)),
-      { text: "Why is this important?", options: { bold: true, fontSize: 18, color: C.text2, breakLine: true, paraSpaceBefore: 14, paraSpaceAfter: 4 } },
+      { text: "Why is this important?", options: { bold: true, fontSize: 20, color: C.text2, breakLine: true, paraSpaceAfter: 8 } },
       ...bullets([
         "Prevention: identify risk early and leave time to intervene",
         "Countermeasures: match exercise and nutrition to the predicted risk",
         "Vulnerable muscles: show which muscles need closer monitoring",
         "Function: less muscle loss helps preserve strength and power",
         "Mission planning: estimate muscle loss on long missions with limited exercise equipment",
-      ], 15),
-    ], { x: 0.6, y: 1.35, w: 6.6, h: 5.35 });
+      ], 17).map((r) => ({ ...r, options: { ...r.options, paraSpaceAfter: 10 } })),
+    ], { x: 0.6, y: 1.35, w: 6.6, h: 4.6, valign: "top" });
 
     // right panel: unloading and what it does to a muscle
     const px = 7.55, pw = 5.18;
@@ -224,7 +218,7 @@ const MONO = "Courier New";
     s.addNotes(
       "Opening of part 1 (Niloufar), about forty-five seconds.\n\n" +
       "Muscle atrophy, especially in the legs, is one of the main problems of long-duration spaceflight. " +
-      "Our question was whether the amount of atrophy can be predicted. To answer it, we built a dataset from the published literature and a machine-learning framework on top of it.\n\n" +
+      "Our question, in the title, is whether the amount of atrophy can be predicted.\n\n" +
       "Why it matters: a prediction lets crews and planners act early, match exercise and nutrition to the expected loss, focus monitoring on the muscles that lose most, protect strength and function, and plan long missions where exercise equipment is limited.\n\n" +
       "On the right is the ground model we rely on: volunteers lie in bed tilted six degrees head-down for weeks to months. " +
       "The circles show a calf cross-section before and after unloading; how much each muscle loses comes later, in the muscle section."
@@ -234,21 +228,18 @@ const MONO = "Courier New";
   {
     const s = add(0);
     s.addText("Why from bed rest to Mars?", { placeholder: "title" });
-    const head = (t, before = 0) => ({ text: t, options: { bold: true, fontSize: 17, color: C.text2, breakLine: true, paraSpaceBefore: before, paraSpaceAfter: 3 } });
+    const head = (t, before = 0) => ({ text: t, options: { bold: true, fontSize: 19, color: C.text2, breakLine: true, paraSpaceBefore: before, paraSpaceAfter: 3 } });
     const last = (rows) => rows.map((r, i, a) => (i === a.length - 1 ? { ...r, options: { ...r.options, breakLine: true } } : r));
     text(s, [
       head("Bed rest: the ground analogue"),
       ...last(bullets([
-        "Direct spaceflight data on muscle are scarce",
-        "Head-down bed rest is the established ground analogue: it unloads the legs under controlled conditions",
-        "Not equivalent to spaceflight, but a sound basis to build and test prediction models",
-      ], 14)),
-      head("Mars: the long-term application", 10),
+        "Spaceflight data on muscle are scarce",
+        "Head-down bed rest unloads the legs under controlled conditions",
+      ], 16)),
+      head("Mars: the long-term application", 18),
       ...bullets([
-        "A Mars mission lasts about 2.5 years, with about 6 months of transit each way",
         "No early return in an emergency: the crew depends on its own fitness",
-        "After months in weightlessness, the crew must leave the spacecraft and work on the surface",
-      ], 14),
+      ], 16),
     ], { x: 0.6, y: 1.3, w: 6.1, h: 3.85 });
 
     // right: Moon mission vs Mars mission
@@ -376,15 +367,25 @@ const MONO = "Courier New";
     // keep only years in which at least one study was published
     const keep = bands[0][1].map((_, i) => i).filter((i) => bands.some(([, v]) => v[i] > 0));
     const years = keep.map((i) => String(1992 + i));
+    // chart frame chosen so the plot area spans the same x range as the day scale above (bx to bx + bw)
+    const cx = 3.0, cw = 9.4;
+    text(s, "Studies published per year, by length of unloading", { x: bx, y: 3.3, w: bw, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
+    text(s, "Years without studies omitted", { x: bx, y: 3.62, w: bw, h: 0.25, fontSize: 11, italic: true, color: C.accent3 });
+    const cols = ["C9D2DD", "8FA3BB", "56739A", HEX.dk2, HEX.accent1];
+    text(s, "Length of unloading", { x: 0.6, y: 4.2, w: 2.4, h: 0.3, fontSize: 13, bold: true, color: C.text2 });
+    [...bands].reverse().forEach(([name], k) => {
+      const ly = 4.6 + k * 0.36, ci = bands.length - 1 - k;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: ly + 0.06, w: 0.22, h: 0.18, fill: { color: cols[ci] }, line: { type: "none" }, objectName: "Legend " + name });
+      text(s, name, { x: 0.9, y: ly, w: 2.1, h: 0.3, fontSize: 12, valign: "middle" });
+    });
     s.addChart(pres.charts.BAR, bands.map(([name, values]) => ({ name, labels: years, values: keep.map((i) => values[i]) })), {
-      x: 0.6, y: 3.35, w: 12.1, h: 3.4, barDir: "col", barGrouping: "stacked", barGapWidthPct: 35, layout: { x: 0.05, y: 0.15, w: 0.78, h: 0.72 },
-      chartColors: ["C9D2DD", "8FA3BB", "56739A", HEX.dk2, HEX.accent1],
+      x: cx, y: 3.9, w: cw, h: 2.95, barDir: "col", barGrouping: "stacked", barGapWidthPct: 35,
+      layout: { x: (bx - cx) / cw, y: 0.04, w: bw / cw, h: 0.82 },
+      chartColors: cols,
       catAxisLabelColor: HEX.accent3, valAxisLabelColor: HEX.accent3, catAxisLabelFontSize: 10, valAxisLabelFontSize: 10,
       catAxisLabelRotate: 0, catAxisLineColor: HEX.accent5, catGridLine: { style: "none" },
       valAxisMinVal: 0, valAxisMaxVal: 7, valAxisMajorUnit: 1, valAxisLineShow: false, valGridLine: { color: HEX.accent6, size: 0.75 },
-      showValAxisTitle: true, valAxisTitle: "Studies", valAxisTitleFontSize: 11, valAxisTitleColor: HEX.accent3,
-      showTitle: true, title: "Studies published per year, by length of unloading (years without studies omitted)", titleFontSize: 14, titleColor: HEX.dk2, titleBold: true,
-      showLegend: true, legendPos: "r", legendFontSize: 11, legendColor: HEX.dk1,
+      showValAxisTitle: false, showTitle: false, showLegend: false,
     });
 
     s.addNotes(
@@ -446,7 +447,7 @@ const MONO = "Courier New";
   }
   // ---------- What does the dataset look like? (slide 7) ----------
   {
-    const s = add(1);
+    const s = add(2);
     s.addText("What does the dataset look like?", { placeholder: "title" });
 
     // bottom: two tables side by side
@@ -615,36 +616,6 @@ const MONO = "Courier New";
     );
   }
 
-  // ---------- Slide 2: ML vs the curve ----------
-  {
-    const s = add(3);
-    s.addText("No ML model has lower error than the duration curve", { placeholder: "title" });
-    const names = ml.map((r) => r[0]);
-    s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: ml.map((r) => r[1]) }], {
-      x: 0.5, y: 1.3, w: 6.2, h: 4.15, ...axis, title: "Error on held-out campaign (pp, lower = better)",
-      chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 4, valAxisMajorUnit: 1, objectName: "MAE chart",
-    });
-    s.addChart(pres.charts.BAR, [{ name: "R2", labels: names, values: ml.map((r) => r[2]) }], {
-      x: 6.9, y: 1.3, w: 5.9, h: 4.15, ...axis, title: "Differences explained (R², higher = better)",
-      chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 0.5, valAxisMajorUnit: 0.1,
-      valAxisLabelFormatCode: "0.0", objectName: "R2 chart",
-    });
-    text(s, bullets([
-      "R² is the share of the differences between measurements that a model explains: 0 is none, 1 is all. The ML models explain more (0.27 to 0.39 vs 0.14) because they learn which muscles shrink more.",
-      "Their error on a new campaign is still no lower. Most of the error left is a shift that affects a whole campaign (its scanner, volunteers, protocol), and none of our inputs describe it.",
-    ], 14), { x: 0.6, y: 5.55, w: 12.1, h: 1.3 });
-
-    s.addNotes(
-      "About one minute.\n\n" +
-      "We compared four standard models, ridge regression, random forest, support vector regression and gradient boosting, tuned inside each training fold. " +
-      "We later added TabPFN, a neural network pretrained for small tables.\n\n" +
-      "On the left is the error on the held-out campaign. The duration curve scores 3.16 percentage points and the best model, the random forest, 3.18. None of them is lower than the curve.\n\n" +
-      "On the right, the ML models explain two to three times more variance. R squared is computed over all rows together, so it rewards getting the differences between muscles right, and the models do learn that the calf loses more than the hip. " +
-      "The error is averaged per campaign, and most of what remains is a shift that applies to a whole campaign, from its scanner, its volunteers or its protocol. None of our columns describes that, so 32 campaigns give the models nothing to learn it from. " +
-      "We had committed in advance to report this result whichever way it came out."
-    );
-  }
-
   // ---------- Slide 3: LLM system view ----------
   {
     const s = add(4);
@@ -727,24 +698,29 @@ const MONO = "Courier New";
     const rows = [...ml.slice(0, 5), ["Duration curve", 3.16, 0.14], ["LLM prediction", 2.71, 0.43]];
     const names = rows.map((r) => r[0]);
     s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: rows.map((r) => r[1]) }], {
-      x: 0.5, y: 1.3, w: 6.2, h: 3.95, ...axis, title: "Error on held-out campaign (pp, lower = better)",
+      x: 0.5, y: 1.3, w: 6.2, h: 3.75, ...axis, title: "Error on held-out campaign (pp, lower = better)",
       chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 4, valAxisMajorUnit: 1, objectName: "MAE chart with LLM",
     });
     s.addChart(pres.charts.BAR, [{ name: "R2", labels: names, values: rows.map((r) => r[2]) }], {
-      x: 6.9, y: 1.3, w: 5.9, h: 3.95, ...axis, title: "Differences explained (R², higher = better)",
+      x: 6.9, y: 1.3, w: 5.9, h: 3.75, ...axis, title: "Differences explained (R², higher = better)",
       chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 0.5, valAxisMajorUnit: 0.1,
       valAxisLabelFormatCode: "0.0", objectName: "R2 chart with LLM",
     });
     text(s, bullets([
-      "Same measurements, scored the same way: error 2.71 vs 3.13 pp, so 0.42 pp smaller. Closer than the curve in 20 of 32 campaigns.",
+      "ML models explain more of the differences (R² 0.27 to 0.39), but none has lower error than the curve.",
+      "LLM vs curve, scored the same way: 2.71 vs 3.13 pp, so 0.42 pp smaller; closer in 20 of 32 campaigns.",
       "95% confidence interval of that difference: 0.13 to 0.73 pp. The whole range is above zero, so it is unlikely to be luck.",
-    ], 14), { x: 0.6, y: 5.35, w: 12.1, h: 1.1 });
+    ], 14), { x: 0.6, y: 5.12, w: 12.1, h: 1.4 });
     text(s, "The curve shows 3.13 pp here, not 3.16, because the comparison scores it exactly as it scores the LLM.", {
       x: 0.6, y: 6.55, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
-      "About forty-five seconds.\n\n" +
-      "These are the same two charts with the language model added at the bottom. Its error is 2.71 percentage points, the lowest of all models, and it explains the most variance, 0.43.\n\n" +
+      "About a minute and a half.\n\n" +
+      "We compared four standard models, ridge regression, random forest, support vector regression and gradient boosting, tuned inside each training fold, and later TabPFN, a neural network pretrained for small tables. " +
+      "On the left is the error on the held-out campaign. The duration curve scores 3.16 percentage points and the best ML model, the random forest, 3.18: none of them is lower than the curve. " +
+      "On the right, the ML models explain two to three times more variance, because they learn that the calf loses more than the hip. Most of the error left is a shift that applies to a whole campaign, from its scanner, its volunteers or its protocol, and none of our columns describes it. " +
+      "We had committed in advance to report this result whichever way it came out.\n\n" +
+      "The language model is at the bottom. Its error is 2.71 percentage points, the lowest of all models, and it explains the most variance, 0.43.\n\n" +
       "Compared with the curve on the same rows and scored the same way, the error falls from 3.13 to 2.71, a gain of 0.42 points. The 95 percent confidence interval runs from 0.13 to 0.73, so even the most pessimistic estimate is an improvement. " +
       "It is closer than the curve in 20 of the 32 campaigns. No other method has a gain whose interval stays above zero.\n\n" +
       "If asked about a target: we had set a 15 percent improvement target. The error improvement is 13.3 percent and the probabilistic score improvement 17.7 percent."

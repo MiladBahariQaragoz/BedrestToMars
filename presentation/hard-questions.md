@@ -31,7 +31,7 @@ Source of truth: the final report on branch `feat/report` and `results/` there. 
 
 ## The LLM
 
-19. **"You missed your own 15% target."** The error improvement is 13.3%. The probabilistic score (CRPS) improves by 17.7%, which meets its target. *(notes, slide 12)*
+19. **"You missed your own 15% target."** The error improvement is 13.3%. The probabilistic score (CRPS) improves by 17.7%, which meets its target. *(notes, slide 11)*
 20. **"Its ranges are overconfident, so why trust it?"** We don't quote its ranges, only its single-number forecast. Recalibration is in further work.
 21. **"Is it reproducible? LLMs change."** The model version is fixed, and all 430 answers are saved, so every number rebuilds without calling it. Identical requests differ by 0.17 pp on average. *(B4)*
 22. **"Why does it work?"** Our interpretation is that it picks similar rows (same muscle, group, day) and weighs them. That is not a tested mechanism. *(B3)*
