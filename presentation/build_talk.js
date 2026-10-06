@@ -335,11 +335,84 @@ const MONO = "Courier New";
       "The dashed steps are future use, and applying the model on a real mission needs validation with spaceflight data first."
     );
   }
-  placeholder(1, "What range of unloading did we study?", [
-    "Unloading models: head-down and horizontal bed rest, dry immersion, one-leg suspension; spaceflight kept separate",
-    "At least 5 days of continuous unloading; scans from day 5 to day 119",
-    "Leg muscle size measured as volume, cross-sectional area, thickness or lean mass, by MRI, CT, DXA, pQCT or ultrasound",
-  ]);
+  // ---------- What range did we study? (slide 5) ----------
+  {
+    const s = add(1);
+    s.addText("What range did we study?", { placeholder: "title" });
+
+    // left top: growth of the dataset
+    text(s, "The dataset grew after the abstract", { x: 0.6, y: 1.3, w: 5.9, h: 0.35, fontSize: 17, bold: true, color: C.text2 });
+    const gx = 2.75, gmax = 2.4;
+    [["Abstract submission", 15, HEX.accent4, C.text1], ["Final dataset", 52, HEX.dk2, C.text2]].forEach(([lab, n, col, tc], i) => {
+      const y = 1.8 + i * 0.55;
+      text(s, lab, { x: 0.6, y, w: 2.05, h: 0.4, fontSize: 14, valign: "middle" });
+      s.addShape(pres.shapes.RECTANGLE, { x: gx, y: y + 0.04, w: gmax * n / 52, h: 0.32, fill: { color: col }, line: { type: "none" }, objectName: lab + " bar" });
+      text(s, n + " studies", { x: gx + gmax * n / 52 + 0.1, y, w: 1.4, h: 0.4, fontSize: 14, bold: true, valign: "middle", color: tc });
+    });
+
+    // left bottom: details of the final dataset
+    text(s, "Final dataset", { x: 0.6, y: 3.05, w: 5.9, h: 0.35, fontSize: 17, bold: true, color: C.text2 });
+    const facts = [
+      ["Published", "1992 to 2026"],
+      ["Unloading", "5 to 119 days on the ground; 180 days in spaceflight"],
+      ["Campaigns", "36 independent campaigns (one campaign can yield several papers)"],
+      ["Measurements", "742 (one per study, group, muscle and scan day)"],
+      ["Designs", "bed rest 46 studies (head-down 27, horizontal 19), spaceflight 3, limb suspension 2, dry immersion 1"],
+      ["Imaging", "MRI, CT, DXA and ultrasound"],
+    ];
+    s.addTable(facts.map(([k, v]) => [
+      { text: k, options: { bold: true, color: HEX.dk2 } },
+      { text: v },
+    ]), { x: 0.6, y: 3.45, w: 5.9, colW: [1.75, 4.15], fontSize: 13, fontFace: THEME.bodyFontFace, color: HEX.dk1, valign: "top",
+      border: [{ type: "none" }, { type: "none" }, { pt: 0.75, color: HEX.accent6 }, { type: "none" }], margin: [0.04, 0.05, 0.04, 0] });
+
+    // right: one dot per study, publication year vs unloading duration
+    const px = 6.95, pw = 5.78, py = 1.3, ph = 5.4;
+    s.addShape(pres.shapes.RECTANGLE, { x: px, y: py, w: pw, h: ph, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Range panel" });
+    text(s, "Each dot is one study", { x: px + 0.2, y: py + 0.1, w: pw - 0.4, h: 0.32, fontSize: 14, bold: true, color: C.text2 });
+    const ax = 7.75, aw = 4.75, ay0 = 5.45, ah = 3.25; // plot area: bottom-left at (ax, ay0)
+    const X = (yr) => ax + (yr - 1990) / 37 * aw, Y = (d) => ay0 - d / 190 * ah;
+    [0, 30, 60, 90, 120, 150, 180].forEach((d) => {
+      s.addShape(pres.shapes.LINE, { x: ax, y: Y(d), w: aw, h: 0, line: { color: d ? HEX.accent6 : HEX.accent3, width: 0.75 }, objectName: "Grid " + d });
+      text(s, String(d), { x: ax - 0.5, y: Y(d) - 0.11, w: 0.42, h: 0.22, fontSize: 10, align: "right", color: C.accent3 });
+    });
+    [1990, 2000, 2010, 2020].forEach((yr) => {
+      s.addShape(pres.shapes.LINE, { x: X(yr), y: ay0, w: 0, h: 0.06, line: { color: HEX.accent3, width: 0.75 }, objectName: "Tick " + yr });
+      text(s, String(yr), { x: X(yr) - 0.35, y: ay0 + 0.07, w: 0.7, h: 0.22, fontSize: 10, align: "center", color: C.accent3 });
+    });
+    text(s, "Year of publication", { x: ax, y: ay0 + 0.3, w: aw, h: 0.25, fontSize: 11, align: "center", color: C.accent3 });
+    text(s, "Unloading (days)", { x: px + 0.05, y: Y(190) - 0.3, w: 1.6, h: 0.25, fontSize: 11, color: C.accent3 });
+    const DES = {
+      HDBR_6: ["Head-down bed rest", HEX.dk2],
+      horizontal_BR: ["Horizontal bed rest", HEX.accent5],
+      spaceflight: ["Spaceflight", HEX.accent1],
+      ULLS: ["Limb suspension", "2E8B57"],
+      dry_immersion: ["Dry immersion", "C08A2E"],
+    };
+    const studies = [[1992, 119, "horizontal_BR"], [1994, 30, "HDBR_-6"], [2004, 90, "HDBR_-6"], [2007, 35, "horizontal_BR"], [2007, 60, "HDBR_-6"], [2009, 14, "HDBR_-6"], [2009, 56, "horizontal_BR"], [2012, 60, "HDBR_-6"], [2013, 7, "horizontal_BR"], [2013, 90, "HDBR_-6"], [2014, 30, "ULLS"], [2014, 35, "HDBR_-6"], [2015, 5, "HDBR_-6"], [2015, 5, "horizontal_BR"], [2015, 60, "HDBR_-6"], [2016, 7, "horizontal_BR"], [2016, 14, "horizontal_BR"], [2016, 60, "HDBR_-6"], [2016, 84, "HDBR_-6"], [2016, 180, "spaceflight"], [2017, 60, "HDBR_-6"], [2017, 90, "HDBR_-6"], [2018, 14, "horizontal_BR"], [2018, 21, "horizontal_BR"], [2019, 7, "horizontal_BR"], [2019, 10, "horizontal_BR"], [2020, 21, "HDBR_-6"], [2021, 5, "horizontal_BR"], [2021, 10, "horizontal_BR"], [2021, 60, "HDBR_-6"], [2021, 60, "HDBR_-6"], [2021, 180, "spaceflight"], [2022, 10, "horizontal_BR"], [2022, 10, "ULLS"], [2022, 60, "HDBR_-6"], [2023, 14, "HDBR_-6"], [2023, 90, "HDBR_-6"], [2024, 5, "horizontal_BR"], [2024, 14, "HDBR_-6"], [2024, 60, "HDBR_-6"], [2024, 70, "HDBR_-6"], [2025, 5, "horizontal_BR"], [2025, 14, "horizontal_BR"], [2025, 14, "horizontal_BR"], [2025, 60, "HDBR_-6"], [2026, 5, "dry_immersion"], [2026, 10, "horizontal_BR"], [2026, 14, "HDBR_-6"], [2026, 21, "HDBR_-6"], [2026, 60, "HDBR_-6"], [2026, 90, "HDBR_-6"], [2026, 180, "spaceflight"]];
+    const seen = {};
+    const r = 0.13;
+    studies.forEach(([yr, d, des]) => {
+      const key = yr + "_" + d; const k = seen[key] = (seen[key] || 0) + 1;
+      const dx = (k - 1) * 0.1;
+      const [lab, col] = DES[des.replace("-", "")];
+      s.addShape(pres.shapes.OVAL, { x: X(yr) - r / 2 + dx, y: Y(d) - r / 2, w: r, h: r, fill: { color: col, transparency: 10 }, line: { color: HEX.lt1, width: 0.5 }, objectName: `Study ${yr} ${d} d` });
+    });
+    // legend
+    Object.values(DES).forEach(([lab, col], i) => {
+      const lx = px + 0.25 + (i % 3) * 1.85, ly = 6.08 + Math.floor(i / 3) * 0.27;
+      s.addShape(pres.shapes.OVAL, { x: lx, y: ly + 0.06, w: 0.13, h: 0.13, fill: { color: col }, line: { type: "none" }, objectName: "Legend " + lab });
+      text(s, lab, { x: lx + 0.2, y: ly, w: 1.65, h: 0.25, fontSize: 10.5 });
+    });
+
+    s.addNotes(
+      "Part 1 (Niloufar), about forty-five seconds.\n\n" +
+      "When we submitted the abstract, the dataset held 15 studies. After submission we kept extending it, and the final dataset has 52 studies. " +
+      "They were published between 1992 and 2026 and cover unloading from 5 days to 180 days: up to 119 days of bed rest on the ground, and 180 days in spaceflight.\n\n" +
+      "On the right, each dot is one study, placed by its year of publication and how long the unloading lasted. Most studies are head-down or horizontal bed rest; the three spaceflight studies sit at 180 days.\n\n" +
+      "The 52 studies come from 36 independent campaigns, because one bed-rest campaign often produces several papers. Together they give 742 measurements of leg muscle size, taken with MRI, CT, DXA or ultrasound."
+    );
+  }
   placeholder(1, "How the dataset was built", [
     "Systematic search of PubMed, Scopus, Web of Science and NASA's technical reports, 2013 onwards: 5,731 records",
     "Plus 9 older studies and one campaign from NASA's open bed-rest archive",
