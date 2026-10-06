@@ -560,10 +560,6 @@ const MONO = "Courier New";
       "rising fast in the first weeks and levelling off; time constant 60 days. Hip rotators and outer hip rest on a single campaign each, so treat those two with care."
     );
   }
-  placeholder(3, "From data to forecasts", [
-    "Bridge to part 2: the data show that loss depends on time and on the muscle",
-    "Next question: can a model forecast the loss in a study it has never seen?",
-  ]);
 
   // ---------- Slide 1: the evaluation setup ----------
   {

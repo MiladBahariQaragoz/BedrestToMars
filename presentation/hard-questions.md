@@ -25,13 +25,13 @@ Source of truth: the final report on branch `feat/report` and `results/` there. 
 13. **"Why not add age, sex or countermeasure type?"** With 32 studies there is room for about three study-level inputs. Age and sex barely vary within a study (347 of 425 rows come from men-only groups), so they act as a study label. The 126 countermeasure rows are spread over 9 types. *(B3)*
 14. **"Isn't a duration-only curve a straw man?"** Ridge regression uses duration plus muscle and the other inputs, and scores 3.28 vs 3.16 pp. Adding the muscle raises R² but not the error on a new study. *(B3)*
 15. **"Would a nearest-neighbour method match the LLM?"** Not tested. If the gain comes from picking similar rows, a nearest-neighbour baseline is the obvious control, and it is a fair item for further work. *(B3)*
-16. **"Why does muscle identity explain 30% of variance but not reduce error?"** R² is pooled over all rows, while error is averaged per study. Most of the remaining error is a shift shared by a whole study, and no input describes it. *(slide 11)*
+16. **"Why does muscle identity explain 30% of variance but not reduce error?"** R² is pooled over all rows, while error is averaged per study. Most of the remaining error is a shift shared by a whole study, and no input describes it. *(slide 10)*
 17. **"Bootstrap intervals over 32 studies, are they reliable?"** They are approximate and wide on purpose. On the history arm there are only 5 studies, so we don't quote those intervals as results.
 18. **"Why not the meta-regression with muscle terms as the baseline?"** It estimates rather than predicts, and isn't cross-validated. Ridge is the closest predictive equivalent and doesn't beat the curve.
 
 ## The LLM
 
-19. **"You missed your own 15% target."** The error improvement is 13.3%. The probabilistic score (CRPS) improves by 17.7%, which meets its target. *(notes, slide 13)*
+19. **"You missed your own 15% target."** The error improvement is 13.3%. The probabilistic score (CRPS) improves by 17.7%, which meets its target. *(notes, slide 12)*
 20. **"Its ranges are overconfident, so why trust it?"** We don't quote its ranges, only its single-number forecast. Recalibration is in further work.
 21. **"Is it reproducible? LLMs change."** The model version is fixed, and all 430 answers are saved, so every number rebuilds without calling it. Identical requests differ by 0.17 pp on average. *(B4)*
 22. **"Why does it work?"** Our interpretation is that it picks similar rows (same muscle, group, day) and weighs them. That is not a tested mechanism. *(B3)*
