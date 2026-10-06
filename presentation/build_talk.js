@@ -490,12 +490,76 @@ const MONO = "Courier New";
       "Right table: most rows are MRI volumes. CT gives cross-sectional area, DXA gives lean mass of the leg, and ultrasound gives thickness or area."
     );
   }
-  placeholder(2, "Are all muscles affected the same?", [
-    "No. Calf muscles (plantar flexors) lose most: −15.8% at day 60, 5.7 pp more than the front thigh",
-    "Front thigh, back thigh and shin muscles lose around 10%; hip muscles least",
-    "30% of the differences between measurements lie between muscles within the same study",
-    "Groups with countermeasures lose 3.7 pp less than controls",
-  ], "muscle ranking (figures/F3_muscles)");
+  // ---------- Are all muscles affected the same? (slide 8) ----------
+  {
+    const s = add(2);
+    s.addText("Are all muscles affected the same?", { placeholder: "title" });
+    // day-60 estimates per muscle group: report tab_ranking (modelling subset, control groups)
+    const groups = [
+      ["hip-rotators", "Deep hip rotators", -1.9, "6B7280"],
+      ["hip-adductors", "Inner thigh (hip adductors)", -5.4, "17A2B8"],
+      ["hip-extensors", "Glutes (hip extensors)", -6.1, "8C564B"],
+      ["hip-flexors", "Hip flexors", -6.8, "2E8B57"],
+      ["hip-abductors", "Outer hip (hip abductors)", -9.1, "7B6BA8"],
+      ["knee-flexors", "Back thigh (knee flexors)", -9.8, "4C78A8"],
+      ["knee-extensors", "Front thigh (knee extensors)", -10.1, HEX.dk2],
+      ["dorsiflexors", "Shin (dorsiflexors)", -10.2, "D08C34"],
+      ["plantar-flexors", "Calf (plantar flexors)", -15.8, HEX.accent1],
+    ];
+    // common saturating time course from the report (tau = 60 days), scaled to each group's day-60 value
+    const shape = (t) => (1 - Math.exp(-t / 60)) / (1 - Math.exp(-1));
+    const px = 1.35, pw = 6.9, py = 1.5, ph = 4.25, dMax = 120, yMin = -24;
+    const X = (d) => px + d / dMax * pw, Y = (v) => py + (v / yMin) * ph;
+    [0, -4, -8, -12, -16, -20, -24].forEach((v) => {
+      s.addShape(pres.shapes.LINE, { x: px, y: Y(v), w: pw, h: 0, line: { color: v ? HEX.accent6 : HEX.accent3, width: 0.75 }, objectName: "Grid " + v });
+      text(s, (v ? "−" + -v : "0") + "%", { x: px - 0.62, y: Y(v) - 0.11, w: 0.52, h: 0.22, fontSize: 10, align: "right", color: C.accent3 });
+    });
+    [0, 30, 60, 90, 120].forEach((d) => {
+      text(s, String(d), { x: X(d) - 0.3, y: Y(yMin) + 0.06, w: 0.6, h: 0.22, fontSize: 10, align: "center", color: C.accent3 });
+    });
+    text(s, "Day of unloading", { x: px, y: Y(yMin) + 0.3, w: pw, h: 0.25, fontSize: 11, align: "center", color: C.accent3 });
+    text(s, "Change in muscle size", { x: px - 0.75, y: py - 0.38, w: 2.5, h: 0.25, fontSize: 11, color: C.accent3 });
+    // dashed reading line at day 60
+    s.addShape(pres.shapes.LINE, { x: X(60), y: py - 0.1, w: 0, h: ph + 0.1, line: { color: HEX.dk1, width: 1, dashType: "dash" }, objectName: "Day 60 line" });
+    text(s, "day 60", { x: X(60) + 0.05, y: py - 0.12, w: 0.8, h: 0.22, fontSize: 10.5, bold: true });
+    // curves from day 5 to day 119 (the range of the bed-rest data)
+    const days = []; for (let d = 5; d <= 119; d += 2) days.push(d); days.push(119);
+    const top = Y(0), xs0 = X(5);
+    groups.forEach(([key, name, v60, col]) => {
+      const pts = days.map((d) => ({ x: X(d) - xs0, y: Y(v60 * shape(d)) - top }));
+      const h = Math.max(...pts.map((p) => p.y));
+      s.addShape(pres.shapes.CUSTOM_GEOMETRY, { x: xs0, y: top, w: X(119) - xs0, h, points: pts,
+        fill: { type: "none" }, line: { color: col, width: key === "plantar-flexors" ? 3 : 2 }, objectName: name + " curve" });
+      s.addShape(pres.shapes.OVAL, { x: X(60) - 0.055, y: Y(v60) - 0.055, w: 0.11, h: 0.11, fill: { color: col }, line: { color: HEX.lt1, width: 0.5 }, objectName: name + " at day 60" });
+    });
+
+    // labels: icon, name and day-60 value, in the order of the curves
+    const lx = 9.0, ly0 = 1.38, lh = 0.54;
+    text(s, "At day 60", { x: 11.7, y: ly0 - 0.3, w: 1.02, h: 0.25, fontSize: 10.5, bold: true, align: "right", color: C.accent3 });
+    groups.forEach(([key, name, v60, col], i) => {
+      const y = ly0 + i * lh, cyl = y + lh / 2;
+      // leader from the curve end (day 119) to the label
+      const ex = X(119), ey = Y(v60 * shape(119));
+      s.addShape(pres.shapes.LINE, { x: ex + 0.03, y: Math.min(ey, cyl), w: lx - ex - 0.1, h: Math.abs(cyl - ey) || 0.001, flipV: cyl < ey,
+        line: { color: col, width: 0.75 }, objectName: name + " leader" });
+      s.addImage({ path: path.join(__dirname, `muscle-${key}.png`), x: lx, y: y + 0.02, w: (lh - 0.04) * 2 / 3, h: lh - 0.04, altText: name + " (highlighted on a leg outline)" });
+      text(s, name, { x: lx + 0.42, y, w: 2.5, h: lh, fontSize: 12, valign: "middle", color: C.text1 });
+      text(s, (v60 + "").replace("-", "−") + "%", { x: 11.9, y, w: 0.82, h: lh, fontSize: 13, bold: true, align: "right", valign: "middle", color: col });
+    });
+
+    text(s, "Lines: one shared time course (saturating, τ = 60 days) scaled to each group's estimate at day 60. Control groups, days 5 to 119.",
+      { x: 0.6, y: 6.45, w: 12.1, h: 0.25, fontSize: 10.5, italic: true, color: C.accent3 });
+
+    s.addNotes(
+      "Part 1 (Niloufar), about one minute.\n\n" +
+      "No, muscles are not affected equally. Each line shows how much a muscle group shrinks over the days of bed rest, for groups without a countermeasure. " +
+      "The dashed line reads the values at day 60.\n\n" +
+      "The calf, the plantar flexors, loses most: about 16 percent at day 60, almost 6 percentage points more than the front thigh. " +
+      "The shin, the front thigh and the back thigh lose about 10 percent. Hip muscles lose least.\n\n" +
+      "How the lines are drawn: the day-60 values are the estimates of our meta-regression for each muscle group. The shape over time is the one curve the model fits to all muscles, " +
+      "rising fast in the first weeks and levelling off; time constant 60 days. Hip rotators and outer hip rest on a single campaign each, so treat those two with care."
+    );
+  }
   placeholder(3, "From data to forecasts", [
     "Bridge to part 2: the data show that loss depends on time and on the muscle",
     "Next question: can a model forecast the loss in a study it has never seen?",
