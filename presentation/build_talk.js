@@ -829,6 +829,7 @@ const MONO = "Courier New";
         "Fix the LLM's overconfident ranges",
         "Check results without the largest study, and with MRI scans only",
         "Extend the forecast to a 180-day mission, with an uncertainty range",
+        "Link the muscles: predict one muscle's loss from another's, and weight them into an estimate of strength loss",
       ]],
     ];
     cols.forEach(([h, items], i) => {
@@ -883,6 +884,74 @@ const MONO = "Courier New";
       "674 of 742 rows high confidence; 19 read off figures; no independent second extraction",
     ]],
   ], "Backup. Be direct that the three must-show sensitivity analyses (composite-first, without MEDES, MRI only) have not been run yet. Only the weighting check has, and it changed little.");
+
+  // ---------- Backup: search strategy ----------
+  {
+    pres.addSection({ title: "Backup" });
+    const s = pres.addSlide({ masterName: "Content", sectionTitle: "Backup" });
+    s.addText("Backup: how did we search the literature?", { placeholder: "title" });
+    s.addText("BACKUP", { x: 10.7, y: 6.95, w: 1.3, h: 0.3, fontSize: 10, bold: true, color: C.accent3, align: "right", margin: 0, isTextBox: true });
+    const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: HEX.lt1, fill: { color: HEX.dk2 }, align } });
+    const c = (t, align = "left", bold = false) => ({ text: t, options: { align, bold } });
+    text(s, "Sources (searched 4 September 2026)", { x: 0.6, y: 1.3, w: 5.6, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    s.addTable([
+      [hdr("Source"), hdr("Records", "right")],
+      [c("PubMed"), c("1,412", "right")],
+      [c("Scopus"), c("1,757", "right")],
+      [c("Web of Science Core Collection"), c("1,876", "right")],
+      [c("NASA Technical Reports Server"), c("686", "right")],
+      [c("Earlier studies and NASA open data"), c("10", "right")],
+      [c("Total", "left", true), c("5,741", "right", true)],
+    ], { x: 0.6, y: 1.7, w: 5.6, colW: [4.3, 1.3], fontSize: 13, fontFace: THEME.bodyFontFace, color: HEX.dk1, valign: "middle", rowH: 0.38,
+      border: [{ type: "none" }, { type: "none" }, { pt: 0.75, color: HEX.accent6 }, { type: "none" }], margin: [0.03, 0.1, 0.03, 0.1] });
+    text(s, bullets([
+      "Journal databases: publications from 2013 onwards",
+      "Older work enters through studies we held before the search (9) and one NASA open-data campaign",
+      "NASA reports: five short keyword queries, e.g. \"bed rest\" \"muscle volume\"",
+      "Not searched: Embase (no institutional access), Cochrane CENTRAL, trial registries, citation chasing",
+    ], 13), { x: 0.6, y: 4.5, w: 5.6, h: 2.2 });
+
+    // right: query structure and one string verbatim
+    text(s, "Query: two required blocks", { x: 6.6, y: 1.3, w: 6.1, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    const blocks = [
+      ["Unloading model", "bed rest, head-down tilt, dry immersion, limb suspension, simulated microgravity, disuse"],
+      ["Muscle outcome", "atrophy, muscle volume, mass, size, cross-sectional area, lean mass, thickness, main leg muscles"],
+      ["Excluded", "rat, mouse, rodent, hindlimb"],
+    ];
+    const bw = 1.75, gap = 0.425;
+    blocks.forEach(([h, t], i) => {
+      const x = 6.6 + i * (bw + gap);
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.72, w: bw, h: 1.6, fill: { color: i === 2 ? C.background2 : HEX.lt1 }, line: { color: HEX.accent5, width: 1, dashType: i === 2 ? "dash" : "solid" }, objectName: "Block " + h });
+      text(s, [
+        { text: h, options: { bold: true, fontSize: 12, color: C.text2, breakLine: true } },
+        { text: t, options: { fontSize: 10.5 } },
+      ], { x: x + 0.08, y: 1.78, w: bw - 0.16, h: 1.5, align: "center", valign: "middle" });
+      if (i < 2) text(s, i === 0 ? "AND" : "NOT", { x: x + bw, y: 1.72, w: gap, h: 1.6, fontSize: 11, bold: true, align: "center", valign: "middle", color: C.accent1 });
+    });
+    text(s, "Web of Science string, verbatim", { x: 6.6, y: 3.5, w: 6.1, h: 0.25, fontSize: 11, bold: true, color: C.accent3 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 6.6, y: 3.78, w: 6.13, h: 2.45, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Query panel" });
+    text(s, [
+      'TS=(("bed rest" OR bedrest OR "head-down tilt" OR "head down bed rest" OR HDBR',
+      '  OR antiorthostatic OR hypokinesia OR hypodynamia OR "dry immersion"',
+      '  OR "limb suspension" OR ULLS OR "simulated microgravity"',
+      '  OR "microgravity analog*" OR "spaceflight analog*" OR "mechanical unloading"',
+      '  OR "muscle unloading" OR disuse)',
+      ' AND',
+      ' (atroph* OR "muscle volume" OR "muscle mass" OR "muscle size"',
+      '  OR "cross-sectional area" OR PCSA OR "lean mass" OR "muscle thickness"',
+      '  OR "muscle wasting" OR deconditioning OR soleus OR gastrocnemius',
+      '  OR "triceps surae" OR quadriceps OR "vastus lateralis" OR "knee extensor"))',
+      'NOT TS=(rat OR rats OR mice OR mouse OR rodent OR hindlimb OR "hind limb")',
+    ].map((l, i, a) => ({ text: l, options: { breakLine: i < a.length - 1 } })),
+      { x: 6.72, y: 3.88, w: 5.95, h: 2.3, fontFace: MONO, fontSize: 9, color: C.text1 });
+
+    s.addNotes(
+      "Backup. All four strings are in the report appendix, copied from docs/literature-review/search_log.md. " +
+      "PubMed uses the same two blocks with MeSH terms and the humans filter; Scopus and Web of Science exclude animal studies in the query. " +
+      "The 2013 limit is the main weakness: only two of ten known modelling papers fall inside the window, and the known-item test without the limit was not run. " +
+      "Embase was not searched for lack of access; it indexes conference abstracts the other databases miss."
+    );
+  }
 
   backup("Backup: is the LLM gain real, and does it matter?", [
     ["Is 0.42 pp worth anything?", [

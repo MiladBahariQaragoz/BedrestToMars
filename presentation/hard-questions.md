@@ -12,7 +12,7 @@ Source of truth: the final report on branch `feat/report` and `results/` there. 
 
 ## Data
 
-6. **"Did you miss studies?"** The search covered PubMed, Scopus, Web of Science and NASA NTRS from 2013 on (5,731 records), plus 9 older studies. Embase wasn't searched because there was no institutional access, and 1,023 records weren't screened in the time available. *(B1)*
+6. **"Did you miss studies?"** The search covered PubMed, Scopus, Web of Science and NASA NTRS from 2013 on (5,731 records), plus 9 older studies. Embase wasn't searched because there was no institutional access, and 1,023 records weren't screened in the time available. *(B1; search strings on the search backup slide)*
 7. **"One campaign dominates."** MEDES 90-day supplies 40% of all rows and a quarter of the modelling data. Scoring gives every study one vote, but the check without it (S2) is still to run. *(B1)*
 8. **"You mix MRI, CT, DXA and ultrasound."** Each method gets its own term. DXA lean mass and ultrasound thickness show about 5 to 6 pp less loss than CT area, and MRI volume is within 0.5 pp of CT. The MRI-only check (S4) is still to run. *(B1)*
 9. **"Who checked the extraction?"** Every value is traced to its DOI and to a page, table or figure. 674 of 742 rows are high confidence, and 19 were read off figures. No second person extracted the data independently. *(B1)*

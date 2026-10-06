@@ -4,7 +4,7 @@ The DGLRM talk deck, built from the final report on `feat/report`.
 
 | File | What it is |
 |---|---|
-| `bed-rest-to-mars-talk.pptx` | The deck: 18 slides. Slides 3–8 are Niloufar Ahmadymarzdashty's half; 9–14 are the technical half; 15–18 are backup slides |
+| `bed-rest-to-mars-talk.pptx` | The deck: 19 slides. Slides 3–8 are Niloufar Ahmadymarzdashty's half; 9–14 are the technical half; 15–19 are backup slides (16 shows the search queries) |
 | `bed-rest-to-mars-talk.pdf` | PDF preview of the deck |
 | `hard-questions.md` | 27 critical audience questions with answers and sources, mapped to the backup slides |
 | `presentation-plan.md` | Build plan with a definition of success for each phase |
