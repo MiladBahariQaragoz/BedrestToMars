@@ -833,16 +833,8 @@ const MONO = "Courier New";
     text(s, [
       { text: "Thank you for listening", options: { fontSize: 46, breakLine: true } },
       { text: "Questions are welcome", options: { fontSize: 26, color: "F2D0A9" } },
-    ], { x: 0.9, y: 1.9, w: 9.8, h: 1.9, fontFace: THEME.headFontFace, bold: true, color: "FFFFFF", valign: "bottom", paraSpaceAfter: 10 });
-    text(s, [
-      { text: "Niloufar Ahmadymarzdashty", options: {} }, { text: "1", options: { superscript: true } },
-      { text: ",  Milad Bahari Qaragoz", options: {} }, { text: "2", options: { superscript: true } },
-    ], { x: 0.9, y: 4.2, w: 8.4, h: 0.4, fontSize: 18, color: "FFFFFF" });
-    text(s, [
-      { text: "1", options: { superscript: true } }, { text: " Independent researcher", options: { breakLine: true } },
-      { text: "2", options: { superscript: true } }, { text: " Master's candidate, Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)", options: {} },
-    ], { x: 0.9, y: 4.65, w: 8.4, h: 0.6, fontSize: 14, color: "B7C3D3" });
-    text(s, "From Bed Rest to Mars  |  64. Jahrestagung der DGLRM", { x: 0.9, y: 5.45, w: 8.4, h: 0.4, fontSize: 16, bold: true, color: "F2D0A9" });
+    ], { x: 0.9, y: 2.1, w: 9.8, h: 1.9, fontFace: THEME.headFontFace, bold: true, color: "FFFFFF", valign: "bottom", paraSpaceAfter: 10 });
+    text(s, "From Bed Rest to Mars  |  64. Jahrestagung der DGLRM", { x: 0.9, y: 4.3, w: 8.4, h: 0.4, fontSize: 16, bold: true, color: "F2D0A9" });
     s.addNotes("Close (Milad). Thank the audience and invite questions. The backup slides that follow answer the questions we expect: part 1 on slides 17 to 19, data and search on 15 and 16, part 2 on 20 to 22.");
   }
 
