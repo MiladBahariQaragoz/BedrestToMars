@@ -245,7 +245,7 @@ const MONO = "Courier New";
       ], 14)),
       head("Mars: the long-term application", 10),
       ...bullets([
-        "A Mars mission lasts years, not days: about 6 months of transit each way",
+        "A Mars mission lasts about 2.5 years, with about 6 months of transit each way",
         "No early return in an emergency: the crew depends on its own fitness",
         "After months in weightlessness, the crew must leave the spacecraft and work on the surface",
       ], 14),
@@ -564,7 +564,7 @@ const MONO = "Courier New";
   // ---------- Slide 1: the evaluation setup ----------
   {
     const s = add(3);
-    s.addText("Every model is tested on a study it has not seen", { placeholder: "title" });
+    s.addText("Every model is tested on a campaign it has not seen", { placeholder: "title" });
 
     const y = 1.45, h = 2.75;
     box(s, { x: 0.6, y, w: 4.6, h }, "Input box");
@@ -587,22 +587,22 @@ const MONO = "Courier New";
       { text: "Average over the group of volunteers, e.g. \u221210%", options: { fontSize: 14, color: C.accent3 } },
     ], { x: 10.0, y: y + 0.15, w: 2.6, h: h - 0.3 });
 
-    // leave-one-study-out strip
+    // leave-one-campaign-out strip
     const sy = 4.75, n = 32, w = 0.27, g = 0.05, held = 13;
-    text(s, "Testing: hold out one study, train on the rest, repeat 32 times", { x: 0.6, y: 4.4, w: 8, h: 0.3, fontSize: 15, bold: true, color: C.text2 });
+    text(s, "Testing: hold out one campaign, train on the rest, repeat 32 times", { x: 0.6, y: 4.4, w: 8, h: 0.3, fontSize: 15, bold: true, color: C.text2 });
     for (let i = 0; i < n; i++) {
       s.addShape(pres.shapes.RECTANGLE, { x: 0.6 + i * (w + g), y: sy, w, h: 0.27,
         fill: { color: i === held ? C.accent1 : C.accent6 }, line: { color: i === held ? HEX.accent1 : HEX.accent5, width: 0.5 },
-        objectName: i === held ? "Test study" : `Training study ${i + 1}` });
+        objectName: i === held ? "Test campaign" : `Training campaign ${i + 1}` });
     }
     text(s, [
-      { text: "Grey: 31 training studies.  ", options: {} },
-      { text: "Red: the held-out test study.", options: { color: C.accent1 } },
-      { text: "  Each study is held out once.", options: {} },
+      { text: "Grey: 31 training campaigns.  ", options: {} },
+      { text: "Red: the held-out test campaign.", options: { color: C.accent1 } },
+      { text: "  Each campaign is held out once.", options: {} },
     ], { x: 0.6, y: 5.15, w: 11, h: 0.3, fontSize: 14 });
     text(s, bullets([
-      "Why studies, not measurements: the 346 measurements come from only 32 independent studies, because several papers report the same volunteers.",
-      "Score: average error in percentage points (pp). Forecast \u221210%, measured \u221213%: error 3 pp. Each study counts once.",
+      "Why campaigns, not measurements: the 346 rows used for modelling come from 32 of the 36 campaigns, and rows of one campaign share volunteers.",
+      "Score: average error in percentage points (pp), each campaign counted once. Forecast \u221210%, measured \u221213%: error 3 pp.",
     ], 14), { x: 0.6, y: 5.6, w: 12.1, h: 1.1 });
 
     s.addNotes(
@@ -610,10 +610,10 @@ const MONO = "Courier New";
       "Each row in our data is one measurement: a group of volunteers, one muscle, one day of bed rest. " +
       "The inputs are the day of the scan, the muscle family, whether the group did a countermeasure, how the muscle was imaged, and whether the value covers a group of muscles. " +
       "The output is the percentage change in muscle size from before bed rest.\n\n" +
-      "We have 346 rows, but they come from 32 independent studies, because several papers report the same volunteers. " +
-      "So we test by holding out one whole study, training on the other 31 and predicting the held-out one, 32 times. " +
-      "The code checks that no study appears on both sides of a split.\n\n" +
-      "The score is the mean absolute error in percentage points, averaged so that each study counts once. " +
+      "We have 346 rows, but they come from 32 independent campaigns, because several papers report the same volunteers. " +
+      "So we test by holding out one whole campaign, training on the other 31 and predicting the held-out one, 32 times. " +
+      "The code checks that no campaign appears on both sides of a split.\n\n" +
+      "The score is the mean absolute error in percentage points, averaged so that each campaign counts once. " +
       "Every model is compared with a duration-only curve, which uses the number of days and nothing else."
     );
   }
@@ -624,7 +624,7 @@ const MONO = "Courier New";
     s.addText("No ML model has lower error than the duration curve", { placeholder: "title" });
     const names = ml.map((r) => r[0]);
     s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: ml.map((r) => r[1]) }], {
-      x: 0.5, y: 1.3, w: 6.2, h: 4.15, ...axis, title: "Error on held-out study (pp, lower = better)",
+      x: 0.5, y: 1.3, w: 6.2, h: 4.15, ...axis, title: "Error on held-out campaign (pp, lower = better)",
       chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 4, valAxisMajorUnit: 1, objectName: "MAE chart",
     });
     s.addChart(pres.charts.BAR, [{ name: "R2", labels: names, values: ml.map((r) => r[2]) }], {
@@ -634,16 +634,16 @@ const MONO = "Courier New";
     });
     text(s, bullets([
       "R² is the share of the differences between measurements that a model explains: 0 is none, 1 is all. The ML models explain more (0.27 to 0.39 vs 0.14) because they learn which muscles shrink more.",
-      "Their error on a new study is still no lower. Most of the error left is a shift that affects a whole study (its scanner, volunteers, protocol), and none of our inputs describe it.",
+      "Their error on a new campaign is still no lower. Most of the error left is a shift that affects a whole campaign (its scanner, volunteers, protocol), and none of our inputs describe it.",
     ], 14), { x: 0.6, y: 5.55, w: 12.1, h: 1.3 });
 
     s.addNotes(
       "About one minute.\n\n" +
       "We compared four standard models, ridge regression, random forest, support vector regression and gradient boosting, tuned inside each training fold. " +
       "We later added TabPFN, a neural network pretrained for small tables.\n\n" +
-      "On the left is the error on the held-out study. The duration curve scores 3.16 percentage points and the best model, the random forest, 3.18. None of them is lower than the curve.\n\n" +
+      "On the left is the error on the held-out campaign. The duration curve scores 3.16 percentage points and the best model, the random forest, 3.18. None of them is lower than the curve.\n\n" +
       "On the right, the ML models explain two to three times more variance. R squared is computed over all rows together, so it rewards getting the differences between muscles right, and the models do learn that the calf loses more than the hip. " +
-      "The error is averaged per study, and most of what remains is a shift that applies to a whole study, from its scanner, its volunteers or its protocol. None of our columns describes that, so 32 studies give the models nothing to learn it from. " +
+      "The error is averaged per campaign, and most of what remains is a shift that applies to a whole campaign, from its scanner, its volunteers or its protocol. None of our columns describes that, so 32 campaigns give the models nothing to learn it from. " +
       "We had committed in advance to report this result whichever way it came out."
     );
   }
@@ -667,10 +667,9 @@ const MONO = "Courier New";
       ...k("protocol", "head-down tilt bed rest, 21 days, control group"),
       ...k("measurement", "vastus lateralis, MRI cross-sectional area"),
       ...k("target", "day 21 of bed rest"),
-      ...k("typical_curve_other_campaigns", "duration curve fitted on the other 31 studies"),
-      ...k("observations_other_campaigns", "rows from the other 31 studies, most similar first, up to about 26,000 tokens"),
+      ...k("typical_curve_other_campaigns", "duration curve fitted on the other 31 campaigns"),
+      ...k("observations_other_campaigns", "rows from the other 31 campaigns, most similar first, up to about 26,000 tokens"),
       ...k("question", "Which range will the change fall in? 19 options: below −30%, 2-point ranges up to +4%, +4% and above"),
-      { text: "Field names as sent; \"campaign\" means study.", options: { fontSize: 11, italic: true, color: C.accent3 } },
     ], { x: lx + 0.2, y: ly + 0.15, w: lw - 0.4, h: lh - 0.3, paraSpaceAfter: 1 });
 
     // middle: the model
@@ -707,7 +706,7 @@ const MONO = "Courier New";
 
     text(s, [
       { text: "Never sent (checked on every request): ", options: { bold: true } },
-      { text: "the held-out study's measurements, and any paper, author or study name. All 430 answers are saved, so every result can be rebuilt without calling the model again." },
+      { text: "the held-out campaign's measurements, and any paper, author or campaign name. All 430 answers are saved, so every result can be rebuilt without calling the model again." },
     ], { x: 0.6, y: 6.25, w: 12.1, h: 0.6, fontSize: 13 });
 
     s.addNotes(
@@ -715,11 +714,11 @@ const MONO = "Courier New";
       "The ML models only saw coded columns. Here we gave each measurement, written out in words, to a newly released language model built for probabilistic classification. " +
       "You give it a described situation and a fixed list of options, and it returns a probability for each option.\n\n" +
       "On the left is a real request from our cache. It describes the volunteers, the protocol, the muscle and how it was scanned, and the day. " +
-      "It also contains the duration curve fitted on the other 31 studies and as many rows from those studies as fit, most similar first. " +
+      "It also contains the duration curve fitted on the other 31 campaigns and as many rows from those campaigns as fit, most similar first. " +
       "The question asks which of 19 ranges the change will fall in.\n\n" +
       "On the right is what came back for this row: a probability for each range. We never ask the model for a number. Our code turns the probabilities into a forecast, here minus 6.6 percent against an observed minus 9.4. " +
       "We chose this row because its error is the model's median error.\n\n" +
-      "The request never contains the held-out study's own data or any name that could identify a paper, and the code checks that on every request. " +
+      "The request never contains the held-out campaign's own data or any name that could identify a paper, and the code checks that on every request. " +
       "Every answer is cached, so all our numbers can be rebuilt without calling the model again."
     );
   }
@@ -731,7 +730,7 @@ const MONO = "Courier New";
     const rows = [...ml.slice(0, 5), ["Duration curve", 3.16, 0.14], ["LLM forecast", 2.71, 0.43]];
     const names = rows.map((r) => r[0]);
     s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: rows.map((r) => r[1]) }], {
-      x: 0.5, y: 1.3, w: 6.2, h: 3.95, ...axis, title: "Error on held-out study (pp, lower = better)",
+      x: 0.5, y: 1.3, w: 6.2, h: 3.95, ...axis, title: "Error on held-out campaign (pp, lower = better)",
       chartColors: names.map((n) => color(n)), valAxisMinVal: 0, valAxisMaxVal: 4, valAxisMajorUnit: 1, objectName: "MAE chart with LLM",
     });
     s.addChart(pres.charts.BAR, [{ name: "R2", labels: names, values: rows.map((r) => r[2]) }], {
@@ -740,8 +739,8 @@ const MONO = "Courier New";
       valAxisLabelFormatCode: "0.0", objectName: "R2 chart with LLM",
     });
     text(s, bullets([
-      "Same measurements, scored the same way: error 2.71 vs 3.13 pp, so 0.42 pp smaller. Closer than the curve in 20 of 32 studies.",
-      "95% confidence interval of that difference: 0.13 to 0.73 pp. The whole range is above zero, so it is unlikely to be luck. No other model achieves this.",
+      "Same measurements, scored the same way: error 2.71 vs 3.13 pp, so 0.42 pp smaller. Closer than the curve in 20 of 32 campaigns.",
+      "95% confidence interval of that difference: 0.13 to 0.73 pp. The whole range is above zero, so it is unlikely to be luck.",
     ], 14), { x: 0.6, y: 5.35, w: 12.1, h: 1.1 });
     text(s, "The curve shows 3.13 pp here, not 3.16, because the comparison scores it exactly as it scores the LLM.", {
       x: 0.6, y: 6.55, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
@@ -750,7 +749,7 @@ const MONO = "Courier New";
       "About forty-five seconds.\n\n" +
       "These are the same two charts with the language model added at the bottom. Its error is 2.71 percentage points, the lowest of all models, and it explains the most variance, 0.43.\n\n" +
       "Compared with the curve on the same rows and scored the same way, the error falls from 3.13 to 2.71, a gain of 0.42 points. The 95 percent confidence interval runs from 0.13 to 0.73, so even the most pessimistic estimate is an improvement. " +
-      "It is closer than the curve in 20 of the 32 studies. No other method has a gain whose interval stays above zero.\n\n" +
+      "It is closer than the curve in 20 of the 32 campaigns. No other method has a gain whose interval stays above zero.\n\n" +
       "If asked about a target: we had set a 15 percent improvement target. The error improvement is 13.3 percent and the probabilistic score improvement 17.7 percent."
     );
   }
@@ -769,18 +768,18 @@ const MONO = "Courier New";
     ]), { x, y: 1.75, w: 5.85, h: 3.2 });
 
     col(0.6, [
-      ["Does it recognise published studies?", [
-        "Everything identifying a study removed: gain still 0.30 pp, interval above zero",
-        "Asked to choose the study's name from a list of options: right 19% of the time, where guessing gives 8%",
+      ["Does it recognise a known campaign?", [
+        "Everything identifying a campaign removed: gain still 0.30 pp, interval above zero",
+        "Asked to choose the campaign's name from a list of options: right 19% of the time, where guessing gives 8%",
       ]],
-      ["Does it use the other studies' data?", [
+      ["Does it use the other campaigns' data?", [
         "Their values shuffled: worse than the curve (gain −1.25 pp)",
         "None of their data given: error 5.85 vs 3.13 pp",
       ]],
     ]);
     col(6.85, [
       ["Is it sensitive to presentation?", [
-        "Other studies' rows in a different order: error changes 3%",
+        "Other campaigns' rows in a different order: error changes 3%",
         "Answer ranges moved by 1 point: error changes 1%",
       ]],
       ["Is it reproducible?", [
@@ -791,21 +790,21 @@ const MONO = "Courier New";
     text(s, [
       { text: "Limitations of this result", options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
       ...bullets([
-        "Added after the ML result was known, so it was not part of the original plan",
-        "Overconfident: when it is 80% sure the value is in a range, it is there only 62% of the time. We therefore report only its single-number forecast.",
-        "When also given a study's own earlier scans, it does not make use of them",
+        "Added after the ML result was known; not in the original plan",
+        "Overconfident ranges: its 80% ranges hold the measured value 62% of the time, so we report only its single-number forecast",
+        "Given a campaign's own earlier scans, it does not use them",
       ], 14),
     ], { x: 0.6, y: 5.0, w: 12.1, h: 1.6 });
 
     s.addNotes(
       "About a minute and a quarter.\n\n" +
       "We wrote down each check and its pass rule, and committed them to the repository, before running it.\n\n" +
-      "Language models have read many papers, so the model might recognise a published study and recall its result. " +
+      "Language models have read many papers, so the model might recognise a published campaign and recall its result. " +
       "With every identifying detail removed, the gain is 0.30 points and its interval stays above zero. " +
-      "When we asked the model to choose the study's name from a list of options, it was right 19 percent of the time, where guessing gives 8 percent. If asked: of the three studies behind most of the gain, it named only one.\n\n" +
-      "When we shuffle the other studies' values, the gain turns into a loss of 1.25 points, and with no reference data the error rises to 5.85. The gain comes from reading those data.\n\n" +
+      "When we asked the model to choose the campaign's name from a list of options, it was right 19 percent of the time, where guessing gives 8 percent. If asked: of the three campaigns behind most of the gain, it named only one.\n\n" +
+      "When we shuffle the other campaigns' values, the gain turns into a loss of 1.25 points, and with no reference data the error rises to 5.85. The gain comes from reading those data.\n\n" +
       "Reordering the rows or shifting the range edges changes the error by 1 to 3 percent. Repeating 20 requests moves the forecasts by 0.17 points on average, well under the 0.42 gain.\n\n" +
-      "Three limitations: we added this model after the ML result; its 80 percent ranges contain the truth only 62 percent of the time, so we quote only point forecasts; and when given a study's own earlier scans, it does not use them."
+      "Three limitations: we added this model after the ML result; its 80 percent ranges contain the truth only 62 percent of the time, so we quote only point forecasts; and when given a campaign's own earlier scans, it does not use them."
     );
   }
 
@@ -815,11 +814,11 @@ const MONO = "Courier New";
     s.addText("Conclusions, limitations and further work", { placeholder: "title" });
     const cols = [
       ["Conclusions", [
-        "With 32 independent studies, no ML model forecasts better than a curve based on days alone (best 3.18 vs 3.16 pp error).",
-        "An LLM that reads each study's description and the other studies' data cuts the error to 2.71 pp (curve 3.13 pp), and this holds under every check.",
+        "With 32 independent campaigns, no ML model forecasts better than a curve based on days alone (best 3.18 vs 3.16 pp error).",
+        "An LLM that reads each campaign's description and the other campaigns' data cuts the error to 2.71 pp (curve 3.13 pp); the gain remains when everything identifying a campaign is hidden.",
       ]],
       ["Limitations", [
-        "Only 32 independent studies",
+        "Only 32 independent campaigns",
         "No data beyond day 119",
         "Mostly young men (347 of 425 measurements)",
         "Group averages, not individual people",
@@ -827,7 +826,7 @@ const MONO = "Courier New";
       ]],
       ["Further work", [
         "Fix the LLM's overconfident ranges",
-        "Check results without the largest study, and with MRI scans only",
+        "Check results without the largest campaign, and with MRI scans only",
         "Extend the forecast to a 180-day mission, with an uncertainty range",
         "Link the muscles: predict one muscle's loss from another's, and weight them into an estimate of strength loss",
       ]],
@@ -841,9 +840,9 @@ const MONO = "Courier New";
     });
     s.addNotes(
       "About thirty seconds.\n\n" +
-      "With 32 independent studies, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
-      "A language model that reads each study's description and the other studies' data reduces the error from 3.13 to 2.71 points. " +
-      "The limitations and next steps are on the slide; the main one is that 32 studies is a small sample.\n\n" +
+      "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
+      "A language model that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
+      "The limitations and next steps are on the slide; the main one is that 32 campaigns is a small sample.\n\n" +
       "Thank you."
     );
   }
@@ -868,12 +867,12 @@ const MONO = "Courier New";
 
   backup("Backup: is the dataset good enough?", [
     ["Did you miss studies?", [
-      "Searched PubMed, Scopus, Web of Science and NASA reports from 2013 on (5,731 records), plus 9 older studies",
+      "Four sources searched from 2013 on, plus 10 older or open-data studies (sources and queries on the next slide)",
       "Not covered: Embase (no access) and 1,023 records not screened in time",
     ]],
-    ["One study dominates the data", [
+    ["One campaign dominates the data", [
       "MEDES 90-day: 40% of all rows, a quarter of the modelling data",
-      "Scoring gives each study one vote; the re-run without it is still to do",
+      "Scoring gives each campaign one vote; the re-run without it is still to do",
     ]],
     ["Can MRI, CT, DXA and ultrasound be mixed?", [
       "Each method gets its own term: DXA and ultrasound thickness show 5 to 6 pp less loss than CT; MRI volume is within 0.5 pp",
@@ -956,43 +955,43 @@ const MONO = "Courier New";
   backup("Backup: is the LLM gain real, and does it matter?", [
     ["Is 0.42 pp worth anything?", [
       "It is 13% lower error than the curve (3.13 to 2.71 pp)",
-      "Small: we report it as a finding, not the headline",
+      "Small; we present it as a secondary finding",
     ]],
-    ["20 of 32 studies is close to a coin flip", [
+    ["20 of 32 campaigns is close to a coin flip", [
       "Counting wins only: p = 0.22 (sign test)*",
-      "The size of the wins matters: mean gain 0.42 pp, 95% CI 0.13 to 0.73",
+      "Using the size of each win: mean gain 0.42 pp, 95% CI 0.13 to 0.73",
     ]],
-    ["Does it rest on a few studies?", [
-      "3 long MRI studies (NASA SPRINT, Berlin BBR2-2, MEDES LTBR) give 56% of the gain; without them 0.20 pp, CI −0.01 to 0.43*",
-      "Only SPRINT is recognised, and with study details removed the LLM still wins there (3.79 vs 5.92 pp)",
+    ["Does it rest on a few campaigns?", [
+      "3 long MRI campaigns (NASA SPRINT, Berlin BBR2-2, MEDES LTBR) give 56% of the gain; without them 0.20 pp, CI −0.01 to 0.43*",
+      "Only SPRINT is recognised, and with campaign details removed the LLM still wins there (3.79 vs 5.92 pp)",
     ]],
     ["Did it read these papers in training? Was it added after the fact?", [
-      "Training exposure cannot be ruled out by any test; hiding study details and the naming test are the strongest checks available",
+      "Training exposure cannot be ruled out by any test; hiding campaign details and the naming test are the strongest checks available",
       "Added after the ML result, but every check and target was committed before the first answer",
     ]],
-  ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three studies that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from results/forecast_predictions.csv; not in the report.");
+  ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three campaigns that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from results/forecast_predictions.csv; not in the report.");
 
   backup("Backup: why did ML fail, and was the comparison fair?", [
     ["Did the ML models get a fair chance?", [
-      "Tuned inside each training fold, grouped by study; TabPFN needs no tuning",
+      "Tuned inside each training fold, grouped by campaign; TabPFN needs no tuning",
       "All models saw the same inputs, folds and scoring",
     ]],
     ["Why not add age, sex or countermeasure type?", [
-      "32 studies leave room for about 3 study-level inputs (about 10 studies per input)",
-      "Age and sex are fixed within a study (347 of 425 rows men-only), so they act as a study label; 126 countermeasure rows spread over 9 types",
+      "32 campaigns leave room for about 3 campaign-level inputs (about 10 campaigns per input)",
+      "Age and sex are fixed within a campaign (347 of 425 rows men-only), so they act as a campaign label; 126 countermeasure rows spread over 9 types",
     ]],
     ["Is the duration curve a straw man?", [
       "Ridge regression uses days, muscle and every other input: 3.28 vs 3.16 pp",
-      "Knowing the muscle raises R² but not the error on a new study",
+      "Knowing the muscle raises R² but not the error on a new campaign",
     ]],
     ["Would a nearest-neighbour method match the LLM?", [
-      "Not tested. If the gain comes from picking similar rows, this is the obvious next control",
+      "Not tested. If the gain comes from picking similar rows, this is the next control to run",
     ]],
   ], "Backup. The honest gap here is the nearest-neighbour control: we cannot yet say whether a simple similarity method would match the LLM.");
 
   backup("Backup: can this be used to plan a Mars mission?", [
     ["A Mars transit is about 180 days; the data stop at 119", [
-      "Only one study reaches 119 days",
+      "Only one campaign reaches 119 days",
       "A 180-day estimate is planned from the duration curve only, with an uncertainty range, labelled as an assumption",
     ]],
     ["Bed rest is not spaceflight", [
