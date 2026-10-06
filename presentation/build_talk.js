@@ -9,6 +9,8 @@ const { applyTheme } = require(process.env.APPLY_THEME || "./apply_theme.js");
 
 const OUT = process.argv[2] || "bed-rest-to-mars-talk.pptx";
 const EX = JSON.parse(fs.readFileSync(path.join(__dirname, "example.json"), "utf8"));
+const LOGO = path.join(__dirname, "dglrm_logo_schrift2_ret.png"); // 558 x 150 px
+const LOGO_RATIO = 150 / 558;
 
 const THEME = {
   name: "Bed Rest to Mars academic",
@@ -37,7 +39,8 @@ const MONO = "Courier New";
     objects: [
       { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 0.35, w: 12.1, h: 0.8,
           fontFace: THEME.headFontFace, fontSize: 28, bold: true, color: C.text2, align: "left", valign: "middle", margin: 0 }, text: "" } },
-      { text: { text: "From Bed Rest to Mars  |  DGLRM 2026", options: { x: 0.6, y: 6.95, w: 8, h: 0.3, fontSize: 10, color: C.accent3, margin: 0 } } },
+      { image: { path: LOGO, x: 0.6, y: 6.93, w: 1.25, h: 1.25 * LOGO_RATIO, altText: "DGLRM logo" } },
+      { text: { text: "From Bed Rest to Mars  |  DGLRM 2026", options: { x: 2.0, y: 6.95, w: 5, h: 0.3, fontSize: 10, color: C.accent3, margin: 0 } } },
     ],
     slideNumber: { x: 12.2, y: 6.95, w: 0.5, h: 0.3, fontSize: 10, color: C.accent3, align: "right" },
   });
@@ -128,6 +131,7 @@ const MONO = "Courier New";
   // ---------- Title (Intro) ----------
   {
     const s = add(undefined, "Title");
+    s.addImage({ path: LOGO, x: 0.9, y: 0.6, w: 3.2, h: 3.2 * LOGO_RATIO, altText: "DGLRM logo" });
     text(s, [
       { text: "From Bed Rest to Mars:", options: { fontSize: 44, breakLine: true } },
       { text: "Development of a Literature-Derived Machine Learning Framework for Predicting Lower-Limb Muscle Atrophy in Spaceflight Analogues", options: { fontSize: 28 } },

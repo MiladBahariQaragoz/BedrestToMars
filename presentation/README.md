@@ -10,6 +10,7 @@ The DGLRM talk deck, built from the final report on `feat/report`.
 | `presentation-plan.md` | Build plan with a definition of success for each phase |
 | `technical-half-outline.md` | The first content outline for the technical half (superseded by the deck) |
 | `build_talk.js` | Script that generates the deck with pptxgenjs |
+| `dglrm_logo_schrift2_ret.png` | DGLRM conference logo, used on the title slide and in every footer |
 | `example.json` | The cached LLM request and answer shown on slide 13 (the row with the median LLM error) |
 
 Every number on the slides comes from `results/` on `feat/report`. On the slides the language model is called "the LLM", never by its product name.
