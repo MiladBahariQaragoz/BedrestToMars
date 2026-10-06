@@ -48,12 +48,12 @@ const MONO = "Courier New";
   pres.defineSlideMaster({ title: "Title", background: { color: C.background1 }, objects: [] });
 
   const SECTIONS = [
-    ["Motivation", "Why forecast muscle loss, and why bed rest"],
-    ["Data", "Range of unloading, search and dataset"],
+    ["Motivation", "Why predict muscle loss; from bed rest to Mars"],
+    ["Data", "Range studied, search, dataset"],
     ["Muscles", "Which muscles lose most"],
-    ["Models", "Testing setup; ML vs the duration curve"],
-    ["LLM forecast", "What it sees, results, checks"],
-    ["Conclusions", "Findings, limits, next steps"],
+    ["ML models", "Testing setup; ML vs the duration curve"],
+    ["LLM prediction", "Input and output, results, validity checks"],
+    ["Conclusions", "Findings, limitations, further work"],
   ];
   const PART = (i) => (i < 3 ? "Part 1" : "Part 2");
 
@@ -126,7 +126,7 @@ const MONO = "Courier New";
     ["Gradient boosting", 3.34, 0.30], ["Ridge", 3.28, 0.27], ["SVR", 3.28, 0.36],
     ["TabPFN", 3.22, 0.39], ["Random forest", 3.18, 0.34], ["Duration curve", 3.16, 0.14],
   ];
-  const color = (n, llm) => (n === "Duration curve" ? HEX.dk2 : n === "LLM forecast" ? HEX.accent1 : HEX.accent4);
+  const color = (n, llm) => (n === "Duration curve" ? HEX.dk2 : n === "LLM prediction" ? HEX.accent1 : HEX.accent4);
 
   // ---------- Title (Intro) ----------
   {
@@ -155,7 +155,7 @@ const MONO = "Courier New";
     const xs = [0, 1, 2, 3, 4, 5].map((i) => 1.45 + i * 2.08), cy = 3.75, d = 0.7;
     s.addShape(pres.shapes.LINE, { x: xs[0], y: cy, w: xs[5] - xs[0], h: 0, line: { color: HEX.accent5, width: 1.5 }, objectName: "Agenda line" });
     // part brackets
-    [[0, 2, "Part 1: background and data", "Niloufar Ahmadymarzdashty"], [3, 5, "Part 2: modelling and forecasting", "Milad Bahari Qaragoz"]].forEach(([a, b, label, who], k) => {
+    [[0, 2, "Part 1: background and data", "Niloufar Ahmadymarzdashty"], [3, 5, "Part 2: modelling and prediction", "Milad Bahari Qaragoz"]].forEach(([a, b, label, who], k) => {
       const x = xs[a] - 0.35, w = xs[b] - xs[a] + 0.7, y = 2.3;
       s.addShape(pres.shapes.LINE, { x, y: y + 0.8, w, h: 0, line: { color: HEX.dk2, width: 1 }, objectName: `Part ${k + 1} bracket` });
       s.addShape(pres.shapes.LINE, { x, y: y + 0.8, w: 0, h: 0.15, line: { color: HEX.dk2, width: 1 }, objectName: `Part ${k + 1} bracket left` });
@@ -171,7 +171,7 @@ const MONO = "Courier New";
         { x: xs[i] - 0.95, y: cy + 0.6, w: 1.9, h: 1.3, align: "center" });
     });
     text(s, "The marker in the bottom-right corner of each slide shows where we are.", { x: 0.6, y: 6.1, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
-    s.addNotes("Agenda. Part 1 (co-author): why this matters, why bed rest, the dataset, and which muscles lose most. Part 2: how we tested models, the LLM forecast, and conclusions.");
+    s.addNotes("Agenda. Part 1 (co-author): why this matters, why bed rest, the dataset, and which muscles lose most. Part 2: how we tested models, the LLM prediction, and conclusions.");
   }
 
   // ---------- Co-author's half: placeholders ----------
@@ -464,7 +464,7 @@ const MONO = "Courier New";
     text(s, [
       { text: "742 observations are not 742 independent participants: ", options: { bold: true } },
       { text: "one campaign gives rows for several muscles, groups and scan days." },
-    ], { x: 0.6, y: 4.65, w: 12.1, h: 0.7, fontSize: 14 });
+    ], { x: 0.6, y: 5.3, w: 12.1, h: 0.7, fontSize: 14 });
 
     text(s, "Imaging method and size measure", { x: 7.0, y: 1.45, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
@@ -574,7 +574,7 @@ const MONO = "Courier New";
     box(s, { x: 5.8, y, w: 3.4, h }, "Model box");
     text(s, [
       { text: "Model", options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
-      ...bullets(["Duration curve: uses the number of days only (the baseline)", "4 standard ML models", "TabPFN (pretrained network)", "LLM forecast"], 15),
+      ...bullets(["Duration curve: uses the number of days only (the baseline)", "4 standard ML models", "TabPFN (pretrained network)", "LLM prediction"], 15),
     ], { x: 6.0, y: y + 0.15, w: 3.05, h: h - 0.3 });
     arrow(s, 9.25, y + h / 2, 0.5, "Arrow model to output");
     box(s, { x: 9.8, y, w: 2.93, h }, "Output box");
@@ -599,7 +599,7 @@ const MONO = "Courier New";
     ], { x: 0.6, y: 5.15, w: 11, h: 0.3, fontSize: 14 });
     text(s, bullets([
       "Why campaigns, not measurements: the 346 rows used for modelling come from 32 of the 36 campaigns, and rows of one campaign share volunteers.",
-      "Score: average error in percentage points (pp), each campaign counted once. Forecast \u221210%, measured \u221213%: error 3 pp.",
+      "Score: average error in percentage points (pp), each campaign counted once. Predicted \u221210%, measured \u221213%: error 3 pp.",
     ], 14), { x: 0.6, y: 5.6, w: 12.1, h: 1.1 });
 
     s.addNotes(
@@ -648,7 +648,7 @@ const MONO = "Courier New";
   // ---------- Slide 3: LLM system view ----------
   {
     const s = add(4);
-    s.addText("LLM forecast: what is sent and what comes back", { placeholder: "title" });
+    s.addText("LLM prediction: what is sent and what comes back", { placeholder: "title" });
 
     // left: the request
     const lx = 0.6, ly = 1.35, lw = 5.3, lh = 4.55;
@@ -697,7 +697,7 @@ const MONO = "Courier New";
       objectName: "Example answer chart",
     });
     text(s, bullets([
-      "Our code turns the probabilities into one forecast, their weighted average: −6.6%",
+      "Our code turns the probabilities into one prediction, their weighted average: −6.6%",
       "Measured: −9.4%, an error of 2.8 pp. This is a typical row: half of the LLM's errors are smaller.",
     ], 13), { x: 8.6, y: 4.85, w: 4.15, h: 1.2 });
 
@@ -713,7 +713,7 @@ const MONO = "Courier New";
       "On the left is a real request from our cache. It describes the volunteers, the protocol, the muscle and how it was scanned, and the day. " +
       "It also contains the duration curve fitted on the other 31 campaigns and as many rows from those campaigns as fit, most similar first. " +
       "The question asks which of 19 ranges the change will fall in.\n\n" +
-      "On the right is what came back for this row: a probability for each range. We never ask the model for a number. Our code turns the probabilities into a forecast, here minus 6.6 percent against an observed minus 9.4. " +
+      "On the right is what came back for this row: a probability for each range. We never ask the model for a number. Our code turns the probabilities into a prediction, here minus 6.6 percent against an observed minus 9.4. " +
       "We chose this row because its error is the model's median error.\n\n" +
       "The request never contains the held-out campaign's own data or any name that could identify a paper, and the code checks that on every request. " +
       "Every answer is cached, so all our numbers can be rebuilt without calling the model again."
@@ -723,8 +723,8 @@ const MONO = "Courier New";
   // ---------- Slide 4: same comparison with the LLM ----------
   {
     const s = add(4);
-    s.addText("The LLM forecast has the lowest error of all models", { placeholder: "title" });
-    const rows = [...ml.slice(0, 5), ["Duration curve", 3.16, 0.14], ["LLM forecast", 2.71, 0.43]];
+    s.addText("The LLM prediction has the lowest error of all models", { placeholder: "title" });
+    const rows = [...ml.slice(0, 5), ["Duration curve", 3.16, 0.14], ["LLM prediction", 2.71, 0.43]];
     const names = rows.map((r) => r[0]);
     s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: rows.map((r) => r[1]) }], {
       x: 0.5, y: 1.3, w: 6.2, h: 3.95, ...axis, title: "Error on held-out campaign (pp, lower = better)",
@@ -754,7 +754,7 @@ const MONO = "Courier New";
   // ---------- Slide 5: validity checks ----------
   {
     const s = add(4);
-    s.addText("Validity checks on the LLM forecast", { placeholder: "title" });
+    s.addText("Validity checks on the LLM prediction", { placeholder: "title" });
     text(s, "Gain = how much smaller the LLM's error is than the curve's, in pp (full result: 0.42). Each check and its pass rule were fixed before running it.", {
       x: 0.6, y: 1.2, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
 
@@ -780,7 +780,7 @@ const MONO = "Courier New";
         "Answer ranges moved by 1 point: error changes 1%",
       ]],
       ["Is it reproducible?", [
-        "20 identical requests resent: forecasts differ by 0.17 pp on average, well below the 0.42 pp gain",
+        "20 identical requests resent: predictions differ by 0.17 pp on average, well below the 0.42 pp gain",
       ]],
     ]);
 
@@ -788,7 +788,7 @@ const MONO = "Courier New";
       { text: "Limitations of this result", options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
       ...bullets([
         "Added after the ML result was known; not in the original plan",
-        "Overconfident ranges: its 80% ranges hold the measured value 62% of the time, so we report only its single-number forecast",
+        "Overconfident ranges: its 80% ranges hold the measured value 62% of the time, so we report only its single-number prediction",
         "Given a campaign's own earlier scans, it does not use them",
       ], 14),
     ], { x: 0.6, y: 5.0, w: 12.1, h: 1.6 });
@@ -800,8 +800,8 @@ const MONO = "Courier New";
       "With every identifying detail removed, the gain is 0.30 points and its interval stays above zero. " +
       "When we asked the model to choose the campaign's name from a list of options, it was right 19 percent of the time, where guessing gives 8 percent. If asked: of the three campaigns behind most of the gain, it named only one.\n\n" +
       "When we shuffle the other campaigns' values, the gain turns into a loss of 1.25 points, and with no reference data the error rises to 5.85. The gain comes from reading those data.\n\n" +
-      "Reordering the rows or shifting the range edges changes the error by 1 to 3 percent. Repeating 20 requests moves the forecasts by 0.17 points on average, well under the 0.42 gain.\n\n" +
-      "Three limitations: we added this model after the ML result; its 80 percent ranges contain the truth only 62 percent of the time, so we quote only point forecasts; and when given a campaign's own earlier scans, it does not use them."
+      "Reordering the rows or shifting the range edges changes the error by 1 to 3 percent. Repeating 20 requests moves the predictions by 0.17 points on average, well under the 0.42 gain.\n\n" +
+      "Three limitations: we added this model after the ML result; its 80 percent ranges contain the truth only 62 percent of the time, so we quote only point predictions; and when given a campaign's own earlier scans, it does not use them."
     );
   }
 
@@ -811,7 +811,7 @@ const MONO = "Courier New";
     s.addText("Conclusions, limitations and further work", { placeholder: "title" });
     const cols = [
       ["Conclusions", [
-        "With 32 independent campaigns, no ML model forecasts better than a curve based on days alone (best 3.18 vs 3.16 pp error).",
+        "With 32 independent campaigns, no ML model predicts better than a curve based on days alone (best 3.18 vs 3.16 pp error).",
         "An LLM that reads each campaign's description and the other campaigns' data cuts the error to 2.71 pp (curve 3.13 pp); the gain remains when everything identifying a campaign is hidden.",
       ]],
       ["Limitations", [
@@ -824,7 +824,7 @@ const MONO = "Courier New";
       ["Further work", [
         "Fix the LLM's overconfident ranges",
         "Check results without the largest campaign, and with MRI scans only",
-        "Extend the forecast to a 180-day mission, with an uncertainty range",
+        "Extend the prediction to a 180-day mission, with an uncertainty range",
         "Link the muscles: predict one muscle's loss from another's, and weight them into an estimate of strength loss",
       ]],
     ];
@@ -966,7 +966,7 @@ const MONO = "Courier New";
       "Training exposure cannot be ruled out by any test; hiding campaign details and the naming test are the strongest checks available",
       "Added after the ML result, but every check and target was committed before the first answer",
     ]],
-  ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three campaigns that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from results/forecast_predictions.csv; not in the report.");
+  ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three campaigns that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from the saved LLM predictions; not in the report.");
 
   backup("Backup: why did ML fail, and was the comparison fair?", [
     ["Did the ML models get a fair chance?", [
