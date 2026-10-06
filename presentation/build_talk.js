@@ -847,7 +847,7 @@ const MONO = "Courier New";
   backup("Backup: dataset coverage and limitations", [
     ["Did you miss studies?", [
       "Four sources searched from 2013 on, plus 10 older or open-data studies (sources and queries on the next slide)",
-      "Not covered: Embase (no access) and 1,023 records not screened in time",
+      "Not covered: Embase (no access); 1,023 records not yet screened (screening backup)",
     ]],
     ["One campaign dominates the data", [
       "MEDES 90-day: 40% of all rows, a quarter of the modelling data",
@@ -930,6 +930,77 @@ const MONO = "Courier New";
       "Embase was not searched for lack of access; it indexes conference abstracts the other databases miss."
     );
   }
+
+  // ---------- Referee questions on part 1 (slides 3 to 8) ----------
+  backup("Backup: screening and study selection", [
+    ["3,600 screened, 2,493 excluded: where are the other 1,107?", [
+      "84 went on to full text: 74 from the search and 10 from other sources",
+      "1,023 were not screened in the time available: the rest of the \"maybe\" set and 80 records waiting for a full text",
+      "They are reported as unscreened, not as excluded",
+    ]],
+    ["Who screened, and was it done twice?", [
+      "Eligibility criteria were written before screening began",
+      "A rule-based triage sorted the records; one person then read the priority set and the top of the \"maybe\" set",
+      "No second screener",
+    ]],
+    ["84 full texts but 52 studies: why so few?", [
+      "19 give muscle results only as charts, without a baseline value",
+      "4 full texts not available (one conference abstract still used); 11 excluded at full text",
+    ]],
+    ["Why search only from 2013?", [
+      "The search was time-boxed to one week",
+      "Older work enters through 9 studies we held before the search; 6 of their campaigns would otherwise be missing",
+      "Both known modelling papers from after 2013 were found by all three journal databases",
+    ]],
+  ], "Backup, part 1 (Niloufar). The arithmetic question is the most likely one: 3,600 minus 2,493 is 1,107, of which 84 reached full text and 1,023 were not screened in time. Say so plainly: they are open work, not exclusions. " +
+    "If pressed on the full-text stage: the report's own full-text counts are still being reconciled with the final extraction (it says so in a draft note), so do not claim the full-text numbers add up exactly. " +
+    "Known-item test: of the ten modelling papers we knew before the search, only two were published after 2013, and every journal database returned both. The test without the date limit was not run.");
+
+  backup("Backup: dataset expansion and composition", [
+    ["The abstract had 15 studies. Did adding 37 change the analysis after seeing data?", [
+      "Eligibility criteria were fixed before screening; the dataset was frozen (14 and 19 September) before the final models",
+      "The curve shape was chosen by a rule declared before fitting",
+    ]],
+    ["Slide 5 shows 180 days, but the model stops at day 119. Why?", [
+      "The 14 spaceflight rows were measured after landing, so they leave the model with the 264 recovery rows",
+      "8 of the 14 are one back muscle (lumbar multifidus)",
+    ]],
+    ["Mostly young men: does this apply to women and older crews?", [
+      "Rows: men only 567, mixed 113, women only 40 (one campaign, WISE-2005)",
+      "Healthy young 692, older 42: the results describe young men",
+    ]],
+    ["What exactly is a row's percentage change?", [
+      "Follow-up vs the same group's own baseline; negative means loss",
+      "Recomputed from the printed values; where a paper prints the mean of individual changes, that value is kept and labelled",
+      "Rows weighted by number of participants: only 8 of 32 campaigns report the spread of the change",
+    ]],
+  ], "Backup, part 1 (Niloufar). Expansion: the eligibility criteria in the report's Table 2 were written before screening; dataset version 1.0 was frozen on 14 September and 1.1 on 19 September, and every result is fitted on 1.1. " +
+    "The rule for the curve: the saturating form is the headline unless another form beats it by at least 4 AIC points. " +
+    "Spaceflight: the dataset keeps the spaceflight rows, flagged, but they are post-flight measurements, so the during-unloading filter removes them. " +
+    "Weighting: inverse-variance weighting would need the spread of the change, which most papers do not print; the check that compares both weightings moved the duration effect by under 1 pp.");
+
+  backup("Backup: certainty of the muscle-group curves", [
+    ["Is each line fitted to its own muscle?", [
+      "No. The day-60 values are fitted per muscle group (named muscles, 25 campaigns); the lines share one time course (τ = 60 days)",
+      "Separate shapes cannot be estimated: six of nine groups rest on four campaigns or fewer",
+    ]],
+    ["Why a saturating curve?", [
+      "Logarithmic, saturating and spline curves fit equally well (within 1.3 AIC points): the loss slows, but the data cannot say along which curve",
+      "By day 119 the curve reaches 86% of its plateau, −17.3% (95% CI −20.9 to −13.7)",
+    ]],
+    ["How certain are the day-60 values?", [
+      "Calf −15.8% (95% CI −18.9 to −12.7); front thigh −10.1% (−13.6 to −6.6); hip rotators −1.9% (−3.9 to 0.2)",
+      "Calf vs shin, the ankle's opposing pair: 5.6 pp more loss (2.1 to 9.1), p = 0.003",
+      "Hip rotators and outer hip: one campaign each",
+    ]],
+    ["Is the calf result an artefact of how often it is scanned?", [
+      "The order holds after adjusting for duration, countermeasure group and imaging method",
+      "Calf: 78 rows from 13 campaigns, the second best-covered group after the front thigh (86 rows, 22 campaigns)",
+    ]],
+  ], "Backup, part 1 (Niloufar). Be precise about slide 8: the coloured dots at day 60 are the model's estimates for each muscle group, with the intervals shown here. " +
+    "The lines are drawn with one shared time course scaled to those values, so they show the shape the model assumes, not a separate fit per muscle. " +
+    "The intervals are 95% cluster-robust, which means they account for several rows coming from the same campaign. " +
+    "The calf-versus-shin contrast is reported on its own because it does not depend on which muscle is the reference.");
 
   backup("Backup: significance and relevance of the LLM gain", [
     ["Is 0.42 pp worth anything?", [
