@@ -82,7 +82,7 @@ The deck now covers the whole talk: `bed-rest-to-mars-talk.pptx` (16 slides), bu
 | 1 | Intro (title) | Co-author | (opening) |
 | 2 | Agenda | Both | (opening) |
 | 3 | Motivation: can we predict muscle atrophy? | Co-author (content filled) | 1 Motivation |
-| 4 | From bed rest to Mars: why use bed-rest data? | Co-author, placeholder | 1 Motivation |
+| 4 | Why from bed rest to Mars? | Co-author (content filled) | 1 Motivation |
 | 5 | What range of unloading did we study? | Co-author, placeholder | 2 Data |
 | 6 | How the dataset was built | Co-author, placeholder | 2 Data |
 | 7 | The final dataset | Co-author, placeholder | 2 Data |

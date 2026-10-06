@@ -230,12 +230,91 @@ const MONO = "Courier New";
       "The circles show a calf cross-section drawn to scale: after 60 days of bed rest, control groups lose about 16 percent of calf muscle in our model."
     );
   }
-  placeholder(0, "From bed rest to Mars: why use bed-rest data?", [
-    "Spaceflight data on leg muscle size are scarce, and the groups measured are small",
-    "Bed rest is the established ground model: healthy volunteers lie in bed, usually tilted 6° head-down so that body fluids shift towards the head as in orbit",
-    "Three decades of campaigns at NASA, MEDES (Toulouse), Charité (Berlin), DLR (Cologne) and elsewhere",
-    "Bed rest imitates weightlessness but is not the same",
-  ]);
+  // ---------- Why from bed rest to Mars? (slide 4) ----------
+  {
+    const s = add(0);
+    s.addText("Why from bed rest to Mars?", { placeholder: "title" });
+    const head = (t, before = 0) => ({ text: t, options: { bold: true, fontSize: 17, color: C.text2, breakLine: true, paraSpaceBefore: before, paraSpaceAfter: 3 } });
+    const last = (rows) => rows.map((r, i, a) => (i === a.length - 1 ? { ...r, options: { ...r.options, breakLine: true } } : r));
+    text(s, [
+      head("Bed rest: the ground analogue"),
+      ...last(bullets([
+        "Spaceflight data on muscle are scarce: 14 of 742 rows in our dataset",
+        "Head-down bed rest unloads the legs under controlled conditions, for set durations",
+        "Not equivalent to spaceflight, but a sound basis to build and test prediction models",
+      ], 14)),
+      head("Mars: the long-term application", 10),
+      ...bullets([
+        "Transit of about 6 months, far longer than a Moon mission",
+        "No early return in an emergency: after months in weightlessness, the crew must leave the spacecraft and work on the surface",
+        "Use on such a mission requires validation with spaceflight data",
+      ], 14),
+    ], { x: 0.6, y: 1.3, w: 6.1, h: 3.85 });
+
+    // right: time without gravity, drawn on one day scale
+    const gx = 7.1, gw = 5.63, bx = 9.4, bw = 3.05, perDay = bw / 200, x = (d) => bx + d * perDay;
+    s.addShape(pres.shapes.RECTANGLE, { x: gx, y: 1.3, w: gw, h: 3.85, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Duration panel" });
+    text(s, "Time without Earth's gravity (days)", { x: gx + 0.2, y: 1.4, w: gw - 0.4, h: 0.3, fontSize: 14, bold: true, color: C.text2 });
+    const rows = [
+      ["Bed-rest data", "our data: day 5 to 119", 5, 119, HEX.dk2],
+      ["Moon mission", "Apollo: up to 12 days", 0, 12, HEX.accent4],
+      ["ISS stay", "return within hours", 0, 180, HEX.accent4],
+      ["Mars transit", "no early return", 0, 180, HEX.accent1],
+    ];
+    rows.forEach(([lab, sub, d0, d1, col], i) => {
+      const y = 1.9 + i * 0.68;
+      text(s, [
+        { text: lab, options: { bold: true, fontSize: 13, breakLine: true } },
+        { text: sub, options: { fontSize: 10.5, italic: true, color: C.accent3 } },
+      ], { x: gx + 0.2, y, w: 1.85, h: 0.55 });
+      s.addShape(pres.shapes.RECTANGLE, { x: x(d0), y: y + 0.12, w: (d1 - d0) * perDay, h: 0.3, fill: { color: col }, line: { type: "none" }, objectName: lab + " bar" });
+      if (i === 0) {
+        s.addShape(pres.shapes.RECTANGLE, { x: x(119), y: y + 0.12, w: 61 * perDay, h: 0.3, fill: { type: "none" }, line: { color: HEX.dk2, width: 1, dashType: "dash" }, objectName: "Gap to 180 days" });
+        text(s, "not covered", { x: x(119), y: y + 0.12, w: 61 * perDay, h: 0.3, fontSize: 10, italic: true, align: "center", valign: "middle", color: C.text2 });
+      }
+    });
+    // axis
+    const ay = 1.9 + 4 * 0.68 + 0.02;
+    s.addShape(pres.shapes.LINE, { x: bx, y: ay, w: bw, h: 0, line: { color: HEX.accent3, width: 0.75 }, objectName: "Day axis" });
+    [0, 60, 120, 180].forEach((d) => {
+      s.addShape(pres.shapes.LINE, { x: x(d), y: ay, w: 0, h: 0.06, line: { color: HEX.accent3, width: 0.75 }, objectName: "Tick " + d });
+      text(s, String(d), { x: x(d) - 0.3, y: ay + 0.07, w: 0.6, h: 0.22, fontSize: 10, align: "center", color: C.accent3 });
+    });
+
+    // bottom: from prediction to readiness
+    const fy = 5.45, fh = 0.75, fw = 2.65;
+    const fx = [0.6, 3.75, 6.9, 10.05];
+    const steps = [
+      ["Bed-rest studies", "ground analogue", false],
+      ["Atrophy prediction", "this work", false],
+      ["Strength and power assessment", "", true],
+      ["Operational readiness on arrival", "", true],
+    ];
+    steps.forEach(([t, sub, future], i) => {
+      s.addShape(pres.shapes.RECTANGLE, { x: fx[i], y: fy, w: fw, h: fh,
+        fill: { color: i === 1 ? HEX.dk2 : HEX.lt1 }, line: { color: i === 1 ? HEX.dk2 : HEX.accent5, width: 1, dashType: future ? "dash" : "solid" }, objectName: "Step " + (i + 1) });
+      text(s, sub ? [
+        { text: t, options: { bold: true, fontSize: 14, breakLine: true } },
+        { text: sub, options: { fontSize: 11, italic: true } },
+      ] : [{ text: t, options: { bold: true, fontSize: 14 } }], { x: fx[i] + 0.1, y: fy, w: fw - 0.2, h: fh, align: "center", valign: "middle", color: i === 1 ? C.background1 : C.text1 });
+    });
+    arrow(s, fx[0] + fw + 0.05, fy + fh / 2, fx[1] - fx[0] - fw - 0.1, "Arrow 1");
+    text(s, "+", { x: fx[1] + fw, y: fy, w: fx[2] - fx[1] - fw, h: fh, fontSize: 24, bold: true, align: "center", valign: "middle", color: C.text2 });
+    arrow(s, fx[2] + fw + 0.05, fy + fh / 2, fx[3] - fx[2] - fw - 0.1, "Arrow 3");
+    text(s, "Dashed: future use, which needs validation with spaceflight data", { x: 6.9, y: fy + fh + 0.07, w: 5.8, h: 0.25, fontSize: 11, italic: true, color: C.accent3 });
+
+    s.addNotes(
+      "Part 1 (Niloufar), about forty-five seconds.\n\n" +
+      "Direct spaceflight data on muscle are scarce: in our dataset only 14 of 742 rows come from spaceflight. " +
+      "So we use head-down bed rest, the standard ground analogue: volunteers lie tilted six degrees head-down, and their legs carry no weight, under controlled conditions and for set durations. " +
+      "Bed rest is not the same as spaceflight, but it is a sound starting point to build and test prediction models.\n\n" +
+      "Mars in our title stands for the long-term application. The chart puts the durations side by side. Our bed-rest data reach day 119. A Moon mission lasted up to 12 days. " +
+      "An ISS stay and a Mars transit both last about six months, but from the ISS a crew can return within hours, and on landing they go straight into medical care. " +
+      "A Mars crew cannot come back early in an emergency, and after months in weightlessness they must leave the spacecraft and work on the surface.\n\n" +
+      "The bottom row is the idea: atrophy prediction, together with strength and power testing, could one day help keep the crew ready for work on arrival. " +
+      "The dashed steps are future use, and applying the model on a real mission needs validation with spaceflight data first."
+    );
+  }
   placeholder(1, "What range of unloading did we study?", [
     "Unloading models: head-down and horizontal bed rest, dry immersion, one-leg suspension; spaceflight kept separate",
     "At least 5 days of continuous unloading; scans from day 5 to day 119",
