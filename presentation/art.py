@@ -40,22 +40,22 @@ for _ in range(900):
         if rng.uniform() < 0.6: continue
         r, a = min(r, 0.9), a // 3
     dr.ellipse([x-r, y-r, x+r, y+r], fill=(255, 255, 255, a))
-# Mars: large, at the right edge, with a thin warm glow
-mR = int(2.7*PX); mcx, mcy = int(12.35*PX), int(3.0*PX)
+# Earth: large, at the right edge (the study rests on bed rest on Earth), with a thin blue glow
+eR = int(2.7*PX); ecx, ecy = int(12.35*PX), int(3.0*PX)
 glow = Image.new('RGBA', (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
-gd.ellipse([mcx-mR-14, mcy-mR-14, mcx+mR+14, mcy+mR+14], fill=(214, 96, 46, 120))
+gd.ellipse([ecx-eR-14, ecy-eR-14, ecx+eR+14, ecy+eR+14], fill=(90, 150, 230, 120))
 glow = glow.filter(ImageFilter.GaussianBlur(22)); img = Image.alpha_composite(img, glow)
-mars = globe(mars_src, 2*mR, -60, 10); img.alpha_composite(mars, (mcx-mR, mcy-mR))
-# Earth: small, lower right of the text block
-eR = int(0.36*PX); ecx, ecy = int(8.95*PX), int(6.55*PX)
-glow = Image.new('RGBA', (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
-gd.ellipse([ecx-eR-8, ecy-eR-8, ecx+eR+8, ecy+eR+8], fill=(90, 150, 230, 110))
-glow = glow.filter(ImageFilter.GaussianBlur(10)); img = Image.alpha_composite(img, glow)
 img.alpha_composite(globe(earth_src, 2*eR, 10, 20), (ecx-eR, ecy-eR))
-# transfer trajectory: dashed arc from Earth to Mars
+# Mars: small, lower right of the text block, the destination
+mR = int(0.36*PX); mcx, mcy = int(8.95*PX), int(6.55*PX)
+glow = Image.new('RGBA', (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
+gd.ellipse([mcx-mR-8, mcy-mR-8, mcx+mR+8, mcy+mR+8], fill=(214, 96, 46, 110))
+glow = glow.filter(ImageFilter.GaussianBlur(10)); img = Image.alpha_composite(img, glow)
+img.alpha_composite(globe(mars_src, 2*mR, -60, 10), (mcx-mR, mcy-mR))
+# transfer trajectory: dashed arc from Earth down to Mars
 dr = ImageDraw.Draw(img)
-p0, p2 = np.array([ecx+eR+10, ecy-14]), np.array([mcx-mR*0.72, mcy+mR*0.72])
-p1 = np.array([p0[0]+0.75*(p2[0]-p0[0]), p0[1]+10])
+p0, p2 = np.array([ecx-eR*0.72, ecy+eR*0.72]), np.array([mcx+mR+10, mcy-14])
+p1 = np.array([p2[0]+0.75*(p0[0]-p2[0]), p2[1]+10])
 ts = np.linspace(0, 1, 160)
 pts = [(1-t)**2*p0 + 2*(1-t)*t*p1 + t**2*p2 for t in ts]
 for i in range(0, len(pts)-1, 2):
