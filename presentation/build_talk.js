@@ -400,13 +400,13 @@ const MONO = "Courier New";
   {
     const s = add(1);
     s.addText("How did we build the dataset?", { placeholder: "title" });
-    const bw = 2.1, step = 2.45, by = 1.85, bh = 1.45, xs = [0, 1, 2, 3, 4].map((i) => 0.6 + i * step);
+    const bw = 2.1, step = 2.45, by = 2.5, bh = 1.45, xs = [0, 1, 2, 3, 4].map((i) => 0.6 + i * step);
     const flow = [
-      ["Identification", "5,731", "records found", "PubMed, Scopus, Web of Science, NASA reports; 2013 onwards"],
-      ["Screening", "3,590", "titles and abstracts screened", ""],
-      ["Full text", "74", "full texts read", ""],
-      ["Included", "42", "studies from the search", ""],
-      ["Final dataset", "52", "studies", "742 rows · 36 campaigns"],
+      ["Identification", "5,741", "records found", "PubMed, Scopus, Web of Science, NASA reports, earlier work"],
+      ["Screening", "3,600", "titles and abstracts screened", ""],
+      ["Full text", "84", "full texts read", ""],
+      ["Included", "52", "studies", ""],
+      ["Final dataset", "36", "campaigns", "742 rows; papers on the same cohort merged"],
     ];
     flow.forEach(([phase, n, lab, sub], i) => {
       const last = i === 4, x = xs[i];
@@ -424,7 +424,7 @@ const MONO = "Courier New";
     // what was removed between steps
     const notes = [
       "2,141 duplicates removed",
-      "2,493 excluded, mostly no unloading model or no muscle outcome\n1,023 not yet screened",
+      "2,493 excluded, mostly no unloading model or no muscle outcome",
       "19 report muscle results only as charts, without a baseline value\n4 full texts not available",
     ];
     notes.forEach((t, i) => {
@@ -433,28 +433,15 @@ const MONO = "Courier New";
       text(s, t, { x: cx - 1.1, y: by + bh / 2 + 1.15, w: 2.2, h: 1.1, fontSize: 11, align: "center", color: C.accent3 });
     });
 
-    // other sources feeding the final dataset
-    const ox = xs[3] - 0.2, oy = 4.7, ow = 2.9, oh = 1.2;
-    s.addShape(pres.shapes.RECTANGLE, { x: ox, y: oy, w: ow, h: oh, fill: { color: C.background2 }, line: { color: HEX.accent5, width: 1 }, objectName: "Other sources" });
-    text(s, [
-      { text: "+10 from other sources", options: { bold: true, fontSize: 13, breakLine: true } },
-      { text: "9 older studies (before 2013)\n1 NASA open-data campaign", options: { fontSize: 11, color: C.accent3 } },
-    ], { x: ox + 0.1, y: oy + 0.05, w: ow - 0.2, h: oh - 0.1, align: "center", valign: "middle" });
-    const fx = xs[4] + bw / 2;
-    s.addShape(pres.shapes.LINE, { x: ox + ow, y: oy + oh / 2, w: fx - ox - ow, h: 0, line: { color: HEX.dk1, width: 1.25 }, objectName: "Other sources line" });
-    s.addShape(pres.shapes.LINE, { x: fx, y: by + bh + 0.04, w: 0, h: oy + oh / 2 - by - bh - 0.04, line: { color: HEX.dk1, width: 1.25, beginArrowType: "triangle" }, objectName: "Other sources arrow" });
-
     text(s, "Flow of records in the style of PRISMA 2020, the standard for reporting systematic reviews.", { x: 0.6, y: 6.35, w: 7, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
-      "We searched four databases, PubMed, Scopus, Web of Science and NASA's technical reports, for papers from 2013 onwards, and found 5,731 records. " +
-      "After removing duplicates, we screened 3,590 titles and abstracts. Most were excluded because they did not use an unloading model or did not measure muscle. " +
-      "1,023 records could not be screened in the time available; they are not exclusions.\n\n" +
-      "We read 74 full texts. The main loss at this step: 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them. " +
-      "The search gave 42 studies.\n\n" +
-      "Ten more came from other sources: nine older studies from before 2013, which the date limit of the search excluded, and one campaign from NASA's open bed-rest data. " +
-      "That gives the final dataset: 52 studies, 742 rows and 36 independent campaigns."
+      "We searched four databases, PubMed, Scopus, Web of Science and NASA's technical reports, and added older work we had collected before the search, nine studies from before 2013 and one campaign from NASA's open bed-rest data. In total, 5,741 records. " +
+      "After removing duplicates, we screened 3,600 titles and abstracts. Most were excluded because they did not use an unloading model or did not measure muscle.\n\n" +
+      "We read 84 full texts. The main loss at this step: 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them. " +
+      "52 studies were included.\n\n" +
+      "Several papers often report the same bed-rest campaign, so we merged papers on the same cohort. The final dataset has 36 independent campaigns and 742 rows."
     );
   }
   placeholder(1, "The final dataset", [
