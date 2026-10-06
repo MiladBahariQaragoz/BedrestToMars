@@ -85,11 +85,10 @@ The deck now covers the whole talk: `bed-rest-to-mars-talk.pptx` (16 slides), bu
 | 4 | Why from bed rest to Mars? | Co-author (content filled) | 1 Motivation |
 | 5 | What range did we study? | Co-author (content filled) | 2 Data |
 | 6 | How did we build the dataset? | Co-author (content filled) | 2 Data |
-| 7 | The final dataset | Co-author, placeholder | 2 Data |
-| 8 | What was extracted from each study | Co-author, placeholder | 2 Data |
-| 9 | Are all muscles affected the same? | Co-author, placeholder | 3 Muscles |
-| 10 | From data to forecasts (bridge) | Co-author, placeholder | 4 Models |
-| 11-16 | Technical half | milad | 4 Models, 5 LLM forecast, 6 Conclusions |
+| 7 | What does the dataset look like? (merged with "what was extracted") | Co-author (content filled) | 2 Data |
+| 8 | Are all muscles affected the same? | Co-author, placeholder | 3 Muscles |
+| 9 | From data to forecasts (bridge) | Co-author, placeholder | 4 Models |
+| 10-15 | Technical half | milad | 4 Models, 5 LLM forecast, 6 Conclusions |
 
 Every slide after the agenda carries a progress tracker in the bottom-right corner: six dots for the agenda sections, the current one larger and red, earlier ones filled, later ones empty.
 

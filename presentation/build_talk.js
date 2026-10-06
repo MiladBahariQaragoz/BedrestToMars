@@ -444,18 +444,79 @@ const MONO = "Courier New";
       "Several papers often report the same bed-rest campaign, so we merged papers on the same cohort. The final dataset has 36 independent campaigns and 742 rows."
     );
   }
-  placeholder(1, "The final dataset", [
-    "742 measurements from 52 studies (1992 to 2026) and 36 independent campaigns",
-    "Mostly MRI volumes of named muscles in young men during head-down bed rest",
-    "Uneven: the MEDES 90-day campaign gives 40% of rows; 15 campaigns give 5 rows or fewer",
-    "Used for modelling: 346 measurements from 32 campaigns",
-  ], "campaign timeline (figures/F1b_campaigns)");
-  placeholder(1, "What was extracted from each study", [
-    "Muscle, day of the scan, planned length of bed rest, % change from before bed rest",
-    "Group: control or countermeasure, group size, sex, age",
-    "Measurement: imaging method, quantity, position along the muscle",
-    "Source of every value: DOI and page, table or figure",
-  ]);
+  // ---------- What does the dataset look like? (slide 7) ----------
+  {
+    const s = add(1);
+    s.addText("What does the dataset look like?", { placeholder: "title" });
+
+    // top: one row of the dataset, field by field (real row: Tran 2021, AGBRESA)
+    text(s, "One row = one muscle outcome of one group at one scan day", { x: 0.6, y: 1.25, w: 12.1, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    const cells = [
+      ["Unloading", "60 days", 1.2],
+      ["Scan day", "59", 0.95],
+      ["Muscle", "gluteus maximus", 1.65],
+      ["Participants", "8; 25% women; age 34", 2.15],
+      ["Countermeasure", "none (control)", 1.55],
+      ["Method", "MRI", 0.9],
+      ["Size measure", "volume", 1.15],
+    ];
+    let cx = 0.6; const cy = 1.95, ch = 0.5;
+    cells.forEach(([k, v, w]) => {
+      text(s, k, { x: cx, y: cy - 0.27, w, h: 0.25, fontSize: 10.5, align: "center", color: C.accent3 });
+      s.addShape(pres.shapes.RECTANGLE, { x: cx, y: cy, w, h: ch, fill: { color: HEX.lt1 }, line: { color: HEX.accent5, width: 1 }, objectName: "Field " + k });
+      text(s, v, { x: cx, y: cy, w, h: ch, fontSize: 12.5, align: "center", valign: "middle" });
+      cx += w + 0.04;
+    });
+    arrow(s, cx + 0.06, cy + ch / 2, 0.42, "Row to target");
+    const tx = cx + 0.55, tw = 12.7 - tx;
+    text(s, "Target: % change", { x: tx - 0.3, y: cy - 0.27, w: tw + 0.3, h: 0.25, fontSize: 10.5, bold: true, align: "center", color: C.accent1 });
+    s.addShape(pres.shapes.RECTANGLE, { x: tx, y: cy, w: tw, h: ch, fill: { color: HEX.accent1 }, line: { type: "none" }, objectName: "Target" });
+    text(s, "−9.4%", { x: tx, y: cy, w: tw, h: ch, fontSize: 16, bold: true, align: "center", valign: "middle", color: C.background1 });
+    text(s, "Example row from the AGBRESA bed-rest campaign (Tran et al., 2021). Target: percentage change in muscle size from before unloading.",
+      { x: 0.6, y: cy + ch + 0.08, w: 12.1, h: 0.25, fontSize: 10.5, italic: true, color: C.accent3 });
+
+    // bottom left: rows per muscle group
+    const fam = [
+      ["Front thigh (knee extensors)", 140], ["Calf (plantar flexors)", 135], ["Hamstrings (knee flexors)", 105],
+      ["Lower back (trunk extensors)", 73], ["Inner thigh (hip adductors)", 71], ["Whole leg", 62], ["Hip flexors", 53],
+      ["Hip rotators", 36], ["Shin (dorsiflexors)", 25], ["Evertors (outer shin)", 19], ["Glutes (hip extensors)", 17], ["Hip abductors", 6],
+    ].reverse();
+    s.addChart(pres.charts.BAR, [{ name: "Rows", labels: fam.map((f) => f[0]), values: fam.map((f) => f[1]) }], {
+      x: 0.6, y: 2.95, w: 6.2, h: 3.8, barDir: "bar", barGapWidthPct: 40, chartColors: [HEX.dk2],
+      catAxisLabelColor: HEX.dk1, catAxisLabelFontSize: 10.5, valAxisHidden: true, valGridLine: { style: "none" }, catGridLine: { style: "none" },
+      catAxisLineColor: HEX.accent5, showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 10, dataLabelColor: HEX.dk1,
+      showLegend: false, showTitle: true, title: "742 rows across 51 muscles, by muscle group", titleFontSize: 13, titleColor: HEX.dk2, titleBold: true,
+    });
+
+    // bottom right: measurement method and size measure
+    const methods = ["Ultrasound (20)", "CT (30)", "DXA (37)", "MRI (655)"];
+    const measure = [
+      ["Volume", [0, 0, 0, 594]],
+      ["Cross-sectional area", [9, 30, 0, 61]],
+      ["Lean mass", [0, 0, 37, 0]],
+      ["Thickness", [11, 0, 0, 0]],
+    ];
+    s.addChart(pres.charts.BAR, measure.map(([name, values]) => ({ name, labels: methods, values })), {
+      x: 7.0, y: 2.95, w: 5.73, h: 3.8, barDir: "bar", barGrouping: "stacked", barGapWidthPct: 45,
+      chartColors: [HEX.dk2, "56739A", HEX.accent4, HEX.accent1],
+      catAxisLabelColor: HEX.dk1, catAxisLabelFontSize: 11, valAxisLabelColor: HEX.accent3, valAxisLabelFontSize: 10,
+      valAxisMinVal: 0, valAxisMaxVal: 700, valAxisMajorUnit: 100, valGridLine: { color: HEX.accent6, size: 0.75 }, catGridLine: { style: "none" },
+      catAxisLineColor: HEX.accent5, valAxisLineShow: false,
+      showLegend: true, legendPos: "b", legendFontSize: 10.5, legendColor: HEX.dk1,
+      showTitle: true, title: "Rows by imaging method and size measure", titleFontSize: 13, titleColor: HEX.dk2, titleBold: true,
+    });
+
+    s.addNotes(
+      "Part 1 (Niloufar), about one minute.\n\n" +
+      "The final dataset has 742 rows. Each row is one muscle outcome: one muscle, in one group, at one scan day. " +
+      "One campaign can therefore give many rows, for several muscles, time points or groups.\n\n" +
+      "The top strip is a real row. For each outcome we extracted the length of unloading, the day of the scan, the muscle, the participants (group size, share of women, age), " +
+      "whether the group had a countermeasure, the imaging method, and how muscle size was measured. " +
+      "Our prediction target is the percentage change in muscle size from baseline, here minus 9.4 percent.\n\n" +
+      "Bottom left: the rows cover 51 muscles or muscle groups; the front thigh and the calf are measured most often. " +
+      "Bottom right: most rows are MRI volumes. CT gives cross-sectional area, DXA gives lean mass of the leg, and ultrasound gives thickness or area."
+    );
+  }
   placeholder(2, "Are all muscles affected the same?", [
     "No. Calf muscles (plantar flexors) lose most: −15.8% at day 60, 5.7 pp more than the front thigh",
     "Front thigh, back thigh and shin muscles lose around 10%; hip muscles least",
