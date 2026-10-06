@@ -29,7 +29,9 @@ Full read of all 19 slides against the no-ai-slop guide (github.com/petergyang/n
 | 13 | ~180 after trimming | Still the heaviest; four question blocks plus limitations |
 | 14 | ~135 | Borderline for 30 s; conclusions column is two long bullets |
 
-## Repetition (not changed; your call)
+## Repetition
+
+Items 1 to 3 were applied on 6 October after milad's go-ahead.
 
 1. **Calf −16% at day 60** appears on slide 3 (circles) and is the main result of slide 8. Option: keep the circles on slide 3 but drop the number.
 2. **Bed rest as the ground analogue** is explained twice: slide 3's right panel title and slide 4's first bullet block. Option: retitle slide 3's panel (e.g. "Unloading shrinks leg muscles").

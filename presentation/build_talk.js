@@ -199,7 +199,7 @@ const MONO = "Courier New";
     // right panel: unloading and what it does to a muscle
     const px = 7.55, pw = 5.18;
     s.addShape(pres.shapes.RECTANGLE, { x: px, y: 1.35, w: pw, h: 5.35, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Illustration panel" });
-    text(s, "Ground analogue: 6° head-down bed rest", { x: px + 0.25, y: 1.5, w: pw - 0.5, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
+    text(s, "Unloading shrinks leg muscles", { x: px + 0.25, y: 1.5, w: pw - 0.5, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
     // bed tilted head-down (head at the right, lower end), person lying on it
     s.addShape(pres.shapes.RECTANGLE, { x: 8.0, y: 2.6, w: 4.3, h: 0.14, rotate: 6, fill: { color: C.accent3 }, line: { type: "none" }, objectName: "Bed" });
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 8.6, y: 2.29, w: 2.85, h: 0.36, rotate: 6, rectRadius: 0.15, fill: { color: C.text2 }, line: { type: "none" }, objectName: "Body" });
@@ -218,8 +218,8 @@ const MONO = "Courier New";
     // dashed outline: original size, so the lost tissue is visible
     s.addShape(pres.shapes.OVAL, { x: 11.55 - d0 / 2, y: cy - d0 / 2, w: d0, h: d0, fill: { type: "none" }, line: { color: HEX.dk1, width: 1, dashType: "dash" }, objectName: "Original outline" });
     text(s, "Before bed rest", { x: 7.85, y: 5.65, w: 2.0, h: 0.3, fontSize: 13, align: "center", bold: true });
-    text(s, "Day 60: −16%", { x: 10.55, y: 5.65, w: 2.0, h: 0.3, fontSize: 13, align: "center", bold: true, color: C.accent1 });
-    text(s, "Calf cross-section to scale; dashed line = size before. Model estimate for control groups (plantar flexors, −15.8% at day 60).", { x: px + 0.25, y: 6.05, w: pw - 0.5, h: 0.5, fontSize: 11, italic: true, color: C.accent3 });
+    text(s, "After unloading", { x: 10.55, y: 5.65, w: 2.0, h: 0.3, fontSize: 13, align: "center", bold: true, color: C.accent1 });
+    text(s, "Schematic calf cross-section; dashed line = size before unloading.", { x: px + 0.25, y: 6.05, w: pw - 0.5, h: 0.5, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
       "Opening of part 1 (Niloufar), about forty-five seconds.\n\n" +
@@ -227,7 +227,7 @@ const MONO = "Courier New";
       "Our question was whether the amount of atrophy can be predicted. To answer it, we built a dataset from the published literature and a machine-learning framework on top of it.\n\n" +
       "Why it matters: a prediction lets crews and planners act early, match exercise and nutrition to the expected loss, focus monitoring on the muscles that lose most, protect strength and function, and plan long missions where exercise equipment is limited.\n\n" +
       "On the right is the ground model we rely on: volunteers lie in bed tilted six degrees head-down for weeks to months. " +
-      "The circles show a calf cross-section drawn to scale: after 60 days of bed rest, control groups lose about 16 percent of calf muscle in our model."
+      "The circles show a calf cross-section before and after unloading; how much each muscle loses comes later, in the muscle section."
     );
   }
   // ---------- Why from bed rest to Mars? (slide 4) ----------
@@ -457,9 +457,6 @@ const MONO = "Courier New";
     text(s, "Final dataset at a glance", { x: 0.6, y: 1.45, w: 5.9, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
       [hdr("Feature"), hdr("n", "right")],
-      [cell("Observations (rows)"), cell("742", "right", true)],
-      [cell("Studies"), cell("52", "right", true)],
-      [cell("Independent campaigns"), cell("36", "right", true)],
       [cell("Muscles or muscle groups"), cell("51", "right", true)],
       [cell("Rows: control / countermeasure"), cell("470 / 272", "right", true)],
       [cell("Rows: during bed rest / recovery"), cell("478 / 264", "right", true)],
@@ -467,7 +464,7 @@ const MONO = "Courier New";
     text(s, [
       { text: "742 observations are not 742 independent participants: ", options: { bold: true } },
       { text: "one campaign gives rows for several muscles, groups and scan days." },
-    ], { x: 0.6, y: 5.85, w: 12.1, h: 0.7, fontSize: 14 });
+    ], { x: 0.6, y: 4.65, w: 12.1, h: 0.7, fontSize: 14 });
 
     text(s, "Imaging method and size measure", { x: 7.0, y: 1.45, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
