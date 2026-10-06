@@ -449,38 +449,12 @@ const MONO = "Courier New";
     const s = add(1);
     s.addText("What does the dataset look like?", { placeholder: "title" });
 
-    // top: one row of the dataset, field by field (real row: Tran 2021, AGBRESA)
-    text(s, "One row = one muscle outcome of one group at one scan day", { x: 0.6, y: 1.25, w: 12.1, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
-    const cells = [
-      ["Unloading", "60 days", 1.2],
-      ["Scan day", "59", 0.95],
-      ["Muscle", "gluteus maximus", 1.65],
-      ["Participants", "8; 25% women; age 34", 2.15],
-      ["Countermeasure", "none (control)", 1.55],
-      ["Method", "MRI", 0.9],
-      ["Size measure", "volume", 1.15],
-    ];
-    let cx = 0.6; const cy = 1.95, ch = 0.5;
-    cells.forEach(([k, v, w]) => {
-      text(s, k, { x: cx, y: cy - 0.27, w, h: 0.25, fontSize: 10.5, align: "center", color: C.accent3 });
-      s.addShape(pres.shapes.RECTANGLE, { x: cx, y: cy, w, h: ch, fill: { color: HEX.lt1 }, line: { color: HEX.accent5, width: 1 }, objectName: "Field " + k });
-      text(s, v, { x: cx, y: cy, w, h: ch, fontSize: 12.5, align: "center", valign: "middle" });
-      cx += w + 0.04;
-    });
-    arrow(s, cx + 0.06, cy + ch / 2, 0.42, "Row to target");
-    const tx = cx + 0.55, tw = 12.7 - tx;
-    text(s, "Target: % change", { x: tx - 0.3, y: cy - 0.27, w: tw + 0.3, h: 0.25, fontSize: 10.5, bold: true, align: "center", color: C.accent1 });
-    s.addShape(pres.shapes.RECTANGLE, { x: tx, y: cy, w: tw, h: ch, fill: { color: HEX.accent1 }, line: { type: "none" }, objectName: "Target" });
-    text(s, "−9.4%", { x: tx, y: cy, w: tw, h: ch, fontSize: 16, bold: true, align: "center", valign: "middle", color: C.background1 });
-    text(s, "Example row from the AGBRESA bed-rest campaign (Tran et al., 2021). Target: percentage change in muscle size from before unloading.",
-      { x: 0.6, y: cy + ch + 0.08, w: 12.1, h: 0.25, fontSize: 10.5, italic: true, color: C.accent3 });
-
     // bottom: two tables side by side
     const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: HEX.lt1, fill: { color: HEX.dk2 }, align } });
     const cell = (t, align = "left", bold = false) => ({ text: t, options: { align, bold } });
     const tOpts = { fontSize: 13, fontFace: THEME.bodyFontFace, color: HEX.dk1, valign: "middle", rowH: 0.4,
       border: [{ type: "none" }, { type: "none" }, { pt: 0.75, color: HEX.accent6 }, { type: "none" }], margin: [0.03, 0.1, 0.03, 0.1] };
-    text(s, "Final dataset at a glance", { x: 0.6, y: 2.95, w: 5.9, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    text(s, "Final dataset at a glance", { x: 0.6, y: 1.45, w: 5.9, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
       [hdr("Feature"), hdr("n", "right")],
       [cell("Observations (rows)"), cell("742", "right", true)],
@@ -489,11 +463,16 @@ const MONO = "Courier New";
       [cell("Muscles or muscle groups"), cell("51", "right", true)],
       [cell("Rows: control / countermeasure"), cell("470 / 272", "right", true)],
       [cell("Rows: during bed rest / recovery"), cell("478 / 264", "right", true)],
-    ], { x: 0.6, y: 3.35, w: 5.9, colW: [4.1, 1.8], ...tOpts });
-    text(s, "742 observations ≠ 742 independent participants: one campaign gives rows for several muscles, groups and scan days.",
-      { x: 0.6, y: 6.25, w: 5.9, h: 0.45, fontSize: 10.5, italic: true, color: C.accent3 });
+    ], { x: 0.6, y: 1.9, w: 5.9, colW: [4.1, 1.8], ...tOpts, rowH: 0.5 });
+    // key caveat, set off as a callout under both tables
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 5.75, w: 12.13, h: 0.8, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Caveat box" });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 5.75, w: 0.08, h: 0.8, fill: { color: HEX.accent1 }, line: { type: "none" }, objectName: "Caveat bar" });
+    text(s, [
+      { text: "742 observations ≠ 742 independent participants", options: { bold: true, fontSize: 17, color: C.accent1, breakLine: true } },
+      { text: "One campaign gives rows for several muscles, groups and scan days.", options: { fontSize: 13, color: C.text1 } },
+    ], { x: 0.85, y: 5.75, w: 11.7, h: 0.8, valign: "middle" });
 
-    text(s, "Imaging method and size measure", { x: 7.0, y: 2.95, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    text(s, "Imaging method and size measure", { x: 7.0, y: 1.45, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
       [hdr("Method"), hdr("n", "right"), hdr("Size measure"), hdr("n", "right")],
       [cell("MRI"), cell("655", "right", true), cell("Volume"), cell("594", "right", true)],
@@ -501,15 +480,14 @@ const MONO = "Courier New";
       [cell("CT"), cell("30", "right", true), cell("Lean mass"), cell("37", "right", true)],
       [cell("Ultrasound"), cell("20", "right", true), cell("Thickness"), cell("11", "right", true)],
       [cell("Total", "left", true), cell("742", "right", true), cell("Total", "left", true), cell("742", "right", true)],
-    ], { x: 7.0, y: 3.35, w: 5.73, colW: [1.45, 0.85, 2.48, 0.95], ...tOpts });
+    ], { x: 7.0, y: 1.9, w: 5.73, colW: [1.45, 0.85, 2.48, 0.95], ...tOpts, rowH: 0.5 });
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
       "The final dataset has 742 rows. Each row is one muscle outcome: one muscle, in one group, at one scan day. " +
       "One campaign can therefore give many rows, for several muscles, time points or groups.\n\n" +
-      "The top strip is a real row. For each outcome we extracted the length of unloading, the day of the scan, the muscle, the participants (group size, share of women, age), " +
-      "whether the group had a countermeasure, the imaging method, and how muscle size was measured. " +
-      "Our prediction target is the percentage change in muscle size from baseline, here minus 9.4 percent.\n\n" +
+      "For each outcome we extracted the length of unloading, the day of the scan, the muscle, the participants (group size, share of women, age), whether the group had a countermeasure, the imaging method, and how muscle size was measured. " +
+      "Our prediction target is the percentage change in muscle size from baseline.\n\n" +
       "Left table: 742 rows from 52 studies and 36 independent campaigns, covering 51 muscles or muscle groups; 470 rows are control groups and 272 countermeasure groups; 478 were measured during bed rest and 264 in recovery. " +
       "742 rows does not mean 742 people: one campaign gives rows for several muscles, groups and scan days.\n\n" +
       "Right table: most rows are MRI volumes. CT gives cross-sectional area, DXA gives lean mass of the leg, and ultrasound gives thickness or area."
