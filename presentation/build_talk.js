@@ -402,7 +402,7 @@ const MONO = "Courier New";
     s.addText("How did we build the dataset?", { placeholder: "title" });
     const bw = 2.1, step = 2.45, by = 2.5, bh = 1.45, xs = [0, 1, 2, 3, 4].map((i) => 0.6 + i * step);
     const flow = [
-      ["Identification", "5,741", "records found", "PubMed, Scopus, Web of Science, NASA reports, earlier work"],
+      ["Identification", "5,741", "records found", "PubMed, Scopus, Web of Science, NASA reports"],
       ["Screening", "3,600", "titles and abstracts screened", ""],
       ["Full text", "84", "full texts read", ""],
       ["Included", "52", "studies", ""],
