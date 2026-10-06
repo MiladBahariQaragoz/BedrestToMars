@@ -821,9 +821,29 @@ const MONO = "Courier New";
       "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
       "An LLM-based probabilistic classifier that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
       "The main limitation is the small sample of 32 campaigns, mostly young men, with no bed-rest data beyond day 119.\n\n" +
-      "Next, we want to link the muscles, so that one muscle\'s loss predicts another\'s and a weighted sum estimates strength loss, and to build a risk-assessment system based on a person\'s characteristics.\n\n" +
-      "Thank you."
+      "Next, we want to link the muscles, so that one muscle\'s loss predicts another\'s and a weighted sum estimates strength loss, and to build a risk-assessment system based on a person\'s characteristics."
     );
+  }
+
+  // ---------- Outro ----------
+  {
+    const s = add(undefined, "Title");
+    s.background = { path: ART("outro-bg.png") };
+    s.addImage({ path: LOGO, x: 0.9, y: 0.6, w: 3.2, h: 3.2 * LOGO_RATIO, altText: "DGLRM logo" });
+    text(s, [
+      { text: "Thank you for listening", options: { fontSize: 46, breakLine: true } },
+      { text: "Questions are welcome", options: { fontSize: 26, color: "F2D0A9" } },
+    ], { x: 0.9, y: 1.9, w: 9.8, h: 1.9, fontFace: THEME.headFontFace, bold: true, color: "FFFFFF", valign: "bottom", paraSpaceAfter: 10 });
+    text(s, [
+      { text: "Niloufar Ahmadymarzdashty", options: {} }, { text: "1", options: { superscript: true } },
+      { text: ",  Milad Bahari Qaragoz", options: {} }, { text: "2", options: { superscript: true } },
+    ], { x: 0.9, y: 4.2, w: 8.4, h: 0.4, fontSize: 18, color: "FFFFFF" });
+    text(s, [
+      { text: "1", options: { superscript: true } }, { text: " Independent researcher", options: { breakLine: true } },
+      { text: "2", options: { superscript: true } }, { text: " Master's candidate, Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)", options: {} },
+    ], { x: 0.9, y: 4.65, w: 8.4, h: 0.6, fontSize: 14, color: "B7C3D3" });
+    text(s, "From Bed Rest to Mars  |  64. Jahrestagung der DGLRM", { x: 0.9, y: 5.45, w: 8.4, h: 0.4, fontSize: 16, bold: true, color: "F2D0A9" });
+    s.addNotes("Close (Milad). Thank the audience and invite questions. The backup slides that follow answer the questions we expect: part 1 on slides 17 to 19, data and search on 15 and 16, part 2 on 20 to 22.");
   }
 
   // ---------- Backup slides ----------

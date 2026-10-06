@@ -72,3 +72,34 @@ for i in range(w):
             k = (f-a)/(b-a); g[:, i] = np.array(ca)*(1-k) + np.array(cb)*k
 Image.fromarray(g.astype(np.uint8)).save('stripe.png')
 print('ok')
+
+# outro background: arrival. Mars rises from the lower right, a small Earth far behind, the arc ends at Mars
+rng = np.random.default_rng(11)
+img = Image.fromarray(bg.astype(np.uint8), 'RGB').convert('RGBA'); dr = ImageDraw.Draw(img)
+mR = int(5.4*PX); mcx, mcy = int(10.6*PX), int(10.6*PX)
+for _ in range(900):
+    x, y = rng.uniform(0, W), rng.uniform(0, H)
+    if (x-mcx)**2 + (y-mcy)**2 < (mR+20)**2: continue
+    r = rng.choice([0.6, 0.9, 1.3, 1.8], p=[0.55, 0.3, 0.12, 0.03]); a = int(rng.uniform(70, 230))
+    if x < 8.6*PX and 1.4*PX < y < 6.0*PX:
+        if rng.uniform() < 0.6: continue
+        r, a = min(r, 0.9), a // 3
+    dr.ellipse([x-r, y-r, x+r, y+r], fill=(255, 255, 255, a))
+glow = Image.new('RGBA', (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
+gd.ellipse([mcx-mR-18, mcy-mR-18, mcx+mR+18, mcy+mR+18], fill=(214, 96, 46, 130))
+glow = glow.filter(ImageFilter.GaussianBlur(28)); img = Image.alpha_composite(img, glow)
+img.alpha_composite(globe(mars_src, mR, -75, -20).resize((2*mR, 2*mR), Image.LANCZOS).filter(ImageFilter.GaussianBlur(1.2)), (mcx-mR, mcy-mR))
+eR = int(0.3*PX); ecx, ecy = int(12.2*PX), int(0.95*PX)
+glow = Image.new('RGBA', (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
+gd.ellipse([ecx-eR-8, ecy-eR-8, ecx+eR+8, ecy+eR+8], fill=(90, 150, 230, 110))
+glow = glow.filter(ImageFilter.GaussianBlur(10)); img = Image.alpha_composite(img, glow)
+img.alpha_composite(globe(earth_src, 2*eR, 10, 20), (ecx-eR, ecy-eR))
+dr = ImageDraw.Draw(img)
+p0, p2 = np.array([ecx-eR-10, ecy+10]), np.array([int(9.3*PX), int(5.35*PX)])
+p1 = np.array([p2[0]+0.15*(p0[0]-p2[0]), p0[1]+0.25*(p2[1]-p0[1])])
+pts = [(1-t)**2*p0 + 2*(1-t)*t*p1 + t**2*p2 for t in np.linspace(0, 1, 200)]
+for i in range(0, len(pts)-1, 2):
+    dr.line([tuple(pts[i]), tuple(pts[i+1])], fill=(242, 208, 169, 200), width=3)
+dr.ellipse([p2[0]-7, p2[1]-7, p2[0]+7, p2[1]+7], fill=(242, 208, 169, 255))
+img.convert('RGB').save('outro-bg.png', optimize=True)
+print('outro ok')
