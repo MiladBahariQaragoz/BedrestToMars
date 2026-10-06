@@ -259,17 +259,18 @@ const MONO = "Courier New";
     const ey = 2.3;
     const body = (cx, d, col, name, label) => {
       s.addShape(pres.shapes.OVAL, { x: cx - d / 2, y: ey - d / 2, w: d, h: d, fill: { color: col }, line: { type: "none" }, objectName: name });
-      text(s, label, { x: cx - 0.6, y: ey + 0.33, w: 1.2, h: 0.25, fontSize: 11, bold: true, align: "center" });
+      s.addImage({ path: path.join(__dirname, `planet-${name.toLowerCase()}.png`), x: cx - d / 2, y: ey - d / 2, w: d, h: d, altText: name + " (photo map, semi-transparent)" });
+      text(s, label, { x: cx - 0.6, y: ey + 0.36, w: 1.2, h: 0.25, fontSize: 11, bold: true, align: "center" });
     };
     const dash = (x1, x2, lab, name) => {
       s.addShape(pres.shapes.LINE, { x: x1, y: ey, w: x2 - x1, h: 0, line: { color: HEX.accent3, width: 1, dashType: "dash", endArrowType: "triangle" }, objectName: name });
       text(s, lab, { x: x1, y: ey - 0.32, w: x2 - x1, h: 0.25, fontSize: 11, italic: true, align: "center", color: C.text2 });
     };
-    body(7.6, 0.5, HEX.dk2, "Earth", "Earth");
-    body(8.75, 0.22, HEX.accent4, "Moon", "Moon");
-    body(12.2, 0.4, HEX.accent1, "Mars", "Mars");
-    dash(7.88, 8.62, "3 days", "Route to Moon");
-    dash(8.95, 11.98, "about 6 months, one way", "Route to Mars");
+    body(7.6, 0.6, HEX.dk2, "Earth", "Earth");
+    body(8.75, 0.3, HEX.accent4, "Moon", "Moon");
+    body(12.2, 0.5, HEX.accent1, "Mars", "Mars");
+    dash(7.93, 8.58, "3 days", "Route to Moon");
+    dash(8.95, 11.93, "about 6 months, one way", "Route to Mars");
 
     // timelines on one day scale (0 to 900 days)
     const bx = 9.0, bw = 3.5, perDay = bw / 900, X = (d) => bx + d * perDay;

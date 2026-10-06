@@ -16,3 +16,6 @@ The DGLRM talk deck, built from the final report on `feat/report`.
 Every number on the slides comes from `results/` on `feat/report`. On the slides the language model is called "the LLM", never by its product name.
 
 To rebuild: `npm install pptxgenjs`, then `APPLY_THEME=/path/to/apply_theme.js node build_talk.js`. `apply_theme.js` writes the theme colours into the deck after pptxgenjs saves it.
+
+## Image sources (slide 4)
+`planet-earth.png`, `planet-moon.png` and `planet-mars.png` are globes rendered from texture maps: Earth from NASA Blue Marble (public domain, via the three-globe repository), the Moon from the three.js example texture `moon_1024.jpg`, and Mars from the threex.planets `marsmap1k.jpg` map (Planet Pixel Emporium, built from NASA imagery). Check the Moon and Mars licences before publishing the slides beyond the talk.
