@@ -178,7 +178,7 @@ const MONO = "Courier New";
   // ---------- Motivation (slide 3) ----------
   {
     const s = add(0);
-    s.addText("Motivation: can we predict muscle atrophy?", { placeholder: "title" });
+    s.addText("Motivation: predicting lower-limb muscle atrophy", { placeholder: "title" });
     text(s, [
       { text: "Why is this important?", options: { bold: true, fontSize: 20, color: C.text2, breakLine: true, paraSpaceAfter: 8 } },
       ...bullets([
@@ -227,7 +227,7 @@ const MONO = "Courier New";
   // ---------- Why from bed rest to Mars? (slide 4) ----------
   {
     const s = add(0);
-    s.addText("Why from bed rest to Mars?", { placeholder: "title" });
+    s.addText("From bed rest to Mars: analogue and application", { placeholder: "title" });
     const head = (t, before = 0) => ({ text: t, options: { bold: true, fontSize: 19, color: C.text2, breakLine: true, paraSpaceBefore: before, paraSpaceAfter: 3 } });
     const last = (rows) => rows.map((r, i, a) => (i === a.length - 1 ? { ...r, options: { ...r.options, breakLine: true } } : r));
     text(s, [
@@ -329,7 +329,7 @@ const MONO = "Courier New";
   // ---------- What range did we study? (slide 5) ----------
   {
     const s = add(1);
-    s.addText("What range did we study?", { placeholder: "title" });
+    s.addText("Range of unloading durations and studies", { placeholder: "title" });
 
     // top: range in the abstract vs range in the final dataset, on one day scale
     const bx = 3.6, bw = 8.4, X = (d) => bx + d / 180 * bw;
@@ -400,7 +400,7 @@ const MONO = "Courier New";
   // ---------- How did we build the dataset? (slide 6) ----------
   {
     const s = add(1);
-    s.addText("How did we build the dataset?", { placeholder: "title" });
+    s.addText("Literature search and study selection", { placeholder: "title" });
     const bw = 2.1, step = 2.45, by = 2.5, bh = 1.45, xs = [0, 1, 2, 3, 4].map((i) => 0.6 + i * step);
     const flow = [
       ["Identification", "5,741", "records found", "PubMed, Scopus, Web of Science, NASA reports"],
@@ -448,7 +448,7 @@ const MONO = "Courier New";
   // ---------- What does the dataset look like? (slide 7) ----------
   {
     const s = add(2);
-    s.addText("What does the dataset look like?", { placeholder: "title" });
+    s.addText("Dataset composition", { placeholder: "title" });
 
     // bottom: two tables side by side
     const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: HEX.lt1, fill: { color: HEX.dk2 }, align } });
@@ -491,7 +491,7 @@ const MONO = "Courier New";
   // ---------- Are all muscles affected the same? (slide 8) ----------
   {
     const s = add(2);
-    s.addText("Are all muscles affected the same?", { placeholder: "title" });
+    s.addText("Muscle atrophy by muscle group", { placeholder: "title" });
     // day-60 estimates per muscle group: report tab_ranking (modelling subset, control groups)
     const groups = [
       ["hip-rotators", "Deep hip rotators", -1.9, "6B7280"],
@@ -562,7 +562,7 @@ const MONO = "Courier New";
   // ---------- Slide 1: the evaluation setup ----------
   {
     const s = add(3);
-    s.addText("Every model is tested on a campaign it has not seen", { placeholder: "title" });
+    s.addText("Evaluation: leave-one-campaign-out validation", { placeholder: "title" });
 
     const y = 1.45, h = 2.75;
     box(s, { x: 0.6, y, w: 4.6, h }, "Input box");
@@ -619,7 +619,7 @@ const MONO = "Courier New";
   // ---------- Slide 3: LLM system view ----------
   {
     const s = add(4);
-    s.addText("LLM prediction: what is sent and what comes back", { placeholder: "title" });
+    s.addText("LLM prediction: input and output", { placeholder: "title" });
 
     // left: the request
     const lx = 0.6, ly = 1.35, lw = 5.3, lh = 4.55;
@@ -694,7 +694,7 @@ const MONO = "Courier New";
   // ---------- Slide 4: same comparison with the LLM ----------
   {
     const s = add(4);
-    s.addText("The LLM prediction has the lowest error of all models", { placeholder: "title" });
+    s.addText("Model comparison on held-out campaigns", { placeholder: "title" });
     const rows = [...ml.slice(0, 5), ["Duration curve", 3.16, 0.14], ["LLM prediction", 2.71, 0.43]];
     const names = rows.map((r) => r[0]);
     s.addChart(pres.charts.BAR, [{ name: "MAE", labels: names, values: rows.map((r) => r[1]) }], {
@@ -730,7 +730,7 @@ const MONO = "Courier New";
   // ---------- Slide 5: validity checks ----------
   {
     const s = add(4);
-    s.addText("Validity checks on the LLM prediction", { placeholder: "title" });
+    s.addText("Validity checks of the LLM prediction", { placeholder: "title" });
     text(s, "Gain = how much smaller the LLM's error is than the curve's, in pp (full result: 0.42). Each check and its pass rule were fixed before running it.", {
       x: 0.6, y: 1.2, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
 
@@ -838,7 +838,7 @@ const MONO = "Courier New";
     s.addNotes(notes);
   }
 
-  backup("Backup: is the dataset good enough?", [
+  backup("Backup: dataset coverage and limitations", [
     ["Did you miss studies?", [
       "Four sources searched from 2013 on, plus 10 older or open-data studies (sources and queries on the next slide)",
       "Not covered: Embase (no access) and 1,023 records not screened in time",
@@ -861,7 +861,7 @@ const MONO = "Courier New";
   {
     pres.addSection({ title: "Backup" });
     const s = pres.addSlide({ masterName: "Content", sectionTitle: "Backup" });
-    s.addText("Backup: how did we search the literature?", { placeholder: "title" });
+    s.addText("Backup: literature search sources and query", { placeholder: "title" });
     s.addText("BACKUP", { x: 10.7, y: 6.95, w: 1.3, h: 0.3, fontSize: 10, bold: true, color: C.accent3, align: "right", margin: 0, isTextBox: true });
     const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: HEX.lt1, fill: { color: HEX.dk2 }, align } });
     const c = (t, align = "left", bold = false) => ({ text: t, options: { align, bold } });
@@ -925,7 +925,7 @@ const MONO = "Courier New";
     );
   }
 
-  backup("Backup: is the LLM gain real, and does it matter?", [
+  backup("Backup: significance and relevance of the LLM gain", [
     ["Is 0.42 pp worth anything?", [
       "It is 13% lower error than the curve (3.13 to 2.71 pp)",
       "Small; we present it as a secondary finding",
@@ -944,7 +944,7 @@ const MONO = "Courier New";
     ]],
   ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three campaigns that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from the saved LLM predictions; not in the report.");
 
-  backup("Backup: why did ML fail, and was the comparison fair?", [
+  backup("Backup: ML results and fairness of the comparison", [
     ["Did the ML models get a fair chance?", [
       "Tuned inside each training fold, grouped by campaign; TabPFN needs no tuning",
       "All models saw the same inputs, folds and scoring",
@@ -962,7 +962,7 @@ const MONO = "Courier New";
     ]],
   ], "Backup. The honest gap here is the nearest-neighbour control: we cannot yet say whether a simple similarity method would match the LLM.");
 
-  backup("Backup: can this be used to plan a Mars mission?", [
+  backup("Backup: applicability to Mars mission planning", [
     ["A Mars transit is about 180 days; the data stop at 119", [
       "Only one campaign reaches 119 days",
       "A 180-day estimate is planned from the duration curve only, with an uncertainty range, labelled as an assumption",

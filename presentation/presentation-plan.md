@@ -39,7 +39,7 @@ Revised after feedback on 5 October: academic style, written to the no-ai-slop r
 | 1 | Evaluation setup | Every model is tested on a study it has not seen (inputs, model, output, leave-one-study-out) | 1:00 |
 | 2 | ML vs the curve | No ML model has lower error than the duration curve | 1:00 |
 | 3 | LLM system view | LLM forecast: what is sent and what comes back (real cached request and answer) | 1:30 |
-| 4 | LLM vs all models | The LLM forecast has the lowest error of all models | 0:45 |
+| 4 | LLM vs all models | Model comparison on held-out campaigns | 0:45 |
 | 5 | Validity checks | Validity checks on the LLM forecast (bullets) | 1:15 |
 | 6 | Wrap-up | Conclusions, limitations and further work | 0:30 |
 
@@ -83,8 +83,8 @@ The deck now covers the whole talk: `bed-rest-to-mars-talk.pptx` (16 slides), bu
 | 2 | Agenda | Both | (opening) |
 | 3 | Motivation: can we predict muscle atrophy? | Co-author (content filled) | 1 Motivation |
 | 4 | Why from bed rest to Mars? | Co-author (content filled) | 1 Motivation |
-| 5 | What range did we study? | Co-author (content filled) | 2 Data |
-| 6 | How did we build the dataset? | Co-author (content filled) | 2 Data |
+| 5 | Range of unloading durations and studies | Co-author (content filled) | 2 Data |
+| 6 | Literature search and study selection | Co-author (content filled) | 2 Data |
 | 7 | What does the dataset look like? (merged with "what was extracted") | Co-author (content filled) | 2 Data |
 | 8 | Are all muscles affected the same? | Co-author (content filled) | 3 Muscles |
 | 9-14 | Technical half | milad | 4 Models, 5 LLM forecast, 6 Conclusions |
