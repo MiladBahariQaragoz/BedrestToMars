@@ -85,7 +85,7 @@ const MONO = "Courier New";
     s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 1.35, w: 12.1, h: 5.3, fill: { color: C.background1 },
       line: { color: HEX.accent5, width: 1, dashType: "dash" }, objectName: "Placeholder frame" });
     text(s, [
-      { text: "PLACEHOLDER: content by co-author", options: { bold: true, fontSize: 14, color: C.accent3, breakLine: true } },
+      { text: "PLACEHOLDER: content by Niloufar", options: { bold: true, fontSize: 14, color: C.accent3, breakLine: true } },
       { text: "Suggested points from the final report:", options: { italic: true, fontSize: 14, color: C.accent3, breakLine: true, paraSpaceAfter: 6 } },
       ...bullets(hints, 16).map((r, i) => (figure && i === hints.length - 1 ? { ...r, options: { ...r.options, breakLine: true } } : r)),
       ...(figure ? [{ text: "Possible figure: " + figure, options: { italic: true, fontSize: 14, color: C.accent3 } }] : []),
@@ -132,9 +132,16 @@ const MONO = "Courier New";
       { text: "From Bed Rest to Mars:", options: { fontSize: 44, breakLine: true } },
       { text: "Development of a Literature-Derived Machine Learning Framework for Predicting Lower-Limb Muscle Atrophy in Spaceflight Analogues", options: { fontSize: 28 } },
     ], { x: 0.9, y: 1.5, w: 11.5, h: 2.9, fontFace: THEME.headFontFace, bold: true, color: C.text2, valign: "bottom", paraSpaceAfter: 8 });
-    text(s, "[Authors]  |  [Affiliation]", { x: 0.9, y: 4.75, w: 11.5, h: 0.4, fontSize: 16, color: C.accent3 });
-    text(s, "DGLRM 2026", { x: 0.9, y: 5.2, w: 11.5, h: 0.4, fontSize: 16, color: C.accent3 });
-    s.addNotes("Intro (co-author). Placeholder: fill in authors, affiliation and the opening sentence.");
+    text(s, [
+      { text: "Niloufar Ahmadymarzdashty", options: {} }, { text: "1", options: { superscript: true } },
+      { text: ",  Milad Bahari Qaragoz", options: {} }, { text: "2", options: { superscript: true } },
+    ], { x: 0.9, y: 4.7, w: 11.5, h: 0.4, fontSize: 18, color: C.text1 });
+    text(s, [
+      { text: "1", options: { superscript: true } }, { text: " Independent researcher", options: { breakLine: true } },
+      { text: "2", options: { superscript: true } }, { text: " Master's candidate, Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)", options: {} },
+    ], { x: 0.9, y: 5.15, w: 11.5, h: 0.6, fontSize: 14, color: C.accent3 });
+    text(s, "DGLRM 2026", { x: 0.9, y: 5.9, w: 11.5, h: 0.4, fontSize: 14, color: C.accent3 });
+    s.addNotes("Intro (Niloufar). Placeholder: add the opening sentence.");
   }
 
   // ---------- Agenda ----------
@@ -144,7 +151,7 @@ const MONO = "Courier New";
     const xs = [0, 1, 2, 3, 4, 5].map((i) => 1.45 + i * 2.08), cy = 3.75, d = 0.7;
     s.addShape(pres.shapes.LINE, { x: xs[0], y: cy, w: xs[5] - xs[0], h: 0, line: { color: HEX.accent5, width: 1.5 }, objectName: "Agenda line" });
     // part brackets
-    [[0, 2, "Part 1: background and data", "[Co-author]"], [3, 5, "Part 2: modelling and forecasting", "[Presenter]"]].forEach(([a, b, label, who], k) => {
+    [[0, 2, "Part 1: background and data", "Niloufar Ahmadymarzdashty"], [3, 5, "Part 2: modelling and forecasting", "Milad Bahari Qaragoz"]].forEach(([a, b, label, who], k) => {
       const x = xs[a] - 0.35, w = xs[b] - xs[a] + 0.7, y = 2.3;
       s.addShape(pres.shapes.LINE, { x, y: y + 0.8, w, h: 0, line: { color: HEX.dk2, width: 1 }, objectName: `Part ${k + 1} bracket` });
       s.addShape(pres.shapes.LINE, { x, y: y + 0.8, w: 0, h: 0.15, line: { color: HEX.dk2, width: 1 }, objectName: `Part ${k + 1} bracket left` });
