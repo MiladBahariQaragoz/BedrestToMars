@@ -40,7 +40,7 @@ const MONO = "Courier New";
       { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 0.35, w: 12.1, h: 0.8,
           fontFace: THEME.headFontFace, fontSize: 28, bold: true, color: C.text2, align: "left", valign: "middle", margin: 0 }, text: "" } },
       { image: { path: LOGO, x: 0.6, y: 6.93, w: 1.25, h: 1.25 * LOGO_RATIO, altText: "DGLRM logo" } },
-      { text: { text: "From Bed Rest to Mars  |  DGLRM 2026", options: { x: 2.0, y: 6.95, w: 5, h: 0.3, fontSize: 10, color: C.accent3, margin: 0 } } },
+      { text: { text: "From Bed Rest to Mars  |  64. Jahrestagung der DGLRM", options: { x: 2.0, y: 6.95, w: 5, h: 0.3, fontSize: 10, color: C.accent3, margin: 0 } } },
     ],
     slideNumber: { x: 12.2, y: 6.95, w: 0.5, h: 0.3, fontSize: 10, color: C.accent3, align: "right" },
   });
@@ -144,7 +144,7 @@ const MONO = "Courier New";
       { text: "1", options: { superscript: true } }, { text: " Independent researcher", options: { breakLine: true } },
       { text: "2", options: { superscript: true } }, { text: " Master's candidate, Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)", options: {} },
     ], { x: 0.9, y: 5.15, w: 11.5, h: 0.6, fontSize: 14, color: C.accent3 });
-    text(s, "DGLRM 2026", { x: 0.9, y: 5.9, w: 11.5, h: 0.4, fontSize: 14, color: C.accent3 });
+    text(s, "64. Jahrestagung der DGLRM", { x: 0.9, y: 5.9, w: 11.5, h: 0.4, fontSize: 16, bold: true, color: C.text2 });
     s.addNotes("Intro (Niloufar). Placeholder: add the opening sentence.");
   }
 
