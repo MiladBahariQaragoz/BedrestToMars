@@ -11,17 +11,18 @@ const OUT = process.argv[2] || "bed-rest-to-mars-talk.pptx";
 const EX = JSON.parse(fs.readFileSync(path.join(__dirname, "example.json"), "utf8"));
 const LOGO = path.join(__dirname, "dglrm_logo_schrift2_ret.png"); // 558 x 150 px
 const LOGO_RATIO = 150 / 558;
+const ART = (f) => path.join(__dirname, f); // title-bg.png, stripe.png, dot-earth.png, dot-mars.png (made by art.py)
 
 const THEME = {
   name: "Bed Rest to Mars academic",
   headFontFace: "Cambria",
   bodyFontFace: "Calibri",
   colors: {
-    // Color Hunt palette #2C3639 #3F4E4F #A27B5C #DCD7C9, plus tints for lines, grids and panels
-    dk1: "2C3639", lt1: "FFFFFF", dk2: "2C3639", lt2: "F3F0E9",
-    accent1: "A27B5C", accent2: "3F4E4F", accent3: "6F7877",
-    accent4: "C4BEB0", accent5: "A9A598", accent6: "E8E4DA",
-    hlink: "3F4E4F", folHlink: "6F7877",
+    // From the title: deep-space navy, Mars rust, Earth blue; cool greys for lines, grids and panels
+    dk1: "1B2533", lt1: "FFFFFF", dk2: "0B2545", lt2: "F0F3F7",
+    accent1: "C1440E", accent2: "2F6690", accent3: "5D6B7B",
+    accent4: "B8C4D1", accent5: "98A6B5", accent6: "E2E7ED",
+    hlink: "2F6690", folHlink: "5D6B7B",
   },
 };
 const HEX = THEME.colors;
@@ -38,6 +39,7 @@ const MONO = "Courier New";
     title: "Content",
     background: { color: C.background1 },
     objects: [
+      { image: { path: ART("stripe.png"), x: 0, y: 0, w: 13.333, h: 0.09, altText: "Gradient stripe, Earth blue to Mars red" } },
       { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 0.35, w: 12.1, h: 0.8,
           fontFace: THEME.headFontFace, fontSize: 28, bold: true, color: C.text2, align: "left", valign: "middle", margin: 0 }, text: "" } },
       { image: { path: LOGO, x: 0.6, y: 6.93, w: 1.25, h: 1.25 * LOGO_RATIO, altText: "DGLRM logo" } },
@@ -46,7 +48,7 @@ const MONO = "Courier New";
     slideNumber: { x: 12.2, y: 6.95, w: 0.5, h: 0.3, fontSize: 10, color: C.accent3, align: "right" },
   });
 
-  pres.defineSlideMaster({ title: "Title", background: { color: C.background1 }, objects: [] });
+  pres.defineSlideMaster({ title: "Title", background: { path: ART("title-bg.png") }, objects: [] });
 
   const SECTIONS = [
     ["Intro and motivation", "Why predict muscle loss; from bed rest to Mars"],
@@ -60,8 +62,11 @@ const MONO = "Courier New";
 
   // Progress tracker, bottom-right corner: one dot per agenda section, the current one larger.
   function tracker(s, cur) {
-    const x0 = 9.95, step = 0.38, cy = 7.1;
-    s.addShape(pres.shapes.LINE, { x: x0, y: cy, w: step * 5, h: 0, line: { color: HEX.accent5, width: 0.75 }, objectName: "Tracker line" });
+    const x0 = 9.95, step = 0.38, cy = 7.1, de = 0.22, dm = 0.24;
+    const xe = x0 - 0.4, xm = x0 + step * 5 + 0.38;
+    s.addShape(pres.shapes.LINE, { x: xe, y: cy, w: xm - xe, h: 0, line: { color: HEX.accent5, width: 0.75, dashType: "dash" }, objectName: "Tracker line" });
+    s.addImage({ path: ART("dot-earth.png"), x: xe - de / 2, y: cy - de / 2, w: de, h: de, altText: "Earth" });
+    s.addImage({ path: ART("dot-mars.png"), x: xm - dm / 2, y: cy - dm / 2, w: dm, h: dm, altText: "Mars" });
     for (let i = 0; i < 6; i++) {
       const d = i === cur ? 0.24 : 0.13;
       s.addShape(pres.shapes.OVAL, { x: x0 + i * step - d / 2, y: cy - d / 2, w: d, h: d,
@@ -69,7 +74,7 @@ const MONO = "Courier New";
         line: { color: i === cur ? HEX.accent1 : i < cur ? HEX.dk2 : HEX.accent5, width: 0.75 },
         objectName: `Tracker ${i + 1} ${SECTIONS[i][0]}` });
     }
-    s.addText(`${cur + 1}  ${SECTIONS[cur][0]}`, { x: 6.2, y: 6.95, w: 3.5, h: 0.3, fontSize: 10, bold: true,
+    s.addText(`${cur + 1}  ${SECTIONS[cur][0]}`, { x: 5.9, y: 6.95, w: 3.3, h: 0.3, fontSize: 10, bold: true,
       color: C.accent1, align: "right", margin: 0, isTextBox: true });
   }
 
@@ -137,17 +142,17 @@ const MONO = "Courier New";
     s.addImage({ path: LOGO, x: 0.9, y: 0.6, w: 3.2, h: 3.2 * LOGO_RATIO, altText: "DGLRM logo" });
     text(s, [
       { text: "From Bed Rest to Mars:", options: { fontSize: 44, breakLine: true } },
-      { text: "Development of a Literature-Derived Machine Learning Framework for Predicting Lower-Limb Muscle Atrophy in Spaceflight Analogues", options: { fontSize: 28 } },
-    ], { x: 0.9, y: 1.5, w: 11.5, h: 2.9, fontFace: THEME.headFontFace, bold: true, color: C.text2, valign: "bottom", paraSpaceAfter: 8 });
+      { text: "Development of a Literature-Derived Machine Learning Framework for Predicting Lower-Limb Muscle Atrophy in Spaceflight Analogues", options: { fontSize: 22, color: "F2D0A9" } },
+    ], { x: 0.9, y: 1.5, w: 8.6, h: 2.9, fontFace: THEME.headFontFace, bold: true, color: "FFFFFF", valign: "bottom", paraSpaceAfter: 8 });
     text(s, [
       { text: "Niloufar Ahmadymarzdashty", options: {} }, { text: "1", options: { superscript: true } },
       { text: ",  Milad Bahari Qaragoz", options: {} }, { text: "2", options: { superscript: true } },
-    ], { x: 0.9, y: 4.7, w: 11.5, h: 0.4, fontSize: 18, color: C.text1 });
+    ], { x: 0.9, y: 4.7, w: 8.6, h: 0.4, fontSize: 18, color: "FFFFFF" });
     text(s, [
       { text: "1", options: { superscript: true } }, { text: " Independent researcher", options: { breakLine: true } },
       { text: "2", options: { superscript: true } }, { text: " Master's candidate, Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)", options: {} },
-    ], { x: 0.9, y: 5.15, w: 11.5, h: 0.6, fontSize: 14, color: C.accent3 });
-    text(s, "64. Jahrestagung der DGLRM", { x: 0.9, y: 5.9, w: 11.5, h: 0.4, fontSize: 16, bold: true, color: C.text2 });
+    ], { x: 0.9, y: 5.15, w: 8.6, h: 0.6, fontSize: 14, color: "B7C3D3" });
+    text(s, "64. Jahrestagung der DGLRM", { x: 0.9, y: 5.9, w: 8.6, h: 0.4, fontSize: 16, bold: true, color: "F2D0A9" });
     s.addNotes("Intro (Niloufar). Placeholder: add the opening sentence.");
   }
 
@@ -156,7 +161,9 @@ const MONO = "Courier New";
     const s = add(undefined);
     s.addText("Agenda", { placeholder: "title" });
     const xs = [0, 1, 2, 3, 4, 5].map((i) => 1.45 + i * 2.08), cy = 3.75, d = 0.7;
-    s.addShape(pres.shapes.LINE, { x: xs[0], y: cy, w: xs[5] - xs[0], h: 0, line: { color: HEX.accent5, width: 1.5 }, objectName: "Agenda line" });
+    s.addShape(pres.shapes.LINE, { x: 0.75, y: cy, w: 12.55 - 0.75, h: 0, line: { color: HEX.accent5, width: 1.5, dashType: "dash" }, objectName: "Agenda line" });
+    s.addImage({ path: ART("dot-earth.png"), x: 0.5, y: cy - 0.23, w: 0.46, h: 0.46, altText: "Earth" });
+    s.addImage({ path: ART("dot-mars.png"), x: 12.33, y: cy - 0.26, w: 0.52, h: 0.52, altText: "Mars" });
     // part brackets
     [[0, 2, "Part 1: background and data", "Niloufar Ahmadymarzdashty"], [3, 5, "Part 2: modelling and prediction", "Milad Bahari Qaragoz"]].forEach(([a, b, label, who], k) => {
       const x = xs[a] - 0.35, w = xs[b] - xs[a] + 0.7, y = 2.3;
@@ -376,7 +383,7 @@ const MONO = "Courier New";
     const cx = 3.0, cw = 9.4;
     text(s, FIG("Studies published per year, by length of unloading"), { x: bx, y: 3.3, w: bw, h: 0.35, fontSize: 14, bold: true, color: C.text2 });
     text(s, "Years without studies omitted", { x: bx, y: 3.62, w: bw, h: 0.25, fontSize: 11, italic: true, color: C.accent3 });
-    const cols = ["DCD7C9", "B3AD9E", "7D8A89", HEX.accent2, HEX.accent1];
+    const cols = ["D3DCE6", "9AB0C7", "5B80A5", HEX.dk2, HEX.accent1];
     text(s, "Length of unloading", { x: 0.6, y: 4.2, w: 2.4, h: 0.3, fontSize: 13, bold: true, color: C.text2 });
     [...bands].reverse().forEach(([name], k) => {
       const ly = 4.6 + k * 0.36, ci = bands.length - 1 - k;
@@ -397,7 +404,7 @@ const MONO = "Courier New";
       "Part 1 (Niloufar), about forty-five seconds.\n\n" +
       "When we submitted the abstract, our dataset held 15 bed-rest studies, covering 14 to 119 days of unloading. " +
       "After submission we extended it. The final dataset has 52 studies, published from 1992 to 2026, and covers 5 to 180 days. " +
-      "The brown part of the lower bar is not bed rest: the stretch beyond 119 days comes from spaceflight, where three studies measured crews after about 180 days.\n\n" +
+      "The orange part of the lower bar is not bed rest: the stretch beyond 119 days comes from spaceflight, where three studies measured crews after about 180 days.\n\n" +
       "The chart below shows how many of these studies were published each year, and the colours show how long the unloading lasted. " +
       "Most of the literature is recent: 37 of the 52 studies are from 2016 or later. Short studies of up to two weeks are the most common; long campaigns of two to four months are rarer."
     );
@@ -499,14 +506,14 @@ const MONO = "Courier New";
     s.addText("Muscle atrophy by muscle group", { placeholder: "title" });
     // day-60 estimates per muscle group: report tab_ranking (modelling subset, control groups)
     const groups = [
-      ["hip-rotators", "Deep hip rotators", -1.9, "A9A598"],
-      ["hip-adductors", "Inner thigh (hip adductors)", -5.4, "6E9C9A"],
-      ["hip-extensors", "Glutes (hip extensors)", -6.1, "B47F7B"],
-      ["hip-flexors", "Hip flexors", -6.8, "7F9160"],
-      ["hip-abductors", "Outer hip (hip abductors)", -9.1, "8D7CA0"],
-      ["knee-flexors", "Back thigh (knee flexors)", -9.8, "5A7A8C"],
+      ["hip-rotators", "Deep hip rotators", -1.9, "9AA5B1"],
+      ["hip-adductors", "Inner thigh (hip adductors)", -5.4, "3A9CA6"],
+      ["hip-extensors", "Glutes (hip extensors)", -6.1, "9C6B98"],
+      ["hip-flexors", "Hip flexors", -6.8, "6A994E"],
+      ["hip-abductors", "Outer hip (hip abductors)", -9.1, "7B6FC4"],
+      ["knee-flexors", "Back thigh (knee flexors)", -9.8, "4F86C6"],
       ["knee-extensors", "Front thigh (knee extensors)", -10.1, HEX.dk2],
-      ["dorsiflexors", "Shin (dorsiflexors)", -10.2, "C9A040"],
+      ["dorsiflexors", "Shin (dorsiflexors)", -10.2, "E0A030"],
       ["plantar-flexors", "Calf (plantar flexors)", -15.8, HEX.accent1],
     ];
     // common saturating time course from the report (tau = 60 days), scaled to each group's day-60 value
@@ -600,7 +607,7 @@ const MONO = "Courier New";
     }
     text(s, [
       { text: "Grey: 31 training campaigns.  ", options: {} },
-      { text: "Brown: the held-out test campaign.", options: { color: C.accent1 } },
+      { text: "Orange: the held-out test campaign.", options: { color: C.accent1 } },
       { text: "  Each campaign is held out once.", options: {} },
     ], { x: 0.6, y: 5.15, w: 11, h: 0.3, fontSize: 14 });
     text(s, bullets([
