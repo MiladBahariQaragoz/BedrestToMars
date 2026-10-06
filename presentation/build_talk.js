@@ -464,13 +464,10 @@ const MONO = "Courier New";
       [cell("Rows: control / countermeasure"), cell("470 / 272", "right", true)],
       [cell("Rows: during bed rest / recovery"), cell("478 / 264", "right", true)],
     ], { x: 0.6, y: 1.9, w: 5.9, colW: [4.1, 1.8], ...tOpts, rowH: 0.5 });
-    // key caveat, set off as a callout under both tables
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 5.75, w: 12.13, h: 0.8, fill: { color: C.background2 }, line: { type: "none" }, objectName: "Caveat box" });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 5.75, w: 0.08, h: 0.8, fill: { color: HEX.accent1 }, line: { type: "none" }, objectName: "Caveat bar" });
     text(s, [
-      { text: "742 observations ≠ 742 independent participants", options: { bold: true, fontSize: 17, color: C.accent1, breakLine: true } },
-      { text: "One campaign gives rows for several muscles, groups and scan days.", options: { fontSize: 13, color: C.text1 } },
-    ], { x: 0.85, y: 5.75, w: 11.7, h: 0.8, valign: "middle" });
+      { text: "742 observations are not 742 independent participants: ", options: { bold: true } },
+      { text: "one campaign gives rows for several muscles, groups and scan days." },
+    ], { x: 0.6, y: 5.85, w: 12.1, h: 0.7, fontSize: 14 });
 
     text(s, "Imaging method and size measure", { x: 7.0, y: 1.45, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
     s.addTable([
