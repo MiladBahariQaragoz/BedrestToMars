@@ -475,36 +475,33 @@ const MONO = "Courier New";
     text(s, "Example row from the AGBRESA bed-rest campaign (Tran et al., 2021). Target: percentage change in muscle size from before unloading.",
       { x: 0.6, y: cy + ch + 0.08, w: 12.1, h: 0.25, fontSize: 10.5, italic: true, color: C.accent3 });
 
-    // bottom left: rows per muscle group
-    const fam = [
-      ["Front thigh (knee extensors)", 140], ["Calf (plantar flexors)", 135], ["Hamstrings (knee flexors)", 105],
-      ["Lower back (trunk extensors)", 73], ["Inner thigh (hip adductors)", 71], ["Whole leg", 62], ["Hip flexors", 53],
-      ["Hip rotators", 36], ["Shin (dorsiflexors)", 25], ["Evertors (outer shin)", 19], ["Glutes (hip extensors)", 17], ["Hip abductors", 6],
-    ].reverse();
-    s.addChart(pres.charts.BAR, [{ name: "Rows", labels: fam.map((f) => f[0]), values: fam.map((f) => f[1]) }], {
-      x: 0.6, y: 2.95, w: 6.2, h: 3.8, barDir: "bar", barGapWidthPct: 40, chartColors: [HEX.dk2],
-      catAxisLabelColor: HEX.dk1, catAxisLabelFontSize: 10.5, valAxisHidden: true, valGridLine: { style: "none" }, catGridLine: { style: "none" },
-      catAxisLineColor: HEX.accent5, showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 10, dataLabelColor: HEX.dk1,
-      showLegend: false, showTitle: true, title: "742 rows across 51 muscles, by muscle group", titleFontSize: 13, titleColor: HEX.dk2, titleBold: true,
-    });
+    // bottom: two tables side by side
+    const hdr = (t, align = "left") => ({ text: t, options: { bold: true, color: HEX.lt1, fill: { color: HEX.dk2 }, align } });
+    const cell = (t, align = "left", bold = false) => ({ text: t, options: { align, bold } });
+    const tOpts = { fontSize: 13, fontFace: THEME.bodyFontFace, color: HEX.dk1, valign: "middle", rowH: 0.4,
+      border: [{ type: "none" }, { type: "none" }, { pt: 0.75, color: HEX.accent6 }, { type: "none" }], margin: [0.03, 0.1, 0.03, 0.1] };
+    text(s, "Final dataset at a glance", { x: 0.6, y: 2.95, w: 5.9, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    s.addTable([
+      [hdr("Feature"), hdr("n", "right")],
+      [cell("Observations (rows)"), cell("742", "right", true)],
+      [cell("Studies"), cell("52", "right", true)],
+      [cell("Independent campaigns"), cell("36", "right", true)],
+      [cell("Muscles or muscle groups"), cell("51", "right", true)],
+      [cell("Rows: control / countermeasure"), cell("470 / 272", "right", true)],
+      [cell("Rows: during bed rest / recovery"), cell("478 / 264", "right", true)],
+    ], { x: 0.6, y: 3.35, w: 5.9, colW: [4.1, 1.8], ...tOpts });
+    text(s, "742 observations ≠ 742 independent participants: one campaign gives rows for several muscles, groups and scan days.",
+      { x: 0.6, y: 6.25, w: 5.9, h: 0.45, fontSize: 10.5, italic: true, color: C.accent3 });
 
-    // bottom right: measurement method and size measure
-    const methods = ["Ultrasound (20)", "CT (30)", "DXA (37)", "MRI (655)"];
-    const measure = [
-      ["Volume", [0, 0, 0, 594]],
-      ["Cross-sectional area", [9, 30, 0, 61]],
-      ["Lean mass", [0, 0, 37, 0]],
-      ["Thickness", [11, 0, 0, 0]],
-    ];
-    s.addChart(pres.charts.BAR, measure.map(([name, values]) => ({ name, labels: methods, values })), {
-      x: 7.0, y: 2.95, w: 5.73, h: 3.8, barDir: "bar", barGrouping: "stacked", barGapWidthPct: 45,
-      chartColors: [HEX.dk2, "56739A", HEX.accent4, HEX.accent1],
-      catAxisLabelColor: HEX.dk1, catAxisLabelFontSize: 11, valAxisLabelColor: HEX.accent3, valAxisLabelFontSize: 10,
-      valAxisMinVal: 0, valAxisMaxVal: 700, valAxisMajorUnit: 100, valGridLine: { color: HEX.accent6, size: 0.75 }, catGridLine: { style: "none" },
-      catAxisLineColor: HEX.accent5, valAxisLineShow: false,
-      showLegend: true, legendPos: "b", legendFontSize: 10.5, legendColor: HEX.dk1,
-      showTitle: true, title: "Rows by imaging method and size measure", titleFontSize: 13, titleColor: HEX.dk2, titleBold: true,
-    });
+    text(s, "Imaging method and size measure", { x: 7.0, y: 2.95, w: 5.73, h: 0.32, fontSize: 15, bold: true, color: C.text2 });
+    s.addTable([
+      [hdr("Method"), hdr("n", "right"), hdr("Size measure"), hdr("n", "right")],
+      [cell("MRI"), cell("655", "right", true), cell("Volume"), cell("594", "right", true)],
+      [cell("DXA"), cell("37", "right", true), cell("Cross-sectional area"), cell("100", "right", true)],
+      [cell("CT"), cell("30", "right", true), cell("Lean mass"), cell("37", "right", true)],
+      [cell("Ultrasound"), cell("20", "right", true), cell("Thickness"), cell("11", "right", true)],
+      [cell("Total", "left", true), cell("742", "right", true), cell("Total", "left", true), cell("742", "right", true)],
+    ], { x: 7.0, y: 3.35, w: 5.73, colW: [1.45, 0.85, 2.48, 0.95], ...tOpts });
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
@@ -513,8 +510,9 @@ const MONO = "Courier New";
       "The top strip is a real row. For each outcome we extracted the length of unloading, the day of the scan, the muscle, the participants (group size, share of women, age), " +
       "whether the group had a countermeasure, the imaging method, and how muscle size was measured. " +
       "Our prediction target is the percentage change in muscle size from baseline, here minus 9.4 percent.\n\n" +
-      "Bottom left: the rows cover 51 muscles or muscle groups; the front thigh and the calf are measured most often. " +
-      "Bottom right: most rows are MRI volumes. CT gives cross-sectional area, DXA gives lean mass of the leg, and ultrasound gives thickness or area."
+      "Left table: 742 rows from 52 studies and 36 independent campaigns, covering 51 muscles or muscle groups; 470 rows are control groups and 272 countermeasure groups; 478 were measured during bed rest and 264 in recovery. " +
+      "742 rows does not mean 742 people: one campaign gives rows for several muscles, groups and scan days.\n\n" +
+      "Right table: most rows are MRI volumes. CT gives cross-sectional area, DXA gives lean mass of the leg, and ultrasound gives thickness or area."
     );
   }
   placeholder(2, "Are all muscles affected the same?", [
