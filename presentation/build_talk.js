@@ -842,7 +842,7 @@ const MONO = "Courier New";
       { text: "Questions are welcome", options: { fontSize: 26, color: "F2D0A9" } },
     ], { x: 0.9, y: 2.1, w: 9.8, h: 1.9, fontFace: THEME.headFontFace, bold: true, color: "FFFFFF", valign: "bottom", paraSpaceAfter: 10 });
     text(s, "From Bed Rest to Mars  |  64. Jahrestagung der DGLRM", { x: 0.9, y: 4.3, w: 8.4, h: 0.4, fontSize: 16, bold: true, color: "F2D0A9" });
-    s.addNotes("Close (Milad). Thank the audience and invite questions. The backup slides that follow answer the questions we expect: part 1 on slides 17 to 19, data and search on 15 and 16, part 2 on 20 to 22.");
+    s.addNotes("Close (Milad). Thank the audience and invite questions. The backup slides that follow answer the questions we expect: part 1 on slides 17 and 18, data and search on 15 and 16, part 2 on 19 to 21.");
   }
 
   // ---------- Backup slides ----------
@@ -866,7 +866,7 @@ const MONO = "Courier New";
   backup("Backup: dataset coverage and limitations", [
     ["Did you miss studies?", [
       "Four sources searched from 2013 on, plus 10 older or open-data studies (sources and queries on the next slide)",
-      "Not covered: Embase (no access); 1,023 records not yet screened (screening backup)",
+      "Not covered: Embase (no access); 1,023 records not screened in time (slide 6)",
     ]],
     ["One campaign dominates the data", [
       "MEDES 90-day: 40% of all rows, a quarter of the modelling data",
@@ -951,31 +951,6 @@ const MONO = "Courier New";
   }
 
   // ---------- Referee questions on part 1 (slides 3 to 8) ----------
-  backup("Backup: screening and study selection", [
-    ["Why were 1,023 records not screened?", [
-      "Search and screening were time-boxed to one week",
-      "They are the rest of the \"maybe\" set and 80 records waiting for a full text",
-      "They leave the flow at screening but are not counted as excluded",
-    ]],
-    ["Who screened, and was it done twice?", [
-      "Eligibility criteria were written before screening began",
-      "A rule-based triage sorted the records; one person then read the priority set and the top of the \"maybe\" set",
-      "No second screener",
-    ]],
-    ["84 full texts but 52 studies: why so few?", [
-      "19 give muscle results only as charts, without a baseline value",
-      "4 full texts not available (one conference abstract still used); 11 excluded at full text",
-      "These counts are as recorded and still being reconciled with the dataset",
-    ]],
-    ["Why search only from 2013?", [
-      "The search was time-boxed to one week",
-      "Older work enters through 9 studies we held before the search; 6 of their campaigns would otherwise be missing",
-      "Both known modelling papers from after 2013 were found by all three journal databases",
-    ]],
-  ], "Backup, part 1 (Niloufar). The 1,023 unscreened records are shown leaving the flow at screening, next to the 2,493 exclusions. If asked, say plainly that they were not screened in time; they were not read and rejected. " +
-    "If pressed on the full-text stage: the report's own full-text counts are still being reconciled with the final extraction (it says so in a draft note), so do not claim the full-text numbers add up exactly. " +
-    "Known-item test: of the ten modelling papers we knew before the search, only two were published after 2013, and every journal database returned both. The test without the date limit was not run.");
-
   backup("Backup: dataset expansion and composition", [
     ["The abstract had 15 studies. Did adding 37 change the analysis after seeing data?", [
       "Eligibility criteria were fixed before screening; the dataset was frozen (14 and 19 September) before the final models",
