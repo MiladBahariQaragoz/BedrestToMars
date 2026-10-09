@@ -55,7 +55,7 @@ const MONO = "Courier New";
     ["Literature research", "Range of studies; search and screening"],
     ["Data extraction and database", "Dataset contents; loss per muscle group"],
     ["ML framework", "Testing on unseen campaigns"],
-    ["Models and results", "Models, results, LLM robustness and validity checks"],
+    ["Models and results", "Model comparison; LLM validity checks"],
     ["Conclusion", "Findings, limitations, further work"],
   ];
   const PART = (i) => (i < 3 ? "Part 1" : "Part 2");
@@ -180,7 +180,6 @@ const MONO = "Courier New";
       text(s, [{ text: name, options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } }, { text: desc, options: { fontSize: 14 } }],
         { x: xs[i] - 0.98, y: cy + 0.6, w: 1.96, h: 1.6, align: "center" });
     });
-    text(s, "The marker in the bottom-right corner of each slide shows where we are.", { x: 0.6, y: 6.3, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
     s.addNotes("Agenda. Part 1 (Niloufar): why this matters and why bed rest, how we searched the literature, and what the dataset contains, including which muscles lose most. Part 2 (Milad): how we tested the models, the models and their results with the validity checks of the LLM, and the conclusion.");
   }
 
@@ -190,7 +189,7 @@ const MONO = "Courier New";
     const s = add(0);
     s.addText("Motivation: predicting lower-limb muscle atrophy", { placeholder: "title" });
     text(s, [
-      { text: "Why is this important?", options: { bold: true, fontSize: 20, color: C.text2, breakLine: true, paraSpaceAfter: 8 } },
+      { text: "Why prediction matters", options: { bold: true, fontSize: 20, color: C.text2, breakLine: true, paraSpaceAfter: 8 } },
       ...bullets([
         "Prevention: identify risk early and leave time to intervene",
         "Countermeasures: match exercise and nutrition to the predicted risk",
@@ -248,7 +247,7 @@ const MONO = "Courier New";
       ], 16)),
       head("Mars: the long-term application", 18),
       ...bullets([
-        "No early return in an emergency: the crew depends on its own fitness",
+        "No early return in an emergency",
       ], 16),
     ], { x: 0.6, y: 1.3, w: 6.1, h: 3.85 });
 
@@ -333,7 +332,7 @@ const MONO = "Courier New";
       "A Mars mission takes about two and a half years: six months to get there, about five hundred days on the surface, six months back. " +
       "There is no early return in an emergency, and after six months in weightlessness the crew must leave the spacecraft and work on the surface. " +
       "Mission figures: Apollo 17, and NASA's Mars Design Reference Architecture 5.0.\n\n" +
-      "The bottom row is the idea: atrophy prediction, together with strength and power testing, could one day help keep the crew ready for work on arrival. " +
+      "In the bottom row, atrophy prediction, together with strength and power testing, could one day help keep the crew ready for work on arrival. " +
       "The dashed steps are future use, and applying the model on a real mission needs validation with spaceflight data first."
     );
   }
@@ -446,14 +445,14 @@ const MONO = "Courier New";
       text(s, t, { x: cx - 1.1, y: by + bh / 2 + 1.15, w: 2.2, h: 1.5, fontSize: 11, align: "center", color: C.accent3 });
     });
 
-    text(s, FIG("Flow of records, in the style of PRISMA 2020. Full-text counts as recorded; they are still being reconciled with the dataset."), { x: 0.6, y: 6.35, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
+    text(s, FIG("Flow of records, in the style of PRISMA 2020. Full-text counts are not yet reconciled with the dataset."), { x: 0.6, y: 6.35, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
       "We searched four databases, PubMed, Scopus, Web of Science and NASA's technical reports, and added older work we had collected before the search, nine studies from before 2013 and one campaign from NASA's open bed-rest data. In total, 5,741 records. " +
       "After removing duplicates, 3,600 records remained, and 3,516 were excluded at this stage. " +
       "If asked: 2,493 were excluded on title and abstract, mostly for no unloading model or no muscle outcome; the other 1,023 were not screened in the time available and did not go further.\n\n" +
-      "We sought 84 full texts. The main loss at this step: 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them; 4 full texts were not available and 11 were excluded. " +
+      "We sought 84 full texts. Most were lost because 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them; 4 full texts were not available and 11 were excluded. " +
       "These full-text counts are as recorded in our screening log and are still being reconciled with the dataset, so do not claim they add up exactly. " +
       "52 studies were included.\n\n" +
       "Several papers often report the same bed-rest campaign, so we merged papers on the same cohort. The final dataset has 36 independent campaigns and 742 rows."
@@ -477,7 +476,7 @@ const MONO = "Courier New";
       [cell("Rows: during bed rest / recovery"), cell("478 / 264", "right", true)],
     ], { x: 0.6, y: 1.9, w: 5.9, colW: [4.1, 1.8], ...tOpts, rowH: 0.5 });
     text(s, [
-      { text: "742 observations are not 742 independent participants: ", options: { bold: true } },
+      { text: "742 rows come from 36 campaigns: ", options: { bold: true } },
       { text: "one campaign gives rows for several muscles, groups and scan days." },
     ], { x: 0.6, y: 5.3, w: 12.1, h: 0.7, fontSize: 14 });
 
@@ -564,7 +563,7 @@ const MONO = "Courier New";
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
-      "No, muscles are not affected equally. Each line shows how much a muscle group shrinks over the days of bed rest, for groups without a countermeasure. " +
+      "Muscles do not lose size equally. Each line shows how much a muscle group shrinks over the days of bed rest, for groups without a countermeasure. " +
       "The dashed line reads the values at day 60.\n\n" +
       "The calf, the plantar flexors, loses most: about 16 percent at day 60, almost 6 percentage points more than the front thigh. " +
       "The shin, the front thigh and the back thigh lose about 10 percent. Hip muscles lose least.\n\n" +
@@ -610,10 +609,9 @@ const MONO = "Courier New";
     text(s, [
       { text: "Grey: 31 training campaigns.  ", options: {} },
       { text: "Orange: the held-out test campaign.", options: { color: C.accent1 } },
-      { text: "  Each campaign is held out once.", options: {} },
     ], { x: 0.6, y: 5.15, w: 11, h: 0.3, fontSize: 14 });
     text(s, bullets([
-      "Why campaigns, not measurements: the 346 rows used for modelling come from 32 of the 36 campaigns, and rows of one campaign share volunteers.",
+      "Rows of one campaign share volunteers, so whole campaigns are held out. The 346 modelling rows come from 32 of the 36 campaigns.",
       "Score: average error in percentage points (pp), each campaign counted once. Predicted \u221210%, measured \u221213%: error 3 pp.",
     ], 14), { x: 0.6, y: 5.6, w: 12.1, h: 1.1 });
 
@@ -662,7 +660,7 @@ const MONO = "Courier New";
       { text: "fixed version", options: { fontSize: 11, color: C.accent3 } }],
       { x: 6.55, y: 3.05, w: 1.35, h: 1.3, align: "center", valign: "middle" });
     arrow(s, 7.95, 3.7, 0.5, "Arrow LLM to answer");
-    text(s, "Not a chat model: it is built for classification and returns only a probability for each listed option, never free text.", {
+    text(s, "A classifier: it returns one probability per listed option and never writes text.", {
       x: 6.0, y: 4.45, w: 2.45, h: 1.3, fontSize: 11, italic: true, align: "center", color: C.accent3 });
 
     // right: the answer, as returned for this row
@@ -685,13 +683,13 @@ const MONO = "Courier New";
       objectName: "Example answer chart",
     });
     text(s, bullets([
-      "Our code averages the range midpoints, weighted by probability (open ends count as −31% and +5%): −6.6%",
-      "Measured: −9.4%, an error of 2.8 pp, a typical row",
+      "Prediction −6.6%: range midpoints weighted by probability (open ends −31% and +5%)",
+      "Measured −9.4%: error 2.8 pp, the median error",
     ], 13), { x: 8.6, y: 4.85, w: 4.15, h: 1.2 });
 
     text(s, [
-      { text: "Never sent (checked on every request): ", options: { bold: true } },
-      { text: "the held-out campaign's measurements, and any paper, author or campaign name. All 430 answers are saved, so every result can be rebuilt without calling the model again." },
+      { text: "Never sent, checked on every request: ", options: { bold: true } },
+      { text: "the held-out campaign's measurements, and any paper, author or campaign name. All 430 answers are saved, and every result rebuilds from them." },
     ], { x: 0.6, y: 6.25, w: 12.1, h: 0.6, fontSize: 13 });
 
     s.addNotes(
@@ -724,11 +722,11 @@ const MONO = "Courier New";
       valAxisLabelFormatCode: "0.0", objectName: "R2 chart with LLM",
     });
     text(s, bullets([
-      "ML models explain more of the differences (R² 0.27 to 0.39), but none has lower error than the curve.",
+      "ML models explain more variance (R² 0.27 to 0.39), but none has lower error than the curve.",
       "LLM vs curve, scored the same way: 2.71 vs 3.13 pp, so 0.42 pp smaller; closer in 20 of 32 campaigns.",
-      "95% confidence interval of that difference: 0.13 to 0.73 pp. The whole range is above zero, so it is unlikely to be luck.",
+      "95% confidence interval of that difference: 0.13 to 0.73 pp, entirely above zero.",
     ], 14), { x: 0.6, y: 5.12, w: 12.1, h: 1.4 });
-    text(s, "The curve shows 3.13 pp here, not 3.16, because the comparison scores it exactly as it scores the LLM.", {
+    text(s, "In the paired comparison the curve is scored exactly as the LLM is, which gives 3.13 pp instead of 3.16.", {
       x: 0.6, y: 6.55, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
@@ -748,7 +746,7 @@ const MONO = "Courier New";
   {
     const s = add(4);
     s.addText("Robustness and validity checks of the LLM prediction", { placeholder: "title" });
-    text(s, "Gain = how much smaller the LLM's error is than the curve's, in pp (full result: 0.42). Each check and its pass rule were fixed before running it.", {
+    text(s, "Gain: reduction in error against the curve, in pp (full result 0.42). Each check and its pass rule were fixed before it was run.", {
       x: 0.6, y: 1.2, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
 
     const col = (x, groups) => text(s, groups.flatMap(([h, items], gi) => [
@@ -758,29 +756,29 @@ const MONO = "Courier New";
     ]), { x, y: 1.75, w: 5.85, h: 3.2 });
 
     col(0.6, [
-      ["Does it recognise a known campaign?", [
+      ["Recognition of a known campaign", [
         "Everything identifying a campaign removed: gain still 0.30 pp, interval above zero",
         "Asked to choose the campaign's name from a list of options: right 19% of the time, where guessing gives 8%",
       ]],
-      ["Does it use the other campaigns' data?", [
+      ["Use of the other campaigns' data", [
         "Their values shuffled: worse than the curve (gain −1.25 pp)",
         "None of their data given: error 5.85 vs 3.13 pp",
       ]],
     ]);
     col(6.85, [
-      ["Is it sensitive to presentation?", [
+      ["Sensitivity to presentation", [
         "Other campaigns' rows in a different order: error changes 3%",
         "Answer ranges moved by 1 point: error changes 1%",
       ]],
-      ["Is it reproducible?", [
-        "20 identical requests resent: predictions differ by 0.17 pp on average, well below the 0.42 pp gain",
+      ["Reproducibility", [
+        "20 identical requests resent: predictions differ by 0.17 pp on average, below the 0.42 pp gain",
       ]],
     ]);
 
     text(s, [
       { text: "Limitations of this result", options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
       ...bullets([
-        "Added after the ML result was known; not in the original plan",
+        "Added after the ML result was known",
         "Overconfident ranges: its 80% ranges hold the measured value 62% of the time, so we report only its single-number prediction",
         "Given a campaign's own earlier scans, it does not use them",
       ], 14),
@@ -825,11 +823,11 @@ const MONO = "Courier New";
       "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
       "An LLM-based probabilistic classifier that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
       "The main limitation is the small sample of 32 campaigns, mostly young men, with no bed-rest data beyond day 119. " +
-      "Stress this: every row is a group average, so the model predicts the average loss of a group of volunteers. It cannot yet predict the risk for an individual astronaut.\n\n" +
+      "Every row is a group average, so the model predicts the average loss of a group of volunteers. It cannot yet predict the risk for an individual astronaut.\n\n" +
       "Further work has three steps. First, estimate how susceptible each muscle is relative to a reference muscle, and combine those coefficients with baseline muscle volumes to estimate total lower-limb volume loss; " +
       "the dataset has 30 group time points where three or more muscles were scanned together, across 14 campaigns, so this can be tested. " +
       "Second, move from group averages to individuals with participant-level data over time, and link muscle loss to strength and function. " +
-      "Third, validate on independent campaigns and on spaceflight data before building any personal risk-assessment tool. These are plans, not results."
+      "Third, validate on independent campaigns and on spaceflight data before building any personal risk-assessment tool."
     );
   }
 
@@ -1012,7 +1010,7 @@ const MONO = "Courier New";
       "Only SPRINT is recognised, and with campaign details removed the LLM still wins there (3.79 vs 5.92 pp)",
     ]],
     ["Did it read these papers in training? Was it added after the fact?", [
-      "Training exposure cannot be ruled out by any test; hiding campaign details and the naming test are the strongest checks available",
+      "No test can rule out training exposure; hiding campaign details and the naming test are the strongest checks available",
       "Added after the ML result, but every check and target was committed before the first answer",
     ]],
   ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three campaigns that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from the saved LLM predictions; not in the report.");
