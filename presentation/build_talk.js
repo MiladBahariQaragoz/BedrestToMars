@@ -437,7 +437,7 @@ const MONO = "Courier New";
     // what was removed between steps
     const notes = [
       "2,141 duplicates removed",
-      "2,493 excluded, mostly no unloading model or no muscle outcome\n1,023 not screened in time",
+      "3,516 excluded",
       "19 report muscle results only as charts, without a baseline value\n4 full texts not available\n11 excluded at full text",
     ];
     notes.forEach((t, i) => {
@@ -451,7 +451,8 @@ const MONO = "Courier New";
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
       "We searched four databases, PubMed, Scopus, Web of Science and NASA's technical reports, and added older work we had collected before the search, nine studies from before 2013 and one campaign from NASA's open bed-rest data. In total, 5,741 records. " +
-      "After removing duplicates, 3,600 records remained. 2,493 were excluded, mostly because they did not use an unloading model or did not measure muscle, and 1,023 could not be screened in the time we had, so they did not go further.\n\n" +
+      "After removing duplicates, 3,600 records remained, and 3,516 were excluded at this stage. " +
+      "If asked: 2,493 were excluded on title and abstract, mostly for no unloading model or no muscle outcome; the other 1,023 were not screened in the time available and did not go further.\n\n" +
       "We sought 84 full texts. The main loss at this step: 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them; 4 full texts were not available and 11 were excluded. " +
       "These full-text counts are as recorded in our screening log and are still being reconciled with the dataset, so do not claim they add up exactly. " +
       "52 studies were included.\n\n" +
@@ -866,7 +867,7 @@ const MONO = "Courier New";
   backup("Backup: dataset coverage and limitations", [
     ["Did you miss studies?", [
       "Four sources searched from 2013 on, plus 10 older or open-data studies (sources and queries on the next slide)",
-      "Not covered: Embase (no access); 1,023 records not screened in time (slide 6)",
+      "Not covered: Embase (no access)",
     ]],
     ["One campaign dominates the data", [
       "MEDES 90-day: 40% of all rows, a quarter of the modelling data",

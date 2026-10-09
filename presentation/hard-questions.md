@@ -46,7 +46,7 @@ Source of truth: the final report on branch `feat/report` and `results/` there. 
 
 ## Referee questions on part 1 (backup slides 17 and 18; questions 28 to 31 have no slide, answer them orally)
 
-28. **"Why were 1,023 records not screened?"** Search and screening were time-boxed to one week. They are the rest of the "maybe" set and 80 records waiting for a full text. Slide 6 shows them leaving the flow at screening next to the 2,493 exclusions; they were not read and rejected. *(oral)*
+28. **"Why were 1,023 records not screened?"** Search and screening were time-boxed to one week. They are the rest of the "maybe" set and 80 records waiting for a full text. Slide 6 counts them with the exclusions (3,516 = 2,493 excluded on title and abstract + 1,023 not screened in time). If asked, say plainly that the 1,023 were not read. *(oral)*
 29. **"Who screened, and was it done twice?"** Criteria were written before screening. A rule-based triage sorted the records, then one person read the priority set and the top of the "maybe" set. There was no second screener. *(oral)*
 30. **"84 full texts but 52 studies?"** 19 report muscle results only as charts without a baseline, 4 full texts were not available (one conference abstract is still used), 11 were excluded at full text. The report's own full-text counts are still being reconciled (draft note), so don't claim they add up exactly. *(oral)*
 31. **"Why only from 2013?"** The search was time-boxed to one week. Older work enters through the 9 studies held before the search; 6 of their campaigns would otherwise be missing. Both known modelling papers published after 2013 were found by all three journal databases. *(oral)*
