@@ -55,7 +55,7 @@ const MONO = "Courier New";
     ["Literature research", "Range of studies; search and screening"],
     ["Data extraction and database", "Dataset contents; loss per muscle group"],
     ["ML framework", "Testing on unseen campaigns"],
-    ["Models and results", "Models used, results, LLM validity checks"],
+    ["Models and results", "Models, results, LLM robustness and validity checks"],
     ["Conclusion", "Findings, limitations, further work"],
   ];
   const PART = (i) => (i < 3 ? "Part 1" : "Part 2");
@@ -281,7 +281,7 @@ const MONO = "Courier New";
       { text: "about 12 days", options: { fontSize: 10.5, italic: true, color: C.accent3 } },
     ], { x: gx + 0.2, y: rowY[0], w: 1.85, h: 0.55 });
     s.addShape(pres.shapes.RECTANGLE, { x: X(0), y: rowY[0] + 0.1, w: 12 * perDay, h: 0.32, fill: { color: HEX.accent3 }, line: { type: "none" }, objectName: "Moon mission bar" });
-    text(s, "◄ the whole mission", { x: X(12) + 0.06, y: rowY[0] + 0.1, w: 2.0, h: 0.32, fontSize: 10.5, italic: true, valign: "middle", color: C.accent3 });
+    text(s, "◄ the whole mission (Apollo 17)", { x: X(12) + 0.06, y: rowY[0] + 0.1, w: 2.6, h: 0.32, fontSize: 10.5, italic: true, valign: "middle", color: C.accent3 });
     text(s, [
       { text: "Mars mission", options: { bold: true, fontSize: 13, breakLine: true } },
       { text: "about 2.5 years", options: { fontSize: 10.5, italic: true, color: C.accent3 } },
@@ -415,9 +415,9 @@ const MONO = "Courier New";
     s.addText("Literature search and study selection", { placeholder: "title" });
     const bw = 2.1, step = 2.45, by = 2.5, bh = 1.45, xs = [0, 1, 2, 3, 4].map((i) => 0.6 + i * step);
     const flow = [
-      ["Identification", "5,741", "records found", "PubMed, Scopus, Web of Science, NASA reports"],
-      ["Screening", "3,600", "titles and abstracts screened", ""],
-      ["Full text", "84", "full texts read", ""],
+      ["Identification", "5,741", "records found", "PubMed, Scopus, Web of Science, NASA reports; 10 from other sources"],
+      ["Screening", "3,600", "records after removing duplicates", ""],
+      ["Full text", "84", "full texts sought", ""],
       ["Included", "52", "studies", ""],
       ["Final dataset", "36", "campaigns", "742 rows; papers on the same cohort merged"],
     ];
@@ -437,22 +437,23 @@ const MONO = "Courier New";
     // what was removed between steps
     const notes = [
       "2,141 duplicates removed",
-      "2,493 excluded, mostly no unloading model or no muscle outcome",
-      "19 report muscle results only as charts, without a baseline value\n4 full texts not available",
+      "2,493 excluded, mostly no unloading model or no muscle outcome\n1,023 not screened in time",
+      "19 report muscle results only as charts, without a baseline value\n4 full texts not available\n11 excluded at full text",
     ];
     notes.forEach((t, i) => {
       const cx = xs[i] + bw + (step - bw) / 2;
       s.addShape(pres.shapes.LINE, { x: cx, y: by + bh / 2 + 0.05, w: 0, h: 1.05, line: { color: HEX.accent5, width: 0.75, dashType: "dash", endArrowType: "triangle" }, objectName: "Removed " + (i + 1) });
-      text(s, t, { x: cx - 1.1, y: by + bh / 2 + 1.15, w: 2.2, h: 1.1, fontSize: 11, align: "center", color: C.accent3 });
+      text(s, t, { x: cx - 1.1, y: by + bh / 2 + 1.15, w: 2.2, h: 1.5, fontSize: 11, align: "center", color: C.accent3 });
     });
 
-    text(s, FIG("Flow of records, in the style of PRISMA 2020 (the standard for reporting systematic reviews)."), { x: 0.6, y: 6.35, w: 9, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
+    text(s, FIG("Flow of records, in the style of PRISMA 2020. Full-text counts as recorded; they are still being reconciled with the dataset."), { x: 0.6, y: 6.35, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
     s.addNotes(
       "Part 1 (Niloufar), about one minute.\n\n" +
       "We searched four databases, PubMed, Scopus, Web of Science and NASA's technical reports, and added older work we had collected before the search, nine studies from before 2013 and one campaign from NASA's open bed-rest data. In total, 5,741 records. " +
-      "After removing duplicates, we screened 3,600 titles and abstracts. Most were excluded because they did not use an unloading model or did not measure muscle.\n\n" +
-      "We read 84 full texts. The main loss at this step: 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them. " +
+      "After removing duplicates, 3,600 records remained. 2,493 were excluded, mostly because they did not use an unloading model or did not measure muscle, and 1,023 could not be screened in the time we had, so they did not go further.\n\n" +
+      "We sought 84 full texts. The main loss at this step: 19 studies show their muscle results only as charts, without a baseline value, so we could not extract them; 4 full texts were not available and 11 were excluded. " +
+      "These full-text counts are as recorded in our screening log and are still being reconciled with the dataset, so do not claim they add up exactly. " +
       "52 studies were included.\n\n" +
       "Several papers often report the same bed-rest campaign, so we merged papers on the same cohort. The final dataset has 36 independent campaigns and 742 rows."
     );
@@ -683,8 +684,8 @@ const MONO = "Courier New";
       objectName: "Example answer chart",
     });
     text(s, bullets([
-      "Our code turns the probabilities into one prediction, their weighted average: −6.6%",
-      "Measured: −9.4%, an error of 2.8 pp. This is a typical row: half of the LLM's errors are smaller.",
+      "Our code averages the range midpoints, weighted by probability (open ends count as −31% and +5%): −6.6%",
+      "Measured: −9.4%, an error of 2.8 pp, a typical row",
     ], 13), { x: 8.6, y: 4.85, w: 4.15, h: 1.2 });
 
     text(s, [
@@ -745,7 +746,7 @@ const MONO = "Courier New";
   // ---------- Slide 5: validity checks ----------
   {
     const s = add(4);
-    s.addText("Validity checks of the LLM prediction", { placeholder: "title" });
+    s.addText("Robustness and validity checks of the LLM prediction", { placeholder: "title" });
     text(s, "Gain = how much smaller the LLM's error is than the curve's, in pp (full result: 0.42). Each check and its pass rule were fixed before running it.", {
       x: 0.6, y: 1.2, w: 12.1, h: 0.35, fontSize: 13, italic: true, color: C.accent3 });
 
@@ -809,19 +810,25 @@ const MONO = "Courier New";
     text(s, [head("Limitations"), ...bullets([
       "32 independent campaigns, mostly young men",
       "No bed-rest data beyond day 119",
-      "Group averages; bed rest is not spaceflight",
+      "Group averages, not individual astronauts",
+      "Bed rest is not spaceflight",
     ], 18)], { x: 6.9, y: 1.4, w: 5.8, h: 2.6 });
     s.addShape(pres.shapes.LINE, { x: 0.6, y: 4.2, w: 12.1, h: 0, line: { color: HEX.accent5, width: 0.75 }, objectName: "Divider" });
     text(s, [head("Further work"), ...bullets([
-      "Link the muscles: predict one muscle's loss from another's, and weight them into an estimate of strength loss",
-      "A risk-assessment system based on a person's characteristics, such as age, sex and fitness",
-    ], 18)], { x: 0.6, y: 4.4, w: 12.1, h: 2.2 });
+      "Muscle-specific modelling: estimate each muscle's susceptibility and combine it with baseline volumes into total lower-limb volume loss",
+      "Individual and functional prediction: participant-level data over time, linked to strength and function",
+      "Validation on independent campaigns and spaceflight data before any personal risk-assessment tool",
+    ], 16)], { x: 0.6, y: 4.4, w: 12.1, h: 2.3 });
     s.addNotes(
       "About thirty seconds.\n\n" +
       "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
       "An LLM-based probabilistic classifier that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
-      "The main limitation is the small sample of 32 campaigns, mostly young men, with no bed-rest data beyond day 119.\n\n" +
-      "Next, we want to link the muscles, so that one muscle\'s loss predicts another\'s and a weighted sum estimates strength loss, and to build a risk-assessment system based on a person\'s characteristics."
+      "The main limitation is the small sample of 32 campaigns, mostly young men, with no bed-rest data beyond day 119. " +
+      "Stress this: every row is a group average, so the model predicts the average loss of a group of volunteers. It cannot yet predict the risk for an individual astronaut.\n\n" +
+      "Further work has three steps. First, estimate how susceptible each muscle is relative to a reference muscle, and combine those coefficients with baseline muscle volumes to estimate total lower-limb volume loss; " +
+      "the dataset has 30 group time points where three or more muscles were scanned together, across 14 campaigns, so this can be tested. " +
+      "Second, move from group averages to individuals with participant-level data over time, and link muscle loss to strength and function. " +
+      "Third, validate on independent campaigns and on spaceflight data before building any personal risk-assessment tool. These are plans, not results."
     );
   }
 
@@ -945,10 +952,10 @@ const MONO = "Courier New";
 
   // ---------- Referee questions on part 1 (slides 3 to 8) ----------
   backup("Backup: screening and study selection", [
-    ["3,600 screened, 2,493 excluded: where are the other 1,107?", [
-      "84 went on to full text: 74 from the search and 10 from other sources",
-      "1,023 were not screened in the time available: the rest of the \"maybe\" set and 80 records waiting for a full text",
-      "They are reported as unscreened, not as excluded",
+    ["Why were 1,023 records not screened?", [
+      "Search and screening were time-boxed to one week",
+      "They are the rest of the \"maybe\" set and 80 records waiting for a full text",
+      "They leave the flow at screening but are not counted as excluded",
     ]],
     ["Who screened, and was it done twice?", [
       "Eligibility criteria were written before screening began",
@@ -958,13 +965,14 @@ const MONO = "Courier New";
     ["84 full texts but 52 studies: why so few?", [
       "19 give muscle results only as charts, without a baseline value",
       "4 full texts not available (one conference abstract still used); 11 excluded at full text",
+      "These counts are as recorded and still being reconciled with the dataset",
     ]],
     ["Why search only from 2013?", [
       "The search was time-boxed to one week",
       "Older work enters through 9 studies we held before the search; 6 of their campaigns would otherwise be missing",
       "Both known modelling papers from after 2013 were found by all three journal databases",
     ]],
-  ], "Backup, part 1 (Niloufar). The arithmetic question is the most likely one: 3,600 minus 2,493 is 1,107, of which 84 reached full text and 1,023 were not screened in time. Say so plainly: they are open work, not exclusions. " +
+  ], "Backup, part 1 (Niloufar). The 1,023 unscreened records are shown leaving the flow at screening, next to the 2,493 exclusions. If asked, say plainly that they were not screened in time; they were not read and rejected. " +
     "If pressed on the full-text stage: the report's own full-text counts are still being reconciled with the final extraction (it says so in a draft note), so do not claim the full-text numbers add up exactly. " +
     "Known-item test: of the ten modelling papers we knew before the search, only two were published after 2013, and every journal database returned both. The test without the date limit was not run.");
 
@@ -978,8 +986,8 @@ const MONO = "Courier New";
       "8 of the 14 are one back muscle (lumbar multifidus)",
     ]],
     ["Mostly young men: does this apply to women and older crews?", [
-      "Rows: men only 567, mixed 113, women only 40 (one campaign, WISE-2005)",
-      "Healthy young 692, older 42: the results describe young men",
+      "Rows, not people: men only 567, mixed 113, women only 40 (35 of them WISE-2005), not reported 22",
+      "Healthy young 692, middle-aged 8, older 42: the results describe young men",
     ]],
     ["What exactly is a row's percentage change?", [
       "Follow-up vs the same group's own baseline; negative means loss",
@@ -1040,7 +1048,7 @@ const MONO = "Courier New";
     ]],
     ["Why not add age, sex or countermeasure type?", [
       "32 campaigns leave room for about 3 campaign-level inputs (about 10 campaigns per input)",
-      "Age and sex are fixed within a campaign (347 of 425 rows men-only), so they act as a campaign label; 126 countermeasure rows spread over 9 types",
+      "Age and sex are fixed within a campaign (271 of the 346 modelling rows men-only), so they act as a campaign label; 100 countermeasure rows spread over 9 types",
     ]],
     ["Is the duration curve a straw man?", [
       "Ridge regression uses days, muscle and every other input: 3.28 vs 3.16 pp",
@@ -1049,7 +1057,7 @@ const MONO = "Courier New";
     ["Would a nearest-neighbour method match the LLM?", [
       "Not tested. If the gain comes from picking similar rows, this is the next control to run",
     ]],
-  ], "Backup. The honest gap here is the nearest-neighbour control: we cannot yet say whether a simple similarity method would match the LLM.");
+  ], "Backup. The honest gap here is the nearest-neighbour control: we cannot yet say whether a simple similarity method would match the LLM. The 271 men-only rows and 100 countermeasure rows are our count on the 346 modelling rows; the report gives the same point on the 425 lower-limb rows before duplicate composites were removed (347 men-only, 126 countermeasure).");
 
   backup("Backup: applicability to Mars mission planning", [
     ["A Mars transit is about 180 days; the data stop at 119", [
