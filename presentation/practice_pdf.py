@@ -54,8 +54,10 @@ for i in range(9, 22):
     notes = s.notes_slide.notes_text_frame.text.strip()
     paras = [x.strip() for x in notes.split('\n') if x.strip()]
     timing = ""
-    if paras and re.match(r'^(About|Backup|Close)', paras[0]) and len(paras[0]) < 40 and paras[0].startswith('About'):
+    if paras and len(paras[0]) < 40 and paras[0].endswith('.'):
         timing = paras.pop(0).rstrip('.')
+    if i >= 15:
+        timing = "Backup: only if asked" + (f"  ·  {timing}" if timing else "")
     if i <= 14:
         title = TITLES[i]
     else:
@@ -64,7 +66,7 @@ for i in range(9, 22):
             if sh.has_text_frame and sh.text_frame.text.strip().startswith('Backup'):
                 title = sh.text_frame.text.strip().split('\n')[0]; break
     head = [Paragraph(f"Slide {i}  ·  {esc(title)}", h2),
-            Paragraph(timing if timing else ("Backup: only if asked" if i >= 15 else "Closing"), meta)]
+            Paragraph(timing, meta)]
     img = Image(f"{imgdir}/s-{i:02d}.png", width=W, height=W*9/16)
     img_block = [img, Spacer(1, 6*mm)]
     flow = []

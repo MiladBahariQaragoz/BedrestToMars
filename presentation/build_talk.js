@@ -8,6 +8,23 @@ const path = require("path");
 const { applyTheme } = require(process.env.APPLY_THEME || "./apply_theme.js");
 
 const OUT = process.argv[2] || "bed-rest-to-mars-talk.pptx";
+
+// Speaker notes for part 2 (slides 9 to 14) and the backup slides.
+const NOTES = {
+  "s9": "About one minute.\n\nEach row in the dataset is one measurement: the mean change of one muscle, in one group of volunteers, on one day of bed rest. The inputs are the day of the scan, the muscle group, whether the group received a countermeasure, the imaging method, and whether the value refers to one muscle or several combined. The output is the percentage change in muscle size from baseline.\n\nThe 346 modelling rows come from 32 independent campaigns. Rows from the same campaign share volunteers, so they are not independent. We therefore used leave-one-campaign-out validation. We trained on 31 campaigns, predicted the held-out campaign, and repeated this 32 times. The code verifies that no campaign appears in both the training and the test set.\n\nThe metric is the mean absolute error in percentage points, with each campaign weighted equally. The reference is a duration curve that uses only the number of days.",
+  "s10": "About a minute and a half.\n\nThe standard models receive coded columns. For the LLM, we described each measurement in text and passed it to an LLM-based probabilistic classifier. This model does not generate text. It receives a description and a fixed list of options and returns a probability for each option.\n\nThe left panel shows an actual request. It contains the participants, the protocol, the muscle, the imaging method and the target day. It also contains the duration curve fitted on the other 31 campaigns and the most similar rows from those campaigns. The model is asked in which of 19 ranges the change will fall.\n\nThe right panel shows the returned probabilities. We do not ask the model for a number. The prediction is the probability-weighted mean of the range midpoints, here −6.6 percent. The measured value was −9.4 percent. The error of this example equals the median error of the model.\n\nThe request never contains data from the held-out campaign or any paper, author or campaign name. This is checked automatically for every request. All 430 responses are stored, so every result can be reproduced without querying the model again.",
+  "s11": "About a minute and a half.\n\nWe compared four standard models, ridge regression, random forest, support vector regression and gradient boosting, each tuned within the training folds. We also tested TabPFN, a network pretrained for small tabular data.\n\nThe left figure shows the error on the held-out campaigns. The duration curve has an error of 3.16 percentage points. The best machine learning model, the random forest, has 3.18. No machine learning model has a lower error than the curve. The right figure shows that these models explain two to three times more variance, because they learn the differences between muscles. Most of the remaining error is a shift that affects a whole campaign, for example through the scanner, the volunteers or the protocol. None of our inputs describes this shift. We had committed in advance to report this result regardless of the outcome.\n\nThe LLM has an error of 2.71 percentage points and the highest R², 0.43. In a paired comparison on the same rows, the error decreases from 3.13 to 2.71, a reduction of 0.42 percentage points. The 95 percent confidence interval is 0.13 to 0.73, so it excludes zero. The LLM is closer than the curve in 20 of 32 campaigns. No other model has an improvement with a confidence interval that excludes zero.\n\nIf asked about the target: we had set a 15 percent improvement in advance. The error improved by 13.3 percent and the probabilistic score by 17.7 percent.",
+  "s12": "About a minute and a quarter.\n\nEach check and its pass criterion were defined and committed to the repository before the check was run.\n\nFirst, recognition. The model may have seen the published studies during training. With all identifying details removed, the improvement is 0.30 percentage points, and the confidence interval still excludes zero. When asked to select the campaign name from a list, the model was correct in 19 percent of cases, against 8 percent by chance.\n\nIf asked about recognition: of the three campaigns that contribute most of the improvement, the model identified only one.\n\nSecond, use of the reference data. When the values of the other campaigns are shuffled, the model is 1.25 percentage points worse than the curve. Without reference data, the error rises to 5.85. The improvement therefore depends on these data.\n\nThird, presentation. Changing the row order or shifting the range boundaries changes the error by 1 to 3 percent. Fourth, reproducibility. Repeating 20 requests changes the predictions by 0.17 percentage points on average, less than the 0.42 improvement.\n\nThere are three limitations. The model was added after the machine learning results were known. Its 80 percent ranges contain the measured value in only 62 percent of cases, so we report only point predictions. It also ignores a campaign's own earlier measurements.",
+  "s13": "About forty-five seconds.\n\nWith 32 independent campaigns, standard machine learning models and TabPFN do not outperform a curve based on duration alone. The LLM-based classifier uses the description of each campaign and the data of the other campaigns, and it reduces the error from 3.13 to 2.71 percentage points.\n\nThe main limitations are the small number of campaigns, mostly with young men, and the lack of bed-rest data beyond day 119. Each row is a group mean. The model therefore predicts the average loss of a group, not the risk of an individual astronaut.\n\nFurther work has three steps. First, we will estimate the relative susceptibility of each muscle and combine it with baseline volumes to estimate the total volume loss of the lower limb. Second, we will use individual participant data over time and relate muscle loss to strength and function. Third, we will validate the model on independent campaigns and spaceflight data before developing an individual risk assessment.\n\nIf asked about the first step: the dataset contains 30 group time points with three or more muscles measured together, across 14 campaigns.",
+  "s14": "Closing.\n\nThank you for your attention. We are happy to take your questions.\n\nBackup slides: 15 and 16 on the data and the search, 17 and 18 on part 1, 19 to 21 on part 2.",
+  "s15": "If asked about sensitivity analyses: three planned analyses have not been run yet. These are the composite-first analysis, the analysis without the MEDES campaign, and the MRI-only analysis. Only the weighting check has been run, and it changed the results little.",
+  "s16": "All four search strings are in the appendix of the report and in docs/literature-review/search_log.md. PubMed uses the same two blocks with MeSH terms and a humans filter. Scopus and Web of Science exclude animal studies in the query.\n\nThe main weakness is the limit to publications from 2013 onwards. Only two of ten known modelling papers fall inside this window, and the search without the limit was not tested. Embase was not searched because we had no access. It indexes conference abstracts that the other databases miss.",
+  "s17": "Part 1 (Niloufar).\n\nThe eligibility criteria in Table 2 of the report were defined before screening. Dataset version 1.0 was frozen on 14 September and version 1.1 on 19 September. All results use version 1.1.\n\nThe saturating curve is used unless another form is better by at least 4 AIC points.\n\nThe spaceflight rows remain in the dataset and are flagged. They were measured after landing, so the filter for measurements during unloading removes them.\n\nInverse-variance weighting would need the variance of the change, which most papers do not report. Comparing both weightings changed the duration effect by less than 1 percentage point.",
+  "s18": "Part 1 (Niloufar).\n\nThe dots at day 60 on slide 8 are the meta-regression estimates for each muscle group, with the intervals shown here. The lines use one shared time course scaled to these values. They show the assumed shape, not a separate fit for each muscle.\n\nThe intervals are 95 percent cluster-robust intervals, which account for several rows coming from the same campaign. The calf versus shin contrast is reported separately because it does not depend on the choice of reference muscle.",
+  "s19": "The two numbers marked with an asterisk are our own calculation from results/forecast_predictions.csv. They are not in the report.\n\nWithout the three campaigns that contribute most of the improvement, the confidence interval includes zero. State this directly if asked.",
+  "s20": "The open point is the nearest-neighbour control. We cannot yet say whether a simple similarity method would perform as well as the LLM.\n\nThe counts of 271 men-only rows and 100 countermeasure rows refer to the 346 modelling rows. The report gives the same point for the 425 lower-limb rows before duplicate composites were removed: 347 men-only and 126 countermeasure rows.",
+  "s21": "Within 5 to 119 days and at group level, the data support three statements for mission planning. Most of the loss occurs in the first weeks. The calf muscles need protection first. Groups with a countermeasure lose less muscle."
+};
 const EX = JSON.parse(fs.readFileSync(path.join(__dirname, "example.json"), "utf8"));
 const LOGO = path.join(__dirname, "dglrm_logo_schrift2_ret.png"); // 558 x 150 px
 const LOGO_RATIO = 150 / 558;
@@ -615,17 +632,7 @@ const MONO = "Courier New";
       "Score: average error in percentage points (pp), each campaign counted once. Predicted \u221210%, measured \u221213%: error 3 pp.",
     ], 14), { x: 0.6, y: 5.6, w: 12.1, h: 1.1 });
 
-    s.addNotes(
-      "About one minute.\n\n" +
-      "Each row in our data is one measurement: a group of volunteers, one muscle, one day of bed rest. " +
-      "The inputs are the day of the scan, the muscle family, whether the group did a countermeasure, how the muscle was imaged, and whether the value covers a group of muscles. " +
-      "The output is the percentage change in muscle size from before bed rest.\n\n" +
-      "We have 346 rows, but they come from 32 independent campaigns, because several papers report the same volunteers. " +
-      "So we test by holding out one whole campaign, training on the other 31 and predicting the held-out one, 32 times. " +
-      "The code checks that no campaign appears on both sides of a split.\n\n" +
-      "The score is the mean absolute error in percentage points, averaged so that each campaign counts once. " +
-      "Every model is compared with a duration-only curve, which uses the number of days and nothing else."
-    );
+    s.addNotes(NOTES.s9);
   }
 
   // ---------- Slide 3: LLM system view ----------
@@ -692,18 +699,7 @@ const MONO = "Courier New";
       { text: "the held-out campaign's measurements, and any paper, author or campaign name. All 430 answers are saved, and every result rebuilds from them." },
     ], { x: 0.6, y: 6.25, w: 12.1, h: 0.6, fontSize: 13 });
 
-    s.addNotes(
-      "About a minute and a half.\n\n" +
-      "The ML models only saw coded columns. Here we gave each measurement, written out in words, to a newly released language model built for probabilistic classification. " +
-      "It is not a chat model that writes text: you give it a described situation and a fixed list of options, and it returns a probability for each option, nothing else.\n\n" +
-      "On the left is a real request from our cache. It describes the volunteers, the protocol, the muscle and how it was scanned, and the day. " +
-      "It also contains the duration curve fitted on the other 31 campaigns and as many rows from those campaigns as fit, most similar first. " +
-      "The question asks which of 19 ranges the change will fall in.\n\n" +
-      "On the right is what came back for this row: a probability for each range. We never ask the model for a number. Our code turns the probabilities into a prediction, here minus 6.6 percent against an observed minus 9.4. " +
-      "We chose this row because its error is the model's median error.\n\n" +
-      "The request never contains the held-out campaign's own data or any name that could identify a paper, and the code checks that on every request. " +
-      "Every answer is cached, so all our numbers can be rebuilt without calling the model again."
-    );
+    s.addNotes(NOTES.s10);
   }
 
   // ---------- Slide 4: same comparison with the LLM ----------
@@ -729,17 +725,7 @@ const MONO = "Courier New";
     text(s, "In the paired comparison the curve is scored exactly as the LLM is, which gives 3.13 pp instead of 3.16.", {
       x: 0.6, y: 6.55, w: 12.1, h: 0.3, fontSize: 11, italic: true, color: C.accent3 });
 
-    s.addNotes(
-      "About a minute and a half.\n\n" +
-      "We compared four standard models, ridge regression, random forest, support vector regression and gradient boosting, tuned inside each training fold, and later TabPFN, a neural network pretrained for small tables. " +
-      "On the left is the error on the held-out campaign. The duration curve scores 3.16 percentage points and the best ML model, the random forest, 3.18: none of them is lower than the curve. " +
-      "On the right, the ML models explain two to three times more variance, because they learn that the calf loses more than the hip. Most of the error left is a shift that applies to a whole campaign, from its scanner, its volunteers or its protocol, and none of our columns describes it. " +
-      "We had committed in advance to report this result whichever way it came out.\n\n" +
-      "The language model is at the bottom. Its error is 2.71 percentage points, the lowest of all models, and it explains the most variance, 0.43.\n\n" +
-      "Compared with the curve on the same rows and scored the same way, the error falls from 3.13 to 2.71, a gain of 0.42 points. The 95 percent confidence interval runs from 0.13 to 0.73, so even the most pessimistic estimate is an improvement. " +
-      "It is closer than the curve in 20 of the 32 campaigns. No other method has a gain whose interval stays above zero.\n\n" +
-      "If asked about a target: we had set a 15 percent improvement target. The error improvement is 13.3 percent and the probabilistic score improvement 17.7 percent."
-    );
+    s.addNotes(NOTES.s11);
   }
 
   // ---------- Slide 5: validity checks ----------
@@ -784,16 +770,7 @@ const MONO = "Courier New";
       ], 14),
     ], { x: 0.6, y: 5.0, w: 12.1, h: 1.6 });
 
-    s.addNotes(
-      "About a minute and a quarter.\n\n" +
-      "We wrote down each check and its pass rule, and committed them to the repository, before running it.\n\n" +
-      "Language models have read many papers, so the model might recognise a published campaign and recall its result. " +
-      "With every identifying detail removed, the gain is 0.30 points and its interval stays above zero. " +
-      "When we asked the model to choose the campaign's name from a list of options, it was right 19 percent of the time, where guessing gives 8 percent. If asked: of the three campaigns behind most of the gain, it named only one.\n\n" +
-      "When we shuffle the other campaigns' values, the gain turns into a loss of 1.25 points, and with no reference data the error rises to 5.85. The gain comes from reading those data.\n\n" +
-      "Reordering the rows or shifting the range edges changes the error by 1 to 3 percent. Repeating 20 requests moves the predictions by 0.17 points on average, well under the 0.42 gain.\n\n" +
-      "Three limitations: we added this model after the ML result; its 80 percent ranges contain the truth only 62 percent of the time, so we quote only point predictions; and when given a campaign's own earlier scans, it does not use them."
-    );
+    s.addNotes(NOTES.s12);
   }
 
   // ---------- Slide 6: conclusions ----------
@@ -818,17 +795,7 @@ const MONO = "Courier New";
       "Individual and functional prediction: participant-level data over time, linked to strength and function",
       "Validation on independent campaigns and spaceflight data before any personal risk-assessment tool",
     ], 16)], { x: 0.6, y: 4.4, w: 12.1, h: 2.3 });
-    s.addNotes(
-      "About thirty seconds.\n\n" +
-      "With 32 independent campaigns, standard ML models and TabPFN do not beat a curve that only knows the number of days. " +
-      "An LLM-based probabilistic classifier that reads each campaign's description and the other campaigns' data reduces the error from 3.13 to 2.71 points. " +
-      "The main limitation is the small sample of 32 campaigns, mostly young men, with no bed-rest data beyond day 119. " +
-      "Every row is a group average, so the model predicts the average loss of a group of volunteers. It cannot yet predict the risk for an individual astronaut.\n\n" +
-      "Further work has three steps. First, estimate how susceptible each muscle is relative to a reference muscle, and combine those coefficients with baseline muscle volumes to estimate total lower-limb volume loss; " +
-      "the dataset has 30 group time points where three or more muscles were scanned together, across 14 campaigns, so this can be tested. " +
-      "Second, move from group averages to individuals with participant-level data over time, and link muscle loss to strength and function. " +
-      "Third, validate on independent campaigns and on spaceflight data before building any personal risk-assessment tool."
-    );
+    s.addNotes(NOTES.s13);
   }
 
   // ---------- Outro ----------
@@ -841,7 +808,7 @@ const MONO = "Courier New";
       { text: "Questions are welcome", options: { fontSize: 26, color: "F2D0A9" } },
     ], { x: 0.9, y: 2.1, w: 9.8, h: 1.9, fontFace: THEME.headFontFace, bold: true, color: "FFFFFF", valign: "bottom", paraSpaceAfter: 10 });
     text(s, "From Bed Rest to Mars  |  64. Jahrestagung der DGLRM", { x: 0.9, y: 4.3, w: 8.4, h: 0.4, fontSize: 16, bold: true, color: "F2D0A9" });
-    s.addNotes("Close (Milad). Thank the audience and invite questions. The backup slides that follow answer the questions we expect: part 1 on slides 17 and 18, data and search on 15 and 16, part 2 on 19 to 21.");
+    s.addNotes(NOTES.s14);
   }
 
   // ---------- Backup slides ----------
@@ -879,7 +846,7 @@ const MONO = "Courier New";
       "Every value is traced to its paper and page, table or figure",
       "674 of 742 rows high confidence; 19 read off figures; no independent second extraction",
     ]],
-  ], "Backup. Be direct that the three must-show sensitivity analyses (composite-first, without MEDES, MRI only) have not been run yet. Only the weighting check has, and it changed little.");
+  ], NOTES.s15);
 
   // ---------- Backup: search strategy ----------
   {
@@ -941,12 +908,7 @@ const MONO = "Courier New";
     ].map((l, i, a) => ({ text: l, options: { breakLine: i < a.length - 1 } })),
       { x: 6.72, y: 3.88, w: 5.95, h: 2.3, fontFace: MONO, fontSize: 9, color: C.text1 });
 
-    s.addNotes(
-      "Backup. All four strings are in the report appendix, copied from docs/literature-review/search_log.md. " +
-      "PubMed uses the same two blocks with MeSH terms and the humans filter; Scopus and Web of Science exclude animal studies in the query. " +
-      "The 2013 limit is the main weakness: only two of ten known modelling papers fall inside the window, and the known-item test without the limit was not run. " +
-      "Embase was not searched for lack of access; it indexes conference abstracts the other databases miss."
-    );
+    s.addNotes(NOTES.s16);
   }
 
   // ---------- Referee questions on part 1 (slides 3 to 8) ----------
@@ -968,10 +930,7 @@ const MONO = "Courier New";
       "Recomputed from the printed values; where a paper prints the mean of individual changes, that value is kept and labelled",
       "Rows weighted by number of participants: only 8 of 32 campaigns report the spread of the change",
     ]],
-  ], "Backup, part 1 (Niloufar). Expansion: the eligibility criteria in the report's Table 2 were written before screening; dataset version 1.0 was frozen on 14 September and 1.1 on 19 September, and every result is fitted on 1.1. " +
-    "The rule for the curve: the saturating form is the headline unless another form beats it by at least 4 AIC points. " +
-    "Spaceflight: the dataset keeps the spaceflight rows, flagged, but they are post-flight measurements, so the during-unloading filter removes them. " +
-    "Weighting: inverse-variance weighting would need the spread of the change, which most papers do not print; the check that compares both weightings moved the duration effect by under 1 pp.");
+  ], NOTES.s17);
 
   backup("Backup: certainty of the muscle-group curves", [
     ["Is each line fitted to its own muscle?", [
@@ -991,10 +950,7 @@ const MONO = "Courier New";
       "The order holds after adjusting for duration, countermeasure group and imaging method",
       "Calf: 78 rows from 13 campaigns, the second best-covered group after the front thigh (86 rows, 22 campaigns)",
     ]],
-  ], "Backup, part 1 (Niloufar). Be precise about slide 8: the coloured dots at day 60 are the model's estimates for each muscle group, with the intervals shown here. " +
-    "The lines are drawn with one shared time course scaled to those values, so they show the shape the model assumes, not a separate fit per muscle. " +
-    "The intervals are 95% cluster-robust, which means they account for several rows coming from the same campaign. " +
-    "The calf-versus-shin contrast is reported on its own because it does not depend on which muscle is the reference.");
+  ], NOTES.s18);
 
   backup("Backup: significance and relevance of the LLM gain", [
     ["Is 0.42 pp worth anything?", [
@@ -1013,7 +969,7 @@ const MONO = "Courier New";
       "No test can rule out training exposure; hiding campaign details and the naming test are the strongest checks available",
       "Added after the ML result, but every check and target was committed before the first answer",
     ]],
-  ], "Backup. The two starred numbers are our own calculation from results/forecast_predictions.csv, not in the report. Without the three campaigns that carry most of the gain, the interval touches zero; say so if asked.", "* Our calculation from the saved LLM predictions; not in the report.");
+  ], NOTES.s19, "* Our calculation from the saved LLM predictions; not in the report.");
 
   backup("Backup: ML results and fairness of the comparison", [
     ["Did the ML models get a fair chance?", [
@@ -1031,7 +987,7 @@ const MONO = "Courier New";
     ["Would a nearest-neighbour method match the LLM?", [
       "Not tested. If the gain comes from picking similar rows, this is the next control to run",
     ]],
-  ], "Backup. The honest gap here is the nearest-neighbour control: we cannot yet say whether a simple similarity method would match the LLM. The 271 men-only rows and 100 countermeasure rows are our count on the 346 modelling rows; the report gives the same point on the 425 lower-limb rows before duplicate composites were removed (347 men-only, 126 countermeasure).");
+  ], NOTES.s20);
 
   backup("Backup: applicability to Mars mission planning", [
     ["A Mars transit is about 180 days; the data stop at 119", [
@@ -1049,7 +1005,7 @@ const MONO = "Courier New";
       "Fixed model version; all 430 answers saved, so every number rebuilds without the model",
       "Identical requests differ by 0.17 pp on average",
     ]],
-  ], "Backup. The supported planning statements, within 5 to 119 days and for groups: most loss happens in the first weeks, calf muscles need protecting first, and countermeasure groups lose less.");
+  ], NOTES.s21);
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);
